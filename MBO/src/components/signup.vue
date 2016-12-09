@@ -26,7 +26,7 @@
             </div>
             <div class="form-group">
               <div class="col-md-offset-4 col-md-8">
-                <input type="submit" class="btn btn-primary btn-block" value="Create Account" />
+                <button v-on:click="register" class="btn btn-primary btn-block">Create Account</button>
               </div>
             </div>
             <div class="row">
