@@ -1,0 +1,66 @@
+/*Route change animations*/
+
+.slide-fade-enter-active {
+  transition: all .5s ease;
+}
+
+.slide-fade-leave-active {
+  transition: all .2s ease;
+}
+
+.slide-fade-enter {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-fade-leave-active {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+
+/*Footer*/
+
+.footer {
+  padding: 25px;
+  background-color: red;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+
+
+/*Remove border-radius*/
+
+a,
+pre,
+input,
+code,
+.btn,
+.label,
+.panel,
+.signoff,
+.jumbotron,
+.badge,
+.navbar {
+  border-radius: 0!important;
+}
+
+
+/*Customize Pace progress, #18bc9c*/
+
+.pace .pace-progress {
+  height: 100px;
+  width: 80px;
+}
+
+.pace .pace-progress:before {
+  background: #18bc9c;
+}
+
+.pace .pace-activity,
+.pace .pace-activity:after,
+.pace .pace-activity:before {
+  border-color: #18bc9c;
+}
