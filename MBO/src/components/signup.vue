@@ -9,19 +9,19 @@
             <div class="form-group">
               <label for="Username" class="col-lg-4 control-label">Username</label>
               <div class="col-lg-8">
-                <input type="text" class="form-control" id="Username" placeholder="Username">
+                <input v-model="username" type="text" class="form-control" placeholder="Username">
               </div>
             </div>
             <div class="form-group">
               <label for="Password" class="col-lg-4 control-label">Password</label>
               <div class="col-lg-8">
-                <input type="password" class="form-control" id="Password" placeholder="Password">
+                <input v-model="password" type="password" class="form-control" placeholder="Password">
               </div>
             </div>
             <div class="form-group">
               <label for="ConfirmPassword" class="col-lg-4 control-label">Confirm Password</label>
               <div class="col-lg-8">
-                <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password">
+                <input v-model="confirmPassword" type="password" class="form-control" placeholder="Confirm Password">
               </div>
             </div>
             <div class="form-group">
@@ -50,6 +50,23 @@
 <script>
   export default {
     template: '#signup',
-    name: 'signup'
+    name: 'signup',
+    data: function (){
+      return {
+        username: 'test',
+        password: 'asdf1234',
+        confirmPassword: 'asdf1234'
+      }
+    },
+    methods:{
+      register: function(event){
+        event.preventDefault();
+        this.$http.post('http://localhost/Beta/api/token').then((response) => {
+          console.log('success', response);
+        }, (response) => {
+          console.log('fail', response);
+        });
+      }
+    }
   }
 </script>

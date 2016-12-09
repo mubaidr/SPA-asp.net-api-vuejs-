@@ -1,1 +1,3 @@
-console.log('done');
+function test() {
+  alert('test succesfull!');
+}
