@@ -5,6 +5,10 @@
         <form>
           <h1>Signup</h1>
           <p>Please provide following details to signup.</p>
+          <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Oh snap!</strong> Change a few things up and try submitting again.
+          </div>
           <div class="form-group">
             <label for="Username" class="control-label">Username</label>
             <input v-model="username" type="text" class="form-control" placeholder="Username">

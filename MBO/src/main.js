@@ -1,10 +1,11 @@
 //Main styles
 import bootstrap_css from './assets/css/bootstrap.paper.css'
-import pace_css from './assets/css/pace.css'
+//import pace_css from './assets/css/pace.css'
 import site_css from './assets/css/site.css'
 
 //Get site script
-import pace_min_js from './assets/script/pace.min.js'
+//import bootstrap_js from './assets/script/'
+//import pace_min_js from './assets/script/pace.min.js'
 import site_js from './assets/script/site.js'
 
 //Get vue
