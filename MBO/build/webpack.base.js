@@ -52,10 +52,8 @@ module.exports = {
       template: __dirname + '/index.html',
       filename: _.outputIndexPath
     }),
-    new webpack.ProvidePlugin({
-      "$": "jquery",
-      "jQuery": "jquery",
-      "window.jQuery": "jquery"
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest']
     })
   ],
   target: _.target

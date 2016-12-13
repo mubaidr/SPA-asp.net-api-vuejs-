@@ -8,5 +8,4 @@ import {
 
 app.$mount('#app')
 
-import 'bootstrap'
 import './assets/script/site'
