@@ -12,6 +12,8 @@
   "author": "mubaidr <mubaidr@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
     "pinkie-promise": "^2.0.1",
     "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
