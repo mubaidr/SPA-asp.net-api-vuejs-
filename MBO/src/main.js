@@ -1,8 +1,11 @@
 //Main styles
-require('./assets/css/bootstrap.css')
-require('./assets/css/pace.css')
-require('./assets/css/site.css')
+import bootstrap_css from './assets/css/bootstrap.paper.css'
+import pace_css from './assets/css/pace.css'
+import site_css from './assets/css/site.css'
 
+//Get site script
+import pace_min_js from './assets/script/pace.min.js'
+import site_js from './assets/script/site.js'
 
 //Get vue
 import Vue from 'vue'
@@ -91,7 +94,3 @@ const app = new Vue({
   el: '#app',
   router: router
 });
-
-//Get site script
-require('./assets/script/pace.min.js')
-require('./assets/script/site.js')

@@ -1,46 +1,31 @@
 <template id="login">
   <div>
-    <h1>Login</h1>
     <div class="row">
-      <div class="col-md-6">
-        <form class="form-horizontal">
-          <fieldset>
-            <legend>Please enter username and password to continue.</legend>
-            <div class="form-group">
-              <label for="Username" class="col-lg-4 control-label">Username</label>
-              <div class="col-lg-8">
-                <input v-model="username" type="text" class="form-control" id="Username" placeholder="Username">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="Password" class="col-lg-4 control-label">Password</label>
-              <div class="col-lg-8">
-                <input v-model="password" type="password" class="form-control" id="Password" placeholder="Password">
-                <div class="checkbox">
-                  <label>
+      <div class="col-md-offset-4 col-md-4">
+        <form>
+          <h1>Login</h1>
+          <p>Please enter username and password to continue.</p>
+          <div class="form-group">
+            <label for="Username" class="control-label">Username</label>
+            <input v-model="username" type="text" class="form-control" id="Username" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for="Password" class="control-label">Password</label>
+            <input v-model="password" type="password" class="form-control" id="Password" placeholder="Password">
+            <div class="checkbox">
+              <label>
                     <input type="checkbox"/> Remember me
                   </label>
-                </div>
-              </div>
             </div>
-            <div class="form-group">
-              <div class="col-md-offset-4 col-md-8">
-                <button v-on:click="login" class="btn btn-primary btn-block">Login to my account</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-offset-4 col-md-8">
-                Don't have a account?
-                <router-link to="/signup">Signup here!</router-link>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-offset-4 col-md-8">
-                Forgot password?
-                <router-link to="/recover">Recover now!</router-link>
-              </div>
-            </div>
-          </fieldset>
+          </div>
+          <div class="form-group">
+            <button v-on:click="login" class="btn btn-primary btn-block">Login to my account</button>
+          </div>
+          <div class="form-group">Don't have a account?
+            <router-link to="/signup">Signup here!</router-link>
+            <br/> Forgot password?
+            <router-link to="/recover">Recover now!</router-link>
+          </div>
         </form>
       </div>
     </div>

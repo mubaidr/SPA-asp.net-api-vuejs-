@@ -1,47 +1,31 @@
 <template id="signup">
   <div>
-    <h1>Signup</h1>
     <div class="row">
-      <div class="col-md-6">
-        <form class="form-horizontal">
-          <fieldset>
-            <legend>Please provide following details to signup.</legend>
-            <div class="form-group">
-              <label for="Username" class="col-lg-4 control-label">Username</label>
-              <div class="col-lg-8">
-                <input v-model="username" type="text" class="form-control" placeholder="Username">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="Password" class="col-lg-4 control-label">Password</label>
-              <div class="col-lg-8">
-                <input v-model="password" type="password" class="form-control" placeholder="Password">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="ConfirmPassword" class="col-lg-4 control-label">Confirm Password</label>
-              <div class="col-lg-8">
-                <input v-model="confirmPassword" type="password" class="form-control" placeholder="Confirm Password">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-md-offset-4 col-md-8">
-                <button v-on:click="register" class="btn btn-primary btn-block">Create Account</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-offset-4 col-md-8">
-                Already have an account?
-                <router-link to="/login">Signin here!</router-link>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-offset-4 col-md-8">
-                Forgot password?
-                <router-link to="/recover">Recover now!</router-link>
-              </div>
-            </div>
-          </fieldset>
+      <div class="col-md-offset-4 col-md-4">
+        <form>
+          <h1>Signup</h1>
+          <p>Please provide following details to signup.</p>
+          <div class="form-group">
+            <label for="Username" class="control-label">Username</label>
+            <input v-model="username" type="text" class="form-control" placeholder="Username">
+          </div>
+          <div class="form-group">
+            <label for="Password" class="control-label">Password</label>
+            <input v-model="password" type="password" class="form-control" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label for="ConfirmPassword" class="control-label">Confirm Password</label>
+            <input v-model="confirmPassword" type="password" class="form-control" placeholder="Confirm Password">
+          </div>
+          <div class="form-group">
+            <button v-on:click="register" class="btn btn-primary btn-block">Create Account</button>
+          </div>
+          <div class="form-group">
+            Already have an account?
+            <router-link to="/login">Signin here!</router-link>
+            <br/> Forgot password?
+            <router-link to="/recover">Recover now!</router-link>
+          </div>
         </form>
       </div>
     </div>
