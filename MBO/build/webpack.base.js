@@ -22,28 +22,23 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
-      {
-        test: /\.vue$/,
-        loaders: ['vue']
-      },
-      {
-        test: /\.js$/,
-        loaders: ['babel'],
-        exclude: [/node_modules/]
-      },
-      {
-        test: /\.es6$/,
-        loaders: ['babel']
-      },
-      {
-        test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: 'file',
-        query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
+    loaders: [{
+      test: /\.vue$/,
+      loaders: ['vue']
+    }, {
+      test: /\.js$/,
+      loaders: ['babel'],
+      exclude: [/node_modules/]
+    }, {
+      test: /\.es6$/,
+      loaders: ['babel']
+    }, {
+      test: /\.(ico|jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+      loader: 'file',
+      query: {
+        name: 'static/media/[name].[hash:8].[ext]'
       }
-    ]
+    }]
   },
   babel: config.babel,
   postcss: config.postcss,
@@ -56,6 +51,11 @@ module.exports = {
       title: config.title,
       template: __dirname + '/index.html',
       filename: _.outputIndexPath
+    }),
+    new webpack.ProvidePlugin({
+      "$": "jquery",
+      "jQuery": "jquery",
+      "window.jQuery": "jquery"
     })
   ],
   target: _.target

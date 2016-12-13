@@ -8,6 +8,5 @@ import {
 
 app.$mount('#app')
 
-import 'jquery'
-//import 'bootstrap'
+import 'bootstrap'
 import './assets/script/site'
