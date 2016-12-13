@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MBO</title>
-</head>
-
-<body>
-  <div id="app">
+<template id="app">
+  <div>
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -56,7 +47,9 @@
       </div>
     </footer>
   </div>
-  <!-- built files will be auto injected -->
-</body>
+</template>
+<script>
+  export default{
 
-</html>
+  }
+</script>
