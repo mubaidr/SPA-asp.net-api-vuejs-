@@ -1,6 +1,7 @@
 import './assets/css/bootstrap.paper.css'
 import './assets/css/site.css'
 
+import './vuelidate'
 import './promise-polyfill'
 import {
   app

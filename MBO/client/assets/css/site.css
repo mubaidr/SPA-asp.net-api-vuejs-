@@ -52,3 +52,8 @@ code,
 .navbar {
   border-radius: 0!important;
 }
+
+.validation-ul{
+  list-style: none;
+  padding-left: 0;
+}
