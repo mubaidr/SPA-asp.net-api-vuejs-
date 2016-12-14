@@ -4,6 +4,12 @@
       <div class="col-md-offset-4 col-md-4">
         <h1>Signup</h1>
         <p>Please provide following details to signup.</p>
+        <div v-show="$v.validationGroup.$invalid" class="text-danger">
+          <p>Please fix following issues and then try to submit!</p>
+          <ul class="validation-list">
+            {{validationMessage}}
+          </ul>
+        </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.username.$error }">
           <label for="Username" class="control-label">Username</label>
           <input v-model="username" type="text" class="form-control" placeholder="Username" v-model.trim="username" @input="$v.username.$touch()">
@@ -14,11 +20,11 @@
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.confirmPassword.$error }">
           <label for="ConfirmPassword" class="control-label">Confirm Password</label>
-          <input v-model="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" v-model.trim="confirmPassword" @input="$v.confirmPassword.$touch()">
+          <input v-model="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" v-model.trim="confirmPassword"
+            @input="$v.confirmPassword.$touch()">
         </div>
-        <!--<pre>validationGroup: {{ $v.validationGroup }}</pre>-->
         <div class="form-group">
-          <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.validationGroup.$invalid">Create Account</button>
+          <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.validationGroup.$invalid || !$v.validationGroup.$dirty">Create Account</button>
         </div>
         <div class="form-group">
           Already have an account?
@@ -28,21 +34,39 @@
         </div>
       </div>
     </div>
+    <div v-show="loading" class="backdrop">
+      <ring-loader></ring-loader>
+    </div>
   </div>
 </template>
 <script>
-  import { required, sameAs, minLength, alphaNum } from 'vuelidate/lib/validators'
+  import {
+    required,
+    sameAs,
+    minLength,
+    alphaNum
+  } from 'vuelidate/lib/validators'
   import axios from 'axios'
+  import RingLoader from 'vue-spinner/src/RingLoader'
 
   export default {
     data: function () {
       return {
         username: 'tester',
-        password: 'tester',
-        confirmPassword: 'tester'
+        password: 'tester1234',
+        confirmPassword: 'tester1234',
+        loading: false,
+        successMessage: ''
       }
     },
-    computed:{},
+    components: {
+      RingLoader
+    },
+    computed: {
+      validationMessage: function () {
+        return this.$v.validationGroup;
+      }
+    },
     validations: {
       username: {
         required,
@@ -61,13 +85,20 @@
       validationGroup: ['username', 'password', 'confirmPassword']
     },
     methods: {
+      spinner: function (bool) {
+        this.loading = bool;
+      },
       register: function (event) {
+        var _self = this;
         event.preventDefault();
-
-        // console.log(axios);
-        // console.log(this._data);
-        // console.log(this.$v.username);
-
+        _self.spinner(true);
+        axios.get('http://localhost:8080/signup').then(function (res) {
+          console.log(res);
+          _self.spinner(false);
+        }).catch(function (err) {
+          console.log(err);
+          _self.spinner(false);
+        });
       }
     }
   }
