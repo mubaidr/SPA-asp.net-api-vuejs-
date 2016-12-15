@@ -103,9 +103,7 @@
         event.preventDefault();
         var _self = this;
         if (_self.$v.validationGroup.$error) {
-          $v.credentials.username.$touch();
-          $v.credentials.password.$touch();
-          $v.credentials.confirmPassword.$touch();
+          return false;
         } else {
           _self.spinner(true);
           axios.get('http://localhost:8080/signup').then(function (res) {
