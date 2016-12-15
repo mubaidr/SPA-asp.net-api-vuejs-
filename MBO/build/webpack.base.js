@@ -19,7 +19,8 @@ module.exports = {
     alias: {
       root: path.join(__dirname, '../client'),
       components: path.join(__dirname, '../client/components')
-    }
+    },
+    modules: ['client', 'node_modules'],
   },
   module: {
     loaders: [{

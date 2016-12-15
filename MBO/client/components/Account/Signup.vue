@@ -51,10 +51,13 @@
   } from 'vuelidate/lib/validators'
   import axios from 'axios'
   import RingLoader from 'vue-spinner/src/RingLoader'
-  import '../../string'
+  import 'utilities/string'
   import {
     formValidation
-  } from '../../formValidation'
+  } from 'utilities/formValidation'
+  import {
+    signup
+  } from 'services/account'
 
   export default {
     components: {
@@ -106,13 +109,7 @@
           return false;
         } else {
           _self.spinner(true);
-          axios.get('http://localhost:8080/signup').then(function (res) {
-            //console.log(res);
-            _self.spinner(false);
-          }).catch(function (err) {
-            //console.log(err);
-            _self.spinner(false);
-          });
+          console.log(signup);
         }
       }
     }
