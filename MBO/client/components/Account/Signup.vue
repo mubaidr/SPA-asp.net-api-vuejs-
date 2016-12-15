@@ -14,7 +14,7 @@
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
           <label for="email" class="control-label">Email</label>
           <input v-model="credentials.email" type="email" name="email" class="form-control" placeholder="email" v-model.trim="credentials.email"
-            @blur="$v.credentials.email.$touch()">
+            @blur="$v.credentials.email.$touch()" required>
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.password.$error }">
           <label for="password" class="control-label">Password</label>
@@ -49,6 +49,7 @@
     minLength,
     alphaNum
   } from 'vuelidate/lib/validators'
+  import email from 'utilities/validators/email'
   import axios from 'axios'
   import RingLoader from 'vue-spinner/src/RingLoader'
   import 'utilities/string'
@@ -66,7 +67,7 @@
     data: function () {
       return {
         credentials: {
-          email: 'tester',
+          email: 'tester@com',
           password: 'tester',
           confirmPassword: 'tester'
         },
@@ -80,7 +81,7 @@
       credentials: {
         email: {
           required,
-          alphaNum,
+          email,
           minLength: minLength(6)
         },
         password: {

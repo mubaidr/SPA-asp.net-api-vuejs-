@@ -6,7 +6,6 @@ var formValidation = function () {
       if (obj.$error) {
         for (var type in obj) {
           if (!type.includes('$') && !obj[type]) {
-            //messages.push(obj);
             switch (type) {
               case 'required':
                 messages.push(prop.toProperCase() + ' field is required.');
@@ -21,8 +20,8 @@ var formValidation = function () {
                 messages.push(prop.toProperCase() + ' field must contain atleast 6 characters.');
                 break;
               default:
-                messages.push(prop.toProperCase() + ' field is invalid.');  
-                break;  
+                messages.push(prop.toProperCase() + ' field is invalid.');
+                break;
             }
           }
         }
