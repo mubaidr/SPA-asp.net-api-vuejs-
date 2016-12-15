@@ -53,7 +53,7 @@ module.exports = {
       filename: _.outputIndexPath
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
+      names: ['manifest']
     })
   ],
   target: _.target
