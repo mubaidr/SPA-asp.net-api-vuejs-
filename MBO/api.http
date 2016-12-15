@@ -1,3 +1,5 @@
 GET http://localhost/beta/mbo_api
 
 POST http://localhost/beta/mbo_api/api/account/register
+
+GET http://localhost/beta/mbo_api/api/values

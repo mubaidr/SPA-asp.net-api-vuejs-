@@ -20,6 +20,9 @@ var formValidation = function () {
               case 'minLength':
                 messages.push(prop.toProperCase() + ' field must contain atleast 6 characters.');
                 break;
+              default:
+                messages.push(prop.toProperCase() + ' field is invalid.');  
+                break;  
             }
           }
         }

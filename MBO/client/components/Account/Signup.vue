@@ -11,10 +11,10 @@
             </li>
           </ul>
         </div>
-        <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.username.$error }">
-          <label for="username" class="control-label">Username</label>
-          <input v-model="credentials.username" type="text" name="username" class="form-control" placeholder="Username" v-model.trim="credentials.username"
-            @blur="$v.credentials.username.$touch()">
+        <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
+          <label for="email" class="control-label">Email</label>
+          <input v-model="credentials.email" type="email" name="email" class="form-control" placeholder="email" v-model.trim="credentials.email"
+            @blur="$v.credentials.email.$touch()">
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.password.$error }">
           <label for="password" class="control-label">Password</label>
@@ -66,7 +66,7 @@
     data: function () {
       return {
         credentials: {
-          username: 'tester',
+          email: 'tester',
           password: 'tester',
           confirmPassword: 'tester'
         },
@@ -78,7 +78,7 @@
     },
     validations: {
       credentials: {
-        username: {
+        email: {
           required,
           alphaNum,
           minLength: minLength(6)
@@ -93,7 +93,7 @@
           sameAs: sameAs('password')
         }
       },
-      validationGroup: ['credentials.username', 'credentials.password', 'credentials.confirmPassword']
+      validationGroup: ['credentials.email', 'credentials.password', 'credentials.confirmPassword']
     },
     computed: {
       formValidation: formValidation
@@ -109,7 +109,19 @@
           return false;
         } else {
           _self.spinner(true);
-          console.log(signup);
+
+          signup({
+            Email: this.credentials.email,
+            Password: this.credentials.password,
+            ConfirmPassword: this.credentials.confirmPassword
+          }).then(function (res) {
+            console.log(res);
+            _self.spinner(false);
+          }).catch(function (err) {
+            console.log(err);
+            _self.spinner(false);
+          });
+
         }
       }
     }
