@@ -3,27 +3,28 @@
     <div class="row">
       <div class="col-md-offset-4 col-md-4">
         <h1>Signup</h1>
-        <p>Please provide following details to signup.</p>
-        <div v-show="formValidation.isInvalid" class="text-danger">
-          <p>Please fix following issues and then try to submit!</p>
+        <p>Please provide following details to create a new account.</p>
+        <div v-show="formValidation.isInvalid && formValidation.messages.length" class="alert alert-danger">
           <ul class="validation-list">
-            <pre>{{formValidation.message}}</pre>
+            <li v-for="message in formValidation.messages">
+              {{message}}
+            </li>
           </ul>
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.username.$error }">
           <label for="username" class="control-label">Username</label>
           <input v-model="credentials.username" type="text" name="username" class="form-control" placeholder="Username" v-model.trim="credentials.username"
-            @input="$v.credentials.username.$touch()">
+            @blur="$v.credentials.username.$touch()">
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.password.$error }">
           <label for="password" class="control-label">Password</label>
           <input v-model="credentials.password" type="password" name="password" class="form-control" placeholder="Password" v-model.trim="credentials.password"
-            @input="$v.credentials.password.$touch()">
+            @blur="$v.credentials.password.$touch()">
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.confirmPassword.$error }">
           <label for="confirmPassword" class="control-label">Confirm Password</label>
           <input v-model="credentials.confirmPassword" type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password"
-            v-model.trim="credentials.confirmPassword" @input="$v.credentials.confirmPassword.$touch()">
+            v-model.trim="credentials.confirmPassword" @blur="$v.credentials.confirmPassword.$touch()">
         </div>
         <div class="form-group">
           <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.validationGroup.$invalid">Create Account</button>
@@ -50,6 +51,10 @@
   } from 'vuelidate/lib/validators'
   import axios from 'axios'
   import RingLoader from 'vue-spinner/src/RingLoader'
+  import '../../string'
+  import {
+    formValidation
+  } from '../../formValidation'
 
   export default {
     components: {
@@ -58,9 +63,9 @@
     data: function () {
       return {
         credentials: {
-          username: '',
-          password: '',
-          confirmPassword: ''
+          username: 'tester',
+          password: 'tester',
+          confirmPassword: 'tester'
         },
         progress: {
           loading: false,
@@ -88,12 +93,7 @@
       validationGroup: ['credentials.username', 'credentials.password', 'credentials.confirmPassword']
     },
     computed: {
-      formValidation: function () {
-        return {
-          isInvalid: true,
-          message: this.$v.validationGroup
-        }
-      }
+      formValidation: formValidation
     },
     methods: {
       spinner: function (bool) {
@@ -102,17 +102,19 @@
       register: function (event) {
         event.preventDefault();
         var _self = this;
-        if (_self.$v.validationGroup) {
+        if (_self.$v.validationGroup.$error) {
+          $v.credentials.username.$touch();
+          $v.credentials.password.$touch();
+          $v.credentials.confirmPassword.$touch();
+        } else {
           _self.spinner(true);
           axios.get('http://localhost:8080/signup').then(function (res) {
-            console.log(res);
+            //console.log(res);
             _self.spinner(false);
           }).catch(function (err) {
-            console.log(err);
+            //console.log(err);
             _self.spinner(false);
           });
-        } else {
-          alert('Not valid form');
         }
       }
     }
