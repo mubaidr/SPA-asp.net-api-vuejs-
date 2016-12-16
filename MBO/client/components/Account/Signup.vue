@@ -4,9 +4,9 @@
       <div class="col-md-offset-4 col-md-4">
         <h1>Signup</h1>
         <p>Please provide following details to create a new account.</p>
-        <div v-show="formValidation.isInvalid && formValidation.messages.length" class="alert alert-danger">
+        <div v-show="validationSummary.hasError" class="alert alert-danger">
           <ul class="validation-list">
-            <li v-for="message in formValidation.messages">
+            <li v-for="message in validationSummary.messages">
               {{message}}
             </li>
           </ul>
@@ -54,8 +54,8 @@
   import RingLoader from 'vue-spinner/src/RingLoader'
   import 'utilities/string'
   import {
-    formValidation
-  } from 'utilities/formValidation'
+    valSummary
+  } from 'utilities/validationSummary'
   import {
     signup
   } from 'services/account'
@@ -90,14 +90,13 @@
           minLength: minLength(6)
         },
         confirmPassword: {
-          required,
           sameAs: sameAs('password')
         }
       },
       validationGroup: ['credentials.email', 'credentials.password', 'credentials.confirmPassword']
     },
     computed: {
-      formValidation: formValidation
+      validationSummary: valSummary
     },
     methods: {
       spinner: function (bool) {
@@ -106,7 +105,7 @@
       register: function (event) {
         event.preventDefault();
         var _self = this;
-        if (_self.$v.validationGroup.$error) {
+        if (validationSummary.hasError) {
           return false;
         } else {
           _self.spinner(true);
@@ -125,6 +124,9 @@
 
         }
       }
+    },
+    ready: function () {
+      //console.log('ready');
     }
   }
 
