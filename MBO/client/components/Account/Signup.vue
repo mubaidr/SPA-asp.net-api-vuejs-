@@ -1,33 +1,35 @@
 <template>
   <div>
     <div class="row">
-      <div class="col-md-offset-4 col-md-4">
+      <div class="col-md-offset-3 col-md-6">
         <h1>Signup</h1>
         <p>Please provide following details to create a new account.</p>
         <div v-show="validationSummary.hasError" class="alert alert-danger">
           <ul class="validation-list">
-            <li v-for="message in validationSummary.messages">
-              {{message}}
-            </li>
+            <transition-group name="slide-fade" mode="out-in">
+              <li v-for="message in validationSummary.messages" :key="message">
+                {{message}}
+              </li>
+            </transition-group>
           </ul>
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
           <label for="email" class="control-label">Email</label>
           <input v-model="credentials.email" type="email" name="email" class="form-control" placeholder="email" v-model.trim="credentials.email"
-            @blur="$v.credentials.email.$touch()" required>
+            @input="$v.credentials.email.$touch()" required>
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.password.$error }">
           <label for="password" class="control-label">Password</label>
           <input v-model="credentials.password" type="password" name="password" class="form-control" placeholder="Password" v-model.trim="credentials.password"
-            @blur="$v.credentials.password.$touch()">
+            @input="$v.credentials.password.$touch()">
         </div>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.confirmPassword.$error }">
           <label for="confirmPassword" class="control-label">Confirm Password</label>
           <input v-model="credentials.confirmPassword" type="password" name="confirmPassword" class="form-control" placeholder="Confirm Password"
-            v-model.trim="credentials.confirmPassword" @blur="$v.credentials.confirmPassword.$touch()">
+            v-model.trim="credentials.confirmPassword" @input="$v.credentials.confirmPassword.$touch()">
         </div>
         <div class="form-group">
-          <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.validationGroup.$invalid">Create Account</button>
+          <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.$invalid">Create Account</button>
         </div>
         <div class="form-group">
           Already have an account?
@@ -54,7 +56,7 @@
   import RingLoader from 'vue-spinner/src/RingLoader'
   import 'utilities/string'
   import {
-    valSummary
+    Summary
   } from 'utilities/validationSummary'
   import {
     signup
@@ -67,9 +69,9 @@
     data: function () {
       return {
         credentials: {
-          email: 'tester@com',
-          password: 'tester',
-          confirmPassword: 'tester'
+          email: '',
+          password: '',
+          confirmPassword: ''
         },
         progress: {
           loading: false,
@@ -90,13 +92,15 @@
           minLength: minLength(6)
         },
         confirmPassword: {
+          required,
+          alphaNum,
+          minLength: minLength(6),
           sameAs: sameAs('password')
         }
-      },
-      validationGroup: ['credentials.email', 'credentials.password', 'credentials.confirmPassword']
+      } //,      validationGroup: ['credentials.email', 'credentials.password', 'credentials.confirmPassword']
     },
     computed: {
-      validationSummary: valSummary
+      validationSummary: Summary
     },
     methods: {
       spinner: function (bool) {
@@ -126,7 +130,7 @@
       }
     },
     ready: function () {
-      //console.log('ready');
+      console.log('ready');
     }
   }
 
