@@ -5,11 +5,14 @@ module.exports = {
     var _validationData = _self.$v;
     var _componentData = _self._data;
     var _validationGroupEnabled = false;
+    var _fieldsChecked = [];
 
     var isformValid = true;
     var messages = [];
 
     //TODO Compare _validationData root with _componentData for group name
+    //TODO Add messages for validation group first
+    //TODO Donot check models which have been tested in Validation loop
 
     var _getMessages = function (obj, name) {
       var __isDirtyField = obj['$dirty'];
