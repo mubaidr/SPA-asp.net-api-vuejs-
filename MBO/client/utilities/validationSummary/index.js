@@ -58,8 +58,7 @@ module.exports = {
     //console.log(_validationData, isformValid);
 
     return {
-      hasError: !isformValid,
-      messages: messages
+      messages: isformValid ? [] : messages
     }
   }
 }

@@ -1,22 +1,16 @@
-//Convert a string to proper case
-//conver camel case to proper case
-String.prototype.toProperCase = function () {
+String.prototype.toProperCase = function (convertCamelCase) {
   var words = this.split(' ');
 
-  if (words.length === 1) {
-
-    return words[0].replace(/([A-Z])/g, ' $1')
-      .replace(/^./, function (str) {
-        return str.toUpperCase();
-      });
-
-  } else {
-
-    var proper = [];
-    for (var index in words) {
+  var proper = [];
+  for (var index in words) {
+    if (convertCamelCase) {
+      proper.push(words[index].replace(/([A-Z])/g, ' $1')
+        .replace(/^./, function (str) {
+          return str.toUpperCase();
+        }));
+    } else {
       proper.push(words[index][0].toUpperCase() + words[index].slice(1));
     }
-    return proper.join(' ');
-
   }
+  return proper.join(' ');
 }

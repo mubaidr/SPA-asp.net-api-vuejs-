@@ -4,7 +4,7 @@
       <div class="col-md-offset-3 col-md-6">
         <h1>Signup</h1>
         <p>Please provide following details to create a new account.</p>
-        <div v-show="validationSummary.hasError" class="alert alert-danger">
+        <div v-show="validationSummary.messages" class="alert alert-danger">
           <ul class="validation-list">
             <transition-group name="slide-fade" mode="out-in">
               <li v-for="message in validationSummary.messages" :key="message">
