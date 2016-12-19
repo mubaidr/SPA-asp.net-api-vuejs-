@@ -1,10 +1,34 @@
 <template>
   <div>
+    <md-layout md-gutter>
+      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
+      </md-layout>
+      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
+      </md-layout>
+      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
+      </md-layout>
+      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
+      </md-layout>
+      <md-layout md-flex-small="100" md-flex-medium="33" md-hide-xsmall>
+        md-flex-medium="33" <br> md-hide-xsmall
+      </md-layout>
+      <md-layout md-flex md-flex-medium="33" md-hide-small>
+        md-flex-medium="33" <br> md-hide-small
+      </md-layout>
+    </md-layout>
     <div class="row">
       <div class="col-md-offset-4 col-md-4">
         <h1>Signup</h1>
         <p>Please provide following details to create a new account.</p>
+        <div v-show="progress.statusMessage" class="alert alert-danger">
+          {{progress.statusMessage}}
+        </div>
         <div v-show="validationSummary.messages.length" class="alert alert-danger">
+          <p>Please fix following errors and then submit again:</p>
           <ul class="validation-list">
             <transition-group name="slide-fade" mode="out-in">
               <li v-for="message in validationSummary.messages" :key="message">
@@ -29,7 +53,7 @@
             v-model.trim="credentials.confirmPassword" @input="$v.credentials.confirmPassword.$touch()">
         </div>
         <div class="form-group">
-          <button v-on:click="register" class="btn btn-block btn-primary" v-bind:disabled="$v.$invalid">Create Account</button>
+          <button v-on:click="register" class="btn btn-block btn-primary">Create Account</button>
         </div>
         <div class="form-group">
           Already have an account?
@@ -75,7 +99,7 @@
         },
         progress: {
           loading: false,
-          successMessage: ''
+          statusMessage: ''
         }
       }
     },
@@ -84,20 +108,20 @@
         email: {
           required,
           email,
-          minLength: minLength(6)
+          minLength: minLength(5)
         },
         password: {
           required,
           alphaNum,
-          minLength: minLength(6)
+          minLength: minLength(5)
         },
         confirmPassword: {
           required,
-          alphaNum,
-          minLength: minLength(6),
+          // alphaNum,
+          // minLength: minLength(5),
           sameAs: sameAs('password')
         }
-      } //,      validationGroup: ['credentials.email', 'credentials.password', 'credentials.confirmPassword']
+      }
     },
     computed: {
       validationSummary: Summary
@@ -109,7 +133,12 @@
       register: function (event) {
         event.preventDefault();
         var _self = this;
-        if (validationSummary.hasError) {
+        _self.$v.$touch();
+
+        console.log(Icon,
+          icons);
+
+        if (_self.$v.$invalid) {
           return false;
         } else {
           _self.spinner(true);

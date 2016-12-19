@@ -1,6 +1,6 @@
-import 'assets/css/bootstrap.paper.css'
-import 'assets/css/site.css'
+import 'vue-material/dist/vue-material.css'
 
+import 'utilities/vue-material'
 import 'utilities/vuelidate'
 import 'utilities/promise-polyfill'
 import {
@@ -9,4 +9,5 @@ import {
 
 app.$mount('#app')
 
+import 'assets/css/site.css'
 import 'assets/script/site'

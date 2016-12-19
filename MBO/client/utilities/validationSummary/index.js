@@ -1,5 +1,5 @@
 module.exports = {
-  Summary: function () {
+  Summary: function (a, b, c) {
     var _self = this;
     var _isValid = true;
     var _validationData = _self.$v;
@@ -14,7 +14,7 @@ module.exports = {
       var __isDirtyField = obj['$dirty'];
       var __isErrorField = obj['$error'];
       var __isInvalidField = obj['$invalid'];
-      var __properName = name ? name.toProperCase() : null;
+      var __properName = name ? name.toProperCase(true) : null;
       var __msg = '';
 
       for (var prop in obj) {
@@ -37,10 +37,13 @@ module.exports = {
                 __msg = ' field can only contain alpha-numeric characters.';
                 break;
               case 'sameAs':
-                __msg = ' field must match with Password.';
+                __msg = ' field must be same as Password.';
                 break;
               case 'minLength':
                 __msg = ' field must contain atleast 6 characters.';
+                break;
+              case 'email':
+                __msg = ' field is not valid email address.';
                 break;
               default:
                 __msg = ' field is not valid.';

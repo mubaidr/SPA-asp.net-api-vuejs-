@@ -50,13 +50,14 @@ code,
 .signoff,
 .jumbotron,
 .badge,
-.navbar {
+.navbar,
+.alert {
   border-radius: 0!important;
 }
 
 .validation-list {
-  /*list-style: none;*/
-  padding-left: 15px;
+  list-style: circle;
+  padding-left: 10px;
 }
 
 .backdrop {
