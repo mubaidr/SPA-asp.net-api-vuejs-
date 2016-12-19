@@ -10,14 +10,12 @@ module.exports = {
     var isformValid = true;
     var messages = [];
 
-    //TODO Compare _validationData root with _componentData for group name
-    //TODO Add messages for validation group first
-    //TODO Donot check models which have been tested in Validation loop
-
     var _getMessages = function (obj, name) {
       var __isDirtyField = obj['$dirty'];
       var __isErrorField = obj['$error'];
       var __isInvalidField = obj['$invalid'];
+      var __properName = name ? name.toProperCase() : null;
+      var __msg = '';
 
       for (var prop in obj) {
         var __val = obj[prop];
@@ -28,34 +26,34 @@ module.exports = {
         } else {
           var __isBuiltInProp = prop.includes('$') && __type === 'boolean';
 
-          if (!__val && !__isBuiltInProp && __isDirtyField && __isInvalidField) {
-            //TODO Only specific validation group to be marked
+          if (!__val && !__isBuiltInProp && __isErrorField) {
             isformValid = false;
 
             switch (prop) {
               case 'required':
-                messages.push(name.toProperCase() + ' field is required.');
+                __msg = ' field is required.';
                 break;
               case 'alphaNum':
-                messages.push(name.toProperCase() + ' field can only contain alpha-numeric characters.');
+                __msg = ' field can only contain alpha-numeric characters.';
                 break;
               case 'sameAs':
-                messages.push(name.toProperCase() + ' field must match with Password.');
+                __msg = ' field must match with Password.';
                 break;
               case 'minLength':
-                messages.push(name.toProperCase() + ' field must contain atleast 6 characters.');
+                __msg = ' field must contain atleast 6 characters.';
                 break;
               default:
-                messages.push(name.toProperCase() + ' field is not valid.');
+                __msg = ' field is not valid.';
                 break;
             }
+
+            messages.push(__properName + __msg);
           }
         }
       }
     };
 
     _getMessages(_validationData);
-    //console.log(_validationData, isformValid);
 
     return {
       messages: isformValid ? [] : messages
