@@ -1,25 +1,5 @@
 <template>
   <div>
-    <md-layout md-gutter>
-      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
-        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
-      </md-layout>
-      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
-        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
-      </md-layout>
-      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
-        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
-      </md-layout>
-      <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
-        md-flex-xsmall <br> md-flex-small="50" <br> md-flex-medium="33"
-      </md-layout>
-      <md-layout md-flex-small="100" md-flex-medium="33" md-hide-xsmall>
-        md-flex-medium="33" <br> md-hide-xsmall
-      </md-layout>
-      <md-layout md-flex md-flex-medium="33" md-hide-small>
-        md-flex-medium="33" <br> md-hide-small
-      </md-layout>
-    </md-layout>
     <div class="row">
       <div class="col-md-offset-4 col-md-4">
         <h1>Signup</h1>
@@ -37,6 +17,10 @@
             </transition-group>
           </ul>
         </div>
+        <md-input-container>
+          <label>Initial value</label>
+          <md-input v-model="initialValue"></md-input>
+        </md-input-container>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
           <label for="email" class="control-label">Email</label>
           <input v-model="credentials.email" type="email" name="email" class="form-control" placeholder="email" v-model.trim="credentials.email"
