@@ -18,8 +18,8 @@
           </ul>
         </div>
         <md-input-container>
-          <label>Initial value</label>
-          <md-input v-model="initialValue"></md-input>
+          <label>Username</label>
+          <md-input v-model="username"></md-input>
         </md-input-container>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
           <label for="email" class="control-label">Email</label>
@@ -47,9 +47,6 @@
         </div>
       </div>
     </div>
-    <div v-show="progress.loading" class="backdrop">
-      <ring-loader></ring-loader>
-    </div>
   </div>
 </template>
 <script>
@@ -61,8 +58,7 @@
   } from 'vuelidate/lib/validators'
   import email from 'utilities/validators/email'
   import axios from 'axios'
-  import RingLoader from 'vue-spinner/src/RingLoader'
-  import 'utilities/string'
+    import 'utilities/string'
   import {
     Summary
   } from 'utilities/validationSummary'
@@ -71,9 +67,6 @@
   } from 'services/account'
 
   export default {
-    components: {
-      RingLoader
-    },
     data: function () {
       return {
         credentials: {
@@ -111,21 +104,14 @@
       validationSummary: Summary
     },
     methods: {
-      spinner: function (bool) {
-        this.loading = bool;
-      },
       register: function (event) {
         event.preventDefault();
         var _self = this;
         _self.$v.$touch();
 
-        console.log(Icon,
-          icons);
-
         if (_self.$v.$invalid) {
           return false;
         } else {
-          _self.spinner(true);
 
           signup({
             Email: this.credentials.email,
@@ -133,10 +119,8 @@
             ConfirmPassword: this.credentials.confirmPassword
           }).then(function (res) {
             console.log(res);
-            _self.spinner(false);
           }).catch(function (err) {
             console.log(err);
-            _self.spinner(false);
           });
 
         }
