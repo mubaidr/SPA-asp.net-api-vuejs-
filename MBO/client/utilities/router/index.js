@@ -1,13 +1,19 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from 'components/Home/Home.vue'
-import About from 'components/Home/About.vue'
-import Contact from 'components/Home/Contact.vue'
-import Error_404 from 'components/Error/Error_404.vue'
-import Error_500 from 'components/Error/Error_500.vue'
-import Signin from 'components/Account/Signin.vue'
-import Signup from 'components/Account/Signup.vue'
-import Dashboard from 'components/Management/Dashboard.vue'
+//Anonymous
+import Home from 'components/Home/Home'
+import About from 'components/Home/About'
+import Contact from 'components/Home/Contact'
+//Error
+import Error_404 from 'components/Error/Error_404'
+import Error_500 from 'components/Error/Error_500'
+//Account
+import Signin from 'components/Account/Signin'
+import Signup from 'components/Account/Signup'
+import Profile from 'components/Account/Profile'
+import Signout from 'components/Account/Signout'
+//Data
+import Dashboard from 'components/Management/Dashboard'
 import Search from 'components/Management/Search'
 
 Vue.use(Router)
@@ -24,37 +30,56 @@ export default new Router({
     redirect: '/'
   }, {
     path: '/about',
+    name: 'about',
     component: About
   }, {
     path: '/contact',
+    name: 'contact',
     component: Contact
   }, {
-    path: '/error',
-    component: Error_500
-  }, {
     path: '/signup',
+    name: 'signup',
     component: Signup
   }, {
     path: '/signin',
     name: 'signin',
     component: Signin
   }, {
+    path: '/signout',
+    name: 'signout',
+    component: Signin
+  }, {
     path: '/dashboard',
+    name: 'dashboard',
     component: Dashboard,
     meta: {
       requiresAuth: true
     }
   }, {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
     path: '/search',
+    name: 'search',
     component: Search,
     meta: {
       requiresAuth: true
     }
   }, {
     path: '/404',
+    name: '404',
     component: Error_404
   }, {
+    path: '/error',
+    name: 'error',
+    component: Error_500
+  }, {
     path: '*',
+    name: 'any',
     redirect: '/404'
   }]
 })
