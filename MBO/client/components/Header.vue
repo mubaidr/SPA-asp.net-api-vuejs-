@@ -15,8 +15,9 @@
         </md-button>
         <md-menu md-direction="bottom left" v-show="!status.authenticated">
           <md-button md-menu-trigger>
-            <md-icon>account_circle</md-icon>
+            <!--<md-icon>account_circle</md-icon>-->
             My Account
+            <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
             <md-menu-item>
@@ -24,6 +25,9 @@
             </md-menu-item>
             <md-menu-item>
               <router-link to="/signup">Register</router-link>
+            </md-menu-item>
+            <md-menu-item>
+              <router-link to="/contact">Contact us</router-link>
             </md-menu-item>
           </md-menu-content>
         </md-menu>
@@ -35,6 +39,12 @@
           <md-menu-content>
             <md-menu-item>
               <router-link to="/profile">Profile</router-link>
+            </md-menu-item>
+            <md-menu-item>
+              <router-link to="/settings">Settings</router-link>
+            </md-menu-item>
+            <md-menu-item>
+              <router-link to="/contact">Contact us</router-link>
             </md-menu-item>
             <md-menu-item>
               <router-link to="/signout">Sign out</router-link>
@@ -64,7 +74,7 @@
     data: function () {
       return {
         status: {
-          authenticated: true
+          authenticated: false
         },
         user: {
           email: 'tester@test.com',

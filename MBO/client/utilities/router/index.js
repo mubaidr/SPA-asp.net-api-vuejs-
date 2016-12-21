@@ -13,8 +13,9 @@ import Signup from 'components/Account/Signup'
 import Profile from 'components/Account/Profile'
 import Signout from 'components/Account/Signout'
 //Data
-import Dashboard from 'components/Management/Dashboard'
-import Search from 'components/Management/Search'
+import Settings from 'components/Management/Settings/'
+import Dashboard from 'components/Management/Dashboard/'
+import Search from 'components/Management/Search/'
 
 Vue.use(Router)
 
@@ -52,6 +53,13 @@ export default new Router({
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
     meta: {
       requiresAuth: true
     }
