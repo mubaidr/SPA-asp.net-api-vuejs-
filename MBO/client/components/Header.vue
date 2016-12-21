@@ -1,31 +1,71 @@
 <template>
-  <md-toolbar>
+  <md-whiteframe md-tag="md-toolbar" md-elevation="3">
     <div class="md-toolbar-container">
       <md-button class="md-icon-button">
         <md-icon>menu</md-icon>
       </md-button>
-      <span style="flex: 1;">Home</span>
-      <md-button class="md-icon-button">
+      <span style="flex: 1;" md-theme="red">
+        <md-button @click="home">
+          Home
+        </md-button>
+      </span>
+      <md-button @click="search" class="md-icon-button">
         <md-icon>search</md-icon>
       </md-button>
-      <md-button class="md-icon-button">
-        <md-icon>filter_list</md-icon>
-      </md-button>
-      <md-menu md-direction="bottom left">
-        <md-button md-menu-trigger>Bottom Left</md-button>
+      <md-menu md-direction="bottom left" v-show="!status.authenticated">
+        <md-button md-menu-trigger>
+          <md-icon>account_circle</md-icon>
+          My Account
+        </md-button>
         <md-menu-content>
-          <md-menu-item>My Item 1</md-menu-item>
-          <md-menu-item>My Item 2</md-menu-item>
-          <md-menu-item disabled>My Item 3</md-menu-item>
-          <md-menu-item>My Item 4</md-menu-item>
+          <md-menu-item>
+            <router-link to="/signin">Sign in</router-link>
+          </md-menu-item>
+          <md-menu-item>
+            <router-link to="/signup">Register</router-link>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-direction="bottom left" v-show="status.authenticated">
+        <md-button md-menu-trigger>
+          <md-icon>account_circle</md-icon>
+          My Account
+        </md-button>
+        <md-menu-content>
+          <md-menu-item>
+            <router-link to="/profile">Profile</router-link>
+          </md-menu-item>
+          <md-menu-item>
+            <router-link to="/signout">Sign out</router-link>
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
     </div>
-  </md-toolbar>
+  </md-whiteframe>
 </template>
 <script>
+  import VueRouter from 'vue-router'
   export default {
-
+    data: function () {
+      return {
+        status: {
+          authenticated: true
+        },
+        user: {
+          email: '',
+          avatar: '',
+          notifications: 0
+        }
+      }
+    },
+    methods: {
+      home: function () {
+        this.$router.push('home');
+      },
+      search: function () {
+        this.$router.push('search');
+      }
+    }
   }
 
 </script>

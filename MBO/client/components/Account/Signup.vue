@@ -19,7 +19,8 @@
         </div>
         <md-input-container>
           <label>Username</label>
-          <md-input v-model="username"></md-input>
+          <md-input v-model="credentials.email" type="email" name="email" class="form-control" v-model.trim="credentials.email" @input="$v.credentials.email.$touch()"
+            required></md-input>
         </md-input-container>
         <div class="form-group" v-bind:class="{ 'has-error': $v.credentials.email.$error }">
           <label for="email" class="control-label">Email</label>
@@ -58,7 +59,7 @@
   } from 'vuelidate/lib/validators'
   import email from 'utilities/validators/email'
   import axios from 'axios'
-    import 'utilities/string'
+  import 'utilities/string'
   import {
     Summary
   } from 'utilities/validationSummary'
@@ -94,8 +95,6 @@
         },
         confirmPassword: {
           required,
-          // alphaNum,
-          // minLength: minLength(5),
           sameAs: sameAs('password')
         }
       }

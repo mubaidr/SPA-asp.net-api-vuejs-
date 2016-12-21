@@ -6,8 +6,17 @@ const config = require('./config')
 const _ = require('./utils')
 
 module.exports = {
+  devtool: 'source-map',
   entry: {
-    client: './client/index.js'
+    client: './client/index.js',
+    vendor: [
+      'axios',
+      'pinkie-promise',
+      'vue-material',
+      'vue-router',
+      'vuex',
+      'vuex-router-sync'
+    ]
   },
   output: {
     path: _.outputPath,
@@ -54,7 +63,7 @@ module.exports = {
       filename: _.outputIndexPath
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['manifest']
+      names: ['manifest', 'client', 'vendor']
     })
   ],
   target: _.target

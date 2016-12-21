@@ -5,9 +5,10 @@ import About from 'components/Home/About.vue'
 import Contact from 'components/Home/Contact.vue'
 import Error_404 from 'components/Error/Error_404.vue'
 import Error_500 from 'components/Error/Error_500.vue'
-import Login from 'components/Account/Login.vue'
+import Signin from 'components/Account/Signin.vue'
 import Signup from 'components/Account/Signup.vue'
 import Dashboard from 'components/Management/Dashboard.vue'
+import Search from 'components/Management/Search'
 
 Vue.use(Router)
 
@@ -34,12 +35,18 @@ export default new Router({
     path: '/signup',
     component: Signup
   }, {
-    path: '/login',
-    name: 'login',
-    component: Login
+    path: '/signin',
+    name: 'signin',
+    component: Signin
   }, {
     path: '/dashboard',
     component: Dashboard,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/search',
+    component: Search,
     meta: {
       requiresAuth: true
     }
