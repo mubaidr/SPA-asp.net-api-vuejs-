@@ -1,18 +1,12 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="md-medium">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="md-large">
       <div class="md-toolbar-container">
-        <md-button class="md-icon-button" @click="toggleLeftSidenav">
+        <md-button @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
+          <!--Menu-->
         </md-button>
-        <span style="flex: 1;" md-theme="red">
-        <md-button @click="home">
-          Home
-        </md-button>
-      </span>
-        <md-button @click="search" class="md-icon-button">
-          <md-icon>search</md-icon>
-        </md-button>
+        <span style="flex: 1;"></span>
         <md-menu md-direction="bottom left" v-show="!status.authenticated">
           <md-button md-menu-trigger>
             <!--<md-icon>account_circle</md-icon>-->
@@ -52,15 +46,17 @@
           </md-menu-content>
         </md-menu>
       </div>
-      <!--<div class="md-toolbar-container">
-      </div>-->
+      <div class="md-toolbar-container">
+        <h2 class="md-title">Get Busy with the Management By Objectives!</h2>
+      </div>
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
-      <md-toolbar class="md-large">
+      <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">
         <div class="md-toolbar-container">
-          <h3 class="md-title">Sidenav content</h3>
         </div>
-      </md-toolbar>
+        <div class="md-toolbar-container">
+        </div>
+      </md-whiteframe>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt
         ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis
         iusto!
