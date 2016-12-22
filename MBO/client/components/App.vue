@@ -3,7 +3,9 @@
     <app-header></app-header>
     <div class="container">
       <transition name="slide-fade" mode="out-in">
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
       </transition>
       <app-footer></app-footer>
     </div>

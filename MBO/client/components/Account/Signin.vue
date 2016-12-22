@@ -1,55 +1,139 @@
-<template id="login">
+<template>
   <div>
-    <div class="row">
-      <div class="col-md-offset-4 col-md-4">
-        <form>
-          <h1>Login</h1>
-          <p>Please enter username and password to continue.</p>
-          <div class="form-group">
-            <label for="Username" class="control-label">Username</label>
-            <input v-model="username" type="text" class="form-control" id="Username" placeholder="Username">
-          </div>
-          <div class="form-group">
-            <label for="Password" class="control-label">Password</label>
-            <input v-model="password" type="password" class="form-control" id="Password" placeholder="Password">
-            <div class="checkbox">
-              <label>
-                    <input type="checkbox"/> Remember me
-                  </label>
+    <md-layout md-gutter>
+      <md-layout md-hide-small></md-layout>
+      <md-layout>
+        <md-card class="full-width">
+          <md-card-media>
+            <img src="../../assets/backgrounds/33.jpg" alt="sun">
+          </md-card-media>
+          <md-card-header>
+            <md-card-header-text>
+              <div class="md-title">Sign In to your account</div>
+              <div class="md-subhead">Please provide required information.</div>
+            </md-card-header-text>
+            <md-spinner md-indeterminate class="md-accent"></md-spinner>
+            <!--<md-menu md-size="4" md-direction="bottom left">
+              <md-button class="md-icon-button" md-menu-trigger>
+                <md-icon>more_vert</md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <router-link to="/signin">Sign In</router-link>
+                </md-menu-item>
+                <md-menu-item>
+                  <router-link to="/contact">Contact us</router-link>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>-->
+          </md-card-header>
+          <md-card-content>
+            <md-input-container>
+              <label>Username</label>
+              <md-input v-model="credentials.email" type="email" name="email" v-model.trim="credentials.email" @input="$v.credentials.email.$touch()"></md-input>
+            </md-input-container>
+            <md-input-container md-has-password>
+              <label>Password</label>
+              <md-input v-model="credentials.password" type="password" name="password" v-model.trim="credentials.password" @input="$v.credentials.password.$touch()"></md-input>
+            </md-input-container>
+          </md-card-content>
+          <md-card-actions>
+            <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
+            <md-button class="md-raised md-accent" @click="sigin">Sign In</md-button>
+          </md-card-actions>
+          <md-card-content>
+            <div v-show="progress.statusMessage" class="alert alert-danger">
+              {{progress.statusMessage}}
             </div>
-          </div>
-          <div class="form-group">
-            <button v-on:click="login" class="btn btn-primary btn-block">Login to my account</button>
-          </div>
-          <div class="form-group">Don't have a account?
-            <router-link to="/signup">Signup here!</router-link>
-            <br/> Forgot password?
-            <router-link to="/recover">Recover now!</router-link>
-          </div>
-        </form>
-      </div>
-    </div>
+            <div v-show="validationSummary.messages.length" class="alert alert-danger">
+              <p>Please fix following errors and then submit again:</p>
+              <ul class="validation-list">
+                <transition-group name="slide-fade" mode="out-in">
+                  <li v-for="message in validationSummary.messages" :key="message">
+                    {{message}}
+                  </li>
+                </transition-group>
+              </ul>
+            </div>
+          </md-card-content>
+        </md-card>
+      </md-layout>
+      <md-layout md-hide-small></md-layout>
+    </md-layout>
   </div>
 </template>
 <script>
+  import {
+    required,
+    sameAs,
+    minLength,
+    alphaNum
+  } from 'vuelidate/lib/validators'
+  import email from 'utilities/validators/email'
+  import axios from 'axios'
+  import 'utilities/string'
+  import {
+    Summary
+  } from 'utilities/validationSummary'
+  import {
+    signin
+  } from 'services/account'
+
   export default {
-    template: '#login',
-    name: 'login',
-    data: function (){
+    data: function () {
       return {
-        username: 'test',
-        password: 'asdf1234'
+        credentials: {
+          email: 'test@test.com',
+          password: 'tester'
+        },
+        progress: {
+          loading: false,
+          statusMessage: ''
+        }
       }
     },
-    methods:{
-      login: function(event){
-        event.preventDefault();
-        this.$http.get('http://localhost/Beta/api/values').then((response) => {
-          console.log('success', response);
-        }, (response) => {
-          console.log('fail', response);
-        });
+    validations: {
+      credentials: {
+        email: {
+          required,
+          email,
+          minLength: minLength(5)
+        },
+        password: {
+          required,
+          alphaNum,
+          minLength: minLength(5)
+        }
       }
+    },
+    computed: {
+      validationSummary: Summary
+    },
+    methods: {
+      sigin: function (event) {
+        event.preventDefault();
+        var _self = this;
+        _self.$v.$touch();
+
+        if (_self.$v.$invalid) {
+          return false;
+        } else {
+
+          signin({
+            Email: this.credentials.email,
+            Password: this.credentials.password
+          }).then(function (res) {
+            console.log(res);
+          }).catch(function (err) {
+            console.log(err);
+          });
+
+        }
+      }
+    },
+    ready: function () {
+      console.log('ready');
     }
   }
+
 </script>

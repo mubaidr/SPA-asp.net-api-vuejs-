@@ -12,6 +12,7 @@ import Signin from 'components/Account/Signin'
 import Signup from 'components/Account/Signup'
 import Profile from 'components/Account/Profile'
 import Signout from 'components/Account/Signout'
+import Recover from 'components/Account/Recover'
 //Data
 import Settings from 'components/Management/Settings/'
 import Dashboard from 'components/Management/Dashboard/'
@@ -49,6 +50,10 @@ export default new Router({
     path: '/signout',
     name: 'signout',
     component: Signin
+  }, {
+    path: '/recover',
+    name: 'recover',
+    component: Recover
   }, {
     path: '/dashboard',
     name: 'dashboard',

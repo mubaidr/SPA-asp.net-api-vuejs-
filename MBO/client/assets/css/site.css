@@ -31,6 +31,10 @@ body {
   text-align: right;
 }
 
+.full-width {
+  width: 100%;
+}
+
 
 /*Footer*/
 
@@ -71,4 +75,19 @@ body {
   position: relative;
   top: 40%;
   left: 48%;
+}
+
+
+/*Vue material customize*/
+
+.md-toolbar {
+  background-image: url('../../assets/backgrounds/23.jpg');
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.md-card-media {
+  overflow: hidden;
+  max-height: 240px;
 }

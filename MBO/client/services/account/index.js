@@ -8,3 +8,8 @@ function signup(obj) {
   console.log(obj);
   return axios.post(api.url + '/account/register', obj);
 }
+
+function signin(obj) {
+  console.log(obj);
+  return axios.post(api.url + '/account/login', obj);
+}

@@ -6,6 +6,9 @@
           <md-icon>menu</md-icon>
           <!--Menu-->
         </md-button>
+        <!--<md-layout md-hide-medium>
+          <h2 class="md-title">Get Busy with Management By Objectives!</h2>
+        </md-layout>-->
         <span style="flex: 1;"></span>
         <md-menu md-direction="bottom left" v-show="!status.authenticated">
           <md-button md-menu-trigger>
@@ -15,13 +18,16 @@
           </md-button>
           <md-menu-content>
             <md-menu-item>
-              <router-link to="/signin">Sign in</router-link>
+              <router-link to="/signin">Sign In</router-link>
             </md-menu-item>
             <md-menu-item>
               <router-link to="/signup">Register</router-link>
             </md-menu-item>
             <md-menu-item>
-              <router-link to="/contact">Contact us</router-link>
+              <router-link to="/about">About</router-link>
+            </md-menu-item>
+            <md-menu-item>
+              <router-link to="/contact">Contact Us</router-link>
             </md-menu-item>
           </md-menu-content>
         </md-menu>
@@ -38,17 +44,22 @@
               <router-link to="/settings">Settings</router-link>
             </md-menu-item>
             <md-menu-item>
-              <router-link to="/contact">Contact us</router-link>
+              <router-link to="/about">About</router-link>
             </md-menu-item>
             <md-menu-item>
-              <router-link to="/signout">Sign out</router-link>
+              <router-link to="/contact">Contact Us</router-link>
+            </md-menu-item>
+            <md-menu-item>
+              <router-link to="/signout">Sign Out</router-link>
             </md-menu-item>
           </md-menu-content>
         </md-menu>
       </div>
-      <div class="md-toolbar-container">
-        <h2 class="md-title">Get Busy with the Management By Objectives!</h2>
-      </div>
+      <md-layout>
+        <div class="md-toolbar-container">
+          <h2 class="md-title">Get Busy with Management By Objectives!</h2>
+        </div>
+      </md-layout>
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
       <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">
