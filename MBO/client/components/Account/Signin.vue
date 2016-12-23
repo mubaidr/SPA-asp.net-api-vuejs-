@@ -5,14 +5,15 @@
       <md-layout>
         <md-card class="full-width">
           <md-card-media>
-            <img src="../../assets/backgrounds/33.jpg" alt="sun">
+            <md-ink-ripple></md-ink-ripple>
+            <img src="../../assets/backgrounds/31.jpg" alt="sun" class="card-media-animation">
           </md-card-media>
           <md-card-header>
             <md-card-header-text>
               <div class="md-title">Sign In to your account</div>
               <div class="md-subhead">Please provide required information.</div>
             </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent"></md-spinner>
+            <md-spinner md-indeterminate class="md-accent" v-show="progress.loading"></md-spinner>
             <!--<md-menu md-size="4" md-direction="bottom left">
               <md-button class="md-icon-button" md-menu-trigger>
                 <md-icon>more_vert</md-icon>
@@ -42,18 +43,9 @@
             <md-button class="md-raised md-accent" @click="sigin">Sign In</md-button>
           </md-card-actions>
           <md-card-content>
-            <div v-show="progress.statusMessage" class="alert alert-danger">
+            <span class="md-error"></span>
+            <div v-show="progress.statusMessage" class="md-error">
               {{progress.statusMessage}}
-            </div>
-            <div v-show="validationSummary.messages.length" class="alert alert-danger">
-              <p>Please fix following errors and then submit again:</p>
-              <ul class="validation-list">
-                <transition-group name="slide-fade" mode="out-in">
-                  <li v-for="message in validationSummary.messages" :key="message">
-                    {{message}}
-                  </li>
-                </transition-group>
-              </ul>
             </div>
           </md-card-content>
         </md-card>
@@ -67,14 +59,15 @@
     required,
     sameAs,
     minLength,
-    alphaNum
+    alphaNum,
+    alpha
   } from 'vuelidate/lib/validators'
-  import email from 'utilities/validators/email'
+  //import email from 'utilities/validators/email'
   import axios from 'axios'
-  import 'utilities/string'
-  import {
-    Summary
-  } from 'utilities/validationSummary'
+  // import 'utilities/string'
+  // import {
+  //   Summary
+  // } from 'utilities/validationSummary'
   import {
     signin
   } from 'services/account'
@@ -83,8 +76,8 @@
     data: function () {
       return {
         credentials: {
-          email: 'test@test.com',
-          password: 'tester'
+          email: '',
+          password: ''
         },
         progress: {
           loading: false,
@@ -96,7 +89,7 @@
       credentials: {
         email: {
           required,
-          email,
+          alpha,
           minLength: minLength(5)
         },
         password: {
@@ -107,7 +100,7 @@
       }
     },
     computed: {
-      validationSummary: Summary
+      //validationSummary: Summary
     },
     methods: {
       sigin: function (event) {

@@ -6,9 +6,9 @@
           <md-icon>menu</md-icon>
           <!--Menu-->
         </md-button>
-        <!--<md-layout md-hide-medium>
+        <md-layout md-hide-medium>
           <h2 class="md-title">Get Busy with Management By Objectives!</h2>
-        </md-layout>-->
+        </md-layout>
         <span style="flex: 1;"></span>
         <md-menu md-direction="bottom left" v-show="!status.authenticated">
           <md-button md-menu-trigger>
@@ -55,11 +55,9 @@
           </md-menu-content>
         </md-menu>
       </div>
-      <md-layout>
-        <div class="md-toolbar-container">
-          <h2 class="md-title">Get Busy with Management By Objectives!</h2>
-        </div>
-      </md-layout>
+      <!--<div class="md-toolbar-container">
+        <h2 class="md-title">Get Busy with Management By Objectives!</h2>
+      </div>-->
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
       <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">

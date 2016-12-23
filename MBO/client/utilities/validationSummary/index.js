@@ -1,3 +1,5 @@
+import '../string'
+
 module.exports = {
   Summary: function (a, b, c) {
     var _self = this;

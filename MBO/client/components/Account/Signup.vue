@@ -1,86 +1,70 @@
 <template>
-  <div>
-    <md-layout md-gutter>
-      <md-layout md-hide-small>
-      </md-layout>
-      <md-layout>
-        <md-card class="full-width">
-          <md-card-media>
-            <img src="../../assets/backgrounds/31.jpg" alt="sun">
-          </md-card-media>
-          <md-card-header>
-            <md-card-header-text>
-              <div class="md-title">Create an account</div>
-              <div class="md-subhead">Please provide required information.</div>
-            </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent"></md-spinner>
-            <!--<md-menu md-size="4" md-direction="bottom left">
-              <md-button class="md-icon-button" md-menu-trigger>
-                <md-icon>more_vert</md-icon>
-              </md-button>
-              <md-menu-content>
-                <md-menu-item>
-                  <router-link to="/signin">Sign In</router-link>
-                </md-menu-item>
-                <md-menu-item>
-                  <router-link to="/contact">Contact us</router-link>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>-->
-          </md-card-header>
-          <md-card-content>
-            <md-input-container>
-              <label>Username</label>
-              <md-input v-model="credentials.email" type="email" name="email" v-model.trim="credentials.email" @input="$v.credentials.email.$touch()"></md-input>
-            </md-input-container>
-            <md-input-container md-has-password>
-              <label>Password</label>
-              <md-input v-model="credentials.password" type="password" name="password" v-model.trim="credentials.password" @input="$v.credentials.password.$touch()"></md-input>
-            </md-input-container>
-            <md-input-container md-has-password>
-              <label>Confirm Password</label>
-              <md-input v-model="credentials.confirmPassword" type="password" name="confirmPassword" v-model.trim="credentials.confirmPassword"
-                @input="$v.credentials.confirmPassword.$touch()"></md-input>
-            </md-input-container>
-          </md-card-content>
-          <md-card-actions>
-            <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-            <md-button class="md-raised md-accent" @click="signup">Register</md-button>
-          </md-card-actions>
-          <md-card-content>
-            <div v-show="progress.statusMessage" class="alert alert-danger">
-              {{progress.statusMessage}}
-            </div>
-            <div v-show="validationSummary.messages.length" class="alert alert-danger">
-              <p>Please fix following errors and then submit again:</p>
-              <ul class="validation-list">
-                <transition-group name="slide-fade" mode="out-in">
-                  <li v-for="message in validationSummary.messages" :key="message">
-                    {{message}}
-                  </li>
-                </transition-group>
-              </ul>
-            </div>
-          </md-card-content>
-        </md-card>
-      </md-layout>
-      <md-layout md-hide-small></md-layout>
+  <md-layout md-gutter>
+    <md-layout md-hide-small>
     </md-layout>
-  </div>
+    <md-layout>
+      <md-card class="full-width">
+        <md-card-media>
+          <md-ink-ripple></md-ink-ripple>
+          <img src="../../assets/backgrounds/33.jpg" alt="sun" class="card-media-animation">
+        </md-card-media>
+        <md-card-header>
+          <md-card-header-text>
+            <div class="md-title">Create an account</div>
+            <div class="md-subhead">Please provide required information.</div>
+          </md-card-header-text>
+          <md-spinner md-indeterminate class="md-accent" v-show="progress.loading"></md-spinner>
+        </md-card-header>
+        <md-card-content>
+          <md-input-container :class="{'md-input-invalid': $v.credentials.email.$error}">
+            <label>Username</label>
+            <md-input v-model="credentials.email" type="email" name="email" v-model.trim="credentials.email" @input="$v.credentials.email.$touch()"></md-input>
+            <div class="md-error">
+              <span :class="{'not-valid': !$v.credentials.email.$required}">Required.</span>
+              <span :class="{'not-valid': !$v.credentials.email.$alpha}">Should not contain numbers.</span>
+              <span :class="{'not-valid': !$v.credentials.email.$minLength}">Minimum length should be 6.</span>
+            </div>
+          </md-input-container>
+          <md-input-container md-has-password :class="{'md-input-invalid': $v.credentials.email.$error}">
+            <label>Password</label>
+            <md-input v-model="credentials.password" type="password" name="password" v-model.trim="credentials.password" @input="$v.credentials.password.$touch()"></md-input>
+            <!--<span class="md-error">Test</span>-->
+          </md-input-container>
+          <md-input-container md-has-password :class="{'md-input-invalid': $v.credentials.email.$error}">
+            <label>Confirm Password</label>
+            <md-input v-model="credentials.confirmPassword" type="password" name="confirmPassword" v-model.trim="credentials.confirmPassword"
+              @input="$v.credentials.confirmPassword.$touch()"></md-input>
+            <!--<span class="md-error">Test</span>-->
+          </md-input-container>
+        </md-card-content>
+        <md-card-actions>
+          <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
+          <md-button class="md-raised md-accent" @click="signup">Register</md-button>
+        </md-card-actions>
+        <md-card-content>
+          <div v-show="progress.statusMessage" class="alert alert-danger">
+            {{progress.statusMessage}}
+          </div><pre>{{$v.credentials.email}}</pre>
+        </md-card-content>
+      </md-card>
+    </md-layout>
+    <md-layout md-hide-small></md-layout>
+  </md-layout>
 </template>
 <script>
   import {
     required,
     sameAs,
     minLength,
-    alphaNum
+    alphaNum,
+    alpha
   } from 'vuelidate/lib/validators'
-  import email from 'utilities/validators/email'
+  //import email from 'utilities/validators/email'
   import axios from 'axios'
-  import 'utilities/string'
-  import {
-    Summary
-  } from 'utilities/validationSummary'
+  //import 'utilities/string'
+  // import {
+  //   Summary
+  // } from 'utilities/validationSummary'
   import {
     signup
   } from 'services/account'
@@ -89,9 +73,9 @@
     data: function () {
       return {
         credentials: {
-          email: 'test@test.com',
-          password: 'tester',
-          confirmPassword: 'tester'
+          email: '',
+          password: '',
+          confirmPassword: ''
         },
         progress: {
           loading: false,
@@ -103,7 +87,7 @@
       credentials: {
         email: {
           required,
-          email,
+          alpha,
           minLength: minLength(5)
         },
         password: {
@@ -118,7 +102,16 @@
       }
     },
     computed: {
-      validationSummary: Summary
+      //validationSummary: Summary,
+      getFirstError: function (model) {
+        console.log(this, model);
+        var _self = this;
+        if (!model) return;
+        var val = _self.$v[model];
+        if (!val.$error) return;
+        //var val
+
+      }
     },
     methods: {
       signup: function (event) {

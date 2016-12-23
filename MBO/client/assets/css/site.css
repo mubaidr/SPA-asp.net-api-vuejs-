@@ -10,20 +10,20 @@ body {
 /*Route change animations*/
 
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all .5s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all .2s ease;
+  transition: all .1s ease-in;
 }
 
 .slide-fade-enter {
-  transform: translateX(-100px);
+  transform: translateY(-100px);
   opacity: 0;
 }
 
 .slide-fade-leave-active {
-  transform: translateX(100px);
+  transform: translateY(100px);
   opacity: 0;
 }
 
@@ -87,7 +87,37 @@ body {
   background-repeat: no-repeat;
 }
 
+
+/*Show only first error*/
+
+.md-input-invalid div.md-error span.not-valid {
+  display: none;
+}
+
+.md-input-invalid div.md-error span.not-valid:first-child {
+  display: inline-block;
+}
+
 .md-card-media {
   overflow: hidden;
-  max-height: 240px;
+  max-height: 128px;
+}
+
+.card-media-animation {
+  animation: animationFrames linear 120s;
+  -moz-animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 50%;
+}
+
+@keyframes animationFrames {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    transform: translateY(0) scale(3);
+  }
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
 }
