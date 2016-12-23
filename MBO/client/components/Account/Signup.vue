@@ -18,18 +18,19 @@
         <md-card-content>
           <md-input-container :class="{'md-input-invalid': errors.has('email')}">
             <label>Username</label>
-            <md-input v-model="credentials.email" type="email" v-model.trim="credentials.email" v-validate="credentials.email" data-vv-rules="required|alpha|min:5"
-              :disabled="status.loading"></md-input>
+            <input type="email" name="email" class="md-input" v-model="credentials.email" v-validate data-vv-rules="required|alpha|min:5"
+            />
+            <!--<md-input v-model="credentials.email" type="email" v-validate name="email" data-vv-rules="required|alpha|min:5" :disabled="status.loading"></md-input>-->
             <span class="md-error">{{errors.first('email')}}</div>
           </md-input-container>
           <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
             <label>Password</label>
-            <md-input v-model="credentials.password" type="password" v-model.trim="credentials.password" v-validate="credentials.password" data-vv-rules="required|alpha|min:5" :disabled="status.loading"></md-input>
+            <md-input v-model="credentials.password" type="password" v-validate name="password" data-vv-rules="required|alpha|min:5" :disabled="status.loading"></md-input>
             <span class="md-error">{{errors.first('password')}}</div>
           </md-input-container>
           <md-input-container md-has-password :class="{'md-input-invalid': errors.has('confirmPassword')}">
             <label>Confirm Password</label>
-            <md-input v-model="credentials.confirmPassword" type="password" v-model.trim="credentials.confirmPassword" v-validate.initial="credentials.confirmPassword" data-vv-rules="required|alpha|min:5" :disabled="status.loading"></md-input>
+            <md-input v-model="credentials.confirmPassword" type="password" name="confirmPassword" v-validate data-vv-rules="required|alpha|min:5" :disabled="status.loading"></md-input>
             <span class="md-error">{{errors.first('confirmPassword')}}</div>
           </md-input-container>
         </md-card-content>
