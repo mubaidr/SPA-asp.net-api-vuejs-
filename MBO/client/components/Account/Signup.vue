@@ -16,25 +16,21 @@
           <md-spinner md-indeterminate class="md-accent" v-show="progress.loading"></md-spinner>
         </md-card-header>
         <md-card-content>
-          <md-input-container :class="{'md-input-invalid': $v.credentials.email.$error}">
+          <md-input-container :class="{'md-input-invalid': errors.has('email')}">
             <label>Username</label>
-            <md-input v-model="credentials.email" type="email" name="email" v-model.trim="credentials.email" @input="$v.credentials.email.$touch()"></md-input>
-            <div class="md-error">
-              <span :class="{'not-valid': !$v.credentials.email.$required}">Required.</span>
-              <span :class="{'not-valid': !$v.credentials.email.$alpha}">Should not contain numbers.</span>
-              <span :class="{'not-valid': !$v.credentials.email.$minLength}">Minimum length should be 6.</span>
-            </div>
+            <md-input v-model="credentials.email" type="email" v-model.trim="credentials.email" v-validate.initial="credentials.email"
+              data-vv-rules="required|alpha|min:5"></md-input>
+            <span class="md-error">{{errors.first('email')}}</div>
           </md-input-container>
-          <md-input-container md-has-password :class="{'md-input-invalid': $v.credentials.email.$error}">
+          <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
             <label>Password</label>
-            <md-input v-model="credentials.password" type="password" name="password" v-model.trim="credentials.password" @input="$v.credentials.password.$touch()"></md-input>
-            <!--<span class="md-error">Test</span>-->
+            <md-input v-model="credentials.password" type="password" v-model.trim="credentials.password" v-validate.initial="credentials.password" data-vv-rules="required|alpha|min:5"></md-input>
+            <span class="md-error">{{errors.first('password')}}</div>
           </md-input-container>
-          <md-input-container md-has-password :class="{'md-input-invalid': $v.credentials.email.$error}">
+          <md-input-container md-has-password :class="{'md-input-invalid': errors.has('confirmPassword')}">
             <label>Confirm Password</label>
-            <md-input v-model="credentials.confirmPassword" type="password" name="confirmPassword" v-model.trim="credentials.confirmPassword"
-              @input="$v.credentials.confirmPassword.$touch()"></md-input>
-            <!--<span class="md-error">Test</span>-->
+            <md-input v-model="credentials.confirmPassword" type="password" v-model.trim="credentials.confirmPassword" v-validate.initial="credentials.confirmPassword" data-vv-rules="required|alpha|min:5"></md-input>
+            <span class="md-error">{{errors.first('confirmPassword')}}</div>
           </md-input-container>
         </md-card-content>
         <md-card-actions>
@@ -44,7 +40,8 @@
         <md-card-content>
           <div v-show="progress.statusMessage" class="alert alert-danger">
             {{progress.statusMessage}}
-          </div><pre>{{$v.credentials.email}}</pre>
+          </div>
+          <pre>{{errors.has('email')}}</pre>
         </md-card-content>
       </md-card>
     </md-layout>
@@ -52,19 +49,7 @@
   </md-layout>
 </template>
 <script>
-  import {
-    required,
-    sameAs,
-    minLength,
-    alphaNum,
-    alpha
-  } from 'vuelidate/lib/validators'
-  //import email from 'utilities/validators/email'
   import axios from 'axios'
-  //import 'utilities/string'
-  // import {
-  //   Summary
-  // } from 'utilities/validationSummary'
   import {
     signup
   } from 'services/account'
@@ -83,41 +68,15 @@
         }
       }
     },
-    validations: {
-      credentials: {
-        email: {
-          required,
-          alpha,
-          minLength: minLength(5)
-        },
-        password: {
-          required,
-          alphaNum,
-          minLength: minLength(5)
-        },
-        confirmPassword: {
-          required,
-          sameAs: sameAs('password')
-        }
-      }
-    },
     computed: {
-      //validationSummary: Summary,
-      getFirstError: function (model) {
-        console.log(this, model);
-        var _self = this;
-        if (!model) return;
-        var val = _self.$v[model];
-        if (!val.$error) return;
-        //var val
 
-      }
     },
     methods: {
       signup: function (event) {
         event.preventDefault();
         var _self = this;
-        _self.$v.$touch();
+        /*
+        //_self.$v.$touch();
 
         if (_self.$v.$invalid) {
           return false;
@@ -133,7 +92,7 @@
             console.log(err);
           });
 
-        }
+      }*/
       }
     },
     ready: function () {
