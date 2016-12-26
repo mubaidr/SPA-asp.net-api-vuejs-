@@ -14,7 +14,7 @@ namespace MBO_API.Controllers
 {
     public class CategoriesController : ApiController
     {
-        private MBO_API_Context db = new MBO_API_Context();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Categories
         public IQueryable<Category> GetCategory()

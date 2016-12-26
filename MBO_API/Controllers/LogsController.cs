@@ -14,7 +14,7 @@ namespace MBO_API.Controllers
 {
     public class LogsController : ApiController
     {
-        private MBO_API_Context db = new MBO_API_Context();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Logs
         public IQueryable<Log> GetLog()

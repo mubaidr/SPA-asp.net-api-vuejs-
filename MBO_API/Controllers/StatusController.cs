@@ -14,7 +14,7 @@ namespace MBO_API.Controllers
 {
     public class StatusController : ApiController
     {
-        private MBO_API_Context db = new MBO_API_Context();
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Status
         public IQueryable<Status> GetStatus()

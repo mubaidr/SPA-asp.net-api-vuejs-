@@ -71,7 +71,7 @@
         status: {
           loading: false,
           valid: true,
-          message: ''
+          message: ' '
         }
       }
     },

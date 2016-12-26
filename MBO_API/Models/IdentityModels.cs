@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity;
 
 namespace MBO_API.Models
 {
@@ -41,16 +42,15 @@ namespace MBO_API.Models
             return new ApplicationDbContext();
         }
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
+        public virtual DbSet<MainTask> MainTask { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
 
-        //    modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-        //    modelBuilder.Entity<IdentityUserClaim>().ToTable("IdentityUserClaims").HasKey(u => u.Id);
-        //    modelBuilder.Entity<IdentityUserLogin>().ToTable("IdentityUserLogins").HasKey(l => new { l.UserId, l.ProviderKey });
-        //    modelBuilder.Entity<IdentityRole>().ToTable("IdentityRoles").HasKey<string>(r => r.Id);
-        //    modelBuilder.Entity<IdentityUserRole>().ToTable("IdentityUserRoles").HasKey(r => new { r.RoleId, r.UserId });
-        //    modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUsers").HasKey(u => u.Id);
-        //}
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

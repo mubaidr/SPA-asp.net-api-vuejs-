@@ -7,14 +7,14 @@ namespace MBO_API.Migrations
     using MBO_API.Models;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MBO_API.Models.MBO_API_Context>
+    internal sealed class Configuration : DbMigrationsConfiguration<MBO_API.Models.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MBO_API.Models.MBO_API_Context context)
+        protected override void Seed(MBO_API.Models.ApplicationDbContext context)
         {
             context.Category.AddRange(new List<Category> {
                 new Category { Title="Recruitment", Description="Recruitment"},
