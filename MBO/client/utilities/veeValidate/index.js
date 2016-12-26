@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 
 const config = {
@@ -10,4 +10,16 @@ const config = {
   strict: true
 };
 
-Vue.use(VeeValidate)
+const dictionary = {
+  en: {
+    attributes: {
+      email: 'Email Address',
+      username: 'Username',
+      password: 'Password',
+      confirmPassword: 'Confirm Password'
+    }
+  }
+};
+
+VeeValidate.Validator.updateDictionary(dictionary);
+Vue.use(VeeValidate);
