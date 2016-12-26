@@ -1,5 +1,6 @@
 module.exports = {
-  signup: signup
+  signup: signup,
+  signin: signin
 }
 import axios from 'axios'
 import api from 'api'

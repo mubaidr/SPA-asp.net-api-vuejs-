@@ -16,11 +16,11 @@
 		  <md-spinner md-indeterminate class="md-accent" v-show="status.loading"></md-spinner>
 		</md-card-header>
 		<md-card-content>    
-		  <md-input-container :class="{'md-input-invalid': errors.has('username')}">
-			<label>Username</label>
-			<md-input v-model="credentials.username" type="username" name="username" v-validate data-vv-name="username" data-vv-rules="required|alpha|min:5"
+		  <md-input-container :class="{'md-input-invalid': errors.has('email')}">
+			<label>Email</label>
+			<md-input v-model="credentials.email" type="email" name="email" v-validate data-vv-name="email" data-vv-rules="required|email|min:5"
 			  :disabled="status.loading"></md-input>
-			<span class="md-error">{{errors.first('username')}}</div>
+			<span class="md-error">{{errors.first('email')}}</div>
 		  </md-input-container>
 		  <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
 			<label>Password</label>
@@ -41,7 +41,6 @@
 		  <div v-show="!status.valid" class="red">
 			  {{status.message}}
 		  </div>
-		  <!--<pre>{{errors.collect()}}</pre>-->
 		</md-card-content>
 	  </md-card>
 	</md-layout>
@@ -50,7 +49,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import {
 	signup
   } from 'services/account'
@@ -59,7 +57,7 @@
     data: function () {
       return {
         credentials: {
-          username: 'tester',
+          email: 'tester@test.com',
           password: 'tester',
           confirmPassword: 'tester'
         },
@@ -85,7 +83,7 @@
         var _self = this;
         _self.status.loading = true;
         signup({
-          Email: this.credentials.username,
+          Email: this.credentials.email,
           Password: this.credentials.password,
           ConfirmPassword: this.credentials.confirmPassword
         }).then(function (res) {
@@ -93,7 +91,7 @@
           console.log('res', res);
         }).catch(function (err) {
           _self.status.loading = false;
-          console.log('res', err);
+          console.log('err', err);
         });
       }
     },
