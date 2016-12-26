@@ -104,7 +104,7 @@ body {
 }
 
 .card-media-animation {
-  animation: animationFrames linear 120s;
+  animation: animationFrames linear 240s;
   -moz-animation-timing-function: ease-out;
   animation-iteration-count: infinite;
   transform-origin: 50% 50%;
@@ -115,7 +115,7 @@ body {
     transform: translateY(-50%) scale(1);
   }
   50% {
-    transform: translateY(0) scale(3);
+    transform: translateY(0) scale(1.5);
   }
   100% {
     transform: translateY(-50%) scale(1);

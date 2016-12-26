@@ -35,19 +35,18 @@
 		</md-card-content>
 		<md-card-actions>
 		  <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-		  <md-button class="md-raised md-accent" @click="validateBeforeSubmit" :disabled="status.loading">Register</md-button>
+		  <md-button id="btnSubmit" class="md-raised md-accent" @click="validateBeforeSubmit" :disabled="status.loading">Register</md-button>
 		</md-card-actions>
-		<md-card-content>
-    <!-- 
-    <div v-show="!status.valid" class="md-input-container md-input-invalid md-theme-default">
-      <p>Error: </p>
-		  <span class="md-error">{{status.message}}</span>
-    </div>
-    -->
-    <md-dialog-alert
-      :md-content="status.message"      
-      ref="warning-alert">
-    </md-dialog-alert>
+		<md-card-content>    
+      <md-dialog  md-open-from="#btnSubmit" md-close-to="#btnSubmit" ref="warning-alert" @open="dialogOpened" @close="dialogClosed">
+        <md-dialog-title><md-icon>alert</md-icon> Error</md-dialog-title>
+        <md-dialog-content>
+          <p>{{status.message}}</p>          
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="dialogClose">Retry</md-button>
+        </md-dialog-actions>
+      </md-dialog>
 		</md-card-content>
 	  </md-card>
 	</md-layout>
@@ -57,7 +56,7 @@
 
 <script>
   import {
-    signup
+    signup, signin
   } from 'services/account'
 
   export default {
@@ -65,8 +64,8 @@
       return {
         credentials: {
           Email: 'tester@test.com',
-          Password: 'tester_!123.',
-          ConfirmPassword: 'tester_!123.'
+          Password: 'tester1234',
+          ConfirmPassword: 'tester1234'
         },
         status: {
           loading: false,
@@ -92,23 +91,30 @@
           _self.status.loading = false;
           _self.status.valid = true;
 
+          //TODO clear from
+          //TODO show login progress
+          //TODO redirect to dashboard
+          //TODO check already exisitng user
+
           console.log('res', res);
         }).catch(function (err) {
           _self.status.loading = false;
           _self.status.valid = false;
 
           _self.status.message = err.response.data.Message;
-          _self.alertShow();
+          _self.dialogOpen();
         });
 
       },
-      alertShow: function(){
+      dialogOpen: function(){
         this.$refs['warning-alert'].open();
       },
-      alertOpen: function(){
-
+      dialogClose: function(){
+        this.$refs['warning-alert'].close();
       },
-      alertClose: function(){
+      dialogOpened: function(){
+      },
+      dialogClosed: function(){
         _self.status.valid = true;
       }
     },
