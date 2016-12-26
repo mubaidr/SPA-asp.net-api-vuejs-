@@ -1,12 +1,11 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="md-large">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="md-dense">
       <div class="md-toolbar-container">
       </div>
       <div class="md-toolbar-container">
         <md-button @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
-          <!--Menu-->
         </md-button>
         <md-layout md-hide-medium>
           <h2 class="md-title">Get Busy with Management By Objectives!</h2>

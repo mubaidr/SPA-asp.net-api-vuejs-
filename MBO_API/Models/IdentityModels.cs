@@ -32,7 +32,7 @@ namespace MBO_API.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DHRD_MBO", throwIfV1Schema: false)
+            : base("MBO", throwIfV1Schema: false)
         {
         }
         

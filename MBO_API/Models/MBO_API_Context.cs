@@ -11,7 +11,7 @@ namespace MBO_API.Models
     public class MBO_API_Context : DbContext
     {
         public MBO_API_Context()
-            : base("DHRD_MBO")
+            : base("MBO")
         {
         }
         
