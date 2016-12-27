@@ -14,8 +14,8 @@ import Profile from 'components/Account/Profile'
 import Signout from 'components/Account/Signout'
 import Recover from 'components/Account/Recover'
 //Data
-import Settings from 'components/Management/Settings/'
 import Dashboard from 'components/Management/Dashboard/'
+import Settings from 'components/Management/Settings/'
 import Search from 'components/Management/Search/'
 
 Vue.use(Router)

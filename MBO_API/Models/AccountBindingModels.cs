@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
 namespace MBO_API.Models
@@ -33,7 +32,7 @@ namespace MBO_API.Models
     }
 
     public class RegisterBindingModel
-    {
+    {        
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }

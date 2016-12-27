@@ -1,11 +1,8 @@
 namespace MBO_API.Migrations
 {
-    using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using MBO_API.Models;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<MBO_API.Models.ApplicationDbContext>
     {

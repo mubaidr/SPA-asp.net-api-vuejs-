@@ -4,94 +4,134 @@
     </md-layout>
     <md-layout>
       <md-card class="full-width">
-        <md-card-media>
-          <md-ink-ripple></md-ink-ripple>
-          <img src="../../assets/backgrounds/31.jpg" alt="sun" class="card-media-animation">
-        </md-card-media>
-        <md-card-header>
-          <md-card-header-text>
-            <div class="md-title">Create an account</div>
-            <div class="md-subhead">Please provide required information.</div>
-          </md-card-header-text>
-          <md-spinner md-indeterminate class="md-accent" v-show="progress.loading"></md-spinner>
-        </md-card-header>
-        <md-card-content>
-          <md-input-container :class="{'md-input-invalid': errors.length}">
-            <label>Username</label>
-            <md-input v-model="credentials.email" type="email" name="email" v-model.trim="credentials.email"></md-input>
-            <span class="md-error"></div>
-          </md-input-container>
-          <md-input-container md-has-password :class="{'md-input-invalid': errors.length}">
-            <label>Password</label>
-            <md-input v-model="credentials.password" type="password" name="password" v-model.trim="credentials.password"></md-input>
-            <span class="md-error"></div>
-          </md-input-container>
-          <md-input-container md-has-password :class="{'md-input-invalid': errors.length}">
-            <label>Confirm Password</label>
-            <md-input v-model="credentials.confirmPassword" type="password" name="confirmPassword" v-model.trim="credentials.confirmPassword"></md-input>
-            <span class="md-error"></div>
-          </md-input-container>
-        </md-card-content>
-        <md-card-actions>
-          <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-          <md-button class="md-raised md-accent" @click="signup">Register</md-button>
-        </md-card-actions>
-        <md-card-content>
-          <div v-show="progress.statusMessage" class="alert alert-danger">
-            {{progress.statusMessage}}
-          </div>
-          <pre>{{errors}}</pre>
-        </md-card-content>
+      <md-card-media>
+        <md-ink-ripple></md-ink-ripple>
+        <img src="../../assets/backgrounds/20.jpg" alt="sun" class="card-media-animation">
+      </md-card-media>
+      <md-card-header>
+        <md-card-header-text>
+        <div class="md-title">Signin to your account</div>
+        <div class="md-subhead">Please enter Email and password.</div>
+        </md-card-header-text>
+        <md-spinner md-indeterminate class="md-accent" v-show="status.loading"></md-spinner>
+      </md-card-header>
+      <md-card-content>    
+        <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
+        <label>Email</label>
+        <md-input v-model="credentials.UserName" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"
+          :disabled="status.loading"></md-input>
+        <span class="md-error">{{errors.first('Email')}}</div>
+        </md-input-container>
+        <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
+        <label>Password</label>
+        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6" :disabled="status.loading"></md-input>
+        <span class="md-error">{{errors.first('Password')}}</div>
+        </md-input-container>        
+      </md-card-content>
+      <md-card-actions>
+        <router-link tag="md-button" to="/recover" class="md-accent">Forgot password??</router-link>
+        <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Sing In</md-button>
+      </md-card-actions>
+      <md-card-content>
+        <p></p>
+      </md-card-content>
       </md-card>
     </md-layout>
     <md-layout md-hide-small></md-layout>
+    <md-dialog md-close-to="#btnSubmit" ref="warning-alert" @open="dialogOpened" @close="dialogClosed">
+          <md-dialog-title class="error"><md-icon>alert</md-icon> Error</md-dialog-title>
+          <md-dialog-content>
+            <p>{{status.message}}</p>
+            <br/>
+            <ul class="list-error">
+              <li v-for="detail in status.details">
+                {{detail}}
+              </li>
+            </ul>
+          </md-dialog-content>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="dialogClose">Retry</md-button>
+          </md-dialog-actions>
+        </md-dialog>
   </md-layout>
 </template>
+
 <script>
-  import axios from 'axios'
   import {
-    signup
+    signin
   } from 'services/account'
 
-  export default {
+  export default {    
     data: function () {
       return {
         credentials: {
-          email: '',
-          password: '',
-          confirmPassword: ''
+          UserName: 'tester@test.com',
+          Password: 'tester1234'
         },
-        progress: {
+        status: {
           loading: false,
-          statusMessage: ''
+          valid: true,
+          message: '',
+          details: []
         }
       }
     },
-    computed: {
-
-    },
     methods: {
-      signup: function (event) {
-        event.preventDefault();
+      formValidate: function (event) {
         var _self = this;
-        /*
-        //_self.$v.$touch();
+        event.preventDefault();
+        _self.$validator.validateAll().then(success => {
+          if (!success) return;
+          _self.formSubmit();
+        });
+      },
+      formSubmit: function () {
+        var _self = this;
+        _self.status.loading = true;
 
-        if (_self.$v.$invalid) {
-          return false;
-        } else {
+        signin(this.credentials).then(function (res) {
+          _self.status.loading = false;
+          _self.status.valid = true;
 
-          signup({
-            Email: this.credentials.email,
-            Password: this.credentials.password,
-            ConfirmPassword: this.credentials.confirmPassword
-          }).then(function (res) {
-            console.log(res);
-          }).catch(function (err) {
-            console.log(err);
-          });
+          
 
-      }*/
+          console.log('res', res);
+        }).catch(function (err) {
+          _self.status.loading = false;
+          _self.status.valid = false;
+
+          _self.status.details.length = 0;
+          if(!err.response || !err.response.data) {
+            _self.status.message = "Unable to contact server!";
+            return;
+          }else if(typeof err.response.data.error === 'string'){
+            _self.status.message = err.response.data.error;
+            _self.status.details.push(err.response.data.error_description);
+          }else if(typeof err.response.data.ModelState === 'object'){
+            var modelState = err.response.data.ModelState[""];
+            _self.status.message = err.response.data.Message;
+
+            for(var i=0; i< modelState.length; i++){
+              _self.status.details.push(modelState[i]);
+            }
+          }else{
+            _self.status.message = "Something went wrong!";        
+          }
+
+          _self.dialogOpen();
+        });
+
+      },
+      dialogOpen: function(){
+        this.$refs['warning-alert'].open();
+      },
+      dialogClose: function(){
+        this.$refs['warning-alert'].close();
+      },
+      dialogOpened: function(){
+      },
+      dialogClosed: function(){
+        this.status.valid = true;
       }
     },
     ready: function () {

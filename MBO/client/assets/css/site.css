@@ -10,11 +10,11 @@ body {
 /*Route change animations*/
 
 .slide-fade-enter-active {
-  transition: all .5s ease-out;
+  transition: all .25s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all .1s ease-in;
+  transition: all .1s ease;
 }
 
 .slide-fade-enter {
@@ -23,7 +23,7 @@ body {
 }
 
 .slide-fade-leave-active {
-  transform: translateY(100px);
+  transform: translateY(20px);
   opacity: 0;
 }
 
@@ -39,14 +39,12 @@ body {
 /*Footer*/
 
 .footer {
-  padding: 25px;
-  background-color: red;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  margin-top: 50px;
+  padding: 50px;
   background-color: #f5f5f5;
+  z-index: 100;
   /*debug*/
-  display: none;
+  /*display: none;*/
 }
 
 
@@ -127,4 +125,8 @@ body {
 
 .list-error {
   padding-left: 15px;
+}
+
+.error {
+  color: orangered;
 }

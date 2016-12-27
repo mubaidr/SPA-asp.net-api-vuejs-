@@ -18,13 +18,13 @@
       <md-card-content>    
         <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
         <label>Email</label>
-        <md-input v-model="credentials.Email" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:5"
+        <md-input v-model="credentials.Email" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"
           :disabled="status.loading"></md-input>
         <span class="md-error">{{errors.first('Email')}}</div>
         </md-input-container>
         <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
         <label>Password</label>
-        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:5" :disabled="status.loading"></md-input>
+        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6" :disabled="status.loading"></md-input>
         <span class="md-error">{{errors.first('Password')}}</div>
         </md-input-container>
         <md-input-container md-has-password :class="{'md-input-invalid': errors.has('ConfirmPassword')}">
@@ -38,11 +38,10 @@
         <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Register</md-button>
       </md-card-actions>
       <md-card-content>    
-        <md-dialog  md-open-from="#btnSubmit" md-close-to="#btnSubmit" ref="warning-alert" @open="dialogOpened" @close="dialogClosed">
-          <md-dialog-title><md-icon>alert</md-icon> Error</md-dialog-title>
+        <md-dialog md-close-to="#btnSubmit" ref="warning-alert" @open="dialogOpened" @close="dialogClosed">
+          <md-dialog-title class="error"><md-icon>alert</md-icon> Error</md-dialog-title>
           <md-dialog-content>
             <p>{{status.message}}</p>
-            <br/>
             <ul class="list-error">
               <li v-for="detail in status.details">
                 {{detail}}
@@ -50,7 +49,7 @@
             </ul>
           </md-dialog-content>
           <md-dialog-actions>
-            <md-button class="md-primary" @click="dialogClose">Retry</md-button>
+            <md-button class="md-accent" @click="dialogClose">Retry</md-button>
           </md-dialog-actions>
         </md-dialog>
       </md-card-content>
@@ -101,23 +100,30 @@
           //TODO show login progress
           //TODO clear form
           //TODO redirect to dashboard
-          //TODO check already exisitng user
 
           console.log('res', res);
         }).catch(function (err) {
           _self.status.loading = false;
           _self.status.valid = false;
 
-          _self.status.message = err.response.data.Message;
-          if(typeof err.response.data.ModelState === 'object'){
+          _self.status.details.length = 0;
+          if(!err.response || !err.response.data) {
+            _self.status.message = "Unable to contact server!";
+            return;
+          }else if(typeof err.response.data.error === 'string'){
+            _self.status.message = err.response.data.error;
+            _self.status.details.push(err.response.data.error_description);
+          }else if(typeof err.response.data.ModelState === 'object'){
             var modelState = err.response.data.ModelState[""];
-            _self.status.details.length = 0;
+            _self.status.message = err.response.data.Message;
+
             for(var i=0; i< modelState.length; i++){
               _self.status.details.push(modelState[i]);
             }
           }else{
-            _self.status.details = "";
+            _self.status.message = "Something went wrong!";        
           }
+          
           _self.dialogOpen();
         });
 
