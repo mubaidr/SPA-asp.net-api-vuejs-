@@ -34,6 +34,7 @@
         </md-input-container>
       </md-card-content>
       <md-card-actions>
+      <!--<pre>{{counter}}</pre>-->
         <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
         <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Register</md-button>
       </md-card-actions>
@@ -80,12 +81,20 @@
         }
       }
     },
+    computed:{
+      counter: function(){
+        return this.$store.state.page;
+      }
+    },
     methods: {
       formValidate: function (event) {
         var _self = this;
         event.preventDefault();
         _self.$validator.validateAll().then(success => {
           if (!success) return;
+
+          //_self.$store.commit('isLoading');
+
           _self.formSubmit();
         });
       },
