@@ -123,8 +123,13 @@ body {
 
 /*Error list inside dialog*/
 
-.list-error {
-  padding-left: 15px;
+.form-error {
+  color: orangered;
+}
+
+.form-error ul {
+  list-style: none;
+  padding-left: 0px;
 }
 
 .error {

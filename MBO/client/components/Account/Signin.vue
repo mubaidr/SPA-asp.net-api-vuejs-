@@ -26,7 +26,15 @@
         <label>Password</label>
         <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6" :disabled="status.loading"></md-input>
         <span class="md-error">{{errors.first('Password')}}</div>
-        </md-input-container>        
+        </md-input-container>
+        <div class="form-error">
+          <p>{{status.message}}</p>
+          <ul>
+            <li v-for="detail in status.details">
+              {{detail}}
+            </li>
+          </ul>
+        </div>
       </md-card-content>
       <md-card-actions>
         <router-link tag="md-button" to="/recover" class="md-accent">Forgot password??</router-link>
@@ -34,6 +42,7 @@
       </md-card-actions>
       <md-card-content>
         <p></p>
+        
       </md-card-content>
       </md-card>
     </md-layout>
@@ -66,7 +75,7 @@
       return {
         credentials: {
           UserName: 'tester@test.com',
-          Password: 'tester1234'
+          Password: 'tester1234_'
         },
         status: {
           loading: false,
