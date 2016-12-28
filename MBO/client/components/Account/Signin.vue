@@ -18,17 +18,16 @@
       <md-card-content>    
         <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
         <label>Email</label>
-        <md-input v-model="credentials.UserName" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"
-          :disabled="status.loading"></md-input>
+        <md-input v-model="credentials.UserName" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"></md-input>
         <span class="md-error">{{errors.first('Email')}}</div>
         </md-input-container>
         <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
         <label>Password</label>
-        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6" :disabled="status.loading"></md-input>
+        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
         <span class="md-error">{{errors.first('Password')}}</div>
         </md-input-container>
         <div class="form-error">
-          <p>{{status.message}}</p>
+          <p><md-icon>alert</md-icon> {{status.message}}</p>
           <ul>
             <li v-for="detail in status.details">
               {{detail}}
