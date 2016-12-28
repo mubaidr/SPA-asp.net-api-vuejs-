@@ -31,6 +31,12 @@ export default new Router({
     name: 'home',
     redirect: '/'
   }, {
+    path: '/welcome',
+    name: 'welcome',
+    meta: {
+      requiresAuth: true
+    }
+  }, {
     path: '/about',
     name: 'about',
     component: About

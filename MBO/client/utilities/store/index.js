@@ -4,53 +4,65 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const state = {
+  request: {
+    loading: false,
+    valid: true
+  },
   page: {
-    loading: false, //is request loading?
-    valid: true, //Page state
-    response: {}
+    success: true,
+    message: 'test',
+    details: ['test', 'test']
   }
 }
 
 const mutations = {
   toggleValidity(state) {
-    state.page.valid = !state.page.valid;
+    state.request.valid = !state.request.valid;
   },
   isValid(state) {
-    state.page.valid = true;
+    state.request.valid = true;
   },
   isNotValid(state) {
-    state.page.valid = false;
+    state.request.valid = false;
   },
   toggleLoading(state) {
-    state.page.loading = !state.page.loading;
+    state.request.loading = !state.request.loading;
   },
   isLoading(state) {
-    state.page.loading = true;
+    state.request.loading = true;
   },
   isNotLoading(state) {
-    state.page.loading = false;
+    state.request.loading = false;
   },
-  setResponse(state, response) {
-    state.page.response = response;
+  setResponse(state, err) {
+    state.request.err = err;
   },
-  setState(state, page) {
-    if (typeof page.loading === 'undefined') {
-      page.loading = state.page.loading;
+  setState(state, request) {
+    if (typeof request.loading === 'undefined') {
+      request.loading = state.request.loading;
     }
-    if (typeof page.valid === 'undefined') {
-      page.valid = state.page.valid;
+    if (typeof request.valid === 'undefined') {
+      request.valid = state.request.valid;
     }
-    if (typeof page.response === 'undefined') {
-      page.response = state.page.response;
+    if (typeof request.err === 'undefined') {
+      //request.err = state.request.err;
+      //TODO update page with new messages and details
     }
-    state.page = page;
+    state.request = request;
   }
 }
 
 const actions = {}
 
 //TODO add getter for error object (list and heading)
-const getters = {}
+const getters = {
+  request: function (state) {
+    return state.request;
+  },
+  page: function (state) {
+    return state.page;
+  }
+}
 
 const store = new Vuex.Store({
   state,
