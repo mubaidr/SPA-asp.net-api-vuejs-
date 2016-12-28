@@ -1,68 +1,58 @@
 <template>
   <md-layout md-gutter>
-    <md-layout md-hide-small>
-    </md-layout>
+    <md-layout md-hide-xsmall></md-layout>
+    <md-layout md-hide-medium></md-layout>
     <md-layout>
-      <md-card class="full-width">
-      <md-card-media>
-        <md-ink-ripple></md-ink-ripple>
-        <img src="../../assets/backgrounds/20.jpg" alt="sun" class="card-media-animation">
-      </md-card-media>
-      <md-card-header>
-        <md-card-header-text>
-        <div class="md-title">Create an account</div>
-        <div class="md-subhead">Please provide required information.</div>
-        </md-card-header-text>
-        <md-spinner md-indeterminate class="md-accent" v-show="status.loading"></md-spinner>
-      </md-card-header>
-      <md-card-content>    
-        <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
-        <label>Email</label>
-        <md-input v-model="credentials.Email" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"
-          :disabled="status.loading"></md-input>
-        <span class="md-error">{{errors.first('Email')}}</div>
-        </md-input-container>
-        <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
-        <label>Password</label>
-        <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6" :disabled="status.loading"></md-input>
-        <span class="md-error">{{errors.first('Password')}}</div>
-        </md-input-container>
-        <md-input-container md-has-password :class="{'md-input-invalid': errors.has('ConfirmPassword')}">
-        <label>Confirm Password</label>
-        <md-input v-model="credentials.ConfirmPassword" type="password" name="ConfirmPassword" v-validate data-vv-name="ConfirmPassword" data-vv-rules="required|confirmed:Password" :disabled="status.loading"></md-input>
-        <span class="md-error">{{errors.first('ConfirmPassword')}}</div>
-        </md-input-container>
-      </md-card-content>
-      <md-card-actions>
-      <!--<pre>{{counter}}</pre>-->
-        <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-        <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Register</md-button>
-      </md-card-actions>
-      <md-card-content>    
-        <md-dialog md-close-to="#btnSubmit" ref="warning-alert" @open="dialogOpened" @close="dialogClosed">
-          <md-dialog-title class="error"><md-icon>alert</md-icon> Error</md-dialog-title>
-          <md-dialog-content>
-            <p>{{status.message}}</p>
-            <ul class="list-error">
-              <li v-for="detail in status.details">
-                {{detail}}
-              </li>
-            </ul>
-          </md-dialog-content>
-          <md-dialog-actions>
-            <md-button class="md-accent" @click="dialogClose">Retry</md-button>
-          </md-dialog-actions>
-        </md-dialog>
-      </md-card-content>
-      </md-card>
+      <div class="flex-vertical full-width">
+        <md-card class="full-width">
+          <md-card-header class="indigo">
+            <md-card-header-text>
+              <div class="md-title">Create a new account</div>
+            </md-card-header-text>
+            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="status.loading"></md-spinner>
+          </md-card-header>
+          <md-card-content>
+            <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
+              <label>Email</label>
+              <md-input v-model="credentials.Email" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"></md-input>
+              <span class="md-error">{{errors.first('Email')}}</span>
+            </md-input-container>
+            <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
+              <label>Password</label>
+              <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
+              <span class="md-error">{{errors.first('Password')}}</span>
+            </md-input-container>
+            <md-input-container md-has-password :class="{'md-input-invalid': errors.has('ConfirmPassword')}">
+              <label>Confirm Password</label>
+              <md-input v-model="credentials.ConfirmPassword" type="password" name="ConfirmPassword" v-validate data-vv-name="ConfirmPassword"
+                data-vv-rules="required|confirmed:Password"></md-input>
+              <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
+            </md-input-container>
+            <div class="form-error" v-show="!status.valid">
+              <p>{{status.message}}</p>
+              <ul>
+                <li v-for="detail in status.details">
+                  {{detail}}
+                </li>
+              </ul>
+            </div>
+          </md-card-content>
+          <md-card-actions>
+            <!--<pre>{{counter}}</pre>-->
+            <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Register</md-button>
+          </md-card-actions>
+        </md-card>
+      </div>
     </md-layout>
-    <md-layout md-hide-small></md-layout>
+    <md-layout md-hide-xsmall></md-layout>
+    <md-layout md-hide-medium></md-layout>
   </md-layout>
 </template>
-
 <script>
   import {
-    signup, signin
+    signup,
+    signin
   } from 'services/account'
 
   export default {
@@ -81,8 +71,8 @@
         }
       }
     },
-    computed:{
-      counter: function(){
+    computed: {
+      counter: function () {
         return this.$store.state.page;
       }
     },
@@ -116,41 +106,26 @@
           _self.status.valid = false;
 
           _self.status.details.length = 0;
-          if(!err.response || !err.response.data) {
+          if (!err.response || !err.response.data) {
             _self.status.message = "Unable to contact server!";
             return;
-          }else if(typeof err.response.data.error === 'string'){
+          } else if (typeof err.response.data.error === 'string') {
             _self.status.message = err.response.data.error;
             _self.status.details.push(err.response.data.error_description);
-          }else if(typeof err.response.data.ModelState === 'object'){
+          } else if (typeof err.response.data.ModelState === 'object') {
             var modelState = err.response.data.ModelState[""];
             _self.status.message = err.response.data.Message;
 
-            for(var i=0; i< modelState.length; i++){
+            for (var i = 0; i < modelState.length; i++) {
               _self.status.details.push(modelState[i]);
             }
-          }else{
-            _self.status.message = "Something went wrong!";        
+          } else {
+            _self.status.message = "Something went wrong!";
           }
-          
-          _self.dialogOpen();
+
         });
 
-      },
-      dialogOpen: function(){
-        this.$refs['warning-alert'].open();
-      },
-      dialogClose: function(){
-        this.$refs['warning-alert'].close();
-      },
-      dialogOpened: function(){
-      },
-      dialogClosed: function(){
-        this.status.valid = true;
       }
-    },
-    ready: function () {
-      console.log('ready');
     }
   }
 

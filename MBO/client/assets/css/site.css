@@ -1,9 +1,57 @@
 body {
-  padding-bottom: 100px;
+  background-color: #f5f5f5!important;
 }
 
 .container {
   padding: 15px;
+}
+
+.flex-vertical {
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.right-align {
+  text-align: right;
+}
+
+
+/*Footer*/
+
+.footer {
+  padding: 50px;
+  background-color: #424242;
+  z-index: 100;
+}
+
+
+/*Validation*/
+
+.validation-list {
+  list-style: circle;
+  padding-left: 10px;
+}
+
+
+/*Vue material customize*/
+
+.md-toolbar {
+  /*background-image: url('../../assets/backgrounds/23.jpg');
+  background-position: center top;
+  background-size: cover;
+  background-repeat: no-repeat;*/
+}
+
+.md-card-header.indigo {
+  background-color: #3f51b5;
+  color: rgba(255, 255, 255, .87);
+  margin-bottom: 40px;
 }
 
 
@@ -27,111 +75,15 @@ body {
   opacity: 0;
 }
 
-.right-align {
-  text-align: right;
-}
-
-.full-width {
-  width: 100%;
-}
-
-
-/*Footer*/
-
-.footer {
-  margin-top: 50px;
-  padding: 50px;
-  background-color: #f5f5f5;
-  z-index: 100;
-  /*debug*/
-  /*display: none;*/
-}
-
-
-/*Validation*/
-
-.validation-list {
-  list-style: circle;
-  padding-left: 10px;
-}
-
-
-/*Spinner*/
-
-.backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.5;
-  z-index: 1;
-}
-
-.v-spinner {
-  position: relative;
-  top: 40%;
-  left: 48%;
-}
-
-
-/*Vue material customize*/
-
-.md-toolbar {
-  background-image: url('../../assets/backgrounds/44.jpg');
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-
-/*Show only first error*/
-
-.md-input-invalid div.md-error span.not-valid {
-  display: none;
-}
-
-.md-input-invalid div.md-error span.not-valid:first-child {
-  display: inline-block;
-}
-
-.md-card-media {
-  overflow: hidden;
-  max-height: 128px;
-}
-
-.card-media-animation {
-  animation: animationFrames linear 240s;
-  -moz-animation-timing-function: ease-out;
-  animation-iteration-count: infinite;
-  transform-origin: 50% 50%;
-}
-
-@keyframes animationFrames {
-  0% {
-    transform: translateY(-50%) scale(1);
-  }
-  50% {
-    transform: translateY(0) scale(1.5);
-  }
-  100% {
-    transform: translateY(-50%) scale(1);
-  }
-}
-
 
 /*Error list inside dialog*/
 
-.form-error {
+.form-error,
+.error {
   color: orangered;
 }
 
 .form-error ul {
   list-style: none;
   padding-left: 0px;
-}
-
-.error {
-  color: orangered;
 }

@@ -1,16 +1,13 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="md-dense">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="3">
       <div class="md-toolbar-container">
       </div>
       <div class="md-toolbar-container">
         <md-button @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
         </md-button>
-        <md-layout md-hide-medium>
-          <h2 class="md-title">Get Busy with Management By Objectives!</h2>
-        </md-layout>
-        <span style="flex: 1;"></span>
+        <span style="flex: 1;"><md-layout md-hide-xsmall><h2 class="md-title">Get Busy with Management By Objectives!</h2></md-layout></span>
         <md-menu md-direction="bottom left" v-show="!status.authenticated">
           <md-button md-menu-trigger>
             <!--<md-icon>account_circle</md-icon>-->
