@@ -9,7 +9,7 @@
             <md-card-header-text>
               <div class="md-title">Sign In</div>
             </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent" v-show="status.loading"></md-spinner>
+            <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -22,18 +22,11 @@
               <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
             </md-input-container>
-            <div class="form-error" v-show="!status.valid">
-              <p>{{status.message}}</p>
-              <ul>
-                <li v-for="detail in status.details">
-                  {{detail}}
-                </li>
-              </ul>
-            </div>
+            <app-message></app-message>
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="status.loading">Sing In</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="isLoading">Sing In</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -46,63 +39,53 @@
   import {
     signin
   } from 'services/account'
+  import appMessage from 'components/_custom/app-message.vue'
 
   export default {
+    components: {
+      'app-message': appMessage
+    },
     data: function () {
       return {
         credentials: {
           UserName: 'tester@test.com',
           Password: 'tester1234_'
-        },
-        status: {
-          loading: false,
-          valid: true,
-          message: '',
-          details: []
         }
       }
     },
+    computed: {
+      isLoading: function () {
+        return this.$store.getters.isLoading;
+      },
+    },
     methods: {
       formValidate: function (event) {
-        var _self = this;
         event.preventDefault();
+        var _self = this;
+
         _self.$validator.validateAll().then(success => {
           if (!success) return;
-          _self.formSubmit();
-        });
-      },
-      formSubmit: function () {
-        var _self = this;
-        _self.status.loading = true;
 
-        signin(this.credentials).then(function (res) {
-          _self.status.loading = false;
-          _self.status.valid = true;
+          _self.$store.commit('setState', {
+            loading: true,
+            alert: false
+          });
 
+          signin(this.credentials).then(function (res) {
+            _self.$store.commit('clearState');
 
+            _self.$router.push({
+              name: 'dashboard'
+            });
 
-          console.log('res', res);
-        }).catch(function (err) {
-          _self.status.loading = false;
-          _self.status.valid = false;
+          }).catch(function (err) {
 
-          _self.status.details.length = 0;
-          if (!err.response || !err.response.data) {
-            _self.status.message = "Unable to contact server!";
-            return;
-          } else if (typeof err.response.data.error === 'string') {
-            _self.status.message = err.response.data.error;
-            _self.status.details.push(err.response.data.error_description);
-          } else if (typeof err.response.data.ModelState === 'object') {
-            var modelState = err.response.data.ModelState[""];
-            _self.status.message = err.response.data.Message;
+            _self.$store.commit('isNotLoading');
+            _self.$store.commit('setState', {
+              err: err
+            });
 
-            for (var i = 0; i < modelState.length; i++) {
-              _self.status.details.push(modelState[i]);
-            }
-          } else {
-            _self.status.message = "Something went wrong!";
-          }
+          });
 
         });
       }

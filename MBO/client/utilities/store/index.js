@@ -1,63 +1,65 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from 'utilities/router'
 
 Vue.use(Vuex)
 
 const state = {
-  request: {
-    loading: false,
-    valid: true
-  },
   page: {
+    loading: false,
+    alert: false,
     success: true,
-    message: 'test',
-    details: ['test', 'test']
+    message: '',
+    details: []
   }
 }
 
 const mutations = {
-  toggleValidity(state) {
-    state.request.valid = !state.request.valid;
-  },
-  isValid(state) {
-    state.request.valid = true;
-  },
-  isNotValid(state) {
-    state.request.valid = false;
-  },
-  toggleLoading(state) {
-    state.request.loading = !state.request.loading;
-  },
   isLoading(state) {
-    state.request.loading = true;
+    state.page.loading = true;
   },
   isNotLoading(state) {
-    state.request.loading = false;
+    state.page.loading = false;
   },
-  setResponse(state, err) {
-    state.request.err = err;
+  clearState(state) {
+    state.page.loading = false;
+    state.page.alert = false;
+    state.page.success = true;
+    state.page.message = '';
+    state.page.details.length = 0;
   },
-  setState(state, request) {
-    if (typeof request.loading === 'undefined') {
-      request.loading = state.request.loading;
+  setState(state, obj) {
+    if (obj.err) {
+      state.page.success = false;
+      state.page.alert = true;
+
+      var err = obj.err;
+      state.page.details.length = 0;
+      if (!err.response || !err.response.data) {
+        state.page.message = "Unable to contact server!";
+      } else if (typeof err.response.data.error === 'string') {
+        state.page.message = err.response.data.error;
+        state.page.details.push(err.response.data.error_description);
+      } else if (typeof err.response.data.ModelState === 'object') {
+        //TODO fix this
+        var modelState = err.response.data.ModelState[""];
+        state.page.message = err.response.data.Message;
+
+        for (var i = 0; i < modelState.length; i++) {
+          state.page.details.push(modelState[i]);
+        }
+      } else {
+        state.page.message = "Something went wrong!";
+      }
     }
-    if (typeof request.valid === 'undefined') {
-      request.valid = state.request.valid;
-    }
-    if (typeof request.err === 'undefined') {
-      //request.err = state.request.err;
-      //TODO update page with new messages and details
-    }
-    state.request = request;
   }
 }
 
 const actions = {}
 
-//TODO add getter for error object (list and heading)
 const getters = {
-  request: function (state) {
-    return state.request;
+  isLoading: function (state) {
+    return state.page.loading;
   },
   page: function (state) {
     return state.page;

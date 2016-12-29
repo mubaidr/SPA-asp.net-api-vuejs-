@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from 'utilities/store'
+
 //Anonymous
 import Home from 'components/Home/Home'
 import About from 'components/Home/About'
@@ -20,7 +22,7 @@ import Search from 'components/Management/Search/'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   mode: 'history',
   root: '/',
   routes: [{
@@ -103,21 +105,24 @@ export default new Router({
   }]
 })
 
-/*
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!auth.loggedIn()) {
-      next({
-        path: '/login',
-        query: {
-          redirect: to.fullPath
-        }
-      })
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
+  // if (to.matched.some(record => record.meta.requiresAuth)) {
+  //   if (!auth.loggedIn()) {
+  //     next({
+  //       path: '/login',
+  //       query: {
+  //         redirect: to.fullPath
+  //       }
+  //     })
+  //   } else {
+  //     next();
+  //   }
+  // } else {
+  //   next();
+  // }
+
+  //Clear page state
+  store.commit('clearState')
 });
-*/
+
+export default router

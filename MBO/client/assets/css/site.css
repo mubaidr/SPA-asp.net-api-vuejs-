@@ -21,6 +21,10 @@ body {
   text-align: right;
 }
 
+.error {
+  color: #ff5722;
+}
+
 
 /*Footer*/
 
@@ -28,14 +32,6 @@ body {
   padding: 50px;
   background-color: #424242;
   z-index: 100;
-}
-
-
-/*Validation*/
-
-.validation-list {
-  list-style: circle;
-  padding-left: 10px;
 }
 
 
@@ -73,17 +69,4 @@ body {
 .slide-fade-leave-active {
   transform: translateY(20px);
   opacity: 0;
-}
-
-
-/*Error list inside dialog*/
-
-.form-error,
-.error {
-  color: orangered;
-}
-
-.form-error ul {
-  list-style: none;
-  padding-left: 0px;
 }

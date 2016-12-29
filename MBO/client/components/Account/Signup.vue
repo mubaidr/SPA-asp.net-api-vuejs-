@@ -8,8 +8,9 @@
           <md-card-header class="indigo">
             <md-card-header-text>
               <div class="md-title">Create a new account</div>
+              <span>Sign Up</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="request.loading"></md-spinner>
+            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="isLoading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -28,21 +29,11 @@
                 data-vv-rules="required|confirmed:Password"></md-input>
               <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
             </md-input-container>
-            <div class="form-error" v-show="!request.valid">
-              <p>{{page.message}}</p>
-              <ul>
-                <li v-for="detail in page.details">
-                  {{detail}}
-                </li>
-              </ul>
-            </div>
+            <app-message></app-message>
           </md-card-content>
           <md-card-actions>
-            <!--<pre>this: {{page}}</pre>
-            <br/>
-            <pre>this: {{request}}</pre>-->
             <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="request.loading">Register</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="isLoading">Sign Up</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -56,8 +47,12 @@
     signup,
     signin
   } from 'services/account'
+  import appMessage from 'components/_custom/app-message.vue'
 
   export default {
+    components: {
+      'app-message': appMessage
+    },
     data: function () {
       return {
         credentials: {
@@ -68,40 +63,40 @@
       }
     },
     computed: {
-      page: function () {
-        return this.$store.getters.page;
+      isLoading: function () {
+        return this.$store.getters.isLoading;
       },
-      request: function () {
-        return this.$store.getters.request;
-      }
     },
     methods: {
       formValidate: function (event) {
-        var _self = this;
         event.preventDefault();
+        var _self = this;
+
         _self.$validator.validateAll().then(success => {
           if (!success) return;
 
           _self.$store.commit('setState', {
             loading: true,
-            valid: true
+            alert: false
           });
 
           signup(this.credentials).then(function (res) {
-            _self.$store.commit('setState', {
-              loading: false,
-              valid: true,
-              err: {}
+            _self.$store.commit('clearState');
+
+            _self.$router.push({
+              name: 'signin',
+              params: {
+                message: 'signup-success'
+              }
             });
 
-            //TODO $router go to login with message
-            _self.$router.go('login');
           }).catch(function (err) {
+
+            _self.$store.commit('isNotLoading');
             _self.$store.commit('setState', {
-              loading: false,
-              valid: false,
               err: err
             });
+
           });
         });
 
