@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from 'utilities/router'
+import session from 'utilities/session'
 
 Vue.use(Vuex)
 
 const state = {
-  authentication: {},
+  auth: session.get(),
   page: {
     loading: false,
     alert: false,
@@ -17,10 +18,12 @@ const state = {
 
 const mutations = {
   setAuthentication(state, auth) {
-    state.authentication = auth;
+    state.auth = auth;
+    session.set(auth);
   },
   removeAuthentication(state) {
-    state.authentication = {};
+    state.auth = null;
+    session.clear();
   },
   isLoading(state) {
     state.page.loading = true;
@@ -84,8 +87,7 @@ const actions = {}
 
 const getters = {
   isAuhtenticated: function (state) {
-    //TODO validate token and time
-    return false;
+    return state.auth !== null && typeof state.auth !== 'undefined';
   },
   isLoading: function (state) {
     return state.page.loading;
