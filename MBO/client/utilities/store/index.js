@@ -85,7 +85,7 @@ const actions = {}
 const getters = {
   isAuhtenticated: function (state) {
     //TODO validate token and time
-    return true;
+    return false;
   },
   isLoading: function (state) {
     return state.page.loading;

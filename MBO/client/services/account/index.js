@@ -1,9 +1,9 @@
-module.exports = {
-  signup: signup,
-  signin: signin
+export {
+  signup,
+  signin
 }
 import api from 'api'
-import axios from 'axios'
+import axios from 'utilities/axios'
 import qs from 'qs'
 
 function signup(obj) {
