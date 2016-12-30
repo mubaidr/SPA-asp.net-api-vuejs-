@@ -49,7 +49,7 @@
       return {
         credentials: {
           UserName: 'tester@test.com',
-          Password: 'tester1234_'
+          Password: 'tester1234'
         }
       }
     },
@@ -72,7 +72,6 @@
           });
 
           signin(this.credentials).then(function (res) {
-            _self.$store.commit('clearState');
 
             _self.$router.push({
               name: 'dashboard'

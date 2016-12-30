@@ -22,11 +22,12 @@ import Search from 'components/Management/Search/'
 
 Vue.use(Router)
 
-var router = new Router({
+const router = new Router({
   mode: 'history',
   root: '/',
   routes: [{
     path: '/',
+    name: 'root',
     component: Home
   }, {
     path: '/home',
@@ -106,6 +107,19 @@ var router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  store.commit('clearState');
+  var _message_content = to.params.message;
+  if (_message_content) {
+    var _message_type = to.params.type;
+
+    store.commit('setMessage', {
+      message: _message_content,
+      type: _message_type || 'success'
+    })
+
+  }
+
+  next();
   // if (to.matched.some(record => record.meta.requiresAuth)) {
   //   if (!auth.loggedIn()) {
   //     next({
@@ -120,9 +134,6 @@ router.beforeEach((to, from, next) => {
   // } else {
   //   next();
   // }
-
-  //Clear page state
-  store.commit('clearState')
 });
 
 export default router

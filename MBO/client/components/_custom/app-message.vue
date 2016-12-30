@@ -1,5 +1,5 @@
 <template>
-  <div class="form-message" :class="type" v-show="page.alert">
+  <div class="form-message" :class="page.type" v-show="page.alert">
     <!--<pre>{{page}}</pre>-->
     <p>{{page.message}}</p>
     <ul v-show="page.details.length">
@@ -15,16 +15,13 @@
     computed: {
       page: function () {
         return this.$store.getters.page;
-      },
-      type: function () {
-        return this.page.success ? 'success' : 'fail';
       }
     }
   }
 
 </script>
 <style>
-  .form-message {
+  .form-message.info {
     color: #4c1f50;
   }
   
@@ -32,8 +29,7 @@
     color: #4caf50;
   }
   
-  .form-message.fail,
-  .error {
+  .form-message.fail {
     color: #ff5722;
   }
   

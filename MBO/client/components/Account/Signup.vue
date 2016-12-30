@@ -18,7 +18,7 @@
               <md-input v-model="credentials.Email" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"></md-input>
               <span class="md-error">{{errors.first('Email')}}</span>
             </md-input-container>
-            <md-input-container md-has-password :class="{'md-input-invalid': errors.has('password')}">
+            <md-input-container md-has-password :class="{'md-input-invalid': errors.has('Password')}">
               <label>Password</label>
               <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
@@ -44,8 +44,7 @@
 </template>
 <script>
   import {
-    signup,
-    signin
+    signup
   } from 'services/account'
   import appMessage from 'components/_custom/app-message.vue'
 
@@ -56,9 +55,9 @@
     data: function () {
       return {
         credentials: {
-          Email: 'tester5@test.com',
-          Password: 'tester1234',
-          ConfirmPassword: 'tester1234'
+          Email: '',
+          Password: '',
+          ConfirmPassword: ''
         }
       }
     },
@@ -81,7 +80,6 @@
           });
 
           signup(this.credentials).then(function (res) {
-            _self.$store.commit('clearState');
 
             _self.$router.push({
               name: 'signin',

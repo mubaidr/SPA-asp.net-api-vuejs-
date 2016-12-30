@@ -8,7 +8,7 @@ const state = {
   page: {
     loading: false,
     alert: false,
-    success: true,
+    type: 'info', //info, success, fail
     message: '',
     details: []
   }
@@ -24,13 +24,22 @@ const mutations = {
   clearState(state) {
     state.page.loading = false;
     state.page.alert = false;
-    state.page.success = true;
+    state.page.type = 'info';
     state.page.message = '';
     state.page.details.length = 0;
   },
+  setMessage(state, obj) {
+    state.page.type = obj.type;
+    state.page.alert = true;
+    switch (obj.message) {
+      case 'signup-success':
+        state.page.message = 'You have succeesfully signed up!';
+        break;
+    }
+  },
   setState(state, obj) {
     if (obj.err) {
-      state.page.success = false;
+      state.page.type = 'error';
       state.page.alert = true;
 
       var err = obj.err;
@@ -38,19 +47,28 @@ const mutations = {
       if (!err.response || !err.response.data) {
         state.page.message = "Unable to contact server!";
       } else if (typeof err.response.data.error === 'string') {
-        state.page.message = err.response.data.error;
-        state.page.details.push(err.response.data.error_description);
+        state.page.message = err.response.data.error_description;
       } else if (typeof err.response.data.ModelState === 'object') {
-        //TODO fix this
-        var modelState = err.response.data.ModelState[""];
-        state.page.message = err.response.data.Message;
+        //state.page.message = 'Please fix following errors: ';
+        var _model_state = err.response.data.ModelState;
 
-        for (var i = 0; i < modelState.length; i++) {
-          state.page.details.push(modelState[i]);
-        }
+        Object.keys(_model_state).forEach(function (key) {
+          var val = _model_state[key];
+          if (typeof val === "object" && val.length) {
+            val.forEach(function (msg) {
+              state.page.details.push(msg);
+            });
+          } else {
+            state.page.details.push(val);
+          }
+        });
+
       } else {
         state.page.message = "Something went wrong!";
       }
+    } else {
+      state.page.loading = obj.loading;
+      state.page.alert = false;
     }
   }
 }
