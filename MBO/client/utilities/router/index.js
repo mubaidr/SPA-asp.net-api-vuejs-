@@ -119,21 +119,33 @@ router.beforeEach((to, from, next) => {
 
   }
 
-  next();
-  // if (to.matched.some(record => record.meta.requiresAuth)) {
-  //   if (!auth.loggedIn()) {
-  //     next({
-  //       path: '/login',
-  //       query: {
-  //         redirect: to.fullPath
-  //       }
-  //     })
-  //   } else {
-  //     next();
-  //   }
-  // } else {
-  //   next();
-  // }
+  if (store.getters.isAuhtenticated) {
+    var _not_valid = ['signin', 'signup', 'recover'];
+    if (_not_valid.lastIndexOf(to.name) >= 0) {
+      next({
+        name: 'dashboard'
+      })
+    } else if (to.name === 'signout') {
+      store.commit('removeAuthentication');
+      next({
+        name: 'home'
+      })
+    } else {
+      next();
+    }
+  } else {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      next({
+        name: 'login',
+        query: {
+          redirect: to.fullPath
+        }
+      })
+    } else {
+      next();
+    }
+  }
+
 });
 
 export default router

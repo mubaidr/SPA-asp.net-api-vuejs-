@@ -5,6 +5,7 @@ import router from 'utilities/router'
 Vue.use(Vuex)
 
 const state = {
+  authentication: {},
   page: {
     loading: false,
     alert: false,
@@ -15,6 +16,12 @@ const state = {
 }
 
 const mutations = {
+  setAuthentication(state, auth) {
+    state.authentication = auth;
+  },
+  removeAuthentication(state) {
+    state.authentication = {};
+  },
   isLoading(state) {
     state.page.loading = true;
   },
@@ -76,6 +83,10 @@ const mutations = {
 const actions = {}
 
 const getters = {
+  isAuhtenticated: function (state) {
+    //TODO validate token and time
+    return true;
+  },
   isLoading: function (state) {
     return state.page.loading;
   },
