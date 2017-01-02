@@ -1,15 +1,24 @@
 <template>
-    <div>
-        
-    </div>
+  <div>
+  </div>
 </template>
-
 <script>
-export default {
+  import {
+    create
+  } from 'services/tasks'
+  import appMessage from 'components/_custom/app-message.vue'
 
-}
+  export default {
+    components: {
+      'app-message': appMessage
+    },
+    data: function () {
+      return {}
+    }
+  }
+
 </script>
-
 <style scoped>
+
 
 </style>
