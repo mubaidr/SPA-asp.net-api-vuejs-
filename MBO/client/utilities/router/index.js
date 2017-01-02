@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from 'utilities/store'
-
 //Anonymous
 import Home from 'components/Home/Home'
 import About from 'components/Home/About'
@@ -16,9 +15,9 @@ import Profile from 'components/Account/Profile'
 import Signout from 'components/Account/Signout'
 import Recover from 'components/Account/Recover'
 //Data
-import Dashboard from 'components/Management/Dashboard/'
-import Settings from 'components/Management/Settings/'
-import Search from 'components/Management/Search/'
+import Dashboard from 'components/Management/Dashboard.vue'
+import Settings from 'components/Management/Settings.vue'
+import Search from 'components/Management/Search.vue'
 
 Vue.use(Router)
 

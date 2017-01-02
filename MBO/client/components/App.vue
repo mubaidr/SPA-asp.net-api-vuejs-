@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-  import Header from './Header'
-  import Footer from './Footer'
+  import Header from './Layout/Header'
+  import Footer from './Layout/Footer'
 
   export default {
     components: {

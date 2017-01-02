@@ -8,9 +8,8 @@
           <md-icon>menu</md-icon>
         </md-button>
         <span style="flex: 1;"><md-layout md-hide-xsmall><h2 class="md-title">Get Busy with Management By Objectives!</h2></md-layout></span>
-        <md-menu md-direction="bottom left" v-show="!status.authenticated">
+        <md-menu md-direction="bottom left" v-show="!isAuthenticated">
           <md-button md-menu-trigger>
-            <!--<md-icon>account_circle</md-icon>-->
             My Account
             <md-icon>more_vert</md-icon>
           </md-button>
@@ -29,23 +28,23 @@
             </md-menu-item>
           </md-menu-content>
         </md-menu>
-        <md-menu md-direction="bottom left" v-show="status.authenticated">
+        <md-menu md-direction="bottom left" v-show="isAuthenticated">
           <md-button md-menu-trigger>
             <md-icon>account_circle</md-icon>
             {{user.email}}
           </md-button>
           <md-menu-content>
             <md-menu-item>
+              <router-link to="/dashboard">Dashboard</router-link>
+            </md-menu-item>
+            <md-menu-item>
               <router-link to="/profile">Profile</router-link>
             </md-menu-item>
             <md-menu-item>
-              <router-link to="/settings">Settings</router-link>
+              <router-link to="/contact">Contact Us</router-link>
             </md-menu-item>
             <md-menu-item>
               <router-link to="/about">About</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/contact">Contact Us</router-link>
             </md-menu-item>
             <md-menu-item>
               <router-link to="/signout">Sign Out</router-link>
@@ -72,15 +71,16 @@
   import VueRouter from 'vue-router'
   export default {
     data: function () {
-      return {
-        status: {
-          authenticated: false
-        },
-        user: {
-          email: 'tester@test.com',
-          avatar: '',
-          notifications: 0
-        }
+      return {}
+    },
+    computed: {
+      isAuthenticated: function () {
+        return this.$store.getters.isAuhtenticated;
+      },
+      user: function () {
+        return {
+          email: 'tester@test.com'
+        };
       }
     },
     methods: {

@@ -1,0 +1,79 @@
+<template>
+  <div>
+    <md-layout md-gutter="40">
+      <md-layout md-flex-small="50" md-flex-xlarge="25">
+        <md-list class="full-width">
+          <md-subheader class="md-inset">Heading</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Subheading</span>
+          </md-list-item>
+        </md-list>
+      </md-layout>
+      <md-layout md-flex-small="50" md-flex-xlarge="25">
+        <md-list class="full-width">
+          <md-subheader class="md-inset">Heading</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Subheading</span>
+          </md-list-item>
+        </md-list>
+      </md-layout>
+      <md-layout md-flex-small="50" md-flex-xlarge="25">
+        <md-list class="full-width">
+          <md-subheader class="md-inset">Heading</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Subheading</span>
+          </md-list-item>
+        </md-list>
+      </md-layout>
+      <md-layout md-flex-small="50" md-flex-xlarge="25">
+        <md-list class="full-width">
+          <md-subheader class="md-inset">Heading</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Subheading</span>
+          </md-list-item>
+        </md-list>
+      </md-layout>
+    </md-layout>
+    <br/>
+    <md-layout md-gutter="40">
+      <md-layout md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="75" md-flex-xlarge="75">
+        <span class="md-display-1">Graph Here</span>
+      </md-layout>
+      <md-layout md-flex-xsmall="100" md-flex-small="30" md-flex-medium="33" md-flex-large="25" md-flex-xlarge="25">
+        <md-list class="full-width">
+          <md-subheader class="md-inset">My Tasks</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon>
+            <router-link to="/signin">Sign In</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>assignment_return</md-icon> <span>Assigned to me</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>assignment_returned</md-icon> <span>Assigned to others</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>assignment_turned_in</md-icon> <span>Recently Completed</span>
+          </md-list-item>
+          <md-subheader class="md-inset">Messages</md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Compose</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>mail</md-icon> <span>Inbox</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>send</md-icon> <span>Outbox</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>delete</md-icon> <span>Trash</span>
+          </md-list-item>
+        </md-list>
+      </md-layout>
+    </md-layout>
+  </div>
+</template>
+<script>
+  export default {}
+
+</script>
