@@ -19,9 +19,9 @@ import Dashboard from 'components/Management/Dashboard.vue';
 import Settings from 'components/Management/Settings.vue';
 import Search from 'components/Management/Search.vue';
 //Tasks
-import Tasks from 'components/Management/Tasks';
-import TasksCreate from 'components/Management/Tasks/Create';
-import TasksEdit from 'components/Management/Tasks/Edit';
+import Tasks from 'components/Management/Tasks/index.vue';
+import TasksCreate from 'components/Management/Tasks/Create.vue';
+import TasksEdit from 'components/Management/Tasks/Edit.vue';
 
 Vue.use(Router);
 

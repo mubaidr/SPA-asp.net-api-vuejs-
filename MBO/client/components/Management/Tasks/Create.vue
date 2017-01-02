@@ -1,24 +1,19 @@
 <template>
-  <div>
-  </div>
+  <md-layout>
+    <md-layout md-hide-small></md-layout>
+    <md-layout>
+      <create-task></create-task>
+    </md-layout>
+    <md-layout md-hide-small></md-layout>
+  </md-layout>
 </template>
 <script>
-  import {
-    create
-  } from 'services/tasks'
-  import appMessage from 'components/_custom/app-message.vue'
+  import taskCreate from 'components/Management/Tasks/_partial_create.vue'
 
   export default {
     components: {
-      'app-message': appMessage
-    },
-    data: function () {
-      return {}
+      'task-create': taskCreate
     }
   }
 
 </script>
-<style scoped>
-
-
-</style>
