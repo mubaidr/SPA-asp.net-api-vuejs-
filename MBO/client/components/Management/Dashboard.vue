@@ -44,7 +44,7 @@
           <md-subheader class="md-inset">My Tasks</md-subheader>
           <md-list-item>
             <md-icon>add</md-icon>
-            <router-link to="/signin">Sign In</router-link>
+            <router-link to="/tasks/create">Create</router-link>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_return</md-icon> <span>Assigned to me</span>

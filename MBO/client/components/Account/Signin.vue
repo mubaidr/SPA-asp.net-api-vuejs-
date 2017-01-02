@@ -77,7 +77,7 @@
             _self.$store.commit('setAuthentication', res.data);
 
             _self.$router.push({
-              name: 'dashboard'
+              path: '/dashboard'
             });
 
           }).catch(function (err) {

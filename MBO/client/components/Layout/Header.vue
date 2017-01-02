@@ -85,10 +85,14 @@
     },
     methods: {
       home: function () {
-        this.$router.push('home');
+        this.$router.push({
+          path: 'home'
+        });
       },
       search: function () {
-        this.$router.push('search');
+        this.$router.push({
+          path: 'search'
+        });
       },
       toggleLeftSidenav: function () {
         this.$refs.leftSidenav.toggle();

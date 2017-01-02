@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import router from 'utilities/router'
-import session from 'utilities/session'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import router from 'utilities/router';
+import session from 'utilities/session';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const state = {
   auth: session.get(),
@@ -14,7 +14,7 @@ const state = {
     message: '',
     details: []
   }
-}
+};
 
 const mutations = {
   setAuthentication(state, auth) {
@@ -81,9 +81,9 @@ const mutations = {
       state.page.alert = false;
     }
   }
-}
+};
 
-const actions = {}
+const actions = {};
 
 const getters = {
   isAuhtenticated: function (state) {
@@ -95,13 +95,13 @@ const getters = {
   page: function (state) {
     return state.page;
   }
-}
+};
 
 const store = new Vuex.Store({
   state,
   mutations,
   actions,
   getters
-})
+});
 
-export default store
+export default store;

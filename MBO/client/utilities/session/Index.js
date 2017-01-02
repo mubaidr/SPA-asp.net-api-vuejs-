@@ -6,6 +6,6 @@ export default {
     localStorage.setItem('auth', JSON.stringify(auth));
   },
   clear: function () {
-    localStorage.removeItem('auth')
+    localStorage.removeItem('auth');
   }
-}
+};

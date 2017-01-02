@@ -3,7 +3,7 @@ const pkg = require('../package')
 
 module.exports = {
   port: 8080,
-  title: 'mbo',
+  title: 'MBO',
   vendor: Object.keys(pkg.dependencies),
   babel: {
     babelrc: false,

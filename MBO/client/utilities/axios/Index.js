@@ -1,6 +1,6 @@
-import axios from 'axios'
-import router from 'utilities/router'
-import session from 'utilities/session'
+import axios from 'axios';
+import router from 'utilities/router';
+import session from 'utilities/session';
 
 //TODO set auth header
 axios.interceptors.request.use(function (config) {
@@ -16,4 +16,4 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-export default axios
+export default axios;

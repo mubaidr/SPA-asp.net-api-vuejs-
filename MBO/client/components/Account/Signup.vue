@@ -82,7 +82,7 @@
           signup(this.credentials).then(function (res) {
 
             _self.$router.push({
-              name: 'signin',
+              path: '/signin',
               params: {
                 message: 'signup-success'
               }
