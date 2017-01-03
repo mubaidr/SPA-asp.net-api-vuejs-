@@ -46,12 +46,8 @@
   import {
     signup
   } from 'services/account'
-  import appMessage from 'components/_custom/app-message.vue'
 
   export default {
-    components: {
-      'app-message': appMessage
-    },
     data: function () {
       return {
         credentials: {
@@ -74,11 +70,6 @@
         _self.$validator.validateAll().then(success => {
           if (!success) return;
 
-          _self.$store.commit('setState', {
-            loading: true,
-            alert: false
-          });
-
           signup(this.credentials).then(function (res) {
 
             _self.$router.push({
@@ -88,14 +79,8 @@
               }
             });
 
-          }).catch(function (err) {
+          }).catch(error => {});
 
-            _self.$store.commit('isNotLoading');
-            _self.$store.commit('setState', {
-              err: err
-            });
-
-          });
         });
 
       }

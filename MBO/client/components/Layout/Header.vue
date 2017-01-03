@@ -69,8 +69,8 @@
         iusto!
       </p>
     </md-sidenav>
-    <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel"
-      ref="signout" @close="onClose">
+    <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout"
+      @close="onClose">
     </md-dialog-confirm>
   </div>
 </template>
@@ -99,19 +99,16 @@
         this.$refs[ref].open();
       },
       onClose(type) {
-        var _self = this;
-        if(type === 'ok'){
+        const _self = this;
+
+        if (type === 'ok') {
           signout().then(function (res) {
 
             _self.$router.push({
               path: '/signout'
             });
 
-          }).catch(function (err) {
-
-            alert('Error!');
-
-          });
+          }).catch(error => {});
         }
       },
       home: function () {

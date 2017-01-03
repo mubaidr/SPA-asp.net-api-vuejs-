@@ -77,9 +77,9 @@ const mutations = {
         state.page.message = "Something went wrong!";
       }
     } else {
-      state.page.loading = obj.loading;
       state.page.alert = false;
     }
+    state.page.loading = obj.loading;
   }
 };
 
@@ -89,7 +89,7 @@ const getters = {
   isAuhtenticated: function (state) {
     return state.auth !== null && typeof state.auth !== 'undefined';
   },
-  getAuth: function(state){
+  getAuth: function (state) {
     return state.auth;
   },
   isLoading: function (state) {

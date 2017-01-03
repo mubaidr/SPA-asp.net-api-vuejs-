@@ -39,13 +39,9 @@
 <script>
   import {
     signin
-  } from 'services/account'
-  import appMessage from 'components/_custom/app-message.vue'
+  } from 'services/account';
 
   export default {
-    components: {
-      'app-message': appMessage
-    },
     data: function () {
       return {
         credentials: {
@@ -57,7 +53,7 @@
     computed: {
       isLoading: function () {
         return this.$store.getters.isLoading;
-      },
+      }
     },
     methods: {
       formValidate: function (event) {
@@ -67,11 +63,6 @@
         _self.$validator.validateAll().then(success => {
           if (!success) return;
 
-          _self.$store.commit('setState', {
-            loading: true,
-            alert: false
-          });
-
           signin(this.credentials).then(function (res) {
 
             _self.$store.commit('setAuthentication', res.data);
@@ -80,14 +71,7 @@
               path: '/dashboard'
             });
 
-          }).catch(function (err) {
-
-            _self.$store.commit('isNotLoading');
-            _self.$store.commit('setState', {
-              err: err
-            });
-
-          });
+          }).catch(error => {});
 
         });
       }

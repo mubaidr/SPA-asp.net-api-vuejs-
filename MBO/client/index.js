@@ -4,6 +4,7 @@ import 'assets/css/site.css';
 
 import 'utilities/promise-polyfill';
 import 'utilities/vue-material';
+import 'components/_custom';
 import {
   app
 } from 'app';
