@@ -7,7 +7,11 @@
         <md-button @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
         </md-button>
-        <span style="flex: 1;"><md-layout md-hide-xsmall><h2 class="md-title">Get Busy with Management By Objectives!</h2></md-layout></span>
+        <span style="flex: 1;">
+          <md-layout md-hide-xsmall>
+            <h2 class="md-title">Get Busy with Management By Objectives!</h2>
+          </md-layout>
+        </span>
         <md-menu md-direction="bottom left" v-show="!isAuthenticated">
           <md-button md-menu-trigger>
             My Account
@@ -47,7 +51,7 @@
               <router-link to="/about">About</router-link>
             </md-menu-item>
             <md-menu-item>
-              <router-link to="/signout">Sign Out</router-link>
+              <span @click="openDialog('signout')">Sign Out</span>
             </md-menu-item>
           </md-menu-content>
         </md-menu>
@@ -65,10 +69,17 @@
         iusto!
       </p>
     </md-sidenav>
+    <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel"
+      ref="signout" @close="onClose">
+    </md-dialog-confirm>
   </div>
 </template>
 <script>
-  import VueRouter from 'vue-router'
+  import VueRouter from 'vue-router';
+  import {
+    signout
+  } from 'services/account'
+
   export default {
     data: function () {
       return {}
@@ -84,6 +95,25 @@
       }
     },
     methods: {
+      openDialog(ref) {
+        this.$refs[ref].open();
+      },
+      onClose(type) {
+        var _self = this;
+        if(type === 'ok'){
+          signout().then(function (res) {
+
+            _self.$router.push({
+              path: '/signout'
+            });
+
+          }).catch(function (err) {
+
+            alert('Error!');
+
+          });
+        }
+      },
       home: function () {
         this.$router.push({
           path: 'home'

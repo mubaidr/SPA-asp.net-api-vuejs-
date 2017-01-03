@@ -6,6 +6,7 @@ import Home from 'components/Home/Home';
 import About from 'components/Home/About';
 import Contact from 'components/Home/Contact';
 //Error
+import Error_ from 'components/Error/Error_';
 import Error_404 from 'components/Error/Error_404';
 import Error_500 from 'components/Error/Error_500';
 //Account
@@ -52,8 +53,7 @@ const router = new Router({
     path: '/signin',
     component: Signin
   }, {
-    path: '/signout',
-    component: Signin
+    path: '/signout'
   }, {
     path: '/recover',
     component: Recover
@@ -83,10 +83,13 @@ const router = new Router({
     }
   }, {
     path: '/error',
-    component: Error_500,
+    component: Error_,
     children: [{
       path: '404',
       component: Error_404
+    }, {
+      path: '500',
+      component: Error_500
     }]
   }, {
     //Tasks

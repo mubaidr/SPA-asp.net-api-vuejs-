@@ -2,7 +2,7 @@
   <md-layout>
     <md-layout md-hide-small></md-layout>
     <md-layout>
-      <create-task></create-task>
+      <task-create></task-create>
     </md-layout>
     <md-layout md-hide-small></md-layout>
   </md-layout>

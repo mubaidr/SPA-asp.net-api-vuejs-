@@ -89,6 +89,9 @@ const getters = {
   isAuhtenticated: function (state) {
     return state.auth !== null && typeof state.auth !== 'undefined';
   },
+  getAuth: function(state){
+    return state.auth;
+  },
   isLoading: function (state) {
     return state.page.loading;
   },

@@ -36,7 +36,37 @@
     data: function () {
       return {
         Title: 'Some title',
-        Description: 'Some description'
+        Description: 'Some description',
+        Users: []
+      }
+    },
+    computed: {
+      isLoading: function () {
+        return this.$store.getters.isLoading;
+      }
+    },
+    methods: {
+      formValidate: function (event) {
+        event.preventDefault();
+        var _self = this;
+
+        _self.$validator.validateAll().then(success => {
+          if (!success) return;
+          _self.$store.commit('isLoading');
+
+          create(this.$data).then(function (res) {
+
+            _self.$router.push({
+              path: '/tasks'
+            });
+
+          }).catch(function (err) {
+
+            _self.$store.commit('isNotLoading');
+
+          });
+
+        });
       }
     }
 
