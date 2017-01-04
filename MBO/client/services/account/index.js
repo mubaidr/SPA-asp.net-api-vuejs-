@@ -1,7 +1,8 @@
 export {
   signup,
   signin,
-  signout
+  signout,
+  userinfo
 };
 import api from 'api';
 import axios from 'utilities/axios';
@@ -18,4 +19,8 @@ function signin(obj) {
 
 function signout() {
   return axios.post(api.url + '/api/Account/Logout');
+}
+
+function userinfo(){
+  return axios.get(api.url + '/api/Account/UserInfo');
 }

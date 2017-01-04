@@ -6,7 +6,8 @@ import session from 'utilities/session';
 Vue.use(Vuex);
 
 const state = {
-  auth: session.get(),
+  auth: session.getAuth(),
+  userinfo: session.getUserInfo(),
   page: {
     loading: false,
     alert: false,
@@ -19,10 +20,15 @@ const state = {
 const mutations = {
   setAuthentication(state, auth) {
     state.auth = auth;
-    session.set(auth);
+    session.setAuth(auth);
+  },
+  setUserInfo(state, userinfo) {
+    state.userinfo = userinfo;
+    session.setUserInfo(userinfo);
   },
   removeAuthentication(state) {
     state.auth = null;
+    state.userinfo = null;
     session.clear();
   },
   isLoading(state) {
@@ -88,6 +94,9 @@ const actions = {};
 const getters = {
   isAuhtenticated: function (state) {
     return state.auth !== null && typeof state.auth !== 'undefined';
+  },
+  getUserInfo: function (state) {
+    return state.userinfo;
   },
   getAuth: function (state) {
     return state.auth;

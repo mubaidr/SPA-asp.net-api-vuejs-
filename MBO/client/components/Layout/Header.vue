@@ -35,7 +35,7 @@
         <md-menu md-direction="bottom left" v-show="isAuthenticated">
           <md-button md-menu-trigger>
             <md-icon>account_circle</md-icon>
-            {{user.email}}
+            {{userinfo.Email}}
           </md-button>
           <md-menu-content>
             <md-menu-item>
@@ -71,27 +71,21 @@
     </md-sidenav>
     <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout"
       @close="onClose">
-    </md-dialog-confirm>
+      </md-dialog-confirm>
   </div>
 </template>
 <script>
-  import VueRouter from 'vue-router';
   import {
     signout
   } from 'services/account'
 
-  export default {
-    data: function () {
-      return {}
-    },
+  const vm = {
     computed: {
       isAuthenticated: function () {
         return this.$store.getters.isAuhtenticated;
       },
-      user: function () {
-        return {
-          email: 'tester@test.com'
-        };
+      userinfo: function () {
+        return this.$store.getters.getUserInfo || {};
       }
     },
     methods: {
@@ -108,23 +102,14 @@
               path: '/signout'
             });
 
-          }).catch(error => {});
+          }).catch(err => {});
         }
       },
-      home: function () {
-        this.$router.push({
-          path: 'home'
-        });
-      },
-      search: function () {
-        this.$router.push({
-          path: 'search'
-        });
-      },
-      toggleLeftSidenav: function () {
+      toggleLeftSidenav() {
         this.$refs.leftSidenav.toggle();
       }
     }
   }
+  export default vm;
 
 </script>

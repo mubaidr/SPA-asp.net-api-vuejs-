@@ -38,7 +38,8 @@
 </template>
 <script>
   import {
-    signin
+    signin,
+    userinfo
   } from 'services/account';
 
   export default {
@@ -67,9 +68,15 @@
 
             _self.$store.commit('setAuthentication', res.data);
 
-            _self.$router.push({
-              path: '/dashboard'
-            });
+            userinfo().then(res => {
+
+              _self.$store.commit('setUserInfo', res.data);
+
+              _self.$router.push({
+                path: '/dashboard'
+              });
+
+            }).catch(err => {});
 
           }).catch(error => {});
 

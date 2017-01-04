@@ -14,10 +14,9 @@
           <md-input v-model="Title" type="text" name="Title" v-validate data-vv-name="Title" data-vv-rules="required|min:5"></md-input>
           <span class="md-error">{{errors.first('Title')}}</span>
         </md-input-container>
-        <md-input-container :class="{'md-input-invalid': errors.has('Description')}">
+        <md-input-container>
           <label>Description</label>
-          <md-input v-model="Description" type="text" name="Description" v-validate data-vv-name="Description" data-vv-rules="required|min:5"></md-input>
-          <span class="md-error">{{errors.first('Description')}}</span>
+          <md-textarea v-model="Description" name="Description"></md-textarea>
         </md-input-container>
         <md-input-container>
           <label for="Categories">Category</label>
@@ -50,8 +49,8 @@
     data: function () {
       return {
         Categories: ['Test', 'Some', 'Category'],
-        Title: 'Some title',
-        Description: 'Some description',
+        Title: '',
+        Description: '',
         Users: ['Test', 'Some', 'User']
       }
     },
