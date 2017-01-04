@@ -4,19 +4,20 @@ namespace MBO_API.Migrations
     using System.Data.Entity.Migrations;
     using MBO_API.Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<MBO_API.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(MBO_API.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             context.Category.AddRange(new List<Category> {
                 new Category { Title="Recruitment", Description="Recruitment"},
                 new Category { Title="Training", Description="Training"},
-                new Category { Title="Placement", Description="Placement"}
+                new Category { Title="Placement", Description="Placement"},
+                new Category { Title="Performance", Description="Performance"}
             });
 
             context.Status.AddRange(new List<Status>
@@ -28,6 +29,12 @@ namespace MBO_API.Migrations
                 new Status {Level=4 , Title="Require Input", Description="Task require input from other party" },
                 new Status {Level=5 , Title="Completed", Description="Task completed" }
             });
+
+            //context.PersonRoles.AddRange(new List<PersonRole>
+            //{
+            //    new PersonRole { Description = "Manager" },
+            //    new PersonRole { Description = "Worker" }
+            //});
         }
     }
 }

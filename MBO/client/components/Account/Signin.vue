@@ -39,7 +39,7 @@
 <script>
   import {
     signin,
-    userinfo
+    getUserInfo
   } from 'services/account';
 
   export default {
@@ -68,7 +68,7 @@
 
             _self.$store.commit('setAuthentication', res.data);
 
-            userinfo().then(res => {
+            getUserInfo().then(res => {
 
               _self.$store.commit('setUserInfo', res.data);
 

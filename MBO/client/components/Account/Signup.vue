@@ -27,7 +27,7 @@
               <label>Confirm Password</label>
               <md-input v-model="credentials.ConfirmPassword" type="password" name="ConfirmPassword" v-validate data-vv-name="ConfirmPassword"
                 data-vv-rules="required|confirmed:Password"></md-input>
-              <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
+                <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
             </md-input-container>
             <app-message></app-message>
           </md-card-content>
@@ -51,9 +51,9 @@
     data: function () {
       return {
         credentials: {
-          Email: '',
-          Password: '',
-          ConfirmPassword: ''
+          Email: 'tester@test.com',
+          Password: 'tester1234',
+          ConfirmPassword: 'tester1234'
         }
       }
     },

@@ -42,32 +42,28 @@
 <script>
   import {
     create
-  } from 'services/tasks'
+  } from 'services/tasks';
+  import {
+    getCategories
+  } from 'services/catalogs';
 
-  export default {
+  const vm = {
     name: 'task-create',
     data: function () {
       return {
-        Categories: ['Test', 'Some', 'Category'],
         Title: '',
         Description: '',
-        Users: ['Test', 'Some', 'User']
+        Categories: [],
+        Users: []
       }
     },
     computed: {
       isLoading: function () {
-          return this.$store.getters.isLoading;
-        }
-        //return data in maintasks format for submit,
+        return this.$store.getters.isLoading;
+      }
     },
     methods: {
-      loadCategories: {
-
-      },
-      loadUsers: {
-        //Get Users from API
-      },
-      formValidate: function (event) {
+      formValidate(event) {
         event.preventDefault();
         var _self = this;
 
@@ -86,7 +82,7 @@
             });
 
           }).catch(function (err) {
-            console.log(err.response);
+
             _self.$store.commit('isNotLoading');
             _self.$store.commit('setState', {
               err: err
@@ -98,6 +94,12 @@
       }
     }
 
-  }
+  };
+
+  getCategories().then(res => {
+    console.log(res);
+  }).catch(err => {});
+
+  export default vm;
 
 </script>

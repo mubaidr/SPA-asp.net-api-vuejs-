@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MBO_API.Models
 {
@@ -18,6 +20,20 @@ namespace MBO_API.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
+
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+                
+        public string FullName { get; }
+
+        //[DisplayName("Role")]
+        //public int PersonRoleID { get; set; }
+
+        //[ForeignKey("PersonRoleID")]
+        //public virtual PersonRole PersonRole { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MainTask> Created { get; set; }
@@ -45,6 +61,7 @@ namespace MBO_API.Models
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        //public virtual DbSet<PersonRole> PersonRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

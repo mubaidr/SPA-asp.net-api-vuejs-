@@ -2,8 +2,9 @@ export {
   signup,
   signin,
   signout,
-  userinfo
+  getUserInfo
 };
+
 import api from 'api';
 import axios from 'utilities/axios';
 import qs from 'qs';
@@ -21,6 +22,6 @@ function signout() {
   return axios.post(api.url + '/api/Account/Logout');
 }
 
-function userinfo(){
+function getUserInfo() {
   return axios.get(api.url + '/api/Account/UserInfo');
 }

@@ -13,7 +13,7 @@ namespace MBO_API.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201612260919047_init"; }
+            get { return "201701041017212_init"; }
         }
         
         string IMigrationMetadata.Source
