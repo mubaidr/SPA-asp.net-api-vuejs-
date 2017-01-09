@@ -4,10 +4,9 @@ export {
 };
 
 import api from 'api';
-import axios from 'utilities/axios';
+import axios from 'axios';
 
 function getCategories() {
-  //TOFIX axios undefined
   return axios.get(api.url + '/api/Categories');
 };
 

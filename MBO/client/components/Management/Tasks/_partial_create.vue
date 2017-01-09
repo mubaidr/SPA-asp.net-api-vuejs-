@@ -11,26 +11,29 @@
       <md-card-content>
         <md-input-container :class="{'md-input-invalid': errors.has('Title')}">
           <label>Title</label>
-          <md-input v-model="Title" type="text" name="Title" v-validate data-vv-name="Title" data-vv-rules="required|min:5"></md-input>
+          <md-input v-model="Task.Title" type="text" name="Title" v-validate data-vv-name="Title" data-vv-rules="required|min:5"></md-input>
           <span class="md-error">{{errors.first('Title')}}</span>
         </md-input-container>
         <md-input-container>
           <label>Description</label>
-          <md-textarea v-model="Description" name="Description"></md-textarea>
+          <md-textarea v-model="Task.Description" name="Description"></md-textarea>
         </md-input-container>
         <md-input-container>
           <label for="Categories">Category</label>
-          <md-select name="Categories" v-model="Categories">
-            <md-option v-for="category in Categories" value="">{{category}}</md-option>
+          <md-select name="Categories" v-model="Task.Category">
+            <md-option v-for="category in Catalog.Categories" :value="category.Category_Id" :title="category.Description">{{category.Title}}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
           <label for="Users">Users</label>
-          <md-select name="Users" multiple v-model="Users">
-            <md-option v-for="user in Users" value="">{{user}}</md-option>
+          <md-select name="Users" multiple v-model="Task.Users">
+            <!--<md-option v-for="user in Catalog.Users" :value="user.User_Id" :title="user.email">{{user.FullName}}</md-option>-->
           </md-select>
         </md-input-container>
         <app-message></app-message>
+        <pre>
+          {{Task.Category}}
+        </pre>
       </md-card-content>
       <md-card-actions>
         <router-link tag="md-button" to="/tasks" class="md-accent">View Tasks</router-link>
@@ -47,14 +50,20 @@
     getCategories
   } from 'services/catalogs';
 
-  const vm = {
+  export default {
     name: 'task-create',
     data: function () {
       return {
-        Title: '',
-        Description: '',
-        Categories: [],
-        Users: []
+        Task: {
+          Title: '',
+          Description: '',
+          Category: 1,
+          Users: []
+        },
+        Catalog: {
+          Categories: [],
+          Users: []
+        }
       }
     },
     computed: {
@@ -92,14 +101,13 @@
 
         });
       }
+    },
+    mounted: function () {
+      const _self = this;
+      getCategories().then(res => {
+        _self.$set(_self.Catalog, 'Categories', res.data);
+      }).catch(err => {});
     }
-
   };
-
-  getCategories().then(res => {
-    console.log(res);
-  }).catch(err => {});
-
-  export default vm;
 
 </script>

@@ -6,7 +6,7 @@ export {
 };
 
 import api from 'api';
-import axios from 'utilities/axios';
+import axios from 'axios';
 import qs from 'qs';
 
 function signup(obj) {

@@ -5,7 +5,7 @@ import {
 import App from 'components/App';
 import router from 'utilities/router';
 import store from 'utilities/store';
-import 'components/_custom';
+import 'utilities/axios';
 
 sync(store, router);
 
