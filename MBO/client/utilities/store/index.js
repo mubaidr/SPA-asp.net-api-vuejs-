@@ -80,7 +80,7 @@ const mutations = {
         });
 
       } else {
-        state.page.message = "Something went wrong!";
+        state.page.message = "Something went wrong! If the problem persists, please contact system administrator.";
       }
     } else {
       state.page.alert = false;

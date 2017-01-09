@@ -2,7 +2,8 @@ export {
   signup,
   signin,
   signout,
-  getUserInfo
+  getUserInfo,
+  getUsersList
 };
 
 import api from 'api';
@@ -24,4 +25,8 @@ function signout() {
 
 function getUserInfo() {
   return axios.get(api.url + '/api/Account/UserInfo');
+}
+
+function getUsersList() {
+  return axios.get(api.url + '/api/Account/Users');
 }

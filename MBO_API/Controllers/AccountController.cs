@@ -15,6 +15,7 @@ using Microsoft.Owin.Security.OAuth;
 using MBO_API.Models;
 using MBO_API.Providers;
 using MBO_API.Results;
+using System.Linq;
 
 namespace MBO_API.Controllers
 {
@@ -22,6 +23,7 @@ namespace MBO_API.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -63,6 +65,15 @@ namespace MBO_API.Controllers
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
+        }
+
+        //Get user list
+        [Route("Users")]
+        public List<ApplicationUser> GetUsers()
+        {
+            //TODO get all users in system with role
+            var aus = db.Users.ToList();
+            return aus;
         }
 
         // POST api/Account/Logout

@@ -27,13 +27,13 @@
         <md-input-container>
           <label for="Users">Users</label>
           <md-select name="Users" multiple v-model="Task.Users">
-            <!--<md-option v-for="user in Catalog.Users" :value="user.User_Id" :title="user.email">{{user.FullName}}</md-option>-->
+            <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName">{{user.UserName}}</md-option>
           </md-select>
         </md-input-container>
         <app-message></app-message>
-        <pre>
-          {{Task.Category}}
-        </pre>
+        <!--<pre>
+          {{Task.Users}}
+        </pre>-->
       </md-card-content>
       <md-card-actions>
         <router-link tag="md-button" to="/tasks" class="md-accent">View Tasks</router-link>
@@ -46,6 +46,9 @@
   import {
     create
   } from 'services/tasks';
+  import {
+    getUsersList
+  } from 'services/account'
   import {
     getCategories
   } from 'services/catalogs';
@@ -84,7 +87,7 @@
             alert: false
           });
 
-          create(this.$data).then(function (res) {
+          create(this.Task).then(function (res) {
 
             _self.$router.push({
               path: '/tasks'
@@ -92,8 +95,8 @@
 
           }).catch(function (err) {
 
-            _self.$store.commit('isNotLoading');
             _self.$store.commit('setState', {
+              loading: false,
               err: err
             });
 
@@ -104,9 +107,16 @@
     },
     mounted: function () {
       const _self = this;
+
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
+
+        getUsersList().then(res => {
+          _self.$set(_self.Catalog, 'Users', res.data);
+        }).catch(err => {});
+
       }).catch(err => {});
+
     }
   };
 
