@@ -24,5 +24,5 @@ function remove(obj) {
 }
 
 function list(obj) {
-  return axios.post(api.url + path, obj);
+  return axios.get(api.url + path, obj);
 }

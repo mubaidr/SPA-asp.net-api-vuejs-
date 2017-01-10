@@ -36,10 +36,14 @@ body {
 
 
 /*Vue material customize*/
+
+
 /*Seelct list*/
-.md-menu-content.md-direction-bottom-right.md-active{
-  width:100%;
+
+.md-menu-content.md-direction-bottom-right.md-active {
+  width: 100%;
 }
+
 .md-toolbar {
   /*background-image: url('../../assets/backgrounds/23.jpg');
   background-position: center top;
@@ -72,4 +76,17 @@ body {
 .slide-fade-leave-active {
   transform: translateY(20px);
   opacity: 0;
+}
+
+
+/*vue-datepicker*/
+
+.cov-vue-date {
+  width: 100%;
+}
+
+.custom-label {
+  color: rgba(0, 0, 0, .54);
+  font-size: 12px;
+  line-height: 20px;
 }

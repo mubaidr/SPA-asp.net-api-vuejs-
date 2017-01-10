@@ -12,7 +12,8 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MainTask()
         {
-            //SubTask = new HashSet<SubTask>();            
+            //SubTask = new HashSet<SubTask>();
+            Progress = 0;            
             Status_Id = 0;
             DateAssigned = DateAssigned == null ? DateTime.Now : DateAssigned;
             DateDue = DateDue == null ? DateTime.Now.AddMonths(1) : DateDue;
@@ -25,16 +26,17 @@
 
         [Required]
         [MinLength(5)]
-        [MaxLength(25)]
+        [MaxLength(50)]
         public string Title { get; set; }
-
-        [Required]
-        [MinLength(5)]
+        
         [MaxLength(250)]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+        
+        [ScaffoldColumn(false)]
+        public int Progress { get; set; }
 
-        [Required]
+        //[Required]
         [DataType(DataType.DateTime)]
         [Display(Name = "Assigned on")]
         [ScaffoldColumn(false)]
@@ -43,7 +45,7 @@
         [Required]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Due by")]
+        [Display(Name = "Due Date")]
         public DateTime DateDue { get; set; }
         
         [ForeignKey("Status")]
@@ -71,7 +73,11 @@
         [InverseProperty("Assigned")]
         [Display(Name = "Assigned To")]
         public ICollection<ApplicationUser> AssignedTo { get; set; }
-        
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProgressHistory> ProgressHistory { get; set; }
+
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Log> Log { get; set; }

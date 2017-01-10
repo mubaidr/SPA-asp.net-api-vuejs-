@@ -5,13 +5,20 @@ using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MBO_API.Models;
+using Microsoft.AspNet.Identity;
+using System;
 
 namespace MBO_API.Controllers
 {
     public class MainTasksController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        public class MainTaskUsers{
+            public MainTask mainTask { get; set; }
+            public string[] users { get; set; }
+        }
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+        
         // GET: api/MainTasks
         public IQueryable<MainTask> GetMainTask()
         {
@@ -68,11 +75,27 @@ namespace MBO_API.Controllers
 
         // POST: api/MainTasks
         [ResponseType(typeof(MainTask))]
-        public IHttpActionResult PostMainTask(MainTask mainTask)
+        public IHttpActionResult PostMainTask(MainTaskUsers mainTaskUsers)
         {
+            var mainTask = mainTaskUsers.mainTask;
+            var users = mainTaskUsers.users;
+            var userId = RequestContext.Principal.Identity.GetUserId();
+
+            mainTask.ApplicationUser_Id = userId;
+            mainTask.DateAssigned = DateTime.Now;
+            mainTask.Status = db.Status.Where(s => s.Level == 0).FirstOrDefault();
+            mainTask.Progress = 0;
+            
+            ModelState.Remove("mainTaskUsers.mainTask.ApplicationUser_Id");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            foreach (var usr_id in users)
+            {
+                var usr = db.Users.Find(usr_id);
+                mainTask.AssignedTo.Add(usr);
             }
 
             db.MainTask.Add(mainTask);

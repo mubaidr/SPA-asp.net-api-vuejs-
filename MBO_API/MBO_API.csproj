@@ -227,10 +227,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701041017212_init.cs" />
-    <Compile Include="Migrations\201701041017212_init.Designer.cs">
-      <DependentUpon>201701041017212_init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -238,6 +234,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MainTask.cs" />
+    <Compile Include="Models\ProgressHistory.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\PersonRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -322,11 +319,6 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701041017212_init.resx">
-      <DependentUpon>201701041017212_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
