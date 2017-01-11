@@ -47,10 +47,12 @@
             <router-link to="/tasks/create">Create</router-link>
           </md-list-item>
           <md-list-item>
-            <md-icon>assignment_return</md-icon> <span>Assigned to me</span>
+            <md-icon>assignment_return</md-icon>
+            <router-link to="/tasks/list">Assigned to me</router-link>
           </md-list-item>
           <md-list-item>
-            <md-icon>assignment_returned</md-icon> <span>Assigned to others</span>
+            <md-icon>assignment_returned</md-icon>
+            <router-link to="/tasks/list">Created by me</router-link>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_turned_in</md-icon> <span>Recently Completed</span>

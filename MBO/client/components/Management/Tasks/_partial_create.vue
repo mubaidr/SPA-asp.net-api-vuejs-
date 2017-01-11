@@ -21,8 +21,8 @@
         <!--TODO Set default category in settings-->
         <md-input-container>
           <label for="Categories">Category</label>
-          <md-select name="Categories" v-model="Task.Category_Id">
-            <md-option v-for="category in Catalog.Categories" :value="category.Category_Id" :title="category.Description">{{category.Title}}</md-option>
+          <md-select name="Categories" v-model="Task.CategoryID">
+            <md-option v-for="category in Catalog.Categories" :value="category.CategoryID" :title="category.Description">{{category.Title}}</md-option>
           </md-select>
         </md-input-container>
         <md-input-container>
@@ -35,7 +35,7 @@
           <label for="DateDue" class="custom-label">Target Date</label>
           <br/>
           <date-picker :date="datepicker_startTime" :option="datepicker_option" :limit="datepicker_limit" name="DateDue" v-model="Task.DateDue"
-            orientation="landscape" autoOk="true"></date-picker>
+            orientation="landscape" autoOk="true" v-validate data-vv-name="DateDue" data-vv-rules="required|date_format:DD-MM-YYYY HH:mm A"></date-picker>
         </div>
         <app-message></app-message>
       </md-card-content>
@@ -65,7 +65,7 @@
         Task: {
           Title: '',
           Description: '',
-          Category_Id: 1,
+          CategoryID: 1,
           DateDue: ''
         },
         Users: [],
@@ -104,7 +104,7 @@
     },
     computed: {
       isLoading: function () {
-        return this.$store.getters.isLoading;
+        return this.$store.state.page.loading;
       }
     },
     methods: {
@@ -125,9 +125,9 @@
             users: this.Users
           }).then(function (res) {
 
-            _self.$router.push({
-              path: '/tasks'
-            });
+            // _self.$router.push({
+            //   path: '/tasks/list'
+            // });
 
           }).catch(function (err) {
 
@@ -150,11 +150,10 @@
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
+      }).catch(err => {});
 
-        getUsersList().then(res => {
-          _self.$set(_self.Catalog, 'Users', res.data);
-        }).catch(err => {});
-
+      getUsersList().then(res => {
+        _self.$set(_self.Catalog, 'Users', res.data);
       }).catch(err => {});
 
     }

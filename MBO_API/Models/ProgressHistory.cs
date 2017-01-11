@@ -10,15 +10,14 @@ namespace MBO_API.Models
     public class ProgressHistory
     {
         [Key]
-        public int ProgressHistory_Id { get; set; }
+        public int ProgressHistoryID { get; set; }
 
-        public int MainTask_Id { get; set; }
+        public int MainTaskID { get; set; }
 
         public int Progress { get; set; }
 
         public DateTime UpdateDate { get; set; }
-
-        [ForeignKey("MainTask_Id")]
+        
         public virtual MainTask MainTask { get; set; }
     }
 }

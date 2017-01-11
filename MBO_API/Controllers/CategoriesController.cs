@@ -40,7 +40,7 @@ namespace MBO_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != category.Category_Id)
+            if (id != category.CategoryID)
             {
                 return BadRequest();
             }
@@ -78,7 +78,7 @@ namespace MBO_API.Controllers
             db.Category.Add(category);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = category.Category_Id }, category);
+            return CreatedAtRoute("DefaultApi", new { id = category.CategoryID }, category);
         }
 
         // DELETE: api/Categories/5
@@ -108,7 +108,7 @@ namespace MBO_API.Controllers
 
         private bool CategoryExists(int id)
         {
-            return db.Category.Count(e => e.Category_Id == id) > 0;
+            return db.Category.Count(e => e.CategoryID == id) > 0;
         }
     }
 }

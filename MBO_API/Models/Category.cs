@@ -15,7 +15,7 @@ namespace MBO_API.Models
         }
 
         [Key]
-        public int Category_Id { get; set; }
+        public int CategoryID { get; set; }
 
         [Required]
         [MinLength(5)]

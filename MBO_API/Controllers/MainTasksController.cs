@@ -7,6 +7,7 @@ using System.Web.Http.Description;
 using MBO_API.Models;
 using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace MBO_API.Controllers
 {
@@ -20,9 +21,44 @@ namespace MBO_API.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: api/MainTasks
-        public IQueryable<MainTask> GetMainTask()
+        public List<MainTask> GetMainTask()
         {
-            return db.MainTask;
+            var userId = RequestContext.Principal.Identity.GetUserId();
+            //var taskList = db.MainTask;
+            
+            var taskList = from m in db.MainTask
+                           where m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId
+                           select m;
+
+            return taskList.ToList();
+        }
+
+        // GET: api/MainTask?t=created        
+        public List<MainTask> GetMainTaskAssigned(string t)
+        {
+            var userId = RequestContext.Principal.Identity.GetUserId();
+            IQueryable<MainTask> taskList;
+
+            switch (t)
+            {
+                case "assigned":
+                    taskList = from m in db.MainTask
+                               where m.AssignedTo.All(u => u.Id == userId)
+                               select m;
+                    break;
+                case "created":
+                    taskList = from m in db.MainTask
+                               where m.AssignedByID == userId
+                               select m;
+                    break;
+                default:
+                    taskList = from m in db.MainTask
+                               where m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId
+                               select m;
+                    break;
+            }
+            
+            return taskList.ToList();
         }
 
         // GET: api/MainTasks/5
@@ -47,7 +83,7 @@ namespace MBO_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != mainTask.MainTask_Id)
+            if (id != mainTask.MainTaskID)
             {
                 return BadRequest();
             }
@@ -81,12 +117,12 @@ namespace MBO_API.Controllers
             var users = mainTaskUsers.users;
             var userId = RequestContext.Principal.Identity.GetUserId();
 
-            mainTask.ApplicationUser_Id = userId;
+            mainTask.AssignedByID = userId;
             mainTask.DateAssigned = DateTime.Now;
             mainTask.Status = db.Status.Where(s => s.Level == 0).FirstOrDefault();
             mainTask.Progress = 0;
             
-            ModelState.Remove("mainTaskUsers.mainTask.ApplicationUser_Id");
+            ModelState.Remove("mainTaskUsers.mainTask.AssignedByID");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -101,7 +137,7 @@ namespace MBO_API.Controllers
             db.MainTask.Add(mainTask);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = mainTask.MainTask_Id }, mainTask);
+            return CreatedAtRoute("DefaultApi", new { id = mainTask.MainTaskID }, mainTask);
         }
 
         // DELETE: api/MainTasks/5
@@ -131,7 +167,7 @@ namespace MBO_API.Controllers
 
         private bool MainTaskExists(int id)
         {
-            return db.MainTask.Count(e => e.MainTask_Id == id) > 0;
+            return db.MainTask.Count(e => e.MainTaskID == id) > 0;
         }
     }
 }

@@ -11,18 +11,15 @@
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MainTask()
-        {
-            //SubTask = new HashSet<SubTask>();
-            Progress = 0;            
-            Status_Id = 0;
+        {            
+            Progress = 0;
             DateAssigned = DateAssigned == null ? DateTime.Now : DateAssigned;
-            DateDue = DateDue == null ? DateTime.Now.AddMonths(1) : DateDue;
             AssignedTo = new HashSet<ApplicationUser>();
             Log = new HashSet<Log>();
         }
 
         [Key]
-        public int MainTask_Id { get; set; }
+        public int MainTaskID { get; set; }
 
         [Required]
         [MinLength(5)]
@@ -44,32 +41,30 @@
 
         [Required]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm A}", ApplyFormatInEditMode = true)]
         [Display(Name = "Due Date")]
         public DateTime DateDue { get; set; }
         
-        [ForeignKey("Status")]
         [Display(Name = "Status")]
         [ScaffoldColumn(false)]
-        public int Status_Id { get; set; }
+        public int StatusID { get; set; }
 
         [Required]
-        [ForeignKey("Category")]
         [Display(Name = "Category")]
-        public int Category_Id { get; set; }
+        public int CategoryID { get; set; }
 
         [Required]
-        [ForeignKey("AssignedBy")]
+        
         [Display(Name = "Assigned By")]
         [ScaffoldColumn(false)]
-        public string ApplicationUser_Id { get; set; }
+        public string AssignedByID { get; set; }
 
         public virtual Status Status { get; set; }
 
         public virtual Category Category { get; set; }
         
         public virtual ApplicationUser AssignedBy { get; set; }
-
+        
         [InverseProperty("Assigned")]
         [Display(Name = "Assigned To")]
         public ICollection<ApplicationUser> AssignedTo { get; set; }

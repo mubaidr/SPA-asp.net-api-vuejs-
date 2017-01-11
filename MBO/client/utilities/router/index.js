@@ -21,6 +21,7 @@ import Settings from 'components/Management/Settings.vue';
 import Search from 'components/Management/Search.vue';
 //Tasks
 import Tasks from 'components/Management/Tasks/index.vue';
+import TasksList from 'components/Management/Tasks/List.vue';
 import TasksCreate from 'components/Management/Tasks/Create.vue';
 import TasksEdit from 'components/Management/Tasks/Edit.vue';
 
@@ -99,6 +100,9 @@ const router = new Router({
       requiresAuth: true
     },
     children: [{
+      path: 'list',
+      component: TasksList
+    }, {
       path: 'create',
       component: TasksCreate
     }, {

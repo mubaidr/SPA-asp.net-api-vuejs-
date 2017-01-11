@@ -40,7 +40,7 @@ namespace MBO_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != log.Log_Id)
+            if (id != log.LogID)
             {
                 return BadRequest();
             }
@@ -78,7 +78,7 @@ namespace MBO_API.Controllers
             db.Log.Add(log);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = log.Log_Id }, log);
+            return CreatedAtRoute("DefaultApi", new { id = log.LogID }, log);
         }
 
         // DELETE: api/Logs/5
@@ -108,7 +108,7 @@ namespace MBO_API.Controllers
 
         private bool LogExists(int id)
         {
-            return db.Log.Count(e => e.Log_Id == id) > 0;
+            return db.Log.Count(e => e.LogID == id) > 0;
         }
     }
 }

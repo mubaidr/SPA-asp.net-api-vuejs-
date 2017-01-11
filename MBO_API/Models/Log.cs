@@ -9,15 +9,14 @@ namespace MBO_API.Models
     {
         public Log()
         {
-            //Title = (Title == null || Title.Trim() == "") ? "" : Title;
             LogTime = DateTime.Now;
         }
 
         [Key]
-        public int Log_Id { get; set; }
+        public int LogID { get; set; }
 
-        //[Required]
-        //[MinLength(5)]
+        [Required]
+        [MinLength(5)]
         [MaxLength(25)]
         public string Title { get; set; }
 
@@ -32,15 +31,13 @@ namespace MBO_API.Models
         public DateTime LogTime { get; set; }
         
         [Required]
-        [ForeignKey("MainTask")]
         [Display(Name = "Task")]
-        public int MainTask_Id { get; set; }
+        public int MainTaskID { get; set; }
 
         [Required]
-        [ForeignKey("ApplicationUser")]
         [Display(Name = "User")]
         [ScaffoldColumn(false)]
-        public string ApplicationUser_Id { get; set; }
+        public string ApplicationUserID { get; set; }
         
         public virtual MainTask MainTask { get; set; }
 

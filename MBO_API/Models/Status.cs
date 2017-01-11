@@ -12,11 +12,10 @@ namespace MBO_API.Models
         public Status()
         {
             MainTask = new HashSet<MainTask>();
-            //SubTask = new HashSet<SubTask>();
         }
 
         [Key]
-        public int Status_Id { get; set; }
+        public int StatusID { get; set; }
 
         [Required]
         [MinLength(5)]
@@ -36,8 +35,5 @@ namespace MBO_API.Models
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MainTask> MainTask { get; set; }
-
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<SubTask> SubTask { get; set; }
     }
 }

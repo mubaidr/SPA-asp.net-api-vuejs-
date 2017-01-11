@@ -5,7 +5,6 @@ import 'assets/css/site.css';
 
 import 'utilities/promise-polyfill';
 import 'utilities/vue-material';
-import 'moment';
 import 'components/_custom';
 
 import {

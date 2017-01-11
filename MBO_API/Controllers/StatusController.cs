@@ -40,7 +40,7 @@ namespace MBO_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != status.Status_Id)
+            if (id != status.StatusID)
             {
                 return BadRequest();
             }
@@ -78,7 +78,7 @@ namespace MBO_API.Controllers
             db.Status.Add(status);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = status.Status_Id }, status);
+            return CreatedAtRoute("DefaultApi", new { id = status.StatusID }, status);
         }
 
         // DELETE: api/Status/5
@@ -108,7 +108,7 @@ namespace MBO_API.Controllers
 
         private bool StatusExists(int id)
         {
-            return db.Status.Count(e => e.Status_Id == id) > 0;
+            return db.Status.Count(e => e.StatusID == id) > 0;
         }
     }
 }
