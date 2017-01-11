@@ -40,10 +40,19 @@
     computed: {
       type_class: function () {
         const _self = this;
+        //TOFIX Date diff
         const now = moment();
-        const dueDate = moment(_self.Task.DateDue);
-        console.log(dueDate.diff(now, 'days'));
-        return 'some';
+        const dueDate = moment(_self.Task.DateDue, 'DD-MM-YYYY HH:mm A');
+        const diff = dueDate.diff(now, 'days');
+        console.log(_self.Task.DateDue, now, dueDate);
+
+        if (diff < 0) {
+          return 'md-danger';
+        } else if (diff < 2) {
+          return 'md-warn';
+        } else {
+          return 'md-primary';
+        }
       }
     },
     methods: {

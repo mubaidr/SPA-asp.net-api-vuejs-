@@ -14,7 +14,6 @@ import qs from 'qs';
 const path = "/api/MainTasks";
 
 function create(obj) {
-  console.log(obj);
   return axios.post(api.url + path, obj);
 }
 
