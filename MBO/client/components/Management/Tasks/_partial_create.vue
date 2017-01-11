@@ -56,6 +56,7 @@
   import {
     getCategories
   } from 'services/catalogs';
+  import moment from 'moment';
 
   export default {
     name: 'task-create',
@@ -65,7 +66,7 @@
           Title: '',
           Description: '',
           Category_Id: 1,
-          DateDue: '01-01-2018 12:00'
+          DateDue: ''
         },
         Users: [],
         Catalog: {
@@ -73,11 +74,11 @@
           Users: []
         },
         datepicker_startTime: {
-          time: '01-01-2018 12:00'
+          time: ''
         },
         datepicker_option: {
           type: 'min',
-          format: 'DD-MM-YYYY HH:mm',
+          format: 'DD-MM-YYYY HH:mm A',
           inputStyle: {
             'width': '100%',
             'height': '32px',
@@ -142,6 +143,10 @@
     },
     mounted: function () {
       const _self = this;
+      const now = moment().add(1, 'days').format('DD-MM-YYYY HH:mm A');
+
+      _self.$set(_self.Task, 'DateDue', now);
+      _self.$set(_self.datepicker_startTime, 'time', now);
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
