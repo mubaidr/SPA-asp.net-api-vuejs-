@@ -51,6 +51,11 @@ namespace MBO_API.Controllers
                                where m.AssignedByID == userId
                                select m;
                     break;
+                case "completed":
+                    taskList = from m in db.MainTask
+                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId ) && m.Progress==100
+                               select m;
+                    break;
                 default:
                     taskList = from m in db.MainTask
                                where m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId

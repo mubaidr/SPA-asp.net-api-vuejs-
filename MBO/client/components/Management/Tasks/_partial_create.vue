@@ -34,8 +34,7 @@
         <div>
           <label for="DateDue" class="custom-label">Target Date</label>
           <br/>
-          <date-picker :date="datepicker_startTime" :option="datepicker_option" :limit="datepicker_limit" name="DateDue" v-model="Task.DateDue"
-            orientation="landscape" autoOk="true" v-validate data-vv-name="DateDue" data-vv-rules="required|date_format:DD-MM-YYYY HH:mm A"></date-picker>
+          <date-picker :date="datepicker_startTime" :option="datepicker_option" :limit="datepicker_limit" orientation="landscape" autoOk="true"></date-picker>
         </div>
         <app-message></app-message>
       </md-card-content>
@@ -112,6 +111,11 @@
         event.preventDefault();
         var _self = this;
 
+        if (_self.datepicker_startTime.time) {
+          _self.$set(_self.Task, 'DateDue', moment(_self.datepicker_startTime.time, 'DD-MM-YYYY HH:mm A').format(
+            'MM-DD-YYYY HH:mm A'));
+        }
+
         _self.$validator.validateAll().then(success => {
           if (!success) return;
 
@@ -120,18 +124,14 @@
             alert: false
           });
 
-//TOFIX date value
-          console.log(_self.Task.DateDue, _self.datepicker_startTime.time);
-
-          return;
           create({
             mainTask: this.Task,
             users: this.Users
           }).then(function (res) {
 
-            // _self.$router.push({
-            //   path: '/tasks/list'
-            // });
+            _self.$router.push({
+              path: '/tasks/list'
+            });
 
           }).catch(function (err) {
 
@@ -147,8 +147,8 @@
     },
     mounted: function () {
       const _self = this;
-      const now = moment().add(1, 'days').format('DD-MM-YYYY HH:mm A');
 
+      const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A');
       _self.$set(_self.Task, 'DateDue', now);
       _self.$set(_self.datepicker_startTime, 'time', now);
 

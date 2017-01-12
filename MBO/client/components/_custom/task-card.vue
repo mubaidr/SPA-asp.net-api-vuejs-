@@ -1,6 +1,6 @@
 <template>
-  <md-layout md-flex="20">
-    <md-card md-with-hover class="full-width" :class="type_class">
+  <md-layout md-flex="20" md-flex-small="100" class="card">
+    <md-card md-with-hover :class="type_class" class="full-width">
       <md-card-area md-inset>
         <md-card-header>
           <div class="md-title">{{Task.Title}}</div>
@@ -40,18 +40,17 @@
     computed: {
       type_class: function () {
         const _self = this;
-        //TOFIX Date diff
+
         const now = moment();
-        const dueDate = moment(_self.Task.DateDue, 'DD-MM-YYYY HH:mm A');
-        const diff = dueDate.diff(now, 'days');
-        console.log(_self.Task.DateDue, now, dueDate);
+        const dueDate = moment(_self.Task.DateDue);
+        const diff = now.diff(dueDate, 'days');
 
         if (diff < 0) {
-          return 'md-danger';
-        } else if (diff < 2) {
           return 'md-warn';
-        } else {
+        } else if (diff < 2) {
           return 'md-primary';
+        } else {
+          return '';
         }
       }
     },
@@ -62,6 +61,8 @@
 
 </script>
 <style scoped>
-
+  .card {
+    margin-bottom: 20px;
+  }
 
 </style>

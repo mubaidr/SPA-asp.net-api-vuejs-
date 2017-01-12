@@ -4,7 +4,8 @@ export {
   remove,
   listAll,
   listAssigned,
-  listCreated
+  listCreated,
+  listCompleted
 };
 
 import api from 'api';
@@ -35,4 +36,8 @@ function listAssigned() {
 
 function listCreated() {
   return axios.get(api.url + path + '?t=created');
+}
+
+function listCompleted() {
+  return axios.get(api.url + path + '?t=completed');
 }

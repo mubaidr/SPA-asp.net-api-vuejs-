@@ -6,11 +6,12 @@ const config = require('./config')
 const _ = require('./utils')
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
     client: './client/index.js',
     vendor: [
       'axios',
+      'vue',
       'pinkie-promise',
       'vue-material',
       'vue-router',
@@ -64,7 +65,9 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['manifest', 'client', 'vendor']
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin()
   ],
   target: _.target
 }

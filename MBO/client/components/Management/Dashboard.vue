@@ -51,7 +51,7 @@
             <router-link to="/tasks/list">Assigned to me</router-link>
           </md-list-item>
           <md-list-item>
-            <md-icon>assignment_returned</md-icon>
+            <md-icon>assignment</md-icon>
             <router-link to="/tasks/list">Created by me</router-link>
           </md-list-item>
           <md-list-item>

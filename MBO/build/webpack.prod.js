@@ -14,15 +14,15 @@ if (config.electron) {
 } else {
   // remove dist folder in web app mode
   exec('rm -rf dist/')
-    // use source-map in web app mode
-  base.devtool = 'source-map'
+  // use source-map in web app mode
+  base.devtool = 'cheap-source-map'
 }
 
 // a white list to add dependencies to vendor chunk
 base.entry.vendor = config.vendor
-  // use hash filename to support long-term caching
+// use hash filename to support long-term caching
 base.output.filename = '[name].[chunkhash:8].js'
-  // add webpack plugins
+// add webpack plugins
 base.plugins.push(
   new ProgressBarPlugin(),
   new ExtractTextPlugin('styles.[contenthash:8].css'),
