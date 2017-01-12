@@ -1,6 +1,6 @@
 <template>
   <md-layout md-flex="20" md-flex-small="100" class="card">
-    <md-card md-with-hover :class="type_class" class="full-width">
+    <md-card md-with-hover :class="type_class" class="md-card-custom">
       <md-card-area md-inset>
         <md-card-header>
           <div class="md-title">{{Task.Title}}</div>
@@ -63,6 +63,10 @@
 <style scoped>
   .card {
     margin-bottom: 20px;
+  }
+  
+  .md-card-custom {
+    width: 95%;
   }
 
 </style>

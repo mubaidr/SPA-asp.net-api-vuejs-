@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-tabs md-right>
+    <md-tabs md-right class="md-transparent">
       <md-tab md-label="Assigned to me" md-icon="assignment_returned">
         <md-toolbar class="md-transparent">
           <span style="flex: 1"></span>
@@ -24,7 +24,7 @@
         <md-layout md-gutter>
           <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
           <task-card v-for="Task in Tasks.Assigned" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length">
+          <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length && !isLoading">
             <p>
               <md-icon class="md-accent md-size-4x">info_outline</md-icon>You have been not assigned any task.
             </p>
@@ -35,7 +35,7 @@
         <md-layout md-gutter>
           <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
           <task-card v-for="Task in Tasks.Created" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Created.length">
+          <div class="flex-vertical full-width" v-show="!Tasks.Created.length && !isLoading">
             <p>
               <md-icon class="md-accent md-size-4x">info_outline</md-icon>Nothing here.
             </p>
@@ -46,9 +46,9 @@
         <md-layout md-gutter>
           <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
           <task-card v-for="Task in Tasks.Completed" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Completed.length">
+          <div class="flex-vertical full-width" v-show="!Tasks.Completed.length && !isLoading">
             <p>
-              <md-icon class="md-accent md-size-4x">info_outline</md-icon>You have not completed any task yet!
+              <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not completed any task yet!
             </p>
           </div>
         </md-layout>
