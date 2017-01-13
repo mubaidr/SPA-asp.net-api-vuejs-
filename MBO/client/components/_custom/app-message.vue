@@ -1,6 +1,6 @@
 <template>
   <div class="form-message" :class="page.type" v-show="page.alert">
-    <!--<pre>{{page}}</pre>-->
+    <pre>{{page}}</pre>
     <p>{{page.message}}</p>
     <ul v-show="page.details.length">
       <li v-for="detail in page.details">
@@ -11,20 +11,9 @@
 </template>
 <script>
   export default {
-    //   page: {
-    //   loading: false,
-    //   alert: false,
-    //   type: 'info', //info, success, fail
-    //   message: '',
-    //   details: []
-    // }
     name: 'app-message',
     prop: ['page'],
-    computed: {
-      page: function () {
-        return this.$store.getters.page;
-      }
-    },
+    computed: {},
     methods: {
       parseError: function () {
         if (obj.err) {
@@ -73,7 +62,7 @@
     color: #4caf50;
   }
   
-  .form-message.fail {
+  .form-message.cc {
     color: #ff5722;
   }
   

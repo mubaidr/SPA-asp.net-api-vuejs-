@@ -39,7 +39,7 @@
         <!--<app-message></app-message>-->
       </md-card-content>
       <md-card-actions>
-        <router-link tag="md-button" to="/tasks" class="md-accent">View Tasks</router-link>
+        <router-link tag="md-button" to="/tasks/list" class="md-accent">View Tasks</router-link>
         <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
