@@ -116,17 +116,10 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  store.commit('clearState');
-  var _message_content = to.params.message;
-  if (_message_content) {
-    var _message_type = to.params.type;
-
-    store.commit('setMessage', {
-      message: _message_content,
-      type: _message_type || 'success'
-    });
-
-  }
+  // var _message_content = to.params.message;
+  // if (_message_content) {
+  //   var _message_type = to.params.type;
+  // }
 
   if (store.getters.isAuhtenticated) {
     var _not_valid = ['signin', 'signup', 'recover'];

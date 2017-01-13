@@ -52,9 +52,9 @@ namespace MBO_API.Controllers
                                select m;
                     break;
                 case "completed":
-                    taskList = from m in db.MainTask
+                    taskList = (from m in db.MainTask
                                where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId ) && m.Progress==100
-                               select m;
+                               select m).OrderBy(m => m.DateDue).Take(100);
                     break;
                 default:
                     taskList = from m in db.MainTask

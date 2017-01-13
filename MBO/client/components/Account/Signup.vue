@@ -10,7 +10,7 @@
               <div class="md-title">Create a new account</div>
               <span>Sign Up</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="isLoading"></md-spinner>
+            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="page.isLoading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -29,11 +29,11 @@
                 data-vv-rules="required|confirmed:Password"></md-input>
                 <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
             </md-input-container>
-            <app-message></app-message>
+            <!--<app-message></app-message>-->
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="isLoading">Sign Up</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="page.isLoading">Sign Up</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -54,13 +54,11 @@
           Email: 'tester@test.com',
           Password: 'tester1234',
           ConfirmPassword: 'tester1234'
+        },
+        page: {
+          isLoading: false
         }
       }
-    },
-    computed: {
-      isLoading: function () {
-        return this.$store.getters.isLoading;
-      },
     },
     methods: {
       formValidate: function (event) {

@@ -10,7 +10,7 @@
               <div class="md-title">Get started</div>
               <span>Sign In</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
+            <md-spinner md-indeterminate class="md-accent" v-show="page.isLoading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -23,11 +23,11 @@
               <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
             </md-input-container>
-            <app-message></app-message>
+            <!--<app-message></app-message>-->
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="isLoading">Sing In</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="page.isLoading">Sing In</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -48,12 +48,10 @@
         credentials: {
           UserName: 'tester@test.com',
           Password: 'tester1234'
+        },
+        page: {
+          isLoading: false
         }
-      }
-    },
-    computed: {
-      isLoading: function () {
-        return this.$store.getters.isLoading;
       }
     },
     methods: {

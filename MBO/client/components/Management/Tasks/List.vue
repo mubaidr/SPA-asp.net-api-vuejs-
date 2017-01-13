@@ -1,68 +1,91 @@
 <template>
   <div>
-    <md-tabs md-right class="md-transparent">
-      <md-tab md-label="Assigned to me" md-icon="assignment_returned">
-        <md-toolbar class="md-transparent">
-          <span style="flex: 1"></span>
-          <md-button class="md-icon-button">
-            <md-icon>search</md-icon>
-          </md-button>
-          <md-menu md-direction="bottom left" md-size="3">
-            <md-button md-menu-trigger class="md-icon-button">
-              <md-icon>filter_list</md-icon>
-            </md-button>
-            <md-menu-content>
-              <md-menu-item disabled>Date</md-menu-item>
-              <md-menu-item>Ascending</md-menu-item>
-              <md-menu-item>Descending</md-menu-item>
-              <md-menu-item disabled>Priority</md-menu-item>
-              <md-menu-item>Low</md-menu-item>
-              <md-menu-item>High</md-menu-item>
-            </md-menu-content>
-          </md-menu>
-        </md-toolbar>
-        <md-layout md-gutter>
-          <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
-          <task-card v-for="Task in Tasks.Assigned" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length && !isLoading">
-            <p>
-              <md-icon class="md-accent md-size-4x">info_outline</md-icon>You have been not assigned any task.
-            </p>
-          </div>
-        </md-layout>
-      </md-tab>
-      <md-tab md-label="Created by Me" md-icon="assignment_return">
-        <md-layout md-gutter>
-          <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
-          <task-card v-for="Task in Tasks.Created" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Created.length && !isLoading">
-            <p>
-              <md-icon class="md-accent md-size-4x">info_outline</md-icon>Nothing here.
-            </p>
-          </div>
-        </md-layout>
-      </md-tab>
-      <md-tab md-label="Completed" md-icon="assignment_turned_in">
-        <md-layout md-gutter>
-          <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
-          <task-card v-for="Task in Tasks.Completed" :Task="Task"></task-card>
-          <div class="flex-vertical full-width" v-show="!Tasks.Completed.length && !isLoading">
-            <p>
-              <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not completed any task yet!
-            </p>
-          </div>
-        </md-layout>
-      </md-tab>
-      <md-tab md-label="Create New" md-icon="assignment">
-        <md-layout md-gutter>
-          <md-layout md-hide-small></md-layout>
-          <md-layout>
-            <task-create></task-create>
+    <md-toolbar class="md-transparent">
+      <span style="flex: 1"></span>
+      <md-button class="md-icon-button">
+        <md-icon>search</md-icon>
+      </md-button>
+      <!--View change-->
+      <md-menu md-direction="bottom left" md-size="3">
+        <md-button md-menu-trigger class="md-icon-button">
+          <md-icon>sort</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item disabled>Date</md-menu-item>
+          <md-menu-item>Ascending</md-menu-item>
+          <md-menu-item>Descending</md-menu-item>
+          <md-menu-item disabled>Priority</md-menu-item>
+          <md-menu-item>Low</md-menu-item>
+          <md-menu-item>High</md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-direction="bottom left" md-size="3">
+        <md-button md-menu-trigger class="md-icon-button">
+          <md-icon>dashboard</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item>
+            Headline
+            <md-icon>view_headline</md-icon>
+          </md-menu-item>
+          <md-menu-item>
+            List
+            <md-icon>view_list</md-icon>
+          </md-menu-item>
+          <md-menu-item>
+            Cards
+            <md-icon>view_module</md-icon>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-toolbar>
+    <md-whiteframe md-tag="section">
+      <md-tabs md-fixed class="md-transparent">
+        <md-tab md-label="Assigned to me" md-icon="assignment_returned">
+          <md-layout md-gutter>
+            <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length">
+              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+              <p v-show="!Page.isLoading">
+                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not been assigned any task yet!
+              </p>
+            </div>
+            <task-card v-for="Task in Tasks.Assigned" :Task="Task"></task-card>
           </md-layout>
-          <md-layout md-hide-small></md-layout>
-        </md-layout>
-      </md-tab>
-    </md-tabs>
+        </md-tab>
+        <md-tab md-label="Created by Me" md-icon="assignment_return">
+          <md-layout md-gutter>
+            <div class="flex-vertical full-width" v-show="!Tasks.Created.length">
+              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+              <p v-show="!Page.isLoading">
+                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not created any task yet!
+              </p>
+            </div>
+            <task-card v-for="Task in Tasks.Created" :Task="Task"></task-card>
+          </md-layout>
+        </md-tab>
+        <md-tab md-label="Completed" md-icon="assignment_turned_in">
+          <md-layout md-gutter>
+            <div class="flex-vertical full-width" v-show="!Tasks.Completed.length">
+              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+              <p v-show="!Page.isLoading">
+                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not completed any task yet!
+              </p>
+            </div>
+            <task-card v-for="Task in Tasks.Completed" :Task="Task"></task-card>
+          </md-layout>
+        </md-tab>
+        <md-tab md-label="Create New" md-icon="assignment">
+          <md-layout md-gutter>
+            <md-layout md-hide-small></md-layout>
+            <md-layout>
+              <task-create></task-create>
+            </md-layout>
+            <md-layout md-hide-small></md-layout>
+          </md-layout>
+        </md-tab>
+      </md-tabs>
+      <pre>{{Page}}</pre>
+    </md-whiteframe>
   </div>
 </template>
 <script>
@@ -96,19 +119,17 @@
         Catalog: {
           Categories: [],
           Users: []
+        },
+        Page: {
+          isLoading: false
         }
-      }
-    },
-    computed: {
-      isLoading: function () {
-        return this.$store.state.page.loading;
       }
     },
     mounted: function () {
       const _self = this;
 
       listAssigned().then(res => {
-        console.log(res.data);
+        console.log(res.data[0]);
         _self.$set(_self.Tasks, 'Assigned', res.data);
       }).catch(err => {});
 

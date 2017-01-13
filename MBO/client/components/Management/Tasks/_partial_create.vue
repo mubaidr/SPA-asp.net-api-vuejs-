@@ -6,7 +6,7 @@
           <div class="md-title">Get started</div>
           <span>Create</span>
         </md-card-header-text>
-        <md-spinner md-indeterminate class="md-accent" v-show="isLoading"></md-spinner>
+        <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
       </md-card-header>
       <md-card-content>
         <md-input-container :class="{'md-input-invalid': errors.has('Title')}">
@@ -36,11 +36,11 @@
           <br/>
           <date-picker :date="datepicker_startTime" :option="datepicker_option" :limit="datepicker_limit" orientation="landscape" autoOk="true"></date-picker>
         </div>
-        <app-message></app-message>
+        <!--<app-message></app-message>-->
       </md-card-content>
       <md-card-actions>
         <router-link tag="md-button" to="/tasks" class="md-accent">View Tasks</router-link>
-        <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="isLoading">Create New Task</md-button>
+        <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -61,6 +61,9 @@
     name: 'task-create',
     data: function () {
       return {
+        Page: {
+          isLoading: false
+        },
         Task: {
           Title: '',
           Description: '',
@@ -99,11 +102,6 @@
           type: 'weekday',
           available: [1, 2, 3, 4, 5]
         }]
-      }
-    },
-    computed: {
-      isLoading: function () {
-        return this.$store.state.page.loading;
       }
     },
     methods: {

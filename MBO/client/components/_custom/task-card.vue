@@ -1,11 +1,11 @@
 <template>
-  <md-layout md-flex="20" md-flex-small="100" class="card">
+  <md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">
     <md-card md-with-hover :class="type_class" class="md-card-custom">
       <md-card-area md-inset>
         <md-card-header>
           <div class="md-title">{{Task.Title}}</div>
           <div class="md-subhead">
-            Due Date: {{Task.DateDue}}
+            Due Date: {{formatedDueDate}}
             <br/> Assigned By: {{Task.AssignedBy.UserName}}
           </div>
         </md-card-header>
@@ -52,6 +52,9 @@
         } else {
           return '';
         }
+      },
+      formatedDueDate: function () {
+        return moment(this.Task.DateDue).format('HH:mm A [,] DD-MM-YYYY');
       }
     },
     methods: {
@@ -67,6 +70,7 @@
   
   .md-card-custom {
     width: 95%;
+    overflow-x: hidden;
   }
 
 </style>
