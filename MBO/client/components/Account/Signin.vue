@@ -10,7 +10,7 @@
               <div class="md-title">Get started</div>
               <span>Sign In</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+            <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -23,11 +23,11 @@
               <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
             </md-input-container>
-            <app-message :page="Page"></app-message>
+            <app-message :state="state"></app-message>
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Sing In</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="state.loading">Sing In</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -49,22 +49,36 @@
           UserName: 'tester@test.com',
           Password: 'tester1234'
         },
-        Page: {
+        state: {
           loading: false,
-          alert: false,
           type: 'error',
-          message: '',
-          details: []
+          title: null,
+          details: null
         }
       }
     },
     methods: {
+      setErrorDetails: function (err) {
+        console.dir(err);
+        const _self = this;
+        if (err) {
+          _self.$set(_self.state, 'title', err.message);
+          if (err.response && err.response.data && err.response.data.error_description) {
+            _self.$set(_self.state, 'details', err.response.data.error_description);
+          }
+        } else {
+          _self.$set(_self.state, 'title', null);
+        }
+      },
       formValidate: function (event) {
         event.preventDefault();
         var _self = this;
 
         _self.$validator.validateAll().then(success => {
           if (!success) return;
+
+          _self.setErrorDetails();
+          _self.$set(_self.state, 'loading', true);
 
           signin(this.credentials).then(function (res) {
 
@@ -78,9 +92,15 @@
                 path: '/dashboard'
               });
 
-            }).catch(err => {});
+            }).catch(err => {
+              _self.$set(_self.state, 'loading', false);
+              _self.setErrorDetails(err);
+            });
 
-          }).catch(error => {});
+          }).catch(err => {
+            _self.$set(_self.state, 'loading', false);
+            _self.setErrorDetails(err);
+          });
 
         });
       }

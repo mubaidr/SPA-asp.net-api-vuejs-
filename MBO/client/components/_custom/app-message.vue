@@ -1,52 +1,25 @@
 <template>
-  <div class="form-message" :class="page.type" v-show="page.alert">
-    <pre>{{page}}</pre>
-    <p>{{page.message}}</p>
-    <ul v-show="page.details.length">
-      <li v-for="detail in page.details">
-        {{detail}}
-      </li>
-    </ul>
+  <div class="form-message" :class="state.type" v-show="show">
+    <span>{{state.title}}!</span>
+    <br/>
+    <span>{{state.details}}</span>
   </div>
 </template>
 <script>
   export default {
     name: 'app-message',
-    prop: ['page'],
-    computed: {},
-    methods: {
-      parseError: function () {
-        if (obj.err) {
-          state.page.type = 'error';
-          state.page.alert = true;
-
-          var err = obj.err;
-          state.page.details.length = 0;
-          if (!err.response || !err.response.data) {
-            state.page.message = "Unable to contact server!";
-          } else if (typeof err.response.data.error === 'string') {
-            state.page.message = err.response.data.error_description;
-          } else if (typeof err.response.data.ModelState === 'object') {
-            //state.page.message = 'Please fix following errors: ';
-            var _model_state = err.response.data.ModelState;
-
-            Object.keys(_model_state).forEach(function (key) {
-              var val = _model_state[key];
-              if (typeof val === "object" && val.length) {
-                val.forEach(function (msg) {
-                  state.page.details.push(msg);
-                });
-              } else {
-                state.page.details.push(val);
-              }
-            });
-
-          } else {
-            state.page.message =
-              "Something went wrong! If the problem persists, please contact system administrator.";
-          }
+    props: ['state'],
+    data: function () {
+      return {
+        show: false
+      }
+    },
+    watch: {
+      'state.title': function (val) {
+        if (val === '' || val === null || val === undefined) {
+          this.$set(this, 'show', false);
         } else {
-          state.page.alert = false;
+          this.$set(this, 'show', true);
         }
       }
     }
@@ -62,7 +35,7 @@
     color: #4caf50;
   }
   
-  .form-message.cc {
+  .form-message.error {
     color: #ff5722;
   }
   

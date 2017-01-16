@@ -10,7 +10,7 @@
               <div class="md-title">Create a new account</div>
               <span>Sign Up</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="page.isLoading"></md-spinner>
+            <md-spinner md-indeterminate :md-stroke="4" class="md-accent" v-show="state.loading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -29,11 +29,11 @@
                 data-vv-rules="required|confirmed:Password"></md-input>
                 <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
             </md-input-container>
-            <!--<app-message></app-message>-->
+            <app-message :state="state"></app-message>
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="page.isLoading">Sign Up</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="state.loading">Sign Up</md-button>
           </md-card-actions>
         </md-card>
       </div>
@@ -55,18 +55,36 @@
           Password: 'tester1234',
           ConfirmPassword: 'tester1234'
         },
-        page: {
-          isLoading: false
+        state: {
+          loading: false,
+          type: 'error',
+          title: null,
+          details: null
         }
       }
     },
     methods: {
+      setErrorDetails: function (err) {
+        console.dir(err);
+        const _self = this;
+        if (err) {
+          _self.$set(_self.state, 'title', err.message);
+          if (err.response && err.response.data && err.response.data.error_description) {
+            _self.$set(_self.state, 'details', err.response.data.error_description);
+          }
+        } else {
+          _self.$set(_self.state, 'title', null);
+        }
+      },
       formValidate: function (event) {
         event.preventDefault();
         var _self = this;
 
         _self.$validator.validateAll().then(success => {
           if (!success) return;
+
+          _self.setErrorDetails();
+          _self.$set(_self.state, 'loading', true);
 
           signup(this.credentials).then(function (res) {
 
@@ -77,7 +95,10 @@
               }
             });
 
-          }).catch(error => {});
+          }).catch(err => {
+            _self.$set(_self.state, 'loading', false);
+            _self.setErrorDetails(err);
+          });
 
         });
 
