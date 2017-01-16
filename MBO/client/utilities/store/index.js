@@ -7,7 +7,12 @@ Vue.use(Vuex);
 
 const state = {
   auth: session.getAuth(),
-  userinfo: session.getUserInfo()
+  userinfo: session.getUserInfo(),
+  settings: {
+    view: {
+      type: 'card'
+    }
+  }
 };
 
 const mutations = {
@@ -23,6 +28,11 @@ const mutations = {
     state.auth = null;
     state.userinfo = null;
     session.clear();
+  },
+  setViewMode(state, view) {
+    if (view.type) {
+      state.settings.view.type = view.type;
+    }
   }
 };
 
@@ -37,6 +47,12 @@ const getters = {
   },
   getAuth: function (state) {
     return state.auth;
+  },
+  getViewMode: function () {
+    return state.settings.view;
+  },
+  getSettings: function () {
+    return state.settings;
   }
 };
 

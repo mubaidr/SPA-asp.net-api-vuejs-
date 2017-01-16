@@ -1,5 +1,6 @@
 <template>
   <div>
+    <pre>{{settings}}</pre>
     <md-toolbar class="md-transparent">
       <span style="flex: 1"></span>
       <md-button class="md-icon-button">
@@ -24,6 +25,7 @@
           <md-icon>dashboard</md-icon>
         </md-button>
         <md-menu-content>
+          <!--TODO Load views list from store settings using v-for-->
           <md-menu-item>
             Headline
             <md-icon>view_headline</md-icon>
@@ -44,8 +46,8 @@
         <md-tab md-label="Assigned to me" md-icon="assignment_returned">
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
-              <p v-show="!Page.isLoading">
+              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
+              <p v-show="!state.loading">
                 <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not been assigned any task yet!
               </p>
             </div>
@@ -55,8 +57,8 @@
         <md-tab md-label="Created by Me" md-icon="assignment_return">
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Created.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
-              <p v-show="!Page.isLoading">
+              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
+              <p v-show="!state.loading">
                 <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not created any task yet!
               </p>
             </div>
@@ -66,8 +68,8 @@
         <md-tab md-label="Completed" md-icon="assignment_turned_in">
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Completed.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
-              <p v-show="!Page.isLoading">
+              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
+              <p v-show="!state.loading">
                 <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not completed any task yet!
               </p>
             </div>
@@ -84,7 +86,6 @@
           </md-layout>
         </md-tab>
       </md-tabs>
-      <pre>{{Page}}</pre>
     </md-whiteframe>
   </div>
 </template>
@@ -120,16 +121,24 @@
           Categories: [],
           Users: []
         },
-        Page: {
-          isLoading: false
+        state: {
+          loading: false,
+          type: 'error',
+          title: null,
+          details: null
         }
+      }
+    },
+    computed: {
+      settings: function () {
+        return this.$store.getters.getSettings;
       }
     },
     mounted: function () {
       const _self = this;
 
       listAssigned().then(res => {
-        console.log(res.data[0]);
+        //console.dir(res.data[0]);
         _self.$set(_self.Tasks, 'Assigned', res.data);
       }).catch(err => {});
 
