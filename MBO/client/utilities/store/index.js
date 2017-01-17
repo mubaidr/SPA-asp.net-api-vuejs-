@@ -9,8 +9,36 @@ const state = {
   auth: session.getAuth(),
   userinfo: session.getUserInfo(),
   settings: {
-    view: {
-      type: 'card'
+    task_view: {
+      type: [{
+          name: 'Card',
+          icon: 'view_module',
+          enabled: true
+        },
+        {
+          name: 'List',
+          icon: 'view_list',
+          enabled: false
+        },
+        {
+          name: 'Details',
+          icon: 'view_headline',
+          enabled: false
+        }
+      ],
+      sort: [{
+          name: 'Priority',
+          icon: 'keyboard_arrow_down',
+          type: '',
+          enabled: false
+        },        
+        {
+          name: 'Due Time',
+          icon: 'keyboard_arrow_down',
+          type: '',
+          enabled: true
+        }
+      ]
     }
   }
 };

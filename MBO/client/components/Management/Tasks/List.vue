@@ -1,6 +1,5 @@
 <template>
   <div>
-    <pre>{{settings}}</pre>
     <md-toolbar class="md-transparent">
       <span style="flex: 1"></span>
       <md-button class="md-icon-button">
@@ -12,12 +11,11 @@
           <md-icon>sort</md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item disabled>Date</md-menu-item>
-          <md-menu-item>Ascending</md-menu-item>
-          <md-menu-item>Descending</md-menu-item>
-          <md-menu-item disabled>Priority</md-menu-item>
-          <md-menu-item>Low</md-menu-item>
-          <md-menu-item>High</md-menu-item>
+          <md-menu-item disabled>Sort By</md-menu-item>
+          <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
+            <span>{{sort.name}} {{sort.type}}</span>
+            <md-icon>{{sort.icon}}</md-icon>
+          </md-menu-item>
         </md-menu-content>
       </md-menu>
       <md-menu md-direction="bottom left" md-size="3">
@@ -25,30 +23,22 @@
           <md-icon>dashboard</md-icon>
         </md-button>
         <md-menu-content>
-          <!--TODO Load views list from store settings using v-for-->
-          <md-menu-item>
-            Headline
-            <md-icon>view_headline</md-icon>
-          </md-menu-item>
-          <md-menu-item>
-            List
-            <md-icon>view_list</md-icon>
-          </md-menu-item>
-          <md-menu-item>
-            Cards
-            <md-icon>view_module</md-icon>
+          <md-menu-item v-for="type in settings.task_view.type" :disabled="type.enabled">
+            <span>{{type.name}}</span>
+            <md-icon>{{type.icon}}</md-icon>
           </md-menu-item>
         </md-menu-content>
       </md-menu>
     </md-toolbar>
-    <md-whiteframe md-tag="section">
+    <md-whiteframe md-tag="section" class="bg-white">
       <md-tabs md-fixed class="md-transparent">
         <md-tab md-label="Assigned to me" md-icon="assignment_returned">
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length">
               <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading">
-                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not been assigned any task yet!
+              <p v-show="!state.loading" class="no-content">
+                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
+                <span>You have not been assigned any task yet!</span>
               </p>
             </div>
             <task-card v-for="Task in Tasks.Assigned" :Task="Task"></task-card>
@@ -58,8 +48,9 @@
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Created.length">
               <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading">
-                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not created any task yet!
+              <p v-show="!state.loading" class="no-content">
+                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
+                <span>You have not created any task yet!</span>
               </p>
             </div>
             <task-card v-for="Task in Tasks.Created" :Task="Task"></task-card>
@@ -69,8 +60,9 @@
           <md-layout md-gutter>
             <div class="flex-vertical full-width" v-show="!Tasks.Completed.length">
               <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading">
-                <md-icon class="md-accent md-size-4x" md-size-4x>info_outline</md-icon>You have not completed any task yet!
+              <p v-show="!state.loading" class="no-content">
+                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
+                <span>You have not completed any task yet!</span>
               </p>
             </div>
             <task-card v-for="Task in Tasks.Completed" :Task="Task"></task-card>
@@ -134,11 +126,14 @@
         return this.$store.getters.getSettings;
       }
     },
+    methods: {
+
+    },
     mounted: function () {
       const _self = this;
 
       listAssigned().then(res => {
-        //console.dir(res.data[0]);
+        console.dir(res.data[0]);
         _self.$set(_self.Tasks, 'Assigned', res.data);
       }).catch(err => {});
 
@@ -162,3 +157,23 @@
   }
 
 </script>
+<style scoped>
+  .bg-white {
+    background-color: #fff;
+  }
+  
+  .no-content {
+    text-align: center;
+  }
+  
+  .no-content span {
+    font-size: 1.25em;
+    opacity: 0.5;
+  }
+  
+  .no-content i {
+    opacity: 0.8;
+    margin-bottom: 10px;
+  }
+
+</style>

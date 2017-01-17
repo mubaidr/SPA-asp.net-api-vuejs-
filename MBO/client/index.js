@@ -14,4 +14,4 @@ import {
 app.$mount('#app');
 
 import 'utilities/veeValidate';
-import 'assets/script/site';
+import 'assets/script/site.js';

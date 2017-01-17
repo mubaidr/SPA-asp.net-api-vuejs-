@@ -1,33 +1,46 @@
 <template>
   <md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">
-    <md-card md-with-hover :class="type_class" class="md-card-custom">
+    <md-card md-with-hover class="md-card-custom">
       <md-card-area md-inset>
         <md-card-header>
-          <div class="md-title">{{Task.Title}}</div>
-          <div class="md-subhead">
-            Due Date: {{formatedDueDate}}
-            <br/> Assigned By: {{Task.AssignedBy.UserName}}
-          </div>
+          <md-card-header-text>
+            <div class="md-title">{{Task.Title}}</div>
+            <div class="md-subhead">
+              Assigned By: {{Task.AssignedBy.UserName}}
+              <br/> Assigned To: {{Task.AssignedTo}}
+            </div>
+          </md-card-header-text>
+          <md-menu md-size="3" md-direction="bottom left">
+            <md-button class="md-icon-button" md-menu-trigger>
+              <md-icon>more_vert</md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>
+                <span>View Details</span>
+                <md-icon>phone</md-icon>
+              </md-menu-item>
+              <md-menu-item>
+                <span>Add Comment</span>
+                <md-icon>message</md-icon>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </md-card-header>
         <md-card-content>
-          {{Task.Description}}
+          <div class="right-align">
+            <md-icon class="md-warn" v-show="type_class == 'md-warn'">warning</md-icon>
+            <md-icon class="md-accent" v-show="type_class != 'md-warn'">query_builder</md-icon>
+          </div>
+          <md-progress :class="type_class" :md-progress="Task.Progress"></md-progress>
+          <span>{{Task.Description}}</span>
         </md-card-content>
       </md-card-area>
       <md-card-content>
-        <h3 class="md-subheading">Today's availability</h3>
-        <div class="card-reservation">
+        <div class="card-reservation right-align" title="Due Date">
           <md-icon>access_time</md-icon>
-          <md-button-toggle md-single class="md-button-group">
-            <md-button>5:30PM</md-button>
-            <md-button>7:30PM</md-button>
-            <md-button>9:00PM</md-button>
-          </md-button-toggle>
+          <span>{{formatedDueDate}}</span>
         </div>
       </md-card-content>
-      <md-card-actions>
-        <md-button>Action</md-button>
-        <md-button>Action</md-button>
-      </md-card-actions>
     </md-card>
   </md-layout>
 </template>
@@ -50,11 +63,11 @@
         } else if (diff < 2) {
           return 'md-primary';
         } else {
-          return '';
+          return 'md-accent';
         }
       },
       formatedDueDate: function () {
-        return moment(this.Task.DateDue).format('HH:mm A [,] DD-MM-YYYY');
+        return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
       }
     },
     methods: {
@@ -69,7 +82,7 @@
   }
   
   .md-card-custom {
-    width: 95%;
+    width: 99%;
     overflow-x: hidden;
   }
 
