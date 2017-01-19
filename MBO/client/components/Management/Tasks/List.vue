@@ -46,14 +46,14 @@
       <md-tabs md-fixed>
         <md-tab :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
-            <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="TaskList.loading"></md-spinner>
-              <p v-show="!TaskList.loading" class="no-content">
+            <div class="flex-vertical min-height full-width" v-show="!TaskList.prop.content.length">
+              <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner>
+              <p v-show="!TaskList.prop.loading" class="no-content">
                 <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
-                <span>Nothing here! <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
+                <span>{{TaskList.message || "Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
               </p>
             </div>
-            <task-card v-for="Task in TaskList.content" :Task="Task"></task-card>
+            <task-card v-for="Task in TaskList.prop.content" :Task="Task"></task-card>
           </md-layout>
         </md-tab>
         <md-tab md-label="Create New" md-icon="add_box">
@@ -96,33 +96,36 @@
           Assigned: {
             name: 'Assigned to Me',
             icon: 'assignment_return',
-            content: [],
-            loading: true,
-            error: false
+            message: '',
+            prop: {
+              content: [],
+              loading: true,
+              error: false
+            }
           },
           Created: {
             name: 'Created by Me',
             icon: 'assignment_returned',
-            content: [],
-            loading: true,
-            error: false
+            message: '',
+            prop: {
+              content: [],
+              loading: true,
+              error: false
+            }
           },
           Completed: {
             name: 'Completed',
             icon: 'assignment_turned_in',
-            content: [],
-            loading: true,
-            error: false
+            message: '',
+            prop: {
+              content: [],
+              loading: true,
+              error: false
+            }
           }
         },
         Catalog: {
           Categories: []
-        },
-        state: {
-          loading: false,
-          type: 'error',
-          title: null,
-          details: null
         }
       }
     },
@@ -139,30 +142,45 @@
 
       listAssigned().then(res => {
         console.dir(res.data[0]);
-        _self.$set(_self.Tasks.Assigned, 'content', res.data);
-        _self.$set(_self.Tasks.Assigned, 'loading', false);
-        _self.$set(_self.Tasks.Assigned, 'error', false);
+        _self.$set(_self.Tasks.Assigned, 'prop', {
+          content: res.data,
+          loading: false,
+          error: false
+        });
       }).catch(err => {
-        _self.$set(_self.Tasks.Assigned, 'loading', false);
-        _self.$set(_self.Tasks.Assigned, 'error', true);
+        _self.$set(_self.Tasks.Assigned, 'prop', {
+          content: [],
+          loading: false,
+          error: true
+        });
       });
 
       listCreated().then(res => {
-        _self.$set(_self.Tasks.Created, 'content', res.data);
-        _self.$set(_self.Tasks.Created, 'loading', false);
-        _self.$set(_self.Tasks.Created, 'error', false);
+        _self.$set(_self.Tasks.Created, 'prop', {
+          content: res.data,
+          loading: false,
+          error: false
+        });
       }).catch(err => {
-        _self.$set(_self.Tasks.Created, 'loading', false);
-        _self.$set(_self.Tasks.Created, 'error', true);
+        _self.$set(_self.Tasks.Created, 'prop', {
+          content: [],
+          loading: false,
+          error: true
+        });
       });
 
       listCompleted().then(res => {
-        _self.$set(_self.Tasks.Completed, 'content', res.data);
-        _self.$set(_self.Tasks.Completed, 'loading', false);
-        _self.$set(_self.Tasks.Completed, 'error', false);
+        _self.$set(_self.Tasks.Completed, 'prop', {
+          content: res.data,
+          loading: false,
+          error: false
+        });
       }).catch(err => {
-        _self.$set(_self.Tasks.Completed, 'loading', false);
-        _self.$set(_self.Tasks.Completed, 'error', true);
+        _self.$set(_self.Tasks.Completed, 'prop', {
+          content: [],
+          loading: false,
+          error: true
+        });
       });
 
       getCategories().then(res => {
