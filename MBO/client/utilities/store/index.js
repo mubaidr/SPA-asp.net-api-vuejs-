@@ -31,9 +31,22 @@ const state = {
           icon: 'keyboard_arrow_down',
           type: '',
           enabled: false
-        },        
+        },
         {
           name: 'Due Time',
+          icon: 'keyboard_arrow_down',
+          type: '',
+          enabled: true
+        }
+      ],
+      filter: [{
+          name: 'Users',
+          icon: 'keyboard_arrow_down',
+          type: '',
+          enabled: false
+        },
+        {
+          name: 'Categories',
           icon: 'keyboard_arrow_down',
           type: '',
           enabled: true

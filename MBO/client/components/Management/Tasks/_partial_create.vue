@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-vertical full-width">
+  <div class="flex-vertical  min-height full-width">
     <md-card class="full-width">
       <md-card-header class="indigo">
         <md-card-header-text>

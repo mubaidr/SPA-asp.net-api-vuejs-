@@ -1,45 +1,45 @@
 <template>
   <md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">
     <md-card md-with-hover class="md-card-custom">
-      <md-card-area md-inset>
-        <md-card-header>
-          <md-card-header-text>
-            <div class="md-title">{{Task.Title}}</div>
-            <div class="md-subhead">
-              Assigned By: {{Task.AssignedBy.UserName}}
-              <br/> Assigned To: {{Task.AssignedTo}}
-            </div>
-          </md-card-header-text>
-          <md-menu md-size="3" md-direction="bottom left">
-            <md-button class="md-icon-button" md-menu-trigger>
-              <md-icon>more_vert</md-icon>
-            </md-button>
-            <md-menu-content>
-              <md-menu-item>
-                <span>View Details</span>
-                <md-icon>phone</md-icon>
-              </md-menu-item>
-              <md-menu-item>
-                <span>Add Comment</span>
-                <md-icon>message</md-icon>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
-        </md-card-header>
-        <md-card-content>
-          <div class="right-align">
-            <md-icon class="md-warn" v-show="type_class == 'md-warn'">warning</md-icon>
-            <md-icon class="md-accent" v-show="type_class != 'md-warn'">query_builder</md-icon>
+      <md-card-header>
+        <md-card-header-text>
+          <div class="md-title">
+            {{Task.Title}}</div>
+          <div class="md-subhead">
+            {{Task.AssignedBy.UserName}}
           </div>
-          <md-progress :class="type_class" :md-progress="Task.Progress"></md-progress>
-          <span>{{Task.Description}}</span>
-        </md-card-content>
-      </md-card-area>
+        </md-card-header-text>
+        <md-menu md-size="3" md-direction="bottom left">
+          <md-button class="md-icon-button" md-menu-trigger>
+            <md-icon>more_vert</md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item>
+              <span>View Details</span>
+              <md-icon>phone</md-icon>
+            </md-menu-item>
+            <md-menu-item>
+              <span>Add Comment</span>
+              <md-icon>message</md-icon>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-card-header>
+      <md-card-content style="padding-bottom: 0">
+        <span>{{Task.Description || "No Description Provided."}}</span>
+        <div class="md-caption" v-show="Task.AssignedTo.length">
+          Assigned To:
+          <ul>
+            <li v-for="user in Task.AssignedTo">{{user}}</li>
+          </ul>
+        </div>
+      </md-card-content>
       <md-card-content>
-        <div class="card-reservation right-align" title="Due Date">
-          <md-icon>access_time</md-icon>
+        <div class="card-date" title="Due Date">
+          <md-icon :class="type_class">access_time</md-icon>
           <span>{{formatedDueDate}}</span>
         </div>
+        <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
     </md-card>
   </md-layout>
@@ -58,13 +58,20 @@
         const dueDate = moment(_self.Task.DateDue);
         const diff = now.diff(dueDate, 'days');
 
-        if (diff < 0) {
-          return 'md-warn';
-        } else if (diff < 2) {
-          return 'md-primary';
-        } else {
-          return 'md-accent';
+        if (_self.Task.Progress == 100) {
+          return 'theme-success';
         }
+
+        if (diff < 0) {
+          return 'theme-danger';
+        } else if (diff < 2) {
+          return 'theme-warn';
+        } else if (diff < 5) {
+          return 'theme-normal';
+        } else {
+          return 'theme-primary';
+        }
+
       },
       formatedDueDate: function () {
         return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
@@ -72,6 +79,9 @@
     },
     methods: {
 
+    },
+    mounted: function () {
+      //this.Task.AssignedTo = ['Some', 'user', 'more', 'user'];
     }
   }
 
@@ -81,9 +91,24 @@
     margin-bottom: 20px;
   }
   
+  .card-date {
+    margin-bottom: 10px;
+  }
+  
   .md-card-custom {
-    width: 99%;
+    width: 95%;
     overflow-x: hidden;
+  }
+  
+  .md-caption {
+    margin-top: 10px;
+  }
+  
+  .md-caption ul {
+    list-style: square;
+    padding-left: 15px;
+    margin: 0;
+    margin-top: 5px;
   }
 
 </style>

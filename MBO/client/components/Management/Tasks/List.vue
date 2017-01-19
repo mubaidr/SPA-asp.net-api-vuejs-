@@ -8,6 +8,18 @@
       <!--View change-->
       <md-menu md-direction="bottom left" md-size="3">
         <md-button md-menu-trigger class="md-icon-button">
+          <md-icon>filter_list</md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item disabled>Filter By</md-menu-item>
+          <md-menu-item v-for="filter in settings.task_view.filter" :disabled="filter.enabled">
+            <span>{{filter.name}} {{filter.type}}</span>
+            <md-icon>{{filter.icon}}</md-icon>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-direction="bottom left" md-size="3">
+        <md-button md-menu-trigger class="md-icon-button">
           <md-icon>sort</md-icon>
         </md-button>
         <md-menu-content>
@@ -18,7 +30,7 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-      <md-menu md-direction="bottom left" md-size="3">
+      <!--<md-menu md-direction="bottom left" md-size="3">
         <md-button md-menu-trigger class="md-icon-button">
           <md-icon>dashboard</md-icon>
         </md-button>
@@ -28,47 +40,23 @@
             <md-icon>{{type.icon}}</md-icon>
           </md-menu-item>
         </md-menu-content>
-      </md-menu>
+      </md-menu>-->
     </md-toolbar>
-    <md-whiteframe md-tag="section" class="bg-white">
-      <md-tabs md-fixed class="md-transparent">
-        <md-tab md-label="Assigned to me" md-icon="assignment_returned">
+    <md-whiteframe md-tag="section">
+      <md-tabs md-fixed>
+        <md-tab :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
-            <div class="flex-vertical full-width" v-show="!Tasks.Assigned.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading" class="no-content">
+            <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
+              <md-spinner md-indeterminate class="md-accent" v-show="TaskList.loading"></md-spinner>
+              <p v-show="!TaskList.loading" class="no-content">
                 <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
-                <span>You have not been assigned any task yet!</span>
+                <span>Nothing here! <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
               </p>
             </div>
-            <task-card v-for="Task in Tasks.Assigned" :Task="Task"></task-card>
+            <task-card v-for="Task in TaskList.content" :Task="Task"></task-card>
           </md-layout>
         </md-tab>
-        <md-tab md-label="Created by Me" md-icon="assignment_return">
-          <md-layout md-gutter>
-            <div class="flex-vertical full-width" v-show="!Tasks.Created.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading" class="no-content">
-                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
-                <span>You have not created any task yet!</span>
-              </p>
-            </div>
-            <task-card v-for="Task in Tasks.Created" :Task="Task"></task-card>
-          </md-layout>
-        </md-tab>
-        <md-tab md-label="Completed" md-icon="assignment_turned_in">
-          <md-layout md-gutter>
-            <div class="flex-vertical full-width" v-show="!Tasks.Completed.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
-              <p v-show="!state.loading" class="no-content">
-                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
-                <span>You have not completed any task yet!</span>
-              </p>
-            </div>
-            <task-card v-for="Task in Tasks.Completed" :Task="Task"></task-card>
-          </md-layout>
-        </md-tab>
-        <md-tab md-label="Create New" md-icon="assignment">
+        <md-tab md-label="Create New" md-icon="add_box">
           <md-layout md-gutter>
             <md-layout md-hide-small></md-layout>
             <md-layout>
@@ -105,13 +93,30 @@
     data: function () {
       return {
         Tasks: {
-          Assigned: [],
-          Created: [],
-          Completed: []
+          Assigned: {
+            name: 'Assigned to Me',
+            icon: 'assignment_return',
+            content: [],
+            loading: true,
+            error: false
+          },
+          Created: {
+            name: 'Created by Me',
+            icon: 'assignment_returned',
+            content: [],
+            loading: true,
+            error: false
+          },
+          Completed: {
+            name: 'Completed',
+            icon: 'assignment_turned_in',
+            content: [],
+            loading: true,
+            error: false
+          }
         },
         Catalog: {
-          Categories: [],
-          Users: []
+          Categories: []
         },
         state: {
           loading: false,
@@ -134,20 +139,31 @@
 
       listAssigned().then(res => {
         console.dir(res.data[0]);
-        _self.$set(_self.Tasks, 'Assigned', res.data);
-      }).catch(err => {});
+        _self.$set(_self.Tasks.Assigned, 'content', res.data);
+        _self.$set(_self.Tasks.Assigned, 'loading', false);
+        _self.$set(_self.Tasks.Assigned, 'error', false);
+      }).catch(err => {
+        _self.$set(_self.Tasks.Assigned, 'loading', false);
+        _self.$set(_self.Tasks.Assigned, 'error', true);
+      });
 
       listCreated().then(res => {
-        _self.$set(_self.Tasks, 'Created', res.data);
-      }).catch(err => {});
+        _self.$set(_self.Tasks.Created, 'content', res.data);
+        _self.$set(_self.Tasks.Created, 'loading', false);
+        _self.$set(_self.Tasks.Created, 'error', false);
+      }).catch(err => {
+        _self.$set(_self.Tasks.Created, 'loading', false);
+        _self.$set(_self.Tasks.Created, 'error', true);
+      });
 
       listCompleted().then(res => {
-        _self.$set(_self.Tasks, 'Completed', res.data);
-      }).catch(err => {});
-
-      getUsersList().then(res => {
-        _self.$set(_self.Catalog, 'Users', res.data);
-      }).catch(err => {});
+        _self.$set(_self.Tasks.Completed, 'content', res.data);
+        _self.$set(_self.Tasks.Completed, 'loading', false);
+        _self.$set(_self.Tasks.Completed, 'error', false);
+      }).catch(err => {
+        _self.$set(_self.Tasks.Completed, 'loading', false);
+        _self.$set(_self.Tasks.Completed, 'error', true);
+      });
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);

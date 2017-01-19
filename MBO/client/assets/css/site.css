@@ -6,8 +6,11 @@ body {
   padding: 15px;
 }
 
-.flex-vertical {
+.min-height {
   min-height: 480px;
+}
+
+.flex-vertical {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,4 +92,27 @@ body {
   color: rgba(0, 0, 0, .54);
   font-size: 12px;
   line-height: 20px;
+}
+
+
+/*Icon theme*/
+
+.md-icon.theme-danger {
+  color: #f44336;
+}
+
+.md-icon.theme-warn {
+  color: #ff5722;
+}
+
+.md-icon.theme-normal {
+  color: #ff9800;
+}
+
+.md-icon.theme-primary {
+  color: #cddc39;
+}
+
+.md-icon.theme-success {
+  color: #4caf50;
 }
