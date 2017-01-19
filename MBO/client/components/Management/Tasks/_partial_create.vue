@@ -3,8 +3,12 @@
     <md-card class="full-width">
       <md-card-header class="indigo">
         <md-card-header-text>
-          <div class="md-title">Get started</div>
-          <span>Create</span>
+          <div v-show="header">
+            <div class="md-title">Get started</div>
+            <span>New Task</span></div>
+          <div v-show="!header">
+            <div class="md-title">New Task</div>
+          </div>
         </md-card-header-text>
         <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
       </md-card-header>
@@ -59,6 +63,7 @@
 
   export default {
     name: 'task-create',
+    props: ['header'],
     data: function () {
       return {
         Page: {

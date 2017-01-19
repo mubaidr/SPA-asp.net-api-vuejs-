@@ -42,7 +42,7 @@
         </md-menu-content>
       </md-menu>-->
     </md-toolbar>
-    <md-whiteframe md-tag="section">
+    <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed>
         <md-tab :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
@@ -60,7 +60,7 @@
           <md-layout md-gutter>
             <md-layout md-hide-small></md-layout>
             <md-layout>
-              <task-create></task-create>
+              <task-create :header="false"></task-create>
             </md-layout>
             <md-layout md-hide-small></md-layout>
           </md-layout>
@@ -208,6 +208,10 @@
   .no-content i {
     opacity: 0.8;
     margin-bottom: 10px;
+  }
+  
+  .md-tab {
+    padding: 16px 2px!important;
   }
 
 </style>

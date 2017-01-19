@@ -96,7 +96,7 @@
   }
   
   .md-card-custom {
-    width: 95%;
+    width: 99%;
     overflow-x: hidden;
   }
   
