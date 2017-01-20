@@ -1,6 +1,4 @@
-body {
-  background-color: #f5f5f5!important;
-}
+body {}
 
 .container {
   padding: 15px;
@@ -24,10 +22,6 @@ body {
   text-align: right;
 }
 
-.error {
-  color: #ff5722;
-}
-
 
 /*Footer*/
 
@@ -47,38 +41,10 @@ body {
   width: 100%;
 }
 
-.md-toolbar {
-  /*background-image: url('../../assets/backgrounds/23.jpg');
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;*/
-}
-
 .md-card-header.indigo {
   background-color: #3f51b5;
   color: rgba(255, 255, 255, .87);
   margin-bottom: 40px;
-}
-
-
-/*Route change animations*/
-
-.slide-fade-enter-active {
-  transition: all .25s ease-out;
-}
-
-.slide-fade-leave-active {
-  transition: all .1s ease;
-}
-
-.slide-fade-enter {
-  transform: translateY(-100px);
-  opacity: 0;
-}
-
-.slide-fade-leave-active {
-  transform: translateY(20px);
-  opacity: 0;
 }
 
 
@@ -95,24 +61,80 @@ body {
 }
 
 
-/*Icon theme*/
+/*Animation keyframes*/
 
-.md-icon.theme-danger {
-  color: #f44336;
+@keyframes jump {
+  0%,
+  50%,
+  100% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
+  10%,
+  20%,
+  30%,
+  40% {
+    -webkit-transform: translateY(-3px);
+    transform: translateY(-3px);
+  }
+  15%,
+  25%,
+  35%,
+  45% {
+    -webkit-transform: translateY(0px);
+    transform: translateY(0px);
+  }
 }
 
-.md-icon.theme-warn {
-  color: #ff5722;
-}
-
-.md-icon.theme-normal {
-  color: #ff9800;
-}
-
-.md-icon.theme-primary {
-  color: #cddc39;
-}
-
-.md-icon.theme-success {
-  color: #4caf50;
+@keyframes shake {
+  0%,
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+  /*Fast Shake*/
+  1%,
+  3%,
+  5%,
+  7%,
+  9% {
+    -webkit-transform: translateX(-2px);
+    transform: translateX(-2px);
+  }
+  2%,
+  4%,
+  6%,
+  8%,
+  10% {
+    -webkit-transform: translateX(2px);
+    transform: translateX(2px);
+  }
+  /*Medium Shake*/
+  12%,
+  16%,
+  20%,
+  24% {
+    -webkit-transform: translateX(-1px);
+    transform: translateX(-1px);
+  }
+  14%,
+  18%,
+  22%,
+  26% {
+    -webkit-transform: translateX(1px);
+    transform: translateX(1px);
+  }
+  /*Slow Shake*/
+  30%,
+  38%,
+  46% {
+    -webkit-transform: translateX(-0.5px);
+    transform: translateX(-0.5px);
+  }
+  34%,
+  42%,
+  50% {
+    -webkit-transform: translateX(0.5px);
+    transform: translateX(0.5px);
+  }
 }

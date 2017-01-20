@@ -21,3 +21,25 @@
   }
 
 </script>
+<style scoped>
+  /*Route change animations*/
+  
+  .slide-fade-enter-active {
+    transition: all .25s ease-out;
+  }
+  
+  .slide-fade-leave-active {
+    transition: all .1s ease;
+  }
+  
+  .slide-fade-enter {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  
+  .slide-fade-leave-active {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+</style>

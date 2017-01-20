@@ -1,36 +1,37 @@
 <template>
   <div>
-    <md-toolbar class="md-transparent">
-      <span style="flex: 1"></span>
-      <md-button class="md-icon-button">
-        <md-icon>search</md-icon>
-      </md-button>
-      <!--View change-->
-      <md-menu md-direction="bottom left" md-size="3">
-        <md-button md-menu-trigger class="md-icon-button">
-          <md-icon>filter_list</md-icon>
+    <md-whiteframe md-tag="section" md-elevation="0">
+      <md-toolbar class="md-transparent">
+        <span style="flex: 1"></span>
+        <md-button class="md-icon-button">
+          <md-icon>search</md-icon>
         </md-button>
-        <md-menu-content>
-          <md-menu-item disabled>Filter By</md-menu-item>
-          <md-menu-item v-for="filter in settings.task_view.filter" :disabled="filter.enabled">
-            <span>{{filter.name}} {{filter.type}}</span>
-            <md-icon>{{filter.icon}}</md-icon>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-      <md-menu md-direction="bottom left" md-size="3">
-        <md-button md-menu-trigger class="md-icon-button">
-          <md-icon>sort</md-icon>
-        </md-button>
-        <md-menu-content>
-          <md-menu-item disabled>Sort By</md-menu-item>
-          <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
-            <span>{{sort.name}} {{sort.type}}</span>
-            <md-icon>{{sort.icon}}</md-icon>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-      <!--<md-menu md-direction="bottom left" md-size="3">
+        <!--View change-->
+        <md-menu md-direction="bottom left" md-size="3">
+          <md-button md-menu-trigger class="md-icon-button">
+            <md-icon>filter_list</md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item disabled>Filter By</md-menu-item>
+            <md-menu-item v-for="filter in settings.task_view.filter" :disabled="filter.enabled">
+              <span>{{filter.name}} {{filter.type}}</span>
+              <md-icon>{{filter.icon}}</md-icon>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        <md-menu md-direction="bottom left" md-size="3">
+          <md-button md-menu-trigger class="md-icon-button">
+            <md-icon>sort</md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item disabled>Sort By</md-menu-item>
+            <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
+              <span>{{sort.name}} {{sort.type}}</span>
+              <md-icon>{{sort.icon}}</md-icon>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+        <!--<md-menu md-direction="bottom left" md-size="3">
         <md-button md-menu-trigger class="md-icon-button">
           <md-icon>dashboard</md-icon>
         </md-button>
@@ -41,7 +42,8 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>-->
-    </md-toolbar>
+      </md-toolbar>
+    </md-whiteframe>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed>
         <md-tab :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
@@ -49,14 +51,14 @@
             <div class="flex-vertical min-height full-width" v-show="!TaskList.prop.content.length">
               <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner>
               <p v-show="!TaskList.prop.loading" class="no-content">
-                <md-icon class="md-accent md-size-3x" md-size-3x>info_outline</md-icon><br/>
+                <md-icon class="md-accent md-size-3x" md-size-3x>cloud_queue</md-icon><br/>
                 <span>{{TaskList.message || "Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
               </p>
             </div>
             <task-card v-for="Task in TaskList.prop.content" :Task="Task"></task-card>
           </md-layout>
         </md-tab>
-        <md-tab md-label="Create New" md-icon="add_box">
+        <md-tab md-label="New" md-icon="add_box">
           <md-layout md-gutter>
             <md-layout md-hide-small></md-layout>
             <md-layout>
@@ -94,7 +96,7 @@
       return {
         Tasks: {
           Assigned: {
-            name: 'Assigned to Me',
+            name: 'Assigned',
             icon: 'assignment_return',
             message: '',
             prop: {
@@ -104,7 +106,7 @@
             }
           },
           Created: {
-            name: 'Created by Me',
+            name: 'Created',
             icon: 'assignment_returned',
             message: '',
             prop: {
@@ -202,16 +204,16 @@
   
   .no-content span {
     font-size: 1.25em;
-    opacity: 0.5;
+    opacity: 0.75;
   }
   
   .no-content i {
-    opacity: 0.8;
     margin-bottom: 10px;
   }
   
   .md-tab {
-    padding: 16px 2px!important;
+    min-height: 480px;
+    padding: 16px 2px;
   }
 
 </style>

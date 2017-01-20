@@ -6,7 +6,9 @@ Vue.use(VueMaterial);
 Vue.material.registerTheme({
   default: {
     primary: 'indigo',
-    accent: 'pink'
+    accent: 'pink',
+    warn: 'red',
+    background: 'white'
   },
   invert: {
     primary: 'pink',
