@@ -34,7 +34,7 @@ namespace MBO_API.Controllers
         }
 
         // GET: api/MainTask?t=created        
-        public List<MainTask> GetMainTaskAssigned(string t)
+        public List<MainTask> GetMainTask(string t)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             IQueryable<MainTask> taskList;
@@ -63,7 +63,7 @@ namespace MBO_API.Controllers
                     break;
             }
             
-            return taskList.ToList();
+            return taskList.Include(m => m.AssignedTo).ToList();
         }
 
         // GET: api/MainTasks/5

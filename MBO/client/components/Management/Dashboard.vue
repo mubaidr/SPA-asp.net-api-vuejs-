@@ -55,7 +55,11 @@
             <router-link to="/tasks/list">Created by me</router-link>
           </md-list-item>
           <md-list-item>
-            <md-icon>assignment_turned_in</md-icon> <span>Recently Completed</span>
+            <md-icon>assignment_turned_in</md-icon> <span>Completed</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>delete</md-icon>
+            <router-link to="/tasks/trash">Trash</router-link>
           </md-list-item>
           <md-subheader class="md-inset">Messages</md-subheader>
           <md-list-item>

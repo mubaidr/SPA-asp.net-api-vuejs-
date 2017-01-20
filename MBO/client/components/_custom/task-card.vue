@@ -3,10 +3,10 @@
     <md-card md-with-hover class="md-card-custom">
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title">
+          <div class="md-title" v-on:click="viewDetails()">
             {{Task.Title}}</div>
-          <div class="md-subhead">
-            {{Task.AssignedBy.UserName}}
+          <div class="md-subhead" v-on:click="viewDetails()">
+            {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
         <md-menu md-size="3" md-direction="bottom left">
@@ -15,10 +15,6 @@
           </md-button>
           <md-menu-content>
             <md-menu-item>
-              <span>View Details</span>
-              <md-icon>phone</md-icon>
-            </md-menu-item>
-            <md-menu-item>
               <span>Add Comment</span>
               <md-icon>message</md-icon>
             </md-menu-item>
@@ -26,13 +22,7 @@
         </md-menu>
       </md-card-header>
       <md-card-content style="padding-bottom: 0">
-        <span>{{Task.Description || "No Description Provided."}}</span>
-        <div class="md-caption" v-show="Task.AssignedTo.length">
-          Assigned To:
-          <ul>
-            <li v-for="user in Task.AssignedTo">{{user}}</li>
-          </ul>
-        </div>
+        <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
         <div class="card-date" :class="type_class" title="Due Date">
@@ -41,6 +31,31 @@
         </div>
         <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
+      <md-card-content>
+        <div class="md-caption" v-show="Task.AssignedTo.length">
+          <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
+        </div>
+        <div class="md-caption" v-show="!Task.AssignedTo.length">
+          <span class="chip-custom">Self</span>
+        </div>
+      </md-card-content>
+      <md-card-actions>
+        <div v-show="isSelfCreated">
+          <md-button class="md-icon-button">
+            <md-icon>delete</md-icon>
+          </md-button>
+          <md-button class="md-icon-button">
+            <md-icon>mode_edit</md-icon>
+          </md-button>
+          <md-button class="md-icon-button">
+            <md-icon>low_priority</md-icon>
+          </md-button>
+        </div>
+        <md-button v-on:click="viewDetails()">
+          <md-icon>expand_more</md-icon>
+          Details
+        </md-button>
+      </md-card-actions>
     </md-card>
   </md-layout>
 </template>
@@ -51,6 +66,9 @@
     name: 'task-card',
     props: ['Task'],
     computed: {
+      isSelfCreated: function () {
+        return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
+      },
       type_class: function () {
         const _self = this;
 
@@ -111,7 +129,9 @@
       }
     },
     methods: {
-
+      viewDetails: function () {
+        alert('click');
+      }
     },
     mounted: function () {
       //this.Task.AssignedTo = ['Some', 'user', 'more', 'user'];      
@@ -129,7 +149,7 @@
   }
   
   .md-card-custom {
-    width: 99%;
+    width: 98%;
     overflow-x: hidden;
   }
   
@@ -138,14 +158,21 @@
   }
   
   .md-caption ul {
-    list-style: square;
-    padding-left: 15px;
+    list-style: none;
+    padding-left: 0;
     margin: 0;
     margin-top: 5px;
   }
   
   .text-muted {
     opacity: 0.6;
+  }
+  
+  .chip-custom {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    border-radius: 2px;
+    margin-right: 2px;
   }
   
   .theme-danger .md-icon {
