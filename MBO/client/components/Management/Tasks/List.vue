@@ -2,7 +2,7 @@
   <div>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-toolbar class="md-transparent">
-        <router-link tag="md-button" to="/tasks/create" class="md-accent">
+        <router-link tag="md-button" to="/tasks/create" class="md-raised md-accent">
           <md-icon>add</md-icon>
           Add Task
         </router-link>
