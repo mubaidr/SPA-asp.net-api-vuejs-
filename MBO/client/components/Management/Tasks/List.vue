@@ -2,6 +2,10 @@
   <div>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-toolbar class="md-transparent">
+        <router-link tag="md-button" to="/tasks/create" class="md-accent">
+          <md-icon>add</md-icon>
+          Add Task
+        </router-link>
         <span style="flex: 1"></span>
         <md-button class="md-icon-button">
           <md-icon>search</md-icon>
@@ -56,15 +60,6 @@
               </p>
             </div>
             <task-card v-for="Task in TaskList.prop.content" :Task="Task"></task-card>
-          </md-layout>
-        </md-tab>
-        <md-tab md-label="New" md-icon="add_box">
-          <md-layout md-gutter>
-            <md-layout md-hide-small></md-layout>
-            <md-layout>
-              <task-create :header="false"></task-create>
-            </md-layout>
-            <md-layout md-hide-small></md-layout>
           </md-layout>
         </md-tab>
       </md-tabs>
@@ -137,7 +132,12 @@
       }
     },
     methods: {
-
+      openDialog(ref) {
+        this.$refs[ref].open();
+      },
+      closeDialog(ref) {
+        this.$refs[ref].close();
+      }
     },
     mounted: function () {
       const _self = this;

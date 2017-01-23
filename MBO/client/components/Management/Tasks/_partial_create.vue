@@ -1,13 +1,11 @@
 <template>
-  <div class="flex-vertical  min-height full-width">
+  <div class="flex-vertical min-height full-width">
     <md-card class="full-width">
       <md-card-header class="indigo">
         <md-card-header-text>
-          <div v-show="header">
+          <div>
             <div class="md-title">Get started</div>
-            <span>New Task</span></div>
-          <div v-show="!header">
-            <div class="md-title">New Task</div>
+            <span>New Task</span>
           </div>
         </md-card-header-text>
         <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
@@ -44,7 +42,7 @@
       </md-card-content>
       <md-card-actions>
         <router-link tag="md-button" to="/tasks/list" class="md-accent">View Tasks</router-link>
-        <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
+        <md-button id="btn-Submit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -63,7 +61,6 @@
 
   export default {
     name: 'task-create',
-    props: ['header'],
     data: function () {
       return {
         Page: {
@@ -167,3 +164,18 @@
   };
 
 </script>
+<style scoped>
+  .compact-card .md-card-content,
+  .compact-card .md-card-actions {
+    padding: 0;
+  }
+  
+  .compact-card .md-card-actions {
+    padding-top: 16px;
+  }
+  
+  .compact-card .md-card {
+    box-shadow: none;
+  }
+
+</style>

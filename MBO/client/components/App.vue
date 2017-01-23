@@ -2,7 +2,7 @@
   <div>
     <app-header></app-header>
     <div class="container">
-      <transition name="slide-fade" mode="out-in">
+      <transition :name="transitionName" mode="out-in">
         <router-view></router-view>
       </transition>
     </div>
@@ -14,9 +14,25 @@
   import Footer from './Layout/Footer'
 
   export default {
+    data: function () {
+      return {
+        transitionName: 'slide-up'
+      }
+    },
     components: {
       'app-footer': Footer,
       'app-header': Header
+    },
+    watch: {
+      '$route' (to, from) {
+        const toDepth = to.path.split('/').length;
+        const fromDepth = from.path.split('/').length;
+        if (toDepth == fromDepth) {
+          this.transitionName = 'slide-up';
+        } else {
+          this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+        }
+      }
     }
   }
 
@@ -24,21 +40,59 @@
 <style scoped>
   /*Route change animations*/
   
-  .slide-fade-enter-active {
+  .slide-up-enter-active {
     transition: all .25s ease-out;
   }
   
-  .slide-fade-leave-active {
+  .slide-up-leave-active {
     transition: all .1s ease;
   }
   
-  .slide-fade-enter {
-    transform: translateY(-100px);
+  .slide-up-enter {
+    transform: translateY(-50px);
     opacity: 0;
   }
   
-  .slide-fade-leave-active {
-    transform: translateY(20px);
+  .slide-up-leave {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  /*Test right*/
+  
+  .slide-right-enter-active {
+    transition: all .25s ease-out;
+  }
+  
+  .slide-right-leave-active {
+    transition: all .1s ease;
+  }
+  
+  .slide-right-enter {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  
+  .slide-right-leave-active {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  /*Test left*/
+  
+  .slide-left-enter-active {
+    transition: all .25s ease-out;
+  }
+  
+  .slide-left-leave-active {
+    transition: all .1s ease;
+  }
+  
+  .slide-left-enter {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  
+  .slide-left-leave-active {
+    transform: translateX(-20px);
     opacity: 0;
   }
 
