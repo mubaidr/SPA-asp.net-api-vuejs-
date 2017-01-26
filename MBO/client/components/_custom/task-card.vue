@@ -41,7 +41,7 @@
       </md-card-content>
       <md-card-actions>
         <div v-show="isSelfCreated">
-          <md-button class="md-icon-button">
+          <md-button class="md-icon-button" @click="confirmDelete" :id="btnConfirmId">
             <md-icon>delete</md-icon>
           </md-button>
           <md-button class="md-icon-button">
@@ -57,6 +57,16 @@
         </md-button>
       </md-card-actions>
     </md-card>
+    <!--Delete Confirmation-->
+    <!--Should be a sinlge dialog for all cards-->
+    <md-dialog :md-open-from="'#' + btnConfirmId" :md-close-to="'#' + btnConfirmId" :ref="refConfirm">
+      <md-dialog-title>Delete Task</md-dialog-title>
+      <md-dialog-content>Are you sure you want to move this task to trash?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
+        <md-button class="md-primary" @click="onDeleteClose('ok')">Sure</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </md-layout>
 </template>
 <script>
@@ -126,11 +136,26 @@
       },
       formatedDueDate: function () {
         return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
+      },
+      btnConfirmId: function () {
+        return 'btn-confirm-' + this.Task.MainTaskID;
+      },
+      refConfirm: function () {
+        return 'ref-confirm-' + this.Task.MainTaskID;
       }
     },
     methods: {
       viewDetails: function () {
-        alert('click');
+        //alert('click');
+      },
+      confirmDelete: function () {
+        this.$refs[this.refConfirm].open();
+      },
+      onDeleteClose: function (type) {
+        if (type == "ok") {
+          console.log('deleted :/');
+        }
+        this.$refs[this.refConfirm].close();
       }
     },
     mounted: function () {

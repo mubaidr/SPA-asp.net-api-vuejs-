@@ -2,7 +2,7 @@
   <div>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-toolbar class="md-transparent">
-        <router-link tag="md-button" to="/tasks/create" class="md-raised md-accent">
+        <router-link tag="md-button" to="create" class="md-raised md-accent">
           <md-icon>add</md-icon>
           Add Task
         </router-link>
@@ -149,53 +149,54 @@
       }
     },
     mounted: function () {
-
-      /*Set active tab*/
-
       const _self = this;
 
-      listAssigned().then(res => {
-        //console.dir(res.data[0]);
-        _self.$set(_self.Tasks.Assigned, 'prop', {
-          content: res.data,
-          loading: false,
-          error: false
+      //Delay dat loading to avoid jittering on tab-change at load
+      //Only load tab that is selected, load data for other tabs on first switch
+      window.setTimeout(function () {
+        listAssigned().then(res => {
+          //console.dir(res.data[0]);
+          _self.$set(_self.Tasks.Assigned, 'prop', {
+            content: res.data,
+            loading: false,
+            error: false
+          });
+        }).catch(err => {
+          _self.$set(_self.Tasks.Assigned, 'prop', {
+            content: [],
+            loading: false,
+            error: true
+          });
         });
-      }).catch(err => {
-        _self.$set(_self.Tasks.Assigned, 'prop', {
-          content: [],
-          loading: false,
-          error: true
-        });
-      });
 
-      listCreated().then(res => {
-        _self.$set(_self.Tasks.Created, 'prop', {
-          content: res.data,
-          loading: false,
-          error: false
+        listCreated().then(res => {
+          _self.$set(_self.Tasks.Created, 'prop', {
+            content: res.data,
+            loading: false,
+            error: false
+          });
+        }).catch(err => {
+          _self.$set(_self.Tasks.Created, 'prop', {
+            content: [],
+            loading: false,
+            error: true
+          });
         });
-      }).catch(err => {
-        _self.$set(_self.Tasks.Created, 'prop', {
-          content: [],
-          loading: false,
-          error: true
-        });
-      });
 
-      listCompleted().then(res => {
-        _self.$set(_self.Tasks.Completed, 'prop', {
-          content: res.data,
-          loading: false,
-          error: false
+        listCompleted().then(res => {
+          _self.$set(_self.Tasks.Completed, 'prop', {
+            content: res.data,
+            loading: false,
+            error: false
+          });
+        }).catch(err => {
+          _self.$set(_self.Tasks.Completed, 'prop', {
+            content: [],
+            loading: false,
+            error: true
+          });
         });
-      }).catch(err => {
-        _self.$set(_self.Tasks.Completed, 'prop', {
-          content: [],
-          loading: false,
-          error: true
-        });
-      });
+      }, 500);
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
