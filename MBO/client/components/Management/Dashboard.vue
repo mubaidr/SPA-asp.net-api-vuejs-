@@ -48,14 +48,15 @@
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_return</md-icon>
-            <router-link to="/tasks/list">Assigned to me</router-link>
+            <router-link :to="{path: '/tasks/list', query: {sub: 'Assigned'}}">Assigned to me</router-link>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment</md-icon>
-            <router-link to="/tasks/list">Created by me</router-link>
+            <router-link :to="{path: '/tasks/list', query: {sub: 'Created'}}">Created by me</router-link>
           </md-list-item>
           <md-list-item>
-            <md-icon>assignment_turned_in</md-icon> <span>Completed</span>
+            <md-icon>assignment_turned_in</md-icon>
+            <router-link :to="{path: '/tasks/list', query: {sub: 'Completed'}}">Completed</router-link>
           </md-list-item>
           <md-list-item>
             <md-icon>delete</md-icon>

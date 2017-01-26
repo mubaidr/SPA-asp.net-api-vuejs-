@@ -50,7 +50,7 @@
     </md-whiteframe>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed>
-        <md-tab :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
+        <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.prop.content.length">
               <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner>
@@ -127,6 +127,15 @@
       }
     },
     computed: {
+      activeTab: function () {
+        const _self = this;
+        const _path = _self.$route.query.sub;
+        if (Object.keys(_self.Tasks).indexOf(_path) > -1) {
+          return _path;
+        } else {
+          return 'Assigned';
+        }
+      },
       settings: function () {
         return this.$store.getters.getSettings;
       }
@@ -140,10 +149,13 @@
       }
     },
     mounted: function () {
+
+      /*Set active tab*/
+
       const _self = this;
 
       listAssigned().then(res => {
-        console.dir(res.data[0]);
+        //console.dir(res.data[0]);
         _self.$set(_self.Tasks.Assigned, 'prop', {
           content: res.data,
           loading: false,
