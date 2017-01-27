@@ -100,7 +100,7 @@ const router = new Router({
       requiresAuth: true
     },
     children: [{
-      path: 'list',
+      path: '',
       component: TasksList
     }, {
       path: 'create',
