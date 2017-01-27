@@ -65,7 +65,7 @@
     },
     methods: {
       setErrorDetails: function (err) {
-        console.dir(err);
+        //console.dir(err);
         const _self = this;
         if (err) {
           _self.$set(_self.state, 'title', err.message);

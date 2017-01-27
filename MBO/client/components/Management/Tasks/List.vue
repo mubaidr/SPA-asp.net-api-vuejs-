@@ -220,7 +220,7 @@
         //     break;
         // }
 
-      }, 5000);
+      }, 250);
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);

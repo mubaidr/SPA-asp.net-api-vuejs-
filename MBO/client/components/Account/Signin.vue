@@ -59,7 +59,8 @@
     },
     methods: {
       setErrorDetails: function (err) {
-        console.dir(err);
+        //TODO register as global method
+        //console.dir(err);
         const _self = this;
         if (err) {
           _self.$set(_self.state, 'title', err.message);
