@@ -53,10 +53,13 @@
         <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.prop.content.length">
-              <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner>
+              <p v-show="TaskList.prop.loading" class="no-content">
+                <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner><br/>
+                <span>Fetching data!</span>
+              </p>
               <p v-show="!TaskList.prop.loading" class="no-content">
-                <md-icon class="md-accent md-size-3x" md-size-3x>cloud_queue</md-icon><br/>
-                <span>{{TaskList.message || "Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
+                <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+                <span>{{TaskList.message || "Awww... Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
               </p>
             </div>
             <task-card v-for="Task in TaskList.prop.content" :Task="Task"></task-card>
@@ -217,7 +220,7 @@
         //     break;
         // }
 
-      }, 250);
+      }, 5000);
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
