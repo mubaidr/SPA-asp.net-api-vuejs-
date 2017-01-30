@@ -80,7 +80,7 @@
     props: ['Task'],
     data: function () {
       return {
-        DialogCloseTarget: ''
+        DialogCloseTarget: null
       }
     },
     computed: {
@@ -155,15 +155,28 @@
         this.$refs[this.refConfirm].open();
       },
       onDeleteClose: function (type) {
+        const _self = this;
         if (type == "ok") {
-          this.$set(this, 'DialogCloseTarget', '#btn-view-trash');
-          this.animateTrashButton();
 
-          //TODO delete card
+          remove({
+            id: _self.Task.MainTaskID
+          }).then(res => {
+            _self.$set(_self, 'DialogCloseTarget', '#btn-view-trash');
+            _self.animateTrashButton();
+            _self.$refs[_self.refConfirm].close();
+
+            //TODO Remove from parent list
+
+          }).catch(err => {
+            console.dir(err);
+          });
+
+          //TODO remove card
         } else {
-          this.$set(this, 'DialogCloseTarget', null);
+          _self.$set(_self, 'DialogCloseTarget', null);
+          _self.$refs[_self.refConfirm].close();
         }
-        this.$refs[this.refConfirm].close();
+
       },
       animateTrashButton: function () {
         window.setTimeout(function () {

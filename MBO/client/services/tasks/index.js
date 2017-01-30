@@ -24,7 +24,7 @@ function edit(obj) {
 }
 
 function remove(obj) {
-  return axios.post(api.url + path, obj);
+  return axios.post(api.url + path + '/Remove/?id=' + obj.id, obj);
 }
 
 function deleteTask(obj) {

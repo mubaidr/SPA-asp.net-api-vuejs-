@@ -145,6 +145,23 @@ namespace MBO_API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = mainTask.MainTaskID }, mainTask);
         }
 
+        // Remove: api/MainTasks/Remove/5
+        [Route("api/MainTasks/Remove")]
+        [ResponseType(typeof(MainTask))]
+        public IHttpActionResult RemoveMainTask(int id)
+        {
+            MainTask mainTask = db.MainTask.Find(id);
+            if (mainTask == null)
+            {
+                return NotFound();
+            }
+            //TODO mark this task as deleted but donot delete it
+            //db.MainTask.Remove(mainTask);
+            db.SaveChanges();
+
+            return Ok(mainTask);
+        }
+
         // DELETE: api/MainTasks/5
         [ResponseType(typeof(MainTask))]
         public IHttpActionResult DeleteMainTask(int id)

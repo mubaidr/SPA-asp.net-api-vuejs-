@@ -5,7 +5,8 @@
         <md-list class="full-width">
           <md-subheader class="md-inset">Heading</md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span>Subheading</span>
+            <md-icon>add</md-icon>
+            <span>Subheading</span>
           </md-list-item>
         </md-list>
       </md-layout>
@@ -13,7 +14,8 @@
         <md-list class="full-width">
           <md-subheader class="md-inset">Heading</md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span>Subheading</span>
+            <md-icon>add</md-icon>
+            <span>Subheading</span>
           </md-list-item>
         </md-list>
       </md-layout>
@@ -21,7 +23,8 @@
         <md-list class="full-width">
           <md-subheader class="md-inset">Heading</md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span>Subheading</span>
+            <md-icon>add</md-icon>
+            <span>Subheading</span>
           </md-list-item>
         </md-list>
       </md-layout>
@@ -29,7 +32,8 @@
         <md-list class="full-width">
           <md-subheader class="md-inset">Heading</md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span>Subheading</span>
+            <md-icon>add</md-icon>
+            <span>Subheading</span>
           </md-list-item>
         </md-list>
       </md-layout>

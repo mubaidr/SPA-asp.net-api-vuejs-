@@ -19,58 +19,97 @@
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
       <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">
+        <div class="md-toolbar-container"></div>
         <div class="md-toolbar-container">
+          <h2 class="md-title" v-show="!isAuthenticated">My Account</h2>
+          <h2 class="md-title" v-show="isAuthenticated">{{userinfo.Email}}</h2>
+          <span style="flex: 1;"></span>
+          <!--TODO Display notifications here!-->
+          <!--<md-icon>notifications_active</md-icon>-->
         </div>
-        <div class="md-toolbar-container">
-          <md-menu md-direction="bottom left" v-show="!isAuthenticated">
-            <md-button md-menu-trigger>
-              My Account
-              <md-icon>menu</md-icon>
-            </md-button>
-            <md-menu-content>
-              <md-menu-item>
-                <router-link to="/signin">Sign In</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/signup">Register</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/about">About</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/contact">Contact Us</router-link>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
-          <md-menu md-direction="bottom left" v-show="isAuthenticated">
-            <md-button md-menu-trigger>
-              <md-icon>menu</md-icon>
-              {{userinfo.Email}}
-            </md-button>
-            <md-menu-content>
-              <md-menu-item>
-                <router-link to="/dashboard">Dashboard</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/profile">Profile</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/contact">Contact Us</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <router-link to="/about">About</router-link>
-              </md-menu-item>
-              <md-menu-item>
-                <span @click="openDialog('signout')">Sign Out</span>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
-        </div>
+        <md-list v-show="!isAuthenticated">
+          <md-subheader>
+            <span>Account</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>person_outline</md-icon>
+            <router-link to="/signin">Sign In</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>person_add</md-icon>
+            <router-link to="/signup">Register</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>settings_backup_restore</md-icon>
+            <router-link to="/recover">Recover</router-link>
+          </md-list-item>
+          <md-subheader>
+            <span>Support</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>phone</md-icon>
+            <router-link to="/contact">Contact</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>info</md-icon>
+            <router-link to="/about">About</router-link>
+          </md-list-item>
+        </md-list>
+        <md-list v-show="isAuthenticated">
+          <md-subheader>
+            <span>Account</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>dashboard</md-icon>
+            <router-link to="/dashboard">Dashboard</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>person</md-icon>
+            <router-link to="/profile">Profile</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>subdirectory_arrow_left</md-icon>
+            <a @click="openDialog('signout')">Sign Out</a>
+          </md-list-item>
+          <md-subheader>
+            <span>Tasks</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>assignment_return</md-icon>
+            <router-link :to="{path: '/tasks'}">List</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>delete</md-icon>
+            <router-link to="/tasks/trash">Trash</router-link>
+          </md-list-item>
+          <md-subheader>
+            <span>Messages</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>add</md-icon> <span>Compose</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>mail</md-icon> <span>Inbox</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>send</md-icon> <span>Outbox</span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>delete</md-icon> <span>Trash</span>
+          </md-list-item>
+          <md-subheader>
+            <span>Support</span>
+          </md-subheader>
+          <md-list-item>
+            <md-icon>phone</md-icon>
+            <router-link to="/contact">Contact</router-link>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>info</md-icon>
+            <router-link to="/about">About</router-link>
+          </md-list-item>
+        </md-list>
       </md-whiteframe>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt
-        ut est fugit, tempora deleniti, eligendi commodi doloribus. Nemo, assumenda possimus, impedit inventore perferendis
-        iusto!
-      </p>
     </md-sidenav>
     <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout"
       @close="onClose">
