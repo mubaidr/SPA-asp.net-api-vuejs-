@@ -161,8 +161,8 @@ namespace MBO_API.Controllers
                 return NotFound();
             }
 
-            mainTask.IsDeleted = true;
-            ///////TODO mark this changed
+            mainTask.IsDeleted = true;            
+            db.Entry(mainTask).State = EntityState.Modified;
             db.SaveChanges();
 
             return Ok(mainTask);
