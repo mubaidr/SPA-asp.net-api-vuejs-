@@ -11,7 +11,8 @@
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public MainTask()
-        {            
+        {
+            IsDeleted = false;
             Progress = 0;
             DateAssigned = DateAssigned == null ? DateTime.Now : DateAssigned;
             AssignedTo = new HashSet<ApplicationUser>();
@@ -29,7 +30,10 @@
         [MaxLength(250)]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
-        
+
+        [ScaffoldColumn(false)]
+        public bool IsDeleted { get; set; }
+
         [ScaffoldColumn(false)]
         public int Progress { get; set; }
 

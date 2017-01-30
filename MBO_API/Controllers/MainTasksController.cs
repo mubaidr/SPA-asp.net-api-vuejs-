@@ -25,9 +25,9 @@ namespace MBO_API.Controllers
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             //var taskList = db.MainTask;
-            
+
             var taskList = from m in db.MainTask
-                           where m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId
+                           where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false
                            select m;
 
             return taskList.ToList();
@@ -43,7 +43,7 @@ namespace MBO_API.Controllers
             {
                 case "assigned":
                     taskList = from m in db.MainTask
-                               where m.AssignedTo.All(u => u.Id == userId)
+                               where m.AssignedTo.All(u => u.Id == userId) && m.IsDeleted == false
                                select m;
                     break;
                 case "created":
@@ -53,12 +53,17 @@ namespace MBO_API.Controllers
                     break;
                 case "completed":
                     taskList = (from m in db.MainTask
-                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId ) && m.Progress==100
-                               select m).OrderBy(m => m.DateDue).Take(100);
+                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId ) && m.Progress== 100 && m.IsDeleted == false
+                                select m).OrderBy(m => m.DateDue);
+                    break;
+                case "trash":
+                    taskList = (from m in db.MainTask
+                                where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.Progress == 100 && m.IsDeleted == true
+                                select m).OrderBy(m => m.DateDue);
                     break;
                 default:
                     taskList = from m in db.MainTask
-                               where m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId
+                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false
                                select m;
                     break;
             }
@@ -155,8 +160,9 @@ namespace MBO_API.Controllers
             {
                 return NotFound();
             }
-            //TODO mark this task as deleted but donot delete it
-            //db.MainTask.Remove(mainTask);
+
+            mainTask.IsDeleted = true;
+            ///////TODO mark this changed
             db.SaveChanges();
 
             return Ok(mainTask);
