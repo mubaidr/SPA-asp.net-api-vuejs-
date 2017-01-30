@@ -12,7 +12,7 @@
             <h2 class="md-title">Get Busy with Management By Objectives!</h2>
           </md-layout>
         </span>
-        <router-link tag="md-button" to="/tasks/create" class="md-fab md-fab-bottom-right add-task">
+        <router-link v-show="isAuthenticated" tag="md-button" to="/tasks/create" class="md-fab md-fab-bottom-right add-task">
           <md-icon>add</md-icon>
         </router-link>
       </div>
