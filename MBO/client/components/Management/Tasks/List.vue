@@ -1,10 +1,10 @@
 <template>
   <div>
     <md-whiteframe md-tag="section" md-elevation="0">
-      <md-toolbar class="md-transparent">
-        <router-link tag="md-button" to="/tasks/create" class="md-accent">
-          <md-icon>add</md-icon>
-          Add Task
+      <md-toolbar class="md-transparent no-padding">
+        <router-link tag="md-button" to="/tasks/trash" class="md-warn" id="btn-view-trash">
+          <md-icon>delete_sweep</md-icon>
+          Trash
         </router-link>
         <span style="flex: 1"></span>
         <md-button class="md-icon-button">
@@ -202,24 +202,10 @@
     mounted: function () {
       const _self = this;
 
-      //Delay data loading to avoid jittering on tab-change at load      
       window.setTimeout(function () {
-        //const currentTab = _self.activeTab;
         _self.loadCompleted();
         _self.loadCreated();
         _self.loadAssigned();
-        // switch (currentTab) {
-        //   case 'Completed':
-        //     _self.loadCompleted();
-        //     break;
-        //   case 'Created':
-        //     _self.loadCreated();
-        //     break;
-        //   default:
-        //     _self.loadAssigned();
-        //     break;
-        // }
-
       }, 250);
 
       getCategories().then(res => {
@@ -251,6 +237,10 @@
   .md-tab {
     min-height: 480px;
     padding: 16px 2px;
+  }
+  
+  .no-padding {
+    padding: 0;
   }
 
 </style>

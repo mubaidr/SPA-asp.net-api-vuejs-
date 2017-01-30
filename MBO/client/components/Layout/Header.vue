@@ -12,49 +12,9 @@
             <h2 class="md-title">Get Busy with Management By Objectives!</h2>
           </md-layout>
         </span>
-        <md-menu md-direction="bottom left" v-show="!isAuthenticated">
-          <md-button md-menu-trigger>
-            My Account
-            <md-icon>more_vert</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item>
-              <router-link to="/signin">Sign In</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/signup">Register</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/about">About</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/contact">Contact Us</router-link>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-        <md-menu md-direction="bottom left" v-show="isAuthenticated">
-          <md-button md-menu-trigger>
-            <md-icon>account_circle</md-icon>
-            {{userinfo.Email}}
-          </md-button>
-          <md-menu-content>
-            <md-menu-item>
-              <router-link to="/dashboard">Dashboard</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/profile">Profile</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/contact">Contact Us</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <router-link to="/about">About</router-link>
-            </md-menu-item>
-            <md-menu-item>
-              <span @click="openDialog('signout')">Sign Out</span>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
+        <router-link tag="md-button" to="/tasks/create" class="md-fab md-fab-bottom-right add-task">
+          <md-icon>add</md-icon>
+        </router-link>
       </div>
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
@@ -62,6 +22,49 @@
         <div class="md-toolbar-container">
         </div>
         <div class="md-toolbar-container">
+          <md-menu md-direction="bottom left" v-show="!isAuthenticated">
+            <md-button md-menu-trigger>
+              My Account
+              <md-icon>menu</md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>
+                <router-link to="/signin">Sign In</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/signup">Register</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/about">About</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/contact">Contact Us</router-link>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <md-menu md-direction="bottom left" v-show="isAuthenticated">
+            <md-button md-menu-trigger>
+              <md-icon>menu</md-icon>
+              {{userinfo.Email}}
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>
+                <router-link to="/dashboard">Dashboard</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/profile">Profile</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/contact">Contact Us</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <router-link to="/about">About</router-link>
+              </md-menu-item>
+              <md-menu-item>
+                <span @click="openDialog('signout')">Sign Out</span>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </div>
       </md-whiteframe>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi cupiditate esse necessitatibus beatae nobis, deserunt
@@ -113,3 +116,10 @@
   export default vm;
 
 </script>
+<style scoped>
+  .add-task {
+    bottom: -25%!important;
+    right: 8px!important;
+  }
+
+</style>

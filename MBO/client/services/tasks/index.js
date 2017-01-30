@@ -2,6 +2,7 @@ export {
   create,
   edit,
   remove,
+  deleteTask,
   listAll,
   listAssigned,
   listCreated,
@@ -23,6 +24,10 @@ function edit(obj) {
 }
 
 function remove(obj) {
+  return axios.post(api.url + path, obj);
+}
+
+function deleteTask(obj) {
   return axios.post(api.url + path, obj);
 }
 

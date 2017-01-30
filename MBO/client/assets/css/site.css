@@ -22,6 +22,10 @@ body {}
   text-align: right;
 }
 
+.pull-right {
+  float: right;
+}
+
 
 /*Footer*/
 
@@ -62,6 +66,54 @@ body {}
 
 
 /*Animation keyframes*/
+
+.animate-warn {
+  animation-delay: 2s;
+  -webkit-animation-name: jump;
+  animation-name: jump;
+  -webkit-animation-duration: 8s;
+  animation-duration: 8s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  transform-origin: 50%;
+}
+
+.animate-danger {
+  animation-delay: 1s;
+  -webkit-animation-name: shake;
+  animation-name: shake;
+  -webkit-animation-duration: 5s;
+  animation-duration: 5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+  transform-origin: 50% 0;
+}
+
+.animate-active {
+  animation-delay: 0s;
+  -webkit-animation-name: active;
+  animation-name: active;
+  -webkit-animation-duration: 0.25s;
+  animation-duration: .25s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  transform-origin: 50% 0;
+}
+
+@keyframes active {
+  0%,
+  100% {
+    -webkit-transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    -webkit-transform: rotate(0deg) scale(1.25);
+    transform: rotate(0deg) scale(1.25);
+  }
+}
 
 @keyframes jump {
   0%,

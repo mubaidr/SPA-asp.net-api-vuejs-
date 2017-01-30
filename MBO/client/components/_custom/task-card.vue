@@ -26,8 +26,8 @@
       </md-card-content>
       <md-card-content>
         <div class="card-date" :class="type_class" title="Due Date">
-          <md-icon :class="type_animate">{{type_icon}}</md-icon>
           <span class="text-muted">{{formatedDueDate}}</span>
+          <md-icon :class="type_animate" class="pull-right">{{type_icon}}</md-icon>
         </div>
         <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
@@ -41,7 +41,7 @@
       </md-card-content>
       <md-card-actions>
         <div v-show="isSelfCreated">
-          <md-button class="md-icon-button" @click="confirmDelete" :id="btnConfirmId">
+          <md-button class="md-icon-button" @click="confirmDelete">
             <md-icon>delete</md-icon>
           </md-button>
           <md-button class="md-icon-button">
@@ -59,7 +59,7 @@
     </md-card>
     <!--Delete Confirmation-->
     <!--Should be a sinlge dialog for all cards-->
-    <md-dialog :md-open-from="'#' + btnConfirmId" :md-close-to="'#' + btnConfirmId" :ref="refConfirm">
+    <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
       <md-dialog-title>Delete Task</md-dialog-title>
       <md-dialog-content>Are you sure you want to move this task to trash?</md-dialog-content>
       <md-dialog-actions>
@@ -70,11 +70,19 @@
   </md-layout>
 </template>
 <script>
+  import {
+    remove
+  } from 'services/tasks';
   import moment from 'moment';
 
   export default {
     name: 'task-card',
     props: ['Task'],
+    data: function () {
+      return {
+        DialogCloseTarget: ''
+      }
+    },
     computed: {
       isSelfCreated: function () {
         return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
@@ -137,30 +145,37 @@
       formatedDueDate: function () {
         return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
       },
-      btnConfirmId: function () {
-        return 'btn-confirm-' + this.Task.MainTaskID;
-      },
       refConfirm: function () {
         return 'ref-confirm-' + this.Task.MainTaskID;
       }
     },
     methods: {
-      viewDetails: function () {
-        //alert('click');
-      },
+      viewDetails: function () {},
       confirmDelete: function () {
         this.$refs[this.refConfirm].open();
       },
       onDeleteClose: function (type) {
         if (type == "ok") {
-          console.log('deleted :/');
+          this.$set(this, 'DialogCloseTarget', '#btn-view-trash');
+          this.animateTrashButton();
+
+          //TODO delete card
+        } else {
+          this.$set(this, 'DialogCloseTarget', null);
         }
         this.$refs[this.refConfirm].close();
+      },
+      animateTrashButton: function () {
+        window.setTimeout(function () {
+          document.getElementById('btn-view-trash').className += " animate-active";
+          window.setTimeout(function () {
+            document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
+              .replace(/(?:^|\s)animate-active(?!\S)/g, '');
+          }, 250);
+        }, 200);
       }
     },
-    mounted: function () {
-      //this.Task.AssignedTo = ['Some', 'user', 'more', 'user'];      
-    }
+    mounted: function () {}
   }
 
 </script>
@@ -178,8 +193,12 @@
     overflow-x: hidden;
   }
   
+  .md-card-custom .md-card-content:last-child {
+    padding-top: 0!important;
+  }
+  
   .md-caption {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
   }
   
   .md-caption ul {
@@ -218,30 +237,6 @@
   
   .theme-success .md-icon {
     color: #4caf50;
-  }
-  
-  .animate-warn {
-    animation-delay: 2s;
-    -webkit-animation-name: jump;
-    animation-name: jump;
-    -webkit-animation-duration: 8s;
-    animation-duration: 8s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    animation-iteration-count: infinite;
-    transform-origin: 50%;
-  }
-  
-  .animate-danger {
-    animation-delay: 1s;
-    -webkit-animation-name: shake;
-    animation-name: shake;
-    -webkit-animation-duration: 5s;
-    animation-duration: 5s;
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
-    animation-iteration-count: infinite;
-    transform-origin: 50% 0;
   }
 
 </style>
