@@ -48,7 +48,7 @@ namespace MBO_API.Controllers
                     break;
                 case "created":
                     taskList = from m in db.MainTask
-                               where m.AssignedByID == userId
+                               where m.AssignedByID == userId && m.IsDeleted == false
                                select m;
                     break;
                 case "completed":
@@ -58,12 +58,12 @@ namespace MBO_API.Controllers
                     break;
                 case "trash":
                     taskList = (from m in db.MainTask
-                                where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.Progress == 100 && m.IsDeleted == true
+                                where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true
                                 select m).OrderBy(m => m.DateDue);
                     break;
                 default:
                     taskList = from m in db.MainTask
-                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false
+                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId)
                                select m;
                     break;
             }
@@ -150,7 +150,25 @@ namespace MBO_API.Controllers
             return CreatedAtRoute("DefaultApi", new { id = mainTask.MainTaskID }, mainTask);
         }
 
-        // Remove: api/MainTasks/Remove/5
+        // Remove: api/MainTasks/Restore?id=5
+        [Route("api/MainTasks/Restore")]
+        [ResponseType(typeof(MainTask))]
+        public IHttpActionResult RestoreMainTask(int id)
+        {
+            MainTask mainTask = db.MainTask.Find(id);
+            if (mainTask == null)
+            {
+                return NotFound();
+            }
+
+            mainTask.IsDeleted = false;
+            db.Entry(mainTask).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Ok(mainTask);
+        }
+
+        // Remove: api/MainTasks/Remove?id=5
         [Route("api/MainTasks/Remove")]
         [ResponseType(typeof(MainTask))]
         public IHttpActionResult RemoveMainTask(int id)

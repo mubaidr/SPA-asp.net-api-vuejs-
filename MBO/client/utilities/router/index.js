@@ -22,6 +22,7 @@ import Search from 'components/Management/Search.vue';
 //Tasks
 import Tasks from 'components/Management/Tasks/index.vue';
 import TasksList from 'components/Management/Tasks/List.vue';
+import TasksTrash from 'components/Management/Tasks/Trash.vue'
 import TasksCreate from 'components/Management/Tasks/Create.vue';
 import TasksEdit from 'components/Management/Tasks/Edit.vue';
 
@@ -102,6 +103,9 @@ const router = new Router({
     children: [{
       path: '',
       component: TasksList
+    }, {
+      path: 'trash',
+      component: TasksTrash
     }, {
       path: 'create',
       component: TasksCreate

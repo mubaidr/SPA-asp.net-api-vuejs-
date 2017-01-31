@@ -1,16 +1,16 @@
 <template>
   <div>
     <md-whiteframe md-tag="section" md-elevation="0">
+      <span class="md-display-1">Tasks</span>
       <md-toolbar class="md-transparent no-padding">
-        <router-link tag="md-button" to="/tasks/trash" class="md-warn" id="btn-view-trash">
-          <md-icon>delete_sweep</md-icon>
-          Trash
+        <router-link to="/tasks/trash" class="md-warn" id="btn-view-trash">
+          <md-icon>archive</md-icon>
+          Archived
         </router-link>
         <span style="flex: 1"></span>
         <md-button class="md-icon-button">
           <md-icon>search</md-icon>
         </md-button>
-        <!--View change-->
         <md-menu md-direction="bottom left" md-size="3">
           <md-button md-menu-trigger class="md-icon-button">
             <md-icon>filter_list</md-icon>
@@ -35,17 +35,6 @@
             </md-menu-item>
           </md-menu-content>
         </md-menu>
-        <!--<md-menu md-direction="bottom left" md-size="3">
-        <md-button md-menu-trigger class="md-icon-button">
-          <md-icon>dashboard</md-icon>
-        </md-button>
-        <md-menu-content>
-          <md-menu-item v-for="type in settings.task_view.type" :disabled="type.enabled">
-            <span>{{type.name}}</span>
-            <md-icon>{{type.icon}}</md-icon>
-          </md-menu-item>
-        </md-menu-content>
-      </md-menu>-->
       </md-toolbar>
     </md-whiteframe>
     <md-whiteframe md-tag="section" md-elevation="0">
@@ -77,9 +66,7 @@
     listCreated,
     listCompleted
   } from 'services/tasks';
-  import {
-    getUsersList
-  } from 'services/account'
+
   import {
     getCategories
   } from 'services/catalogs';

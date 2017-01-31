@@ -3,25 +3,13 @@
     <md-card md-with-hover class="md-card-custom">
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title text-primary" v-on:click="viewDetails()">
+          <div class="md-title" v-on:click="viewDetails()">
             {{Task.Title}}</div>
           <div class="md-subhead" v-on:click="viewDetails()">
             <md-tooltip md-direction="top">Task is assigned by this user</md-tooltip>
             {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
-        <md-menu md-size="3" md-direction="bottom left">
-          <md-button class="md-icon-button" md-menu-trigger>
-            <md-tooltip md-direction="top">Menu</md-tooltip>
-            <md-icon>more_vert</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item>
-              <span>Add Comment</span>
-              <md-icon>message</md-icon>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
       </md-card-header>
       <md-card-content style="padding-bottom: 0">
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
@@ -29,7 +17,6 @@
       <md-card-content>
         <div class="card-date" :class="type_class" title="Due Date">
           <span class="text-muted">{{formatedDueDate}}</span>
-          <md-icon :class="type_animate" class="pull-right">{{type_icon}}</md-icon>
         </div>
         <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
@@ -44,35 +31,18 @@
       </md-card-content>
       <md-card-actions>
         <div v-show="isSelfCreated">
-          <md-button class="md-icon-button" @click="confirmDelete">
-            <md-tooltip md-direction="top">Archive</md-tooltip>
-            <md-icon>archive</md-icon>
-          </md-button>
-          <md-button class="md-icon-button">
-            <md-tooltip md-direction="top">Update</md-tooltip>
-            <md-icon>mode_edit</md-icon>
-          </md-button>
-          <md-button class="md-icon-button">
-            <md-tooltip md-direction="top">Priority</md-tooltip>
-            <md-icon>low_priority</md-icon>
+          <md-button class="md-icon-button" @click="restoreTask">
+            <md-tooltip md-direction="top">Restore</md-tooltip>
+            <md-icon>unarchive</md-icon>
           </md-button>
         </div>
       </md-card-actions>
     </md-card>
-    <!--Delete Confirmation-->
-    <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
-      <md-dialog-title>Move to Archive</md-dialog-title>
-      <md-dialog-content>Are you sure you want to archive this task?</md-dialog-content>
-      <md-dialog-actions>
-        <md-button class="md-primary" @click="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
-        <md-button class="md-primary" @click="onDeleteClose('ok')">Sure</md-button>
-      </md-dialog-actions>
-    </md-dialog>
   </md-layout>
 </template>
 <script>
   import {
-    remove
+    restore
   } from 'services/tasks';
   import moment from 'moment';
 
@@ -108,41 +78,6 @@
           return 'theme-primary';
         }
       },
-      type_animate: function () {
-        const _self = this;
-
-        const now = moment();
-        const dueDate = moment(_self.Task.DateDue);
-        const diff = now.diff(dueDate, 'days');
-
-        if (diff < 0) {
-          return 'animate-danger';
-        } else if (diff < 2) {
-          return 'animate-warn';
-        } else {
-          return '';
-        }
-      },
-      type_icon: function () {
-        switch (this.type_class) {
-          case 'theme-success':
-            return 'done';
-            break;
-          case 'theme-danger':
-            return 'warning';
-            break;
-          case 'theme-warn':
-            return 'av_timer';
-            break;
-          case 'theme-normal':
-            return 'timelapse';
-            break;
-          case 'theme-primary':
-          default:
-            return 'timer';
-            break;
-        }
-      },
       formatedDueDate: function () {
         return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
       },
@@ -152,41 +87,19 @@
     },
     methods: {
       viewDetails: function () {},
-      confirmDelete: function () {
+      confirmRestore: function () {
         this.$refs[this.refConfirm].open();
       },
-      onDeleteClose: function (type) {
-        const _self = this;
-        if (type == "ok") {
+      restoreTask: function (type) {
+        restore({
+          id: _self.Task.MainTaskID
+        }).then(res => {
 
-          remove({
-            id: _self.Task.MainTaskID
-          }).then(res => {
-            _self.$set(_self, 'DialogCloseTarget', '#btn-view-trash');
-            _self.animateTrashButton();
-            _self.$refs[_self.refConfirm].close();
+          //TODO Remove from parent list
 
-            //TODO Remove from parent list
-
-          }).catch(err => {
-            console.dir(err);
-          });
-
-          //TODO remove card
-        } else {
-          _self.$set(_self, 'DialogCloseTarget', null);
-          _self.$refs[_self.refConfirm].close();
-        }
-
-      },
-      animateTrashButton: function () {
-        window.setTimeout(function () {
-          document.getElementById('btn-view-trash').className += " animate-active";
-          window.setTimeout(function () {
-            document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
-              .replace(/(?:^|\s)animate-active(?!\S)/g, '');
-          }, 250);
-        }, 200);
+        }).catch(err => {
+          console.dir(err);
+        });
       }
     },
     mounted: function () {}
