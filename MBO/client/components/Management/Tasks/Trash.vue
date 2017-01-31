@@ -114,6 +114,18 @@
             error: true
           });
         });
+      },
+      removeTask: function (id) {
+        const _self = this;
+        const len = _self.prop.content.length;
+
+        for (var i = 0; i < len; i++) {
+          var obj = _self.prop.content[i];
+
+          if (id !== obj.MainTaskID) {
+            _self.prop.content.splice(i, 1);
+          }
+        }
       }
     },
     mounted: function () {
@@ -147,11 +159,6 @@
   
   .no-content i {
     margin-bottom: 10px;
-  }
-  
-  .md-tab {
-    min-height: 480px;
-    padding: 16px 2px;
   }
   
   .no-padding {

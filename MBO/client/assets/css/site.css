@@ -4,8 +4,10 @@ body {}
   padding: 15px;
 }
 
-.min-height {
-  min-height: 480px;
+@media screen and (min-width: 480px) {
+  .min-height {
+    min-height: 480px;
+  }
 }
 
 .flex-vertical {

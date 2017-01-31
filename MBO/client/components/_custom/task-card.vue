@@ -6,7 +6,7 @@
           <div class="md-title text-primary" v-on:click="viewDetails()">
             {{Task.Title}}</div>
           <div class="md-subhead" v-on:click="viewDetails()">
-            <md-tooltip md-direction="top">Task is assigned by this user</md-tooltip>
+            <md-tooltip md-direction="top">Task is assigned by this User</md-tooltip>
             {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
@@ -31,10 +31,11 @@
           <span class="text-muted">{{formatedDueDate}}</span>
           <md-icon :class="type_animate" class="pull-right">{{type_icon}}</md-icon>
         </div>
+        <md-tooltip md-direction="top">Progress and Status</md-tooltip>
         <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
-        <md-tooltip md-direction="top">Task is assigned to followiung users</md-tooltip>
+        <md-tooltip md-direction="top">Task is assigned to followiung Users</md-tooltip>
         <div class="md-caption" v-show="Task.AssignedTo.length">
           <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
         </div>

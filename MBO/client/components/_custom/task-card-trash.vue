@@ -18,6 +18,7 @@
         <div class="card-date" :class="type_class" title="Due Date">
           <span class="text-muted">{{formatedDueDate}}</span>
         </div>
+        <md-tooltip md-direction="top">Progress and Status</md-tooltip>
         <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
@@ -38,6 +39,8 @@
         </div>
       </md-card-actions>
     </md-card>
+    <md-dialog-alert md-content="Task has been restored." md-ok-text="Ok" ref="dialog-success">
+    </md-dialog-alert>
   </md-layout>
 </template>
 <script>
@@ -91,10 +94,16 @@
         this.$refs[this.refConfirm].open();
       },
       restoreTask: function (type) {
-        restore({
-          id: _self.Task.MainTaskID
-        }).then(res => {
+        const _self = this;
+        const TaskId = _self.Task.MainTaskID;
 
+        //Debug Test Code
+        return;
+
+        restore({
+          id: TaskId
+        }).then(res => {
+          this.$refs['dialog-success'].open();
           //TODO Remove from parent list
 
         }).catch(err => {

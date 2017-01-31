@@ -222,7 +222,6 @@
   }
   
   .md-tab {
-    min-height: 480px;
     padding: 16px 2px;
   }
   
