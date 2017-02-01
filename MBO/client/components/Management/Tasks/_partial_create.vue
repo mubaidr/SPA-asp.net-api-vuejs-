@@ -130,7 +130,7 @@
           }).then(function (res) {
 
             _self.$router.push({
-              path: '/tasks/list'
+              path: '/tasks'
             });
 
           }).catch(function (err) {

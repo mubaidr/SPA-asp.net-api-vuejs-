@@ -41,17 +41,21 @@
       <md-tabs md-fixed>
         <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <md-layout md-gutter>
-            <div class="flex-vertical min-height full-width" v-show="!TaskList.prop.content.length">
-              <p v-show="TaskList.prop.loading" class="no-content">
-                <md-spinner md-indeterminate class="md-accent" v-show="TaskList.prop.loading"></md-spinner><br/>
+            <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
+              <p v-show="TaskList.loading" class="no-content">
+                <md-spinner md-indeterminate class="md-accent"></md-spinner><br/>
                 <span>Fetching data!</span>
               </p>
-              <p v-show="!TaskList.prop.loading" class="no-content">
+              <p v-show="!TaskList.loading" class="no-content">
                 <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
                 <span>{{TaskList.message || "Awww... Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
               </p>
             </div>
-            <task-card v-for="Task in TaskList.prop.content" :Task="Task"></task-card>
+            <transition-group name="list-in" tag="ul" class="no-padding">
+              <li class="list-in-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name"></task-card>
+              </li>
+            </transition-group>
           </md-layout>
         </md-tab>
       </md-tabs>
@@ -83,37 +87,36 @@
           Assigned: {
             name: 'Assigned',
             icon: 'assignment_return',
-            message: '',
-            prop: {
-              content: [],
-              loading: true,
-              error: false
-            }
+            content: [],
+            loading: true
           },
           Created: {
             name: 'Created',
             icon: 'assignment_returned',
-            message: '',
-            prop: {
-              content: [],
-              loading: true,
-              error: false
-            }
+            content: [],
+            loading: true
           },
           Completed: {
             name: 'Completed',
             icon: 'assignment_turned_in',
-            message: '',
-            prop: {
-              content: [],
-              loading: true,
-              error: false
-            }
+            content: [],
+            loading: true
           }
         },
         Catalog: {
           Categories: []
         }
+      }
+    },
+    watch: {
+      'Tasks.Assigned.content': function () {
+        this.$set(this.Tasks.Assigned, 'loading', false);
+      },
+      'Tasks.Created.content': function () {
+        this.$set(this.Tasks.Created, 'loading', false);
+      },
+      'Tasks.Completed.content': function () {
+        this.$set(this.Tasks.Completed, 'loading', false);
       }
     },
     computed: {
@@ -131,59 +134,37 @@
       }
     },
     methods: {
-      openDialog: function (ref) {
-        this.$refs[ref].open();
-      },
-      closeDialog: function (ref) {
-        this.$refs[ref].close();
+      removeTaskItem: function (obj) {
+        const _self = this;
+        var id = obj.id;
+        var type = obj.type;
+
+        var ts = _self.Tasks[type].content;
+
+        for (var i = 0; i < ts.length; i++) {
+          if (ts[i].MainTaskID == id) {
+            _self.Tasks[type].content.splice(i, 1);
+            break;
+          }
+        }
       },
       loadAssigned: function () {
         const _self = this;
         listAssigned().then(res => {
-          _self.$set(_self.Tasks.Assigned, 'prop', {
-            content: res.data,
-            loading: false,
-            error: false
-          });
-        }).catch(err => {
-          _self.$set(_self.Tasks.Assigned, 'prop', {
-            content: [],
-            loading: false,
-            error: true
-          });
-        });
+          _self.$set(_self.Tasks.Assigned, 'content', res.data);
+        }).catch(err => {});
       },
       loadCompleted: function () {
         const _self = this;
         listCompleted().then(res => {
-          _self.$set(_self.Tasks.Completed, 'prop', {
-            content: res.data,
-            loading: false,
-            error: false
-          });
-        }).catch(err => {
-          _self.$set(_self.Tasks.Completed, 'prop', {
-            content: [],
-            loading: false,
-            error: true
-          });
-        });
+          _self.$set(_self.Tasks.Completed, 'content', res.data);
+        }).catch(err => {});
       },
       loadCreated: function () {
         const _self = this;
         listCreated().then(res => {
-          _self.$set(_self.Tasks.Created, 'prop', {
-            content: res.data,
-            loading: false,
-            error: false
-          });
-        }).catch(err => {
-          _self.$set(_self.Tasks.Created, 'prop', {
-            content: [],
-            loading: false,
-            error: true
-          });
-        });
+          _self.$set(_self.Tasks.Created, 'content', res.data);
+        }).catch(err => {});
       }
     },
     mounted: function () {
@@ -198,16 +179,11 @@
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
       }).catch(err => {});
-
     }
   }
 
 </script>
 <style scoped>
-  .bg-white {
-    background-color: #fff;
-  }
-  
   .no-content {
     text-align: center;
   }
@@ -223,10 +199,6 @@
   
   .md-tab {
     padding: 16px 2px;
-  }
-  
-  .no-padding {
-    padding: 0;
   }
 
 </style>

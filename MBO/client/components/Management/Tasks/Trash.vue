@@ -38,17 +38,21 @@
     </md-whiteframe>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-layout md-gutter>
-        <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.prop.content.length">
-          <p v-show="Tasks.Trash.prop.loading" class="no-content">
-            <md-spinner md-indeterminate class="md-accent" v-show="Tasks.Trash.prop.loading"></md-spinner><br/>
+        <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
+          <p v-show="Tasks.Trash.loading" class="no-content">
+            <md-spinner md-indeterminate class="md-accent" v-show="Tasks.Trash.loading"></md-spinner><br/>
             <span>Fetching data!</span>
           </p>
-          <p v-show="!Tasks.Trash.prop.loading" class="no-content">
+          <p v-show="!Tasks.Trash.loading" class="no-content">
             <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
             <span>{{Tasks.Trash.message || "Awww... Nothing here!"}} <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span></span>
           </p>
         </div>
-        <task-card-trash v-for="Task in Tasks.Trash.prop.content" :Task="Task"></task-card-trash>
+        <transition-group name="list-out" tag="ul" class="no-padding">
+          <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
+            <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
+          </li>
+        </transition-group>
       </md-layout>
     </md-whiteframe>
   </div>
@@ -74,17 +78,18 @@
           Trash: {
             name: 'Assigned',
             icon: 'assignment_return',
-            message: '',
-            prop: {
-              content: [],
-              loading: true,
-              error: false
-            }
+            content: [],
+            loading: true
           }
         },
         Catalog: {
           Categories: []
         }
+      }
+    },
+    watch: {
+      'Tasks.Trash.content': function () {
+        this.$set(this.Tasks.Trash, 'loading', false);
       }
     },
     computed: {
@@ -93,39 +98,23 @@
       }
     },
     methods: {
-      openDialog: function (ref) {
-        this.$refs[ref].open();
-      },
-      closeDialog: function (ref) {
-        this.$refs[ref].close();
+      removeTaskItem: function (obj) {
+        const _self = this;
+        var id = obj.id;
+        var ts = _self.Tasks.Trash.content;
+
+        for (var i = 0; i < ts.length; i++) {
+          if (ts[i].MainTaskID == id) {
+            _self.Tasks.Trash.content.splice(i, 1);
+            break;
+          }
+        }
       },
       loadTrash: function () {
         const _self = this;
         listTrash().then(res => {
-          _self.$set(_self.Tasks.Trash, 'prop', {
-            content: res.data,
-            loading: false,
-            error: false
-          });
-        }).catch(err => {
-          _self.$set(_self.Tasks.Trash, 'prop', {
-            content: [],
-            loading: false,
-            error: true
-          });
-        });
-      },
-      removeTask: function (id) {
-        const _self = this;
-        const len = _self.prop.content.length;
-
-        for (var i = 0; i < len; i++) {
-          var obj = _self.prop.content[i];
-
-          if (id !== obj.MainTaskID) {
-            _self.prop.content.splice(i, 1);
-          }
-        }
+          _self.$set(_self.Tasks.Trash, 'content', res.data);
+        }).catch(err => {});
       }
     },
     mounted: function () {
@@ -144,10 +133,6 @@
 
 </script>
 <style scoped>
-  .bg-white {
-    background-color: #fff;
-  }
-  
   .no-content {
     text-align: center;
   }
@@ -159,10 +144,6 @@
   
   .no-content i {
     margin-bottom: 10px;
-  }
-  
-  .no-padding {
-    padding: 0;
   }
 
 </style>

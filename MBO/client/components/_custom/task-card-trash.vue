@@ -1,5 +1,6 @@
 <template>
-  <md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">
+  <!--<md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">-->
+  <div class="card-cont">
     <md-card md-with-hover class="md-card-custom">
       <md-card-header>
         <md-card-header-text>
@@ -39,9 +40,10 @@
         </div>
       </md-card-actions>
     </md-card>
-    <md-dialog-alert md-content="Task has been restored." md-ok-text="Ok" ref="dialog-success">
+    <md-dialog-alert md-content="Task has been restored." md-ok-text="Ok" ref="dialog-success" @close="dialogSuccessClose">
     </md-dialog-alert>
-  </md-layout>
+    <!--</md-layout>-->
+  </div>
 </template>
 <script>
   import {
@@ -89,6 +91,13 @@
       }
     },
     methods: {
+      dialogSuccessClose: function () {
+        const _self = this;
+        const TaskId = _self.Task.MainTaskID;
+        _self.$emit('remove-task-item', {
+          id: TaskId
+        });
+      },
       viewDetails: function () {},
       confirmRestore: function () {
         this.$refs[this.refConfirm].open();
@@ -97,15 +106,10 @@
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
 
-        //Debug Test Code
-        return;
-
         restore({
           id: TaskId
         }).then(res => {
           this.$refs['dialog-success'].open();
-          //TODO Remove from parent list
-
         }).catch(err => {
           console.dir(err);
         });
@@ -116,8 +120,8 @@
 
 </script>
 <style scoped>
-  .card {
-    margin-bottom: 10px;
+  .card-cont {
+    margin: 0 10px 10px 0;
   }
   
   .card-date {
@@ -125,6 +129,7 @@
   }
   
   .md-card-custom {
+    min-width: 280px;
     width: 98%;
     overflow-x: hidden;
   }

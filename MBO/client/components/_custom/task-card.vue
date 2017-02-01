@@ -1,5 +1,6 @@
 <template>
-  <md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">
+  <!--<md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">-->
+  <div class="card-cont">
     <md-card md-with-hover class="md-card-custom">
       <md-card-header>
         <md-card-header-text>
@@ -69,7 +70,8 @@
         <md-button class="md-primary" @click="onDeleteClose('ok')">Sure</md-button>
       </md-dialog-actions>
     </md-dialog>
-  </md-layout>
+  </div>
+  <!--</md-layout>-->
 </template>
 <script>
   import {
@@ -79,7 +81,7 @@
 
   export default {
     name: 'task-card',
-    props: ['Task'],
+    props: ['Task', 'Type'],
     data: function () {
       return {
         DialogCloseTarget: null
@@ -158,22 +160,27 @@
       },
       onDeleteClose: function (type) {
         const _self = this;
+        const TaskId = _self.Task.MainTaskID;
+
         if (type == "ok") {
 
           remove({
-            id: _self.Task.MainTaskID
+            id: TaskId
           }).then(res => {
             _self.$set(_self, 'DialogCloseTarget', '#btn-view-trash');
             _self.animateTrashButton();
             _self.$refs[_self.refConfirm].close();
 
-            //TODO Remove from parent list
+            window.setTimeout(function () {
+              _self.$emit('remove-task-item', {
+                id: TaskId,
+                type: _self.Type
+              });
+            }, 250);
 
           }).catch(err => {
             console.dir(err);
           });
-
-          //TODO remove card
         } else {
           _self.$set(_self, 'DialogCloseTarget', null);
           _self.$refs[_self.refConfirm].close();
@@ -195,8 +202,8 @@
 
 </script>
 <style scoped>
-  .card {
-    margin-bottom: 10px;
+  .card-cont {
+    margin: 0 10px 10px 0;
   }
   
   .card-date {
@@ -204,6 +211,7 @@
   }
   
   .md-card-custom {
+    min-width: 280px;
     width: 98%;
     overflow-x: hidden;
   }
