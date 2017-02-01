@@ -53,6 +53,10 @@
             <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
           </li>
         </transition-group>
+        <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
+          <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
+          <md-button class="md-accent" @click="retry">Retry</md-button>
+        </md-snackbar>
       </md-layout>
     </md-whiteframe>
   </div>
@@ -98,6 +102,13 @@
       }
     },
     methods: {
+      retry: function () {
+        const _self = this;
+        _self.$refs.snackbar.close();
+        window.setTimeout(function () {
+          _self.loadTrash();
+        }, 500);
+      },
       removeTaskItem: function (obj) {
         const _self = this;
         var id = obj.id;
@@ -112,9 +123,13 @@
       },
       loadTrash: function () {
         const _self = this;
+        _self.$set(_self.Tasks.Trash, 'loading', true);
         listTrash().then(res => {
           _self.$set(_self.Tasks.Trash, 'content', res.data);
-        }).catch(err => {});
+        }).catch(err => {
+          _self.$set(_self.Tasks.Trash, 'loading', false);
+          _self.$refs.snackbar.open();
+        });
       }
     },
     mounted: function () {
@@ -126,7 +141,9 @@
 
       getCategories().then(res => {
         _self.$set(_self.Catalog, 'Categories', res.data);
-      }).catch(err => {});
+      }).catch(err => {
+
+      });
 
     }
   }

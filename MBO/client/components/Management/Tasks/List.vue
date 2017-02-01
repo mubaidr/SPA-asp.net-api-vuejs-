@@ -59,6 +59,10 @@
           </md-layout>
         </md-tab>
       </md-tabs>
+      <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
+        <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
+        <md-button class="md-accent" @click="retry">Retry</md-button>
+      </md-snackbar>
     </md-whiteframe>
   </div>
 </template>
@@ -105,7 +109,8 @@
         },
         Catalog: {
           Categories: []
-        }
+        },
+        failAlert: false
       }
     },
     watch: {
@@ -117,6 +122,14 @@
       },
       'Tasks.Completed.content': function () {
         this.$set(this.Tasks.Completed, 'loading', false);
+      },
+      'failAlert': function (val) {
+        const _self = this;
+        if (val) {
+          _self.$refs.snackbar.open();
+        } else {
+          _self.$refs.snackbar.close();
+        }
       }
     },
     computed: {
@@ -134,6 +147,16 @@
       }
     },
     methods: {
+      retry: function () {
+        const _self = this;
+        _self.$set(_self, 'failAlert', false);
+
+        window.setTimeout(function () {
+          _self.loadCompleted();
+          _self.loadCreated();
+          _self.loadAssigned();
+        }, 500);
+      },
       removeTaskItem: function (obj) {
         const _self = this;
         var id = obj.id;
@@ -150,21 +173,33 @@
       },
       loadAssigned: function () {
         const _self = this;
+        _self.$set(_self.Tasks.Assigned, 'loading', true);
         listAssigned().then(res => {
           _self.$set(_self.Tasks.Assigned, 'content', res.data);
-        }).catch(err => {});
+        }).catch(err => {
+          _self.$set(_self.Tasks.Assigned, 'loading', false);
+          _self.$set(_self, 'failAlert', true);
+        });
       },
       loadCompleted: function () {
         const _self = this;
+        _self.$set(_self.Tasks.Completed, 'loading', true);
         listCompleted().then(res => {
           _self.$set(_self.Tasks.Completed, 'content', res.data);
-        }).catch(err => {});
+        }).catch(err => {
+          _self.$set(_self.Tasks.Completed, 'loading', false);
+          _self.$set(_self, 'failAlert', true);
+        });
       },
       loadCreated: function () {
         const _self = this;
+        _self.$set(_self.Tasks.Created, 'loading', true);
         listCreated().then(res => {
           _self.$set(_self.Tasks.Created, 'content', res.data);
-        }).catch(err => {});
+        }).catch(err => {
+          _self.$set(_self.Tasks.Created, 'loading', false);
+          _self.$set(_self, 'failAlert', true);
+        });
       }
     },
     mounted: function () {

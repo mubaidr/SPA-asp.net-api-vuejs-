@@ -23,7 +23,7 @@
     "vue-material": "^0.6.3",
     "vue-router": "^2.2.0",
     "vue-slide": "^1.1.1",
-    "vueisotope": "^2.0.2",
+    "vueisotope": "^2.1.0",
     "vuex": "^2.0.0",
     "vuex-router-sync": "^4.1.2"
   },
