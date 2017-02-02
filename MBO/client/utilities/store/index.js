@@ -10,22 +10,6 @@ const state = {
   userinfo: session.getUserInfo(),
   settings: {
     task_view: {
-      type: [{
-          name: 'Card',
-          icon: 'view_module',
-          enabled: true
-        },
-        {
-          name: 'List',
-          icon: 'view_list',
-          enabled: false
-        },
-        {
-          name: 'Details',
-          icon: 'view_headline',
-          enabled: false
-        }
-      ],
       sort: [{
           name: 'Priority',
           icon: 'keyboard_arrow_down',
@@ -49,7 +33,7 @@ const state = {
           name: 'Categories',
           icon: 'keyboard_arrow_down',
           type: '',
-          enabled: true
+          enabled: false
         }
       ]
     }

@@ -42,17 +42,17 @@ function listAll() {
 }
 
 function listAssigned() {
-  return axios.get(api.url + path + '?t=assigned');
+  return axios.get(api.url + path + '?type=assigned');
 }
 
 function listCreated() {
-  return axios.get(api.url + path + '?t=created');
+  return axios.get(api.url + path + '?type=created');
 }
 
 function listCompleted() {
-  return axios.get(api.url + path + '?t=completed');
+  return axios.get(api.url + path + '?type=completed');
 }
 
-function listTrash() {
-  return axios.get(api.url + path + '?t=trash');
+function listTrash(obj) {
+  return axios.get(api.url + path + '?type=trash&page=' + obj.page);
 }

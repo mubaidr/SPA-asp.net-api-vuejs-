@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -33,13 +34,13 @@ namespace MBO_API.Controllers
             return taskList.ToList();
         }
 
-        // GET: api/MainTask?t=created        
-        public List<MainTask> GetMainTask(string t = "assigned")
+        // GET: api/MainTask?type=created        
+        public List<MainTask> GetMainTask(string type, string filter= "", string orderby = "DateDue", int page = 1, int pagesize = 2)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             IQueryable<MainTask> taskList;
 
-            switch (t)
+            switch (type)
             {
                 case "assigned":
                     taskList = from m in db.MainTask
@@ -68,7 +69,7 @@ namespace MBO_API.Controllers
                     break;
             }
             
-            return taskList.Include(m => m.AssignedTo).ToList();
+            return taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList();
         }
 
         // GET: api/MainTasks/5

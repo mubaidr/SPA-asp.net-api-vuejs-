@@ -88,6 +88,9 @@
         },
         Catalog: {
           Categories: []
+        },
+        paging: {
+          page: 1
         }
       }
     },
@@ -124,7 +127,7 @@
       loadTrash: function () {
         const _self = this;
         _self.$set(_self.Tasks.Trash, 'loading', true);
-        listTrash().then(res => {
+        listTrash(_self.paging).then(res => {
           _self.$set(_self.Tasks.Trash, 'content', res.data);
         }).catch(err => {
           _self.$set(_self.Tasks.Trash, 'loading', false);
