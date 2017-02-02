@@ -139,12 +139,6 @@
         _self.loadTrash();
       }, 250);
 
-      getCategories().then(res => {
-        _self.$set(_self.Catalog, 'Categories', res.data);
-      }).catch(err => {
-
-      });
-
     }
   }
 
