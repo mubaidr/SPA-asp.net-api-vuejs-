@@ -1,29 +1,39 @@
 <template>
-  <div>
-    <md-whiteframe md-tag="section" md-elevation="0">
-      <span class="md-display-1">Archived Tasks</span>
-      <md-toolbar class="md-transparent no-padding">
-        <router-link class="md-accent" :to="{path: '/tasks'}">
-          <md-icon>view_list</md-icon>
-          View All Tasks</router-link>
-        <span style="flex: 1"></span>
-        <md-button class="md-icon-button">
-          <md-icon>search</md-icon>
+  <div><span class="md-display-1">Archived Tasks</span>
+    <br/>
+    <router-link class="md-accent" :to="{path: '/tasks'}">
+      <!--<md-icon>view_list</md-icon>-->
+      View All Tasks
+    </router-link>
+    <br/><br/>
+    <md-whiteframe md-tag="section" md-elevation="1">
+      <md-toolbar>
+        <span style="flex: 1" md-hide-small></span>
+        <md-button class="md-icon-button" @click="firstPage">
+          <md-icon>first_page</md-icon>
         </md-button>
+        <md-button class="md-icon-button" @click="previousPage">
+          <md-icon>chevron_left</md-icon>
+        </md-button>
+        <span>Page: {{paging.page}}</span>
+        <md-button class="md-icon-button" @click="nextPage">
+          <md-icon>chevron_right</md-icon>
+        </md-button>
+        <md-button class="md-icon-button" @click="lastPage">
+          <md-icon>last_page</md-icon>
+        </md-button>
+        <span style="flex: 1"></span>
+        <md-layout md-flex="20" md-flex-small="25" md-flex-xsmall="80">
+          <md-input-container md-inline>
+            <md-tooltip md-direction="top">Search using title, description, user etc</md-tooltip>
+            <label>Search</label>
+            <md-input v-model="paging.filter">
+            </md-input>
+          </md-input-container>
+        </md-layout>
         <md-menu md-direction="bottom left" md-size="3">
           <md-button md-menu-trigger class="md-icon-button">
-            <md-icon>filter_list</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item disabled>Filter By</md-menu-item>
-            <md-menu-item v-for="filter in settings.task_view.filter" :disabled="filter.enabled">
-              <span>{{filter.name}} {{filter.type}}</span>
-              <md-icon>{{filter.icon}}</md-icon>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-        <md-menu md-direction="bottom left" md-size="3">
-          <md-button md-menu-trigger class="md-icon-button">
+            <md-tooltip md-direction="top">Apply filter</md-tooltip>
             <md-icon>sort</md-icon>
           </md-button>
           <md-menu-content>
@@ -62,6 +72,7 @@
   </div>
 </template>
 <script>
+  import _ from 'lodash';
   import taskCardTrash from 'components/_custom/task-card-trash.vue';
   import {
     listTrash
@@ -90,13 +101,18 @@
           Categories: []
         },
         paging: {
-          page: 1
+          page: 1,
+          orderby: '',
+          filter: ''
         }
       }
     },
     watch: {
       'Tasks.Trash.content': function () {
         this.$set(this.Tasks.Trash, 'loading', false);
+      },
+      'paging.filter': function () {
+        this.search();
       }
     },
     computed: {
@@ -133,6 +149,26 @@
           _self.$set(_self.Tasks.Trash, 'loading', false);
           _self.$refs.snackbar.open();
         });
+      },
+      search: function () {
+        const _self = this;
+        _self.loadTrash();
+      },
+      nextPage: function () {
+        this.$set(this.paging, 'page', this.paging.page + 1);
+        this.search();
+      },
+      previousPage: function () {
+        this.$set(this.paging, 'page', this.paging.page - 1);
+        this.search();
+      },
+      firstPage: function () {
+        this.$set(this.paging, 'page', 1);
+        this.search();
+      },
+      lastPage: function () {
+        this.$set(this.paging, 'page', 0);
+        this.search();
       }
     },
     mounted: function () {

@@ -36,9 +36,9 @@ namespace MBO_API.Controllers
 
         // GET: api/MainTask?type=created        
         public List<MainTask> GetMainTask(string type, string filter= "", string orderby = "DateDue", int page = 1, int pagesize = 2)
-        {
+        {            
             var userId = RequestContext.Principal.Identity.GetUserId();
-            IQueryable<MainTask> taskList;
+            IQueryable<MainTask> taskList;            
 
             switch (type)
             {
@@ -68,8 +68,18 @@ namespace MBO_API.Controllers
                                select m;
                     break;
             }
-            
-            return taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList();
+            //Note: pagesize * 2: To prechache next page
+            taskList = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo);
+
+            if (page == 0)
+            {
+                //user need last page
+                var count = taskList.Count();
+                var mod = count % pagesize;
+                page = mod == 0 ? count/pagesize : ((count - mod) / pagesize) + 1;
+            }
+
+            return taskList.Skip(pagesize * (page - 1)).Take(pagesize * 2).ToList();
         }
 
         // GET: api/MainTasks/5

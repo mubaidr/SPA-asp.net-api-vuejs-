@@ -41,18 +41,30 @@ function listAll() {
   return axios.get(api.url + path);
 }
 
-function listAssigned() {
-  return axios.get(api.url + path + '?type=assigned');
+function listAssigned(obj) {
+  return axios.get(api.url + path + '?type=assigned' + objToQuery(obj));
 }
 
-function listCreated() {
-  return axios.get(api.url + path + '?type=created');
+function listCreated(obj) {
+  return axios.get(api.url + path + '?type=created' + objToQuery(obj));
 }
 
-function listCompleted() {
-  return axios.get(api.url + path + '?type=completed');
+function listCompleted(obj) {
+  return axios.get(api.url + path + '?type=completed' + objToQuery(obj));
 }
 
 function listTrash(obj) {
-  return axios.get(api.url + path + '?type=trash&page=' + obj.page);
+  return axios.get(api.url + path + '?type=trash' + objToQuery(obj));
+}
+
+function objToQuery(obj) {
+  var query = '';
+  var val = '';
+  for (var prop in obj) {
+    val = obj[prop];
+    if (val && val.trim && val.trim() !== '') {
+      query += '&' + prop + '=' + val;
+    }
+  }
+  return query;
 }
