@@ -9,10 +9,10 @@
     <md-whiteframe md-tag="section" md-elevation="1">
       <md-toolbar>
         <span style="flex: 1" md-hide-small></span>
-        <md-button class="md-icon-button" @click="firstPage">
+        <md-button class="md-icon-button" @click="firstPage" :disabled="paging.page <= 1 || Tasks.Trash.loading">
           <md-icon>first_page</md-icon>
         </md-button>
-        <md-button class="md-icon-button" @click="previousPage">
+        <md-button class="md-icon-button" @click="previousPage" :disabled="paging.page <= 1 || Tasks.Trash.loading">
           <md-icon>chevron_left</md-icon>
         </md-button>
         <span>Page: {{paging.page}}</span>
