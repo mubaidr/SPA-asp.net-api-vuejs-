@@ -5,6 +5,7 @@
       </div>
       <div class="md-toolbar-container">
         <md-button @click="toggleLeftSidenav">
+          <md-tooltip md-direction="top">Menu</md-tooltip>
           <md-icon>menu</md-icon>
         </md-button>
         <span style="flex: 1;">
@@ -13,6 +14,7 @@
           </md-layout>
         </span>
         <router-link v-show="isAuthenticated" tag="md-button" to="/tasks/create" class="md-fab md-fab-bottom-right add-task">
+          <md-tooltip md-direction="top">Create new Task</md-tooltip>
           <md-icon>add</md-icon>
         </router-link>
       </div>

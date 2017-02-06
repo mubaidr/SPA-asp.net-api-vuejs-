@@ -1,37 +1,40 @@
 <template>
-  <div><br/>
-    <md-whiteframe md-tag="section" md-elevation="1">
-      <md-toolbar>
+  <div>
+    <br/>
+    <md-whiteframe md-tag="section" md-elevation="0">
+      <md-toolbar class="md-transparent">
         <span style="flex: 1"></span>
-        <md-button class="md-icon-button md-mini" @click="firstPage" :disabled="paging.page == 1">
+        <md-button class="md-icon-button" @click="firstPage" :disabled="paging.page == 1 || loading">
+          <md-tooltip md-direction="top">First Page</md-tooltip>
           <md-icon>first_page</md-icon>
         </md-button>
-        <md-button class="md-icon-button md-mini" @click="previousPage" :disabled="paging.page == 1">
+        <md-button class="md-icon-button" @click="previousPage" :disabled="paging.page == 1 || loading">
+          <md-tooltip md-direction="top">Previous Page</md-tooltip>
           <md-icon>chevron_left</md-icon>
         </md-button>
         <span>&nbsp; Page {{paging.page}} of {{lastpage}} &nbsp;</span>
-        <md-button class="md-icon-button" @click="nextPage" :disabled="paging.page == lastpage">
+        <md-button class="md-icon-button" @click="nextPage" :disabled="paging.page == lastpage || loading">
+          <md-tooltip md-direction="top">Next Page</md-tooltip>
           <md-icon>chevron_right</md-icon>
         </md-button>
-        <md-button class="md-icon-button" @click="lastPage" :disabled="paging.page == lastpage">
+        <md-button class="md-icon-button" @click="lastPage" :disabled="paging.page == lastpage || loading">
+          <md-tooltip md-direction="top">Last Page</md-tooltip>
           <md-icon>last_page</md-icon>
         </md-button>
         <span style="flex: 1"></span>
-        <md-input-container md-inline v-show="search_options.active">
-          <md-tooltip md-direction="top">Search using title, description, user etc</md-tooltip>
-          <label>Search</label>
-          <md-input v-model="paging.filter"></md-input>
-        </md-input-container>
-        <md-button class="md-icon-button" @click="activate_search">
+        <md-button class="md-icon-button" @click="activate_search" :disabled="loading">
+          <md-tooltip md-direction="top">Search</md-tooltip>
           <md-icon>search</md-icon>
         </md-button>
         <md-menu md-direction="bottom left" md-size="3">
-          <md-button md-menu-trigger class="md-icon-button">
-            <md-tooltip md-direction="top">Apply filter</md-tooltip>
+          <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
+            <md-tooltip md-direction="top">Apply sorting</md-tooltip>
             <md-icon>sort</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item disabled>Sort By</md-menu-item>
+            <md-subheader>
+              <span>Sort By</span>
+            </md-subheader>
             <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
               <span>{{sort.name}} {{sort.type}}</span>
               <md-icon>{{sort.icon}}</md-icon>
@@ -40,12 +43,13 @@
         </md-menu>
       </md-toolbar>
     </md-whiteframe>
-    <br/></div>
+    <br/>
+  </div>
 </template>
 <script>
   export default {
-    name: 'pager',
-    props: ['lastpage', 'count'],
+    name: 'pagination',
+    props: ['lastpage', 'count', 'loading'],
     data: function () {
       return {
         paging: {
@@ -59,6 +63,9 @@
       }
     },
     watch: {
+      'paging.page': function () {
+        this.search();
+      },
       'paging.orderby': function () {
         this.search();
       },
@@ -77,24 +84,16 @@
         _self.$emit('refresh', _self.paging);
       },
       nextPage: function () {
-        if (this.paging.page < this.lastpage) {
-          this.$set(this.paging, 'page', this.paging.page + 1);
-          this.search();
-        }
+        this.$set(this.paging, 'page', this.paging.page + 1);
       },
       previousPage: function () {
-        if (this.paging.page > 1) {
-          this.$set(this.paging, 'page', this.paging.page - 1);
-          this.search();
-        }
+        this.$set(this.paging, 'page', this.paging.page - 1);
       },
       firstPage: function () {
         this.$set(this.paging, 'page', 1);
-        this.search();
       },
       lastPage: function () {
         this.$set(this.paging, 'page', this.lastpage);
-        this.search();
       },
       activate_search: function () {
         this.search_options.active = !this.search_options.active;

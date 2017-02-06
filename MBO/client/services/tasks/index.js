@@ -54,6 +54,7 @@ function listCompleted(obj) {
 }
 
 function listTrash(obj) {
+  console.log(objToQuery(obj));
   return axios.get(api.url + path + '?type=trash' + objToQuery(obj));
 }
 
@@ -62,7 +63,7 @@ function objToQuery(obj) {
   var val = '';
   for (var prop in obj) {
     val = obj[prop];
-    if (val && val.trim && val.trim() !== '') {
+    if (val && (val.trim && val.trim() !== '') || val > 0) {
       query += '&' + prop + '=' + val;
     }
   }

@@ -41,9 +41,9 @@ namespace MBO_API.Controllers
 
             return taskList.ToList();
         }
-
-        // GET: api/MainTask?type=created        
-        public TaskListResult GetMainTask(string type, string filter = "", string orderby = "DateDue", int page = 1, int pagesize = 2)
+        
+        // GET: api/MainTasks?type=created        
+        public TaskListResult GetMainTask(string type, string filter = "", string orderby = "DateDue", int page = 1, int pagesize = 3)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             var last_page = 0;
@@ -77,16 +77,16 @@ namespace MBO_API.Controllers
                                select m;
                     break;
             }
-
-            var count = taskList.Count();
-            var res = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo).Skip(pagesize * (page - 1)).Take(pagesize).ToList();
-
+                        
+            var res = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo);
+            var count = res.Count();
+            
             var mod = count % pagesize;
             last_page = mod > 0 ? ((count - mod) / pagesize) + 1: count/pagesize;
 
             return new TaskListResult
             {
-                mainTask = res,
+                mainTask = res.Skip(pagesize * (page - 1)).Take(pagesize).ToList(),
                 count = count,
                 last_page = last_page
             };
@@ -148,6 +148,7 @@ namespace MBO_API.Controllers
             var users = mainTaskUsers.users;
             var userId = RequestContext.Principal.Identity.GetUserId();
 
+            mainTask.IsDeleted = false;
             mainTask.AssignedByID = userId;
             mainTask.DateAssigned = DateTime.Now;
             mainTask.Status = db.Status.Where(s => s.Level == 0).FirstOrDefault();

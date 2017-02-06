@@ -1,11 +1,12 @@
 <template>
   <div>
     <span class="md-display-1">Archived Tasks</span>
-    <br/>
-    <router-link class="md-accent" :to="{path: '/tasks'}">
-      View All Tasks
-    </router-link>
-    <pager :lastpage="Tasks.Trash.last_page" @refresh="loadTrash"></pager>
+    <p>
+      <router-link class="md-accent" :to="{path: '/tasks'}">
+        View All Tasks
+      </router-link>
+    </p>
+    <pagination :lastpage="Tasks.Trash.last_page" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-layout md-gutter>
         <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
@@ -32,9 +33,9 @@
   </div>
 </template>
 <script>
-  import _ from 'lodash';
+  //import _ from 'lodash';
   import taskCardTrash from 'components/_custom/task-card-trash.vue';
-  import pager from 'components/_custom/pager.vue';
+  import pagination from 'components/_custom/pagination.vue';
   import {
     listTrash
   } from 'services/tasks';
@@ -47,7 +48,7 @@
     name: 'task-list',
     components: {
       'task-card-trash': taskCardTrash,
-      'pager': pager
+      'pagination': pagination
     },
     data: function () {
       return {
@@ -91,7 +92,7 @@
       loadTrash: function (paging) {
         const _self = this;
         _self.$set(_self.Tasks.Trash, 'loading', true);
-        listTrash(paging || {}).then(res => {
+        listTrash(paging).then(res => {
           _self.$set(_self.Tasks.Trash, 'content', res.data.mainTask);
           _self.$set(_self.Tasks.Trash, 'last_page', res.data.last_page);
           _self.$set(_self.Tasks.Trash, 'count', res.data.count);
