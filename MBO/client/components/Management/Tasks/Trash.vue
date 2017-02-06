@@ -1,51 +1,11 @@
 <template>
-  <div><span class="md-display-1">Archived Tasks</span>
+  <div>
+    <span class="md-display-1">Archived Tasks</span>
     <br/>
     <router-link class="md-accent" :to="{path: '/tasks'}">
-      <!--<md-icon>view_list</md-icon>-->
       View All Tasks
     </router-link>
-    <br/><br/>
-    <md-whiteframe md-tag="section" md-elevation="1">
-      <md-toolbar>
-        <span style="flex: 1" md-hide-small></span>
-        <md-button class="md-icon-button" @click="firstPage" :disabled="paging.page <= 1 || Tasks.Trash.loading">
-          <md-icon>first_page</md-icon>
-        </md-button>
-        <md-button class="md-icon-button" @click="previousPage" :disabled="paging.page <= 1 || Tasks.Trash.loading">
-          <md-icon>chevron_left</md-icon>
-        </md-button>
-        <span>Page: {{paging.page}}</span>
-        <md-button class="md-icon-button" @click="nextPage">
-          <md-icon>chevron_right</md-icon>
-        </md-button>
-        <md-button class="md-icon-button" @click="lastPage">
-          <md-icon>last_page</md-icon>
-        </md-button>
-        <span style="flex: 1"></span>
-        <md-layout md-flex="20" md-flex-small="25" md-flex-xsmall="80">
-          <md-input-container md-inline>
-            <md-tooltip md-direction="top">Search using title, description, user etc</md-tooltip>
-            <label>Search</label>
-            <md-input v-model="paging.filter">
-            </md-input>
-          </md-input-container>
-        </md-layout>
-        <md-menu md-direction="bottom left" md-size="3">
-          <md-button md-menu-trigger class="md-icon-button">
-            <md-tooltip md-direction="top">Apply filter</md-tooltip>
-            <md-icon>sort</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item disabled>Sort By</md-menu-item>
-            <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
-              <span>{{sort.name}} {{sort.type}}</span>
-              <md-icon>{{sort.icon}}</md-icon>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-      </md-toolbar>
-    </md-whiteframe>
+    <pager :lastpage="Tasks.Trash.last_page" @refresh="loadTrash"></pager>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-layout md-gutter>
         <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
@@ -74,6 +34,7 @@
 <script>
   import _ from 'lodash';
   import taskCardTrash from 'components/_custom/task-card-trash.vue';
+  import pager from 'components/_custom/pager.vue';
   import {
     listTrash
   } from 'services/tasks';
@@ -85,7 +46,8 @@
   export default {
     name: 'task-list',
     components: {
-      'task-card-trash': taskCardTrash
+      'task-card-trash': taskCardTrash,
+      'pager': pager
     },
     data: function () {
       return {
@@ -94,30 +56,16 @@
             name: 'Assigned',
             icon: 'assignment_return',
             content: [],
-            loading: true
+            loading: true,
+            last_page: 1,
+            count: 0
           }
-        },
-        Catalog: {
-          Categories: []
-        },
-        paging: {
-          page: 1,
-          orderby: '',
-          filter: ''
         }
       }
     },
     watch: {
       'Tasks.Trash.content': function () {
         this.$set(this.Tasks.Trash, 'loading', false);
-      },
-      'paging.filter': function () {
-        this.search();
-      }
-    },
-    computed: {
-      settings: function () {
-        return this.$store.getters.getSettings;
       }
     },
     methods: {
@@ -140,35 +88,17 @@
           }
         }
       },
-      loadTrash: function () {
+      loadTrash: function (paging) {
         const _self = this;
         _self.$set(_self.Tasks.Trash, 'loading', true);
-        listTrash(_self.paging).then(res => {
-          _self.$set(_self.Tasks.Trash, 'content', res.data);
+        listTrash(paging || {}).then(res => {
+          _self.$set(_self.Tasks.Trash, 'content', res.data.mainTask);
+          _self.$set(_self.Tasks.Trash, 'last_page', res.data.last_page);
+          _self.$set(_self.Tasks.Trash, 'count', res.data.count);
         }).catch(err => {
           _self.$set(_self.Tasks.Trash, 'loading', false);
           _self.$refs.snackbar.open();
         });
-      },
-      search: function () {
-        const _self = this;
-        _self.loadTrash();
-      },
-      nextPage: function () {
-        this.$set(this.paging, 'page', this.paging.page + 1);
-        this.search();
-      },
-      previousPage: function () {
-        this.$set(this.paging, 'page', this.paging.page - 1);
-        this.search();
-      },
-      firstPage: function () {
-        this.$set(this.paging, 'page', 1);
-        this.search();
-      },
-      lastPage: function () {
-        this.$set(this.paging, 'page', 0);
-        this.search();
       }
     },
     mounted: function () {

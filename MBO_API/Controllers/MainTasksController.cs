@@ -14,13 +14,21 @@ namespace MBO_API.Controllers
 {
     public class MainTasksController : ApiController
     {
-        public class MainTaskUsers{
+        public class MainTaskUsers
+        {
             public MainTask mainTask { get; set; }
             public string[] users { get; set; }
         }
+        
+        public class TaskListResult
+        {
+            public List<MainTask> mainTask { get; set; }
+            public int count { get; set; }
+            public int last_page { get; set; }
+        }
 
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         // GET: api/MainTasks
         public List<MainTask> GetMainTask()
         {
@@ -35,10 +43,11 @@ namespace MBO_API.Controllers
         }
 
         // GET: api/MainTask?type=created        
-        public List<MainTask> GetMainTask(string type, string filter= "", string orderby = "DateDue", int page = 1, int pagesize = 2)
-        {            
+        public TaskListResult GetMainTask(string type, string filter = "", string orderby = "DateDue", int page = 1, int pagesize = 2)
+        {
             var userId = RequestContext.Principal.Identity.GetUserId();
-            IQueryable<MainTask> taskList;            
+            var last_page = 0;
+            IQueryable<MainTask> taskList;
 
             switch (type)
             {
@@ -54,7 +63,7 @@ namespace MBO_API.Controllers
                     break;
                 case "completed":
                     taskList = (from m in db.MainTask
-                               where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId ) && m.Progress== 100 && m.IsDeleted == false
+                                where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.Progress == 100 && m.IsDeleted == false
                                 select m).OrderBy(m => m.DateDue);
                     break;
                 case "trash":
@@ -68,18 +77,19 @@ namespace MBO_API.Controllers
                                select m;
                     break;
             }
-            //Note: pagesize * 2: To prechache next page
-            taskList = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo);
 
-            if (page == 0)
+            var count = taskList.Count();
+            var res = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo).Skip(pagesize * (page - 1)).Take(pagesize).ToList();
+
+            var mod = count % pagesize;
+            last_page = mod > 0 ? ((count - mod) / pagesize) + 1: count/pagesize;
+
+            return new TaskListResult
             {
-                //user need last page
-                var count = taskList.Count();
-                var mod = count % pagesize;
-                page = mod == 0 ? count/pagesize : ((count - mod) / pagesize) + 1;
-            }
-
-            return taskList.Skip(pagesize * (page - 1)).Take(pagesize * 2).ToList();
+                mainTask = res,
+                count = count,
+                last_page = last_page
+            };
         }
 
         // GET: api/MainTasks/5
@@ -142,7 +152,7 @@ namespace MBO_API.Controllers
             mainTask.DateAssigned = DateTime.Now;
             mainTask.Status = db.Status.Where(s => s.Level == 0).FirstOrDefault();
             mainTask.Progress = 0;
-            
+
             ModelState.Remove("mainTaskUsers.mainTask.AssignedByID");
             if (!ModelState.IsValid)
             {
@@ -190,7 +200,7 @@ namespace MBO_API.Controllers
                 return NotFound();
             }
 
-            mainTask.IsDeleted = true;            
+            mainTask.IsDeleted = true;
             db.Entry(mainTask).State = EntityState.Modified;
             db.SaveChanges();
 
