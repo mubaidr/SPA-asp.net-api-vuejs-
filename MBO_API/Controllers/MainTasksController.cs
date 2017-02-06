@@ -9,6 +9,7 @@ using MBO_API.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MBO_API.Controllers
 {
@@ -83,12 +84,12 @@ namespace MBO_API.Controllers
             
             var mod = count % pagesize;
             last_page = mod > 0 ? ((count - mod) / pagesize) + 1: count/pagesize;
-
+            
             return new TaskListResult
             {
                 mainTask = res.Skip(pagesize * (page - 1)).Take(pagesize).ToList(),
                 count = count,
-                last_page = last_page
+                last_page = last_page == 0 ? 1: last_page
             };
         }
 

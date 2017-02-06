@@ -54,7 +54,6 @@ function listCompleted(obj) {
 }
 
 function listTrash(obj) {
-  console.log(objToQuery(obj));
   return axios.get(api.url + path + '?type=trash' + objToQuery(obj));
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="3">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="2">
       <div class="md-toolbar-container">
       </div>
       <div class="md-toolbar-container">

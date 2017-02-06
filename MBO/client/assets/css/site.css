@@ -2,6 +2,10 @@
   padding: 15px;
 }
 
+.min-height {
+  min-height: 320px;
+}
+
 @media screen and (min-width: 480px) {
   body {
     overflow-y: scroll;

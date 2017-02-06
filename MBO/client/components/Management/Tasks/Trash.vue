@@ -7,29 +7,26 @@
       </router-link>
     </p>
     <pagination :lastpage="Tasks.Trash.last_page" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
-    <md-whiteframe md-tag="section" md-elevation="0">
-      <md-layout md-gutter>
-        <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
-          <p v-show="Tasks.Trash.loading" class="no-content">
-            <md-spinner md-indeterminate class="md-accent" v-show="Tasks.Trash.loading"></md-spinner><br/>
-            <span>Fetching data!</span>
-          </p>
-          <p v-show="!Tasks.Trash.loading" class="no-content">
-            <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
-            <span>{{Tasks.Trash.message || "Awww... Nothing here!"}} <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span></span>
-          </p>
+    <!--Convert this section in to component-->
+    <md-layout md-gutter>
+      <div class="flex-vertical min-height full-width">
+        <div v-show="!Tasks.Trash.content.length" class="no-content">
+          <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+          <span v-if="Tasks.Trash.loading">Loading...</span>
+          <span v-else>Awww... Nothing here!</span>
+          <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
         </div>
-        <transition-group name="list-out" tag="ul" class="no-padding">
-          <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
-            <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
-          </li>
-        </transition-group>
-        <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
-          <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
-          <md-button class="md-accent" @click="retry">Retry</md-button>
-        </md-snackbar>
-      </md-layout>
-    </md-whiteframe>
+      </div>
+      <transition-group name="list-out" tag="ul" class="no-padding">
+        <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
+          <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
+        </li>
+      </transition-group>
+    </md-layout>
+    <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
+      <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
+      <md-button class="md-accent" @click="retry">Retry</md-button>
+    </md-snackbar>
   </div>
 </template>
 <script>
