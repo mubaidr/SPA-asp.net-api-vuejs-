@@ -46,7 +46,7 @@
       </md-card-content>
       <md-card-actions>
         <div v-show="isSelfCreated">
-          <md-button class="md-icon-button" @click="confirmDelete">
+          <md-button class="md-icon-button" @click.native="confirmDelete">
             <md-tooltip md-direction="top">Archive</md-tooltip>
             <md-icon>archive</md-icon>
           </md-button>
@@ -66,8 +66,8 @@
       <md-dialog-title>Move to Archive</md-dialog-title>
       <md-dialog-content>Are you sure you want to archive this task?</md-dialog-content>
       <md-dialog-actions>
-        <md-button class="md-primary" @click="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
-        <md-button class="md-primary" @click="onDeleteClose('ok')">Sure</md-button>
+        <md-button class="md-primary" @click.native="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
+        <md-button class="md-primary" @click.native="onDeleteClose('ok')">Sure</md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>

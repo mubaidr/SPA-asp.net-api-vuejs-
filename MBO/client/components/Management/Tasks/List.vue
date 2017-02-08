@@ -1,5 +1,5 @@
 <template>
-  <div><span class="md-display-1">Archived Tasks</span>
+  <div><span class="md-display-1">Tasks</span>
     <p>
       <router-link class="md-accent" :to="{path: '/tasks/trash'}">
         View Trash
@@ -8,7 +8,7 @@
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed>
         <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
-          <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="retry"></pagination>
+          <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
           <md-layout md-gutter>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
               <div class="no-content">
@@ -113,9 +113,9 @@
       }
     },
     methods: {
-      search: function () {
-        //TODO check active tab and referesh that data only
-
+      search: function (obj) {
+        //TODO check active tab and refresh that data list only
+        console.log(obj);
       },
       retry: function () {
         const _self = this;

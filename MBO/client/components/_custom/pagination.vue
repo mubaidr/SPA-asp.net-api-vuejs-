@@ -6,7 +6,7 @@
         <md-toolbar class="md-dense md-transparent">
           <!--TODO fix search-->
           <div class="md-toolbar-container">
-            <md-button class="md-icon-button" @click.native="firstPage" :disabled="paging.page == 1 || loading">
+            <md-button md-hide-small class="md-icon-button" @click.native="firstPage" :disabled="paging.page == 1 || loading">
               <md-tooltip md-direction="top">First Page</md-tooltip>
               <md-icon>first_page</md-icon>
             </md-button>
@@ -19,15 +19,14 @@
               <md-tooltip md-direction="top">Next Page</md-tooltip>
               <md-icon>chevron_right</md-icon>
             </md-button>
-            <md-button class="md-icon-button" @click.native="lastPage" :disabled="paging.page == lastpage || loading">
+            <md-button md-hide-small class="md-icon-button" @click.native="lastPage" :disabled="paging.page == lastpage || loading">
               <md-tooltip md-direction="top">Last Page</md-tooltip>
               <md-icon>last_page</md-icon>
             </md-button>
             <span style="flex: 1"></span>
-            <md-button class="md-icon-button" @click.native="activate_search" :disabled="loading">
-              <md-tooltip md-direction="top">Search</md-tooltip>
-              <md-icon>search</md-icon>
-            </md-button>
+            <md-input-container md-inline>
+              <md-input @change="search" placeholder="Search"></md-input>
+            </md-input-container>
             <md-menu md-direction="bottom left" md-size="3">
               <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
                 <md-tooltip md-direction="top">Apply sorting</md-tooltip>
@@ -104,9 +103,6 @@
       },
       lastPage: function () {
         this.$set(this.paging, 'page', this.lastpage);
-      },
-      activate_search: function () {
-        this.search_options.active = !this.search_options.active;
       }
     },
     mounted: function () {
@@ -115,4 +111,9 @@
   }
 
 </script>
-<style scoped></style>
+<style scoped>
+  .md-input-container {
+    max-width: 180px;
+  }
+
+</style>

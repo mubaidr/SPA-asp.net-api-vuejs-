@@ -33,7 +33,7 @@
       </md-card-content>
       <md-card-actions>
         <div v-show="isSelfCreated">
-          <md-button class="md-icon-button" @click="restoreTask">
+          <md-button class="md-icon-button" @click.native="restoreTask">
             <md-tooltip md-direction="top">Restore</md-tooltip>
             <md-icon>unarchive</md-icon>
           </md-button>

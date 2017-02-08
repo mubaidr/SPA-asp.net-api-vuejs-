@@ -33,7 +33,7 @@
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/signin" class="md-accent">Already have an account?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="state.loading">Sign Up</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click.native="formValidate" :disabled="state.loading">Sign Up</md-button>
           </md-card-actions>
         </md-card>
       </div>

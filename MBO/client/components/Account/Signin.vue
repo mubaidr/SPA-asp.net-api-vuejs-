@@ -27,7 +27,7 @@
           </md-card-content>
           <md-card-actions>
             <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click="formValidate" :disabled="state.loading">Sing In</md-button>
+            <md-button id="btnSubmit" class="md-raised md-accent" @click.native="formValidate" :disabled="state.loading">Sing In</md-button>
           </md-card-actions>
         </md-card>
       </div>
