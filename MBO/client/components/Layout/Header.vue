@@ -17,6 +17,7 @@
         <!--<md-icon>notifications_active</md-icon>-->
         <md-speed-dial v-show="isAuthenticated" md-open="click" md-direction="left" class="md-fab-bottom-right add-task">
           <md-button class="md-fab" md-fab-trigger>
+            <md-tooltip md-direction="top">New</md-tooltip>
             <md-icon md-icon-morph>close</md-icon>
             <md-icon>add</md-icon>
           </md-button>

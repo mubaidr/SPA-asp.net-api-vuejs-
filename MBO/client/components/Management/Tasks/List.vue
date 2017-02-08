@@ -6,8 +6,8 @@
       </router-link>
     </p>
     <md-whiteframe md-tag="section" md-elevation="0">
-      <md-tabs md-fixed>
-        <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
+      <md-tabs md-fixed @change="tabChange">
+        <md-tab :md-active="currentTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
           <md-layout md-gutter>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
@@ -76,6 +76,7 @@
             count: 0
           }
         },
+        currentTab: 'Assigned',
         failAlert: false
       }
     },
@@ -99,23 +100,51 @@
       }
     },
     computed: {
-      activeTab: function () {
-        const _self = this;
-        const _path = _self.$route.query.sub;
-        if (Object.keys(_self.Tasks).indexOf(_path) > -1) {
-          return _path;
-        } else {
-          return 'Assigned';
-        }
-      },
       settings: function () {
         return this.$store.getters.getSettings;
       }
     },
     methods: {
+      tabChange: function (index) {
+        const _self = this;
+        _self.$set(_self, 'currentTab', Object.keys(_self.Tasks)[index]);
+
+        //TODO load tab data on change (if not already loaded, check content length)
+
+        // switch (_self.currentTab) {
+        //   case 'Assigned':
+        //     _self.loadAssigned();
+        //     break;
+        //   case 'Created':
+        //     _self.loadCreated();
+        //     break;
+        //   case 'Completed':
+        //     _self.loadCompleted();
+        //     break;
+        // }
+      },
+      activeTab: function () {
+        const _self = this;
+        let _path = _self.$route.query.sub;
+        if (Object.keys(_self.Tasks).indexOf(_path) === -1) {
+          _path = 'Assigned';
+        }
+        _self.$set(_self, 'currentTab', _path);
+      },
       search: function (obj) {
-        //TODO check active tab and refresh that data list only
-        console.log(obj);
+        const _self = this;
+
+        switch (_self.currentTab) {
+          case 'Assigned':
+            _self.loadAssigned(obj);
+            break;
+          case 'Created':
+            _self.loadCreated(obj);
+            break;
+          case 'Completed':
+            _self.loadCompleted(obj);
+            break;
+        }
       },
       retry: function () {
         const _self = this;
@@ -141,10 +170,10 @@
           }
         }
       },
-      loadAssigned: function () {
+      loadAssigned: function (obj) {
         const _self = this;
         _self.$set(_self.Tasks.Assigned, 'loading', true);
-        listAssigned().then(res => {
+        listAssigned(obj).then(res => {
           _self.$set(_self.Tasks.Assigned, 'content', res.data.mainTask);
           _self.$set(_self.Tasks.Assigned, 'last_page', res.data.last_page);
           _self.$set(_self.Tasks.Assigned, 'count', res.data.count);
@@ -153,10 +182,10 @@
           _self.$set(_self, 'failAlert', true);
         });
       },
-      loadCompleted: function () {
+      loadCompleted: function (obj) {
         const _self = this;
         _self.$set(_self.Tasks.Completed, 'loading', true);
-        listCompleted().then(res => {
+        listCompleted(obj).then(res => {
           _self.$set(_self.Tasks.Completed, 'content', res.data.mainTask);
           _self.$set(_self.Tasks.Completed, 'last_page', res.data.last_page);
           _self.$set(_self.Tasks.Completed, 'count', res.data.count);
@@ -165,10 +194,10 @@
           _self.$set(_self, 'failAlert', true);
         });
       },
-      loadCreated: function () {
+      loadCreated: function (obj) {
         const _self = this;
         _self.$set(_self.Tasks.Created, 'loading', true);
-        listCreated().then(res => {
+        listCreated(obj).then(res => {
           _self.$set(_self.Tasks.Created, 'content', res.data.mainTask);
           _self.$set(_self.Tasks.Created, 'last_page', res.data.last_page);
           _self.$set(_self.Tasks.Created, 'count', res.data.count);
@@ -180,6 +209,7 @@
     },
     mounted: function () {
       const _self = this;
+      _self.activeTab();
 
       window.setTimeout(function () {
         _self.loadCompleted();

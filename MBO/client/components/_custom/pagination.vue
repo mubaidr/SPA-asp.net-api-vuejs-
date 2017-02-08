@@ -25,11 +25,12 @@
             </md-button>
             <span style="flex: 1"></span>
             <md-input-container md-inline>
+              <md-tooltip md-direction="top">Search</md-tooltip>
               <md-input @change="search" placeholder="Search"></md-input>
             </md-input-container>
             <md-menu md-direction="bottom left" md-size="3">
               <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
-                <md-tooltip md-direction="top">Apply sorting</md-tooltip>
+                <md-tooltip md-direction="top">Sort</md-tooltip>
                 <md-icon>sort</md-icon>
               </md-button>
               <md-menu-content>
