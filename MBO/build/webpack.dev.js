@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const base = require('./webpack.base')
 const _ = require('./utils')
 
-base.devtool = 'eval'
+base.devtool = 'cheap-module-eval-source-map'
 base.plugins.push(
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('development')

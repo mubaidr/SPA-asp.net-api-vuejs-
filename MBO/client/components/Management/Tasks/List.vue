@@ -1,59 +1,26 @@
 <template>
-  <div>
-    <md-whiteframe md-tag="section" md-elevation="0">
-      <span class="md-display-1">Tasks</span>
-      <md-toolbar class="md-transparent no-padding">
-        <router-link to="/tasks/trash" class="md-warn" id="btn-view-trash">
-          <md-icon>archive</md-icon>
-          Archived
-        </router-link>
-        <span style="flex: 1"></span>
-        <md-button class="md-icon-button">
-          <md-icon>search</md-icon>
-        </md-button>
-        <md-menu md-direction="bottom left" md-size="3">
-          <md-button md-menu-trigger class="md-icon-button">
-            <md-icon>filter_list</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item disabled>Filter By</md-menu-item>
-            <md-menu-item v-for="filter in settings.task_view.filter" :disabled="filter.enabled">
-              <span>{{filter.name}} {{filter.type}}</span>
-              <md-icon>{{filter.icon}}</md-icon>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-        <md-menu md-direction="bottom left" md-size="3">
-          <md-button md-menu-trigger class="md-icon-button">
-            <md-icon>sort</md-icon>
-          </md-button>
-          <md-menu-content>
-            <md-menu-item disabled>Sort By</md-menu-item>
-            <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
-              <span>{{sort.name}} {{sort.type}}</span>
-              <md-icon>{{sort.icon}}</md-icon>
-            </md-menu-item>
-          </md-menu-content>
-        </md-menu>
-      </md-toolbar>
-    </md-whiteframe>
+  <div><span class="md-display-1">Archived Tasks</span>
+    <p>
+      <router-link class="md-accent" :to="{path: '/tasks/trash'}">
+        View Trash
+      </router-link>
+    </p>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed>
         <md-tab :md-active="activeTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
+          <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="retry"></pagination>
           <md-layout md-gutter>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
-              <p v-show="TaskList.loading" class="no-content">
-                <md-spinner md-indeterminate class="md-accent"></md-spinner><br/>
-                <span>Fetching data!</span>
-              </p>
-              <p v-show="!TaskList.loading" class="no-content">
+              <div class="no-content">
                 <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
-                <span>{{TaskList.message || "Awww... Nothing here!"}} <span v-show="TaskList.error">An error occured while trying to fetch data.</span></span>
-              </p>
+                <span v-if="TaskList.loading">Loading...</span>
+                <span v-else>Awww... Nothing here!</span>
+                <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
+              </div>
             </div>
-            <transition-group name="list-in" tag="ul" class="no-padding">
-              <li class="list-in-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
-                <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name"></task-card>
+            <transition-group name="list-out" tag="ul" class="no-padding">
+              <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                <task-card @remove-task-item="removeTaskItem" :Task="Task"></task-card>
               </li>
             </transition-group>
           </md-layout>
@@ -67,7 +34,7 @@
   </div>
 </template>
 <script>
-  import taskCreate from 'components/Management/Tasks/_partial_create.vue'
+  import pagination from 'components/_custom/pagination.vue';
   import taskCard from 'components/_custom/task-card.vue';
   import {
     listAssigned,
@@ -75,15 +42,11 @@
     listCompleted
   } from 'services/tasks';
 
-  import {
-    getCategories
-  } from 'services/catalogs';
-
   export default {
-    name: 'task-list',
+    name: 'task-list-all',
     components: {
       'task-card': taskCard,
-      'task-create': taskCreate
+      'pagination': pagination
     },
     data: function () {
       return {
@@ -92,23 +55,26 @@
             name: 'Assigned',
             icon: 'assignment_return',
             content: [],
-            loading: true
+            loading: true,
+            last_page: 1,
+            count: 0
           },
           Created: {
             name: 'Created',
             icon: 'assignment_returned',
             content: [],
-            loading: true
+            loading: true,
+            last_page: 1,
+            count: 0
           },
           Completed: {
             name: 'Completed',
             icon: 'assignment_turned_in',
             content: [],
-            loading: true
+            loading: true,
+            last_page: 1,
+            count: 0
           }
-        },
-        Catalog: {
-          Categories: []
         },
         failAlert: false
       }
@@ -175,7 +141,9 @@
         const _self = this;
         _self.$set(_self.Tasks.Assigned, 'loading', true);
         listAssigned().then(res => {
-          _self.$set(_self.Tasks.Assigned, 'content', res.data);
+          _self.$set(_self.Tasks.Assigned, 'content', res.data.mainTask);
+          _self.$set(_self.Tasks.Assigned, 'last_page', res.data.last_page);
+          _self.$set(_self.Tasks.Assigned, 'count', res.data.count);
         }).catch(err => {
           _self.$set(_self.Tasks.Assigned, 'loading', false);
           _self.$set(_self, 'failAlert', true);
@@ -185,7 +153,9 @@
         const _self = this;
         _self.$set(_self.Tasks.Completed, 'loading', true);
         listCompleted().then(res => {
-          _self.$set(_self.Tasks.Completed, 'content', res.data);
+          _self.$set(_self.Tasks.Completed, 'content', res.data.mainTask);
+          _self.$set(_self.Tasks.Completed, 'last_page', res.data.last_page);
+          _self.$set(_self.Tasks.Completed, 'count', res.data.count);
         }).catch(err => {
           _self.$set(_self.Tasks.Completed, 'loading', false);
           _self.$set(_self, 'failAlert', true);
@@ -195,7 +165,9 @@
         const _self = this;
         _self.$set(_self.Tasks.Created, 'loading', true);
         listCreated().then(res => {
-          _self.$set(_self.Tasks.Created, 'content', res.data);
+          _self.$set(_self.Tasks.Created, 'content', res.data.mainTask);
+          _self.$set(_self.Tasks.Created, 'last_page', res.data.last_page);
+          _self.$set(_self.Tasks.Created, 'count', res.data.count);
         }).catch(err => {
           _self.$set(_self.Tasks.Created, 'loading', false);
           _self.$set(_self, 'failAlert', true);
@@ -211,9 +183,6 @@
         _self.loadAssigned();
       }, 250);
 
-      getCategories().then(res => {
-        _self.$set(_self.Catalog, 'Categories', res.data);
-      }).catch(err => {});
     }
   }
 

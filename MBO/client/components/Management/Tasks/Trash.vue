@@ -9,8 +9,8 @@
     <pagination :lastpage="Tasks.Trash.last_page" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
     <!--Convert this section in to component-->
     <md-layout md-gutter>
-      <div class="flex-vertical min-height full-width">
-        <div v-show="!Tasks.Trash.content.length" class="no-content">
+      <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
+        <div class="no-content">
           <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
           <span v-if="Tasks.Trash.loading">Loading...</span>
           <span v-else>Awww... Nothing here!</span>
@@ -37,12 +37,8 @@
     listTrash
   } from 'services/tasks';
 
-  import {
-    getCategories
-  } from 'services/catalogs';
-
   export default {
-    name: 'task-list',
+    name: 'task-list-trash',
     components: {
       'task-card-trash': taskCardTrash,
       'pagination': pagination
@@ -58,12 +54,21 @@
             last_page: 1,
             count: 0
           }
-        }
+        },
+        failAlert: false
       }
     },
     watch: {
       'Tasks.Trash.content': function () {
         this.$set(this.Tasks.Trash, 'loading', false);
+      },
+      'failAlert': function (val) {
+        const _self = this;
+        if (val) {
+          _self.$refs.snackbar.open();
+        } else {
+          _self.$refs.snackbar.close();
+        }
       }
     },
     methods: {
@@ -95,7 +100,7 @@
           _self.$set(_self.Tasks.Trash, 'count', res.data.count);
         }).catch(err => {
           _self.$set(_self.Tasks.Trash, 'loading', false);
-          _self.$refs.snackbar.open();
+          _self.$set(_self, 'failAlert', true);
         });
       }
     },

@@ -1,6 +1,6 @@
 <template>
   <md-whiteframe md-tag="section" md-elevation="1" md-theme="invert">
-    <md-toolbar class="md-dense">
+    <md-toolbar class="md-dense md-transparent">
       <!--TODO fix search-->
       <div class="md-toolbar-container"><span style="flex: 1"></span>
         <md-button class="md-icon-button" @click="activate_search" :disabled="loading">
