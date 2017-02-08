@@ -1,10 +1,10 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="2">
+    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="header-custom">
       <div class="md-toolbar-container">
       </div>
       <div class="md-toolbar-container">
-        <md-button @click="toggleLeftSidenav">
+        <md-button @click.native="toggleLeftSidenav">
           <md-tooltip md-direction="top">Menu</md-tooltip>
           <md-icon>menu</md-icon>
         </md-button>
@@ -13,10 +13,22 @@
             <h2 class="md-title">Get Busy with Management By Objectives!</h2>
           </md-layout>
         </span>
-        <router-link v-show="isAuthenticated" tag="md-button" to="/tasks/create" class="md-fab md-fab-bottom-right add-task">
-          <md-tooltip md-direction="top">Create new Task</md-tooltip>
-          <md-icon>add</md-icon>
-        </router-link>
+        <!--TODO Display notifications here!-->
+        <!--<md-icon>notifications_active</md-icon>-->
+        <md-speed-dial v-show="isAuthenticated" md-open="click" md-direction="left" class="md-fab-bottom-right add-task">
+          <md-button class="md-fab" md-fab-trigger>
+            <md-icon md-icon-morph>close</md-icon>
+            <md-icon>add</md-icon>
+          </md-button>
+          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/tasks/create')">
+            <md-tooltip md-direction="top">Assigment</md-tooltip>
+            <md-icon>assignment</md-icon>
+          </md-button>
+          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/messages/create')">
+            <md-tooltip md-direction="top">Message</md-tooltip>
+            <md-icon>chat</md-icon>
+          </md-button>
+        </md-speed-dial>
       </div>
     </md-whiteframe>
     <md-sidenav class="md-left" ref="leftSidenav">
@@ -26,8 +38,6 @@
           <h2 class="md-title" v-show="!isAuthenticated">My Account</h2>
           <h2 class="md-title" v-show="isAuthenticated">{{userinfo.Email}}</h2>
           <span style="flex: 1;"></span>
-          <!--TODO Display notifications here!-->
-          <!--<md-icon>notifications_active</md-icon>-->
         </div>
         <md-list v-show="!isAuthenticated">
           <md-subheader>
@@ -151,6 +161,11 @@
       },
       toggleLeftSidenav() {
         this.$refs.leftSidenav.toggle();
+      },
+      redirect(path) {
+        this.$router.push({
+          path: path
+        });
       }
     }
   }
@@ -158,9 +173,13 @@
 
 </script>
 <style scoped>
+  .header-custom {
+    margin-bottom: 2%;
+  }
+  
   .add-task {
-    bottom: -25%!important;
-    right: 8px!important;
+    bottom: -20%!important;
+    right: 5%!important;
   }
 
 </style>

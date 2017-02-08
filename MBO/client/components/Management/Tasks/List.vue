@@ -28,7 +28,7 @@
       </md-tabs>
       <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
         <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
-        <md-button class="md-accent" @click="retry">Retry</md-button>
+        <md-button class="md-accent" @click.native="retry">Retry</md-button>
       </md-snackbar>
     </md-whiteframe>
   </div>
@@ -113,6 +113,10 @@
       }
     },
     methods: {
+      search: function () {
+        //TODO check active tab and referesh that data only
+
+      },
       retry: function () {
         const _self = this;
         _self.$set(_self, 'failAlert', false);

@@ -41,8 +41,8 @@
         <!--<app-message></app-message>-->
       </md-card-content>
       <md-card-actions>
-        <router-link tag="md-button" to="/tasks" class="md-accent">View Tasks</router-link>
-        <md-button id="btn-Submit" class="md-raised md-accent" @click="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
+        <router-link to="/tasks" class="md-button md-accent">View Tasks</router-link>
+        <md-button id="btn-Submit" class="md-raised md-accent" @click.native="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
   </div>
