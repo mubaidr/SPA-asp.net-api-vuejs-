@@ -26,7 +26,7 @@
             <span style="flex: 1"></span>
             <md-input-container md-inline>
               <md-tooltip md-direction="top">Search</md-tooltip>
-              <md-input @change="search" placeholder="Search"></md-input>
+              <md-input @change="search" placeholder="Search" :disabled="count == 0 || loading"></md-input>
             </md-input-container>
             <md-menu md-direction="bottom left" md-size="3">
               <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
@@ -45,7 +45,7 @@
             </md-menu>
           </div>
         </md-toolbar>
-        <md-progress class="md-accent" md-indeterminate v-show="loading"></md-progress>
+        <md-progress class="md-accent" :class="{ hidden: !loading }" md-indeterminate></md-progress>
       </md-whiteframe>
     </md-layout>
     <md-layout md-hide-small></md-layout>
@@ -113,6 +113,10 @@
 
 </script>
 <style scoped>
+  .hidden {
+    visibility: hidden;
+  }
+  
   .md-input-container {
     max-width: 180px;
   }

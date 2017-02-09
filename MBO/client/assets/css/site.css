@@ -219,7 +219,7 @@
 /*Items List Transitions*/
 
 .list-in-item {
-  transition: all 0.5s;
+  transition: all 0.25s;
   display: inline-block;
 }
 
@@ -237,7 +237,7 @@
 /*Trash*/
 
 .list-out-item {
-  transition: all 0.5s;
+  transition: all 0.25s;
   display: inline-block;
 }
 

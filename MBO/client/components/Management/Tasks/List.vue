@@ -18,7 +18,7 @@
                 <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
               </div>
             </div>
-            <transition-group name="list-out" tag="ul" class="no-padding">
+            <transition-group name="list-out" tag="ul" class="no-padding min-height">
               <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
                 <task-card @remove-task-item="removeTaskItem" :Task="Task"></task-card>
               </li>
@@ -109,19 +109,23 @@
         const _self = this;
         _self.$set(_self, 'currentTab', Object.keys(_self.Tasks)[index]);
 
-        //TODO load tab data on change (if not already loaded, check content length)
-
-        // switch (_self.currentTab) {
-        //   case 'Assigned':
-        //     _self.loadAssigned();
-        //     break;
-        //   case 'Created':
-        //     _self.loadCreated();
-        //     break;
-        //   case 'Completed':
-        //     _self.loadCompleted();
-        //     break;
-        // }
+        switch (_self.currentTab) {
+          case 'Assigned':
+            if (!_self.Tasks[_self.currentTab].content.length) {
+              _self.loadAssigned();
+            }
+            break;
+          case 'Created':
+            if (!_self.Tasks[_self.currentTab].content.length) {
+              _self.loadCreated();
+            }
+            break;
+          case 'Completed':
+            if (!_self.Tasks[_self.currentTab].content.length) {
+              _self.loadCompleted();
+            }
+            break;
+        }
       },
       activeTab: function () {
         const _self = this;
@@ -212,9 +216,7 @@
       _self.activeTab();
 
       window.setTimeout(function () {
-        _self.loadCompleted();
-        _self.loadCreated();
-        _self.loadAssigned();
+        _self.search();
       }, 250);
 
     }
