@@ -30,7 +30,6 @@
   </div>
 </template>
 <script>
-  //import _ from 'lodash';
   import taskCardTrash from 'components/_custom/task-card-trash.vue';
   import pagination from 'components/_custom/pagination.vue';
   import {
@@ -90,6 +89,7 @@
             break;
           }
         }
+        this.retry();
       },
       loadTrash: function (paging) {
         const _self = this;

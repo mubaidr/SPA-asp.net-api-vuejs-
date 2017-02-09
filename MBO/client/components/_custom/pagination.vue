@@ -2,7 +2,7 @@
   <md-layout>
     <md-layout md-hide-small></md-layout>
     <md-layout>
-      <md-whiteframe md-tag="section" class="full-width">
+      <md-whiteframe md-tag="section" class="full-width" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">
             <md-button md-hide-small class="md-icon-button" @click.native="firstPage" :disabled="paging.page == 1 || loading">
@@ -91,21 +91,12 @@
         _self.$set(_self.paging, 'page', 1);
         _self.refresh();
       },
-      refresh: function () {
-        const _self = this;
-        _self.$emit('refresh', _self.paging);
-
-        //_self.debouncedRefresh()();
-      },
-      debouncedRefresh: function () {
-        const _self = this;
-        return _.debounce(function () {
-          _self.$emit('refresh', _self.paging);
-        }, 500, {
-          leading: false,
-          trailing: true
-        });
-      },
+      refresh: _.debounce(function () {
+        this.$emit('refresh', this.paging);
+      }, 500, {
+        leading: false,
+        trailing: true
+      }),
       nextPage: function () {
         this.$set(this.paging, 'page', this.paging.page + 1);
       },

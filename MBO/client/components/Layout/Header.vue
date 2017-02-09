@@ -46,26 +46,26 @@
           </md-subheader>
           <md-list-item>
             <md-icon>person_outline</md-icon>
-            <router-link to="/signin">Sign In</router-link>
+            <span><router-link to="/signin">Sign In</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>person_add</md-icon>
-            <router-link to="/signup">Register</router-link>
+            <span><router-link to="/signup">Register</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>settings_backup_restore</md-icon>
-            <router-link to="/recover">Recover</router-link>
+            <span><router-link to="/recover">Recover</router-link></span>
           </md-list-item>
           <md-subheader>
             <span>Support</span>
           </md-subheader>
           <md-list-item>
             <md-icon>phone</md-icon>
-            <router-link to="/contact">Contact</router-link>
+            <span><router-link to="/contact">Contact</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>info</md-icon>
-            <router-link to="/about">About</router-link>
+            <span><router-link to="/about">About</router-link></span>
           </md-list-item>
         </md-list>
         <md-list v-show="isAuthenticated">
@@ -74,26 +74,26 @@
           </md-subheader>
           <md-list-item>
             <md-icon>dashboard</md-icon>
-            <router-link to="/dashboard">Dashboard</router-link>
+            <span><router-link class="md-clean" to="/dashboard">Dashboard</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>person</md-icon>
-            <router-link to="/profile">Profile</router-link>
+            <span><router-link to="/profile">Profile</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>subdirectory_arrow_left</md-icon>
-            <a @click="openDialog('signout')">Sign Out</a>
+            <span><a @click="openDialog('signout')">Sign Out</a></span>
           </md-list-item>
           <md-subheader>
             <span>Tasks</span>
           </md-subheader>
           <md-list-item>
             <md-icon>assignment_return</md-icon>
-            <router-link :to="{path: '/tasks'}">List</router-link>
+            <span><router-link :to="{path: '/tasks'}">List</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>delete</md-icon>
-            <router-link to="/tasks/trash">Trash</router-link>
+            <span><router-link to="/tasks/trash">Trash</router-link></span>
           </md-list-item>
           <md-subheader>
             <span>Messages</span>
@@ -115,11 +115,11 @@
           </md-subheader>
           <md-list-item>
             <md-icon>phone</md-icon>
-            <router-link to="/contact">Contact</router-link>
+            <span><router-link to="/contact">Contact</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>info</md-icon>
-            <router-link to="/about">About</router-link>
+            <span><router-link to="/about">About</router-link></span>
           </md-list-item>
         </md-list>
       </md-whiteframe>

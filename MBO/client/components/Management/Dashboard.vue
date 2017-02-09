@@ -48,23 +48,23 @@
           <md-subheader class="md-inset">My Tasks</md-subheader>
           <md-list-item>
             <md-icon>add</md-icon>
-            <router-link to="/tasks/create">Create</router-link>
+            <span><router-link to="/tasks/create">Create</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_return</md-icon>
-            <router-link :to="{path: '/tasks', query: {sub: 'Assigned'}}">Assigned to me</router-link>
+            <span><router-link :to="{path: '/tasks', query: {sub: 'Assigned'}}">Assigned to me</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment</md-icon>
-            <router-link :to="{path: '/tasks', query: {sub: 'Created'}}">Created by me</router-link>
+            <span><router-link :to="{path: '/tasks', query: {sub: 'Created'}}">Created by me</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_turned_in</md-icon>
-            <router-link :to="{path: '/tasks', query: {sub: 'Completed'}}">Completed</router-link>
+            <span><router-link :to="{path: '/tasks', query: {sub: 'Completed'}}">Completed</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>delete</md-icon>
-            <router-link to="/tasks/trash">Trash</router-link>
+            <span><router-link to="/tasks/trash">Trash</router-link></span>
           </md-list-item>
           <md-subheader class="md-inset">Messages</md-subheader>
           <md-list-item>

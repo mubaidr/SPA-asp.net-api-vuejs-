@@ -25,6 +25,8 @@ import TasksList from 'components/Management/Tasks/List.vue';
 import TasksTrash from 'components/Management/Tasks/Trash.vue'
 import TasksCreate from 'components/Management/Tasks/Create.vue';
 import TasksEdit from 'components/Management/Tasks/Edit.vue';
+//TODO Messages
+
 
 Vue.use(Router);
 
@@ -120,11 +122,6 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  // var _message_content = to.params.message;
-  // if (_message_content) {
-  //   var _message_type = to.params.type;
-  // }
-
   if (store.getters.isAuhtenticated) {
     var _not_valid = ['signin', 'signup', 'recover'];
 

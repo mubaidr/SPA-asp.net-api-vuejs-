@@ -7,7 +7,7 @@
       </router-link>
     </p>
     <md-whiteframe md-tag="section" md-elevation="0">
-      <md-tabs md-fixed @change="tabChange">
+      <md-tabs md-fixed @change="tabChange" md-elevation="2">
         <md-tab :md-active="currentTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
           <md-layout md-gutter>
