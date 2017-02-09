@@ -175,7 +175,7 @@
 </script>
 <style scoped>
   .header-custom {
-    margin-bottom: 2%;
+    margin-bottom: 1%;
   }
   
   .add-task {

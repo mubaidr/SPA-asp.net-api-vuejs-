@@ -101,6 +101,7 @@
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   transform-origin: 50%;
+  will-change: transform;
 }
 
 .animate-danger {
@@ -113,6 +114,7 @@
   animation-fill-mode: both;
   animation-iteration-count: infinite;
   transform-origin: 50% 0;
+  will-change: transform;
 }
 
 .animate-active {
@@ -125,6 +127,7 @@
   animation-fill-mode: both;
   animation-iteration-count: 1;
   transform-origin: 50% 0;
+  will-change: transform;
 }
 
 @keyframes active {
@@ -219,6 +222,7 @@
 /*Items List Transitions*/
 
 .list-in-item {
+  will-change: transform;
   transition: all 0.25s;
   display: inline-block;
 }
@@ -237,6 +241,7 @@
 /*Trash*/
 
 .list-out-item {
+  will-change: transform;
   transition: all 0.25s;
   display: inline-block;
 }

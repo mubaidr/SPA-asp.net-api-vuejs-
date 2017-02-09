@@ -4,7 +4,6 @@
     <md-layout>
       <md-whiteframe md-tag="section" class="full-width">
         <md-toolbar class="md-dense md-transparent">
-          <!--TODO fix search-->
           <div class="md-toolbar-container">
             <md-button md-hide-small class="md-icon-button" @click.native="firstPage" :disabled="paging.page == 1 || loading">
               <md-tooltip md-direction="top">First Page</md-tooltip>
@@ -26,7 +25,7 @@
             <span style="flex: 1"></span>
             <md-input-container md-inline>
               <md-tooltip md-direction="top">Search</md-tooltip>
-              <md-input @change="search" placeholder="Search" :disabled="count == 0 || loading"></md-input>
+              <md-input v-model="paging.filter" @change="search" placeholder="Search"></md-input>
             </md-input-container>
             <md-menu md-direction="bottom left" md-size="3">
               <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
@@ -52,6 +51,7 @@
   </md-layout>
 </template>
 <script>
+  import _ from 'lodash';
   export default {
     name: 'pagination',
     props: ['lastpage', 'count', 'loading'],
@@ -74,13 +74,10 @@
         }
       },
       'paging.page': function () {
-        this.search();
+        this.refresh();
       },
       'paging.orderby': function () {
-        this.search();
-      },
-      'paging.filter': function () {
-        this.search();
+        this.refresh();
       }
     },
     computed: {
@@ -91,7 +88,23 @@
     methods: {
       search: function () {
         const _self = this;
+        _self.$set(_self.paging, 'page', 1);
+        _self.refresh();
+      },
+      refresh: function () {
+        const _self = this;
         _self.$emit('refresh', _self.paging);
+
+        //_self.debouncedRefresh()();
+      },
+      debouncedRefresh: function () {
+        const _self = this;
+        return _.debounce(function () {
+          _self.$emit('refresh', _self.paging);
+        }, 500, {
+          leading: false,
+          trailing: true
+        });
       },
       nextPage: function () {
         this.$set(this.paging, 'page', this.paging.page + 1);

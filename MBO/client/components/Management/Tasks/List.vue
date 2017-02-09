@@ -1,5 +1,6 @@
 <template>
-  <div><span class="md-display-1">Tasks</span>
+  <div>
+    <span class="md-display-1">Tasks</span>
     <p>
       <router-link class="md-accent" :to="{path: '/tasks/trash'}">
         View Trash
@@ -18,7 +19,7 @@
                 <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
               </div>
             </div>
-            <transition-group name="list-out" tag="ul" class="no-padding min-height">
+            <transition-group name="list-out" tag="ul" class="flex-vertical min-height no-padding">
               <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
                 <task-card @remove-task-item="removeTaskItem" :Task="Task"></task-card>
               </li>

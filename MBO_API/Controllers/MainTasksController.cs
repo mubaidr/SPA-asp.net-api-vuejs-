@@ -78,16 +78,19 @@ namespace MBO_API.Controllers
                                select m;
                     break;
             }
-                        
-            var res = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter)).OrderBy(orderby).Include(m => m.AssignedTo);
-            var count = res.Count();
             
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                taskList = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter));
+            }
+
+            var count = taskList.Count();            
             var mod = count % pagesize;
             last_page = mod > 0 ? ((count - mod) / pagesize) + 1: count/pagesize;
             
             return new TaskListResult
             {
-                mainTask = res.Skip(pagesize * (page - 1)).Take(pagesize).ToList(),
+                mainTask = taskList.OrderBy(orderby).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList(),
                 count = count,
                 last_page = last_page == 0 ? 1: last_page
             };
