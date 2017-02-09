@@ -11,6 +11,11 @@
         <md-tab :md-active="currentTab == TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <pagination :lastpage="TaskList.last_page" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
           <md-layout md-gutter>
+            <transition-group name="list-out" tag="ul" class="min-height no-padding">
+              <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name"></task-card>
+              </li>
+            </transition-group>
             <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
               <div class="no-content">
                 <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
@@ -19,11 +24,6 @@
                 <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
               </div>
             </div>
-            <transition-group name="list-out" tag="ul" class="flex-vertical min-height no-padding">
-              <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
-                <task-card @remove-task-item="removeTaskItem" :Task="Task"></task-card>
-              </li>
-            </transition-group>
           </md-layout>
         </md-tab>
       </md-tabs>
@@ -174,6 +174,9 @@
             break;
           }
         }
+
+        //TOFIX Pagination issue
+        _self.search();
       },
       loadAssigned: function (obj) {
         const _self = this;

@@ -14,7 +14,6 @@
           </md-layout>
         </span>
         <!--TODO Display notifications here!-->
-        <!--<md-icon>notifications_active</md-icon>-->
         <md-speed-dial v-show="isAuthenticated" md-open="click" md-direction="left" class="md-fab-bottom-right add-task">
           <md-button class="md-fab" md-fab-trigger>
             <md-tooltip md-direction="top">New</md-tooltip>
@@ -82,7 +81,7 @@
           </md-list-item>
           <md-list-item>
             <md-icon>subdirectory_arrow_left</md-icon>
-            <span><a @click="openDialog('signout')">Sign Out</a></span>
+            <span><a href="#" @click="openDialog('signout')">Sign Out</a></span>
           </md-list-item>
           <md-subheader>
             <span>Tasks</span>

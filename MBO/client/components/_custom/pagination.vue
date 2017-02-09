@@ -1,5 +1,5 @@
 <template>
-  <md-layout>
+  <md-layout v-show="!!count">
     <md-layout md-hide-small></md-layout>
     <md-layout>
       <md-whiteframe md-tag="section" class="full-width" md-elevation="1">

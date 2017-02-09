@@ -230,7 +230,7 @@
 .list-in-enter,
 .list-in-leave-to {
   opacity: 0;
-  transform: scale(0.5) rotate3d(0, 1, 0, -180deg);
+  transform: scale(0.8);
 }
 
 .list-in-leave-active {
@@ -249,12 +249,11 @@
 .list-out-enter,
 .list-out-leave-to {
   opacity: 0;
-  transform: scale(1.25);
+  transform: scale(1.2);
 }
 
 .list-out-leave-active {
   position: absolute;
-  z-index: 99999;
 }
 
 

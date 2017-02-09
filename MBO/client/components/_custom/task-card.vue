@@ -1,5 +1,4 @@
 <template>
-  <!--<md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">-->
   <div class="card-cont">
     <md-card md-with-hover class="md-card-custom">
       <md-card-header>
@@ -71,7 +70,6 @@
       </md-dialog-actions>
     </md-dialog>
   </div>
-  <!--</md-layout>-->
 </template>
 <script>
   import {

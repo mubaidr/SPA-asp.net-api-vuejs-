@@ -7,8 +7,12 @@
       </router-link>
     </p>
     <pagination :lastpage="Tasks.Trash.last_page" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
-    <!--Convert this section in to component-->
     <md-layout md-gutter>
+      <transition-group name="list-out" tag="ul" class="no-padding">
+        <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
+          <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
+        </li>
+      </transition-group>
       <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
         <div class="no-content">
           <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
@@ -17,11 +21,6 @@
           <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
         </div>
       </div>
-      <transition-group name="list-out" tag="ul" class="no-padding">
-        <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
-          <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
-        </li>
-      </transition-group>
     </md-layout>
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
       <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
