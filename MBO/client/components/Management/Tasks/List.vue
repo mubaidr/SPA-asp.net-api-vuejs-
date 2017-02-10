@@ -175,8 +175,7 @@
           }
         }
 
-        //TOFIX Pagination issue
-        _self.search();
+        window.setTimeout(_self.search, 250);
       },
       loadAssigned: function (obj) {
         const _self = this;

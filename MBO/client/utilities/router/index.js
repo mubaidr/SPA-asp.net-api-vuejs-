@@ -24,7 +24,7 @@ import Tasks from 'components/Management/Tasks/index.vue';
 import TasksList from 'components/Management/Tasks/List.vue';
 import TasksTrash from 'components/Management/Tasks/Trash.vue'
 import TasksCreate from 'components/Management/Tasks/Create.vue';
-import TasksEdit from 'components/Management/Tasks/Edit.vue';
+import TasksDetails from 'components/Management/Tasks/Details.vue';
 //TODO Messages
 
 
@@ -112,8 +112,8 @@ const router = new Router({
       path: 'create',
       component: TasksCreate
     }, {
-      path: 'edit',
-      component: TasksEdit
+      path: 'details',
+      component: TasksDetails
     }]
   }, {
     path: '*',

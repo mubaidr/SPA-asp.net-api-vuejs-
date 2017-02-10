@@ -4,6 +4,7 @@ export {
   remove,
   restore,
   deleteTask,
+  getDetails,
   listAll,
   listAssigned,
   listCreated,
@@ -19,6 +20,10 @@ const path = "/api/MainTasks";
 
 function create(obj) {
   return axios.post(api.url + path, obj);
+}
+
+function getDetails(obj) {
+  return axios.get(api.url + path, obj);
 }
 
 function edit(obj) {

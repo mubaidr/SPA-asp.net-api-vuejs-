@@ -10,18 +10,26 @@
             {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
-        <md-menu md-size="3" md-direction="bottom left">
+        <!--<md-menu md-size="5" md-direction="bottom left">
           <md-button class="md-icon-button" md-menu-trigger>
             <md-tooltip md-direction="top">Menu</md-tooltip>
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item>
+            <md-menu-item @click.native="details">
               <span>Add Comment</span>
-              <md-icon>message</md-icon>
+              <md-icon>chat</md-icon>
+            </md-menu-item>
+            <md-menu-item>
+              <span>View Detail</span>
+              <md-icon>details</md-icon>
+            </md-menu-item>
+            <md-menu-item>
+              <span>Update</span>
+              <md-icon>mode_edit</md-icon>
             </md-menu-item>
           </md-menu-content>
-        </md-menu>
+        </md-menu>-->
       </md-card-header>
       <md-card-content style="padding-bottom: 0">
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
@@ -49,15 +57,26 @@
             <md-tooltip md-direction="top">Archive</md-tooltip>
             <md-icon>archive</md-icon>
           </md-button>
-          <md-button class="md-icon-button">
+          <md-button class="md-icon-button" @click.native="viewDetails('edit')">
             <md-tooltip md-direction="top">Update</md-tooltip>
             <md-icon>mode_edit</md-icon>
           </md-button>
-          <md-button class="md-icon-button">
-            <md-tooltip md-direction="top">Priority</md-tooltip>
-            <md-icon>low_priority</md-icon>
-          </md-button>
+          <md-menu md-direction="bottom left">
+            <md-button class="md-icon-button" md-menu-trigger>
+              <md-icon>low_priority</md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>My Item 1</md-menu-item>
+              <md-menu-item>My Item 2</md-menu-item>
+              <md-menu-item disabled>My Item 3</md-menu-item>
+              <md-menu-item>My Item 4</md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </div>
+        <md-button class="md-icon-button" @click.native="viewDetails('comment')">
+          <md-tooltip md-direction="top">Comment</md-tooltip>
+          <md-icon>chat</md-icon>
+        </md-button>
       </md-card-actions>
     </md-card>
     <!--Delete Confirmation-->
@@ -152,7 +171,21 @@
       }
     },
     methods: {
-      viewDetails: function () {},
+      viewDetails: function (obj) {
+        const _self = this;
+        const TaskId = _self.Task.MainTaskID;
+        if (!obj) obj = 'view';
+
+        var url = {
+          path: 'tasks/details',
+          params: {
+            Task: _self.Task,
+            Type: obj
+          }
+        };
+        //TODO check params
+        this.$router.push(url);
+      },
       confirmDelete: function () {
         this.$refs[this.refConfirm].open();
       },

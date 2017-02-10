@@ -90,4 +90,4 @@ const store = new Vuex.Store({
 
 export default store;
 
-//TODO add qoates with different categories to display with empty data, error state or waiting screens!
+//todo add qoates with different categories to display with empty data, error state or waiting screens!
