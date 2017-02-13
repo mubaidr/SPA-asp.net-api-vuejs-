@@ -112,6 +112,7 @@ const router = new Router({
       path: 'create',
       component: TasksCreate
     }, {
+      name: 'task-details',
       path: 'details',
       component: TasksDetails
     }]

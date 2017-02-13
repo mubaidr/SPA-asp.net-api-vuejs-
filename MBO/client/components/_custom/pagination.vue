@@ -1,7 +1,7 @@
 <template>
-  <md-layout :class="{ hidden: !count }">
+  <md-layout>
     <md-layout md-hide-small></md-layout>
-    <md-layout>
+    <md-layout md-flex="50" md-flex-medium="100">
       <md-whiteframe md-tag="section" class="full-width" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">

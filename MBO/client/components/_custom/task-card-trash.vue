@@ -16,11 +16,11 @@
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
-        <div class="card-date" :class="type_class" title="Due Date">
-          <span class="text-muted">{{formatedDueDate}}</span>
+        <div class="card-date" :class="type_class()" title="Due Date">
+          <span class="text-muted">{{formatedDueDate()}}</span>
         </div>
         <md-tooltip md-direction="top">Progress and Status</md-tooltip>
-        <md-progress :md-theme="type_class" :md-progress="Task.Progress"></md-progress>
+        <md-progress :md-theme="type_class()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
         <md-tooltip md-direction="top">Task is assigned to followiung users</md-tooltip>
@@ -62,7 +62,9 @@
     computed: {
       isSelfCreated: function () {
         return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
-      },
+      }
+    },
+    methods: {
       type_class: function () {
         const _self = this;
 
@@ -88,9 +90,7 @@
       },
       refConfirm: function () {
         return 'ref-confirm-' + this.Task.MainTaskID;
-      }
-    },
-    methods: {
+      },
       dialogSuccessClose: function () {
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
@@ -100,7 +100,7 @@
       },
       viewDetails: function () {},
       confirmRestore: function () {
-        this.$refs[this.refConfirm].open();
+        this.$refs[this.refConfirm()].open();
       },
       restoreTask: function (type) {
         const _self = this;

@@ -16,6 +16,7 @@
       </md-layout>
       <md-layout md-hide-small>
       </md-layout>
+    </md-layout>
   </div>
 </template>
 <script>

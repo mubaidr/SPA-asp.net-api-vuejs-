@@ -47,6 +47,14 @@ namespace MBO_API.Models
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Log> Log { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> MessagesSent { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Message> MessagesReceived { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -65,6 +73,7 @@ namespace MBO_API.Models
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<Message> Message { get; set; }
         //public virtual DbSet<PersonRole> PersonRoles { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

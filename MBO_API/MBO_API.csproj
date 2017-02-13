@@ -231,9 +231,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201701310403004_init.cs" />
-    <Compile Include="Migrations\201701310403004_init.Designer.cs">
-      <DependentUpon>201701310403004_init.cs</DependentUpon>
+    <Compile Include="Migrations\201702130643241_init.cs" />
+    <Compile Include="Migrations\201702130643241_init.Designer.cs">
+      <DependentUpon>201702130643241_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -242,6 +242,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\MainTask.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\ProgressHistory.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\PersonRole.cs" />
@@ -329,8 +330,8 @@
     <Content Include="Scripts\jquery-3.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201701310403004_init.resx">
-      <DependentUpon>201701310403004_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702130643241_init.resx">
+      <DependentUpon>201702130643241_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
