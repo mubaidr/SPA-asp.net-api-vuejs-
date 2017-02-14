@@ -7,9 +7,9 @@ import api from 'api';
 import axios from 'axios';
 
 function addLog(obj) {
-  return axios.post(api.url + '/api/Log');
+  return axios.post(api.url + '/api/Logs');
 };
 
 function getLog() {
-  return axios.get(api.url + '/api/Log');
+  return axios.get(api.url + '/api/Logs');
 };

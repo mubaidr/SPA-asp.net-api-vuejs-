@@ -1,7 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MBO_API.Models;
@@ -13,16 +17,16 @@ namespace MBO_API.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Logs
-        public IQueryable<Log> GetLog()
+        public IQueryable<Log> GetLogs()
         {
-            return db.Log;
+            return db.Logs;
         }
 
         // GET: api/Logs/5
         [ResponseType(typeof(Log))]
         public IHttpActionResult GetLog(int id)
         {
-            Log log = db.Log.Find(id);
+            Log log = db.Logs.Find(id);
             if (log == null)
             {
                 return NotFound();
@@ -75,7 +79,7 @@ namespace MBO_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Log.Add(log);
+            db.Logs.Add(log);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = log.LogID }, log);
@@ -85,13 +89,13 @@ namespace MBO_API.Controllers
         [ResponseType(typeof(Log))]
         public IHttpActionResult DeleteLog(int id)
         {
-            Log log = db.Log.Find(id);
+            Log log = db.Logs.Find(id);
             if (log == null)
             {
                 return NotFound();
             }
 
-            db.Log.Remove(log);
+            db.Logs.Remove(log);
             db.SaveChanges();
 
             return Ok(log);
@@ -108,7 +112,7 @@ namespace MBO_API.Controllers
 
         private bool LogExists(int id)
         {
-            return db.Log.Count(e => e.LogID == id) > 0;
+            return db.Logs.Count(e => e.LogID == id) > 0;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace MBO_API.Models
 
         public virtual DbSet<MainTask> MainTask { get; set; }
         public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Log> Log { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<Message> Message { get; set; }
         //public virtual DbSet<PersonRole> PersonRoles { get; set; }
@@ -81,5 +81,7 @@ namespace MBO_API.Models
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
         }
+
+        public System.Data.Entity.DbSet<MBO_API.Models.ProgressHistory> ProgressHistories { get; set; }
     }
 }
