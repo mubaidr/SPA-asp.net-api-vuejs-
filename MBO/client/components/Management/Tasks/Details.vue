@@ -14,7 +14,7 @@
       <md-layout md-flex="20" md-flex-small="50" md-flex-xsmall="100">
         <span class="md-subheading"><span class="md-caption">Assigned On:<br/></span> {{formatDate(Task.DateAssigned)}}</span>
       </md-layout>
-      <md-layout md-flex="19" md-flex-small="50" md-flex-xsmall="100">
+      <md-layout md-flex="15" md-flex-small="50" md-flex-xsmall="100">
         <div class="md-subheading"><span class="md-caption">Assigned To:<br/></span>
           <div class="md-caption" v-show="Task.AssignedTo.length">
             <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
@@ -24,7 +24,7 @@
           </div>
         </div>
       </md-layout>
-      <md-layout md-flex="1" md-flex-small="50" md-flex-xsmall="100">
+      <md-layout md-flex="5" md-flex-small="50" md-flex-xsmall="100">
         <span class="md-subheading"><span class="md-caption">Status:<br/></span>
         <div :class="type_class()">
           <md-icon :class="type_animate()">{{type_icon()}}</md-icon>
@@ -36,7 +36,7 @@
       </md-layout>
     </md-layout>
     <hr/>
-    <md-layout :md-gutter="24">
+    <md-layout md-flex="60" :md-gutter="24">
       <md-layout md-flex-small="100">
         <span class="md-subheading">Comments</span>
         <md-table v-once>
@@ -57,7 +57,7 @@
           </md-table-body>
         </md-table>
       </md-layout>
-      <md-layout md-flex-small="100">
+      <md-layout md-flex="40" md-flex-small="100">
         <span class="md-subheading">Progress updates</span>
         <md-table v-once>
           <md-table-header>
@@ -84,6 +84,13 @@
   import {
     getDetails
   } from 'services/tasks';
+  import {
+    getLog
+  } from 'services/taskLog';
+  import {
+    getProgressHistory
+  } from 'services/progressHistory';
+
   import moment from 'moment';
 
   export default {
@@ -154,7 +161,15 @@
         },
         Type: 'view',
         loading: true,
-        users: []
+        users: [],
+        log: {
+          content: [],
+          loading: true
+        },
+        progressHistory: {
+          content: [],
+          loading: true
+        }
       }
     },
     watch: {},
@@ -216,6 +231,20 @@
         } else {
           return 'theme-primary';
         }
+      },
+      loadLog: function () {
+        getLog().then(function (res) {
+          console.log(res);
+        }).catch(function (err) {
+          console.log(err);
+        });
+      },
+      loadProgressHistory: function () {
+        getProgressHistory().then(function (res) {
+          console.log(res);
+        }).catch(function (err) {
+          console.log(err);
+        });
       }
     },
     mounted: function () {
@@ -227,12 +256,15 @@
         _self.$set(_self, 'Type', type);
         _self.$set(_self, 'Task', task);
       } else {
-        -self.$router.push({
+        _self.$router.push({
           path: '/tasks'
         });
       }
-*/
+    */
       //TODO fetch comments, progress history
+
+      _self.loadLog();
+      _self.loadProgressHistory();
     }
   }
 
