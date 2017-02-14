@@ -11,5 +11,6 @@ function addLog(obj) {
 };
 
 function getLog() {
+  //TODO get log based on task id
   return axios.get(api.url + '/api/Logs');
 };

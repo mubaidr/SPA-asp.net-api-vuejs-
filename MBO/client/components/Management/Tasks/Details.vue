@@ -36,48 +36,30 @@
       </md-layout>
     </md-layout>
     <hr/>
-    <md-layout md-flex="60" :md-gutter="24">
-      <md-layout md-flex-small="100">
-        <span class="md-subheading">Comments</span>
-        <md-table v-once>
-          <md-table-header>
-            <md-table-row>
-              <md-table-head>Dessert (100g serving)</md-table-head>
-              <md-table-head md-numeric>Calories (g)</md-table-head>
-              <md-table-head md-numeric>Fat (g)</md-table-head>
-              <md-table-head md-numeric>Carbs (g)</md-table-head>
-              <md-table-head md-numeric>Protein (g)</md-table-head>
-            </md-table-row>
-          </md-table-header>
-          <md-table-body>
-            <md-table-row v-for="(row, index) in 5" :key="index">
-              <md-table-cell>Dessert Name</md-table-cell>
-              <md-table-cell v-for="(col, index) in 4" :key="index" md-numeric>10</md-table-cell>
-            </md-table-row>
-          </md-table-body>
-        </md-table>
+    <md-layout :md-gutter="24">
+      <md-layout md-flex="50" md-flex-small="100">
+        <h3>Comments</h3>
+        <ul class="full-width comment-list">
+          <li class="no-border">
+            <md-input-container>
+              <label>Add Comment</label>
+              <md-textarea maxlength="100"></md-textarea>
+            </md-input-container>
+          </li>
+          <li v-for="comment in log.content">
+            <!--TODO Align to right is self reply-->
+            <p>{{comment.Description}}</p>
+            <span>{{comment.ApplicationUser.UserName}}</span>
+            <span>{{formatDate(comment.LogTime)}}</span>
+          </li>
+        </ul>
       </md-layout>
-      <md-layout md-flex="40" md-flex-small="100">
-        <span class="md-subheading">Progress updates</span>
-        <md-table v-once>
-          <md-table-header>
-            <md-table-row>
-              <md-table-head>Dessert (100g serving)</md-table-head>
-              <md-table-head md-numeric>Calories (g)</md-table-head>
-              <md-table-head md-numeric>Fat (g)</md-table-head>
-              <md-table-head md-numeric>Carbs (g)</md-table-head>
-              <md-table-head md-numeric>Protein (g)</md-table-head>
-            </md-table-row>
-          </md-table-header>
-          <md-table-body>
-            <md-table-row v-for="(row, index) in 5" :key="index">
-              <md-table-cell>Dessert Name</md-table-cell>
-              <md-table-cell v-for="(col, index) in 4" :key="index" md-numeric>10</md-table-cell>
-            </md-table-row>
-          </md-table-body>
-        </md-table>
+      <md-layout md-flex="50" md-flex-small="100">
+        <h3>Progress updates</h3>
       </md-layout>
     </md-layout>
+    <pre>{{log.content}}</pre>
+    <pre>{{progressHistory.content}}</pre>
   </div>
 </template>
 <script>
@@ -172,7 +154,14 @@
         }
       }
     },
-    watch: {},
+    watch: {
+      'log.content': function () {
+        this.$set(this.log, 'loading', false);
+      },
+      'progressHistory.content': function () {
+        this.$set(this.progressHistory, 'loading', false);
+      }
+    },
     methods: {
       formatDate: function (date) {
         return moment(date).format('HH:mmA DD-MM-YY');
@@ -233,17 +222,23 @@
         }
       },
       loadLog: function () {
+        const _self = this;
+        _self.$set(_self.log, 'loading', false);
+
         getLog().then(function (res) {
-          console.log(res);
+          _self.$set(_self.log, 'content', res.data);
         }).catch(function (err) {
-          console.log(err);
+          console.dir(err);
         });
       },
       loadProgressHistory: function () {
+        const _self = this;
+        _self.$set(_self.progressHistory, 'loading', false);
+
         getProgressHistory().then(function (res) {
-          console.log(res);
+          _self.$set(_self.progressHistory, 'content', res.data);
         }).catch(function (err) {
-          console.log(err);
+          console.dir(err);
         });
       }
     },
@@ -260,7 +255,8 @@
           path: '/tasks'
         });
       }
-    */
+      */
+
       //TODO fetch comments, progress history
 
       _self.loadLog();
@@ -301,6 +297,40 @@
   
   .theme-success .md-icon {
     color: #4caf50;
+  }
+  
+  .comment-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .comment-list li {
+    border-bottom: 1px solid #aaa;
+    border-color: rgba(0, 0, 0, .12);
+    margin: 0;
+    padding: 20px 0;
+  }
+  
+  .comment-list li.no-border {
+    padding-bottom: 0;
+  }
+  
+  .comment-list p {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: left;
+  }
+  
+  .comment-list span {
+    color: #aaa;
+    color: rgba(0, 0, 0, 0.5);
+    display: block;
+    clear: both;
+  }
+  
+  .comment-list span {
+    font-size: 0.75em;
   }
 
 </style>

@@ -50,6 +50,10 @@
   opacity: 0.5;
 }
 
+.no-border {
+  border: none!important;
+}
+
 
 /*Footer*/
 

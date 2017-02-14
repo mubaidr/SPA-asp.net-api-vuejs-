@@ -69,12 +69,12 @@ namespace MBO_API.Models
             return new ApplicationDbContext();
         }
 
-        public virtual DbSet<MainTask> MainTask { get; set; }
-        public virtual DbSet<Category> Category { get; set; }
-        public virtual DbSet<Log> Logs { get; set; }
-        public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<Message> Message { get; set; }
-        //public virtual DbSet<PersonRole> PersonRoles { get; set; }
+        public DbSet<MainTask> MainTask { get; set; }
+        public DbSet<Category> Category { get; set; }
+        public DbSet<Log> Logs { get; set; }
+        public DbSet<Status> Status { get; set; }
+        public DbSet<Message> Message { get; set; }
+        public DbSet<ProgressHistory> ProgressHistories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -82,6 +82,6 @@ namespace MBO_API.Models
             base.OnModelCreating(modelBuilder);
         }
 
-        public System.Data.Entity.DbSet<MBO_API.Models.ProgressHistory> ProgressHistories { get; set; }
+        
     }
 }
