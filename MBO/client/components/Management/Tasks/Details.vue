@@ -99,6 +99,7 @@
   </div>
 </template>
 <script>
+  //TODO convert all js to es6 using lebab tool
   import {
     getDetails
   } from 'services/tasks';
@@ -113,7 +114,7 @@
   import moment from 'moment';
 
   export default {
-    data: function () {
+    data() {
       return {
         Task: {
           "AssignedBy": {
@@ -231,20 +232,20 @@
       }
     },
     watch: {
-      'log.content': function () {
+      'log.content' () {
         this.$set(this.log, 'loading', false);
       },
-      'progressHistory.content': function () {
+      'progressHistory.content' () {
         this.$set(this.progressHistory, 'loading', false);
       }
     },
     computed: {
-      userinfo: function () {
+      userinfo() {
         return this.$store.getters.getUserInfo || {};
       }
     },
     methods: {
-      addComment: function () {
+      addComment() {
         const _self = this;
         let text = _self.comment;
         if (text) {
@@ -252,9 +253,9 @@
           addLog({
             Description: text,
             MainTaskID: _self.Task.MainTaskID
-          }).then(function (res) {
+          }).then(res => {
             _self.$set(_self.log, 'content', res.data);
-          }).catch(function (err) {
+          }).catch(err => {
             console.log(err);
           });
 
@@ -262,16 +263,16 @@
           return false;
         }
       },
-      goBack: function () {
+      goBack() {
         this.$router.go(-1);
       },
-      isSelf: function (userid) {
+      isSelf(userid) {
         return this.userinfo.ID == userid ? 'text-right' : 'text-left';
       },
-      formatDate: function (date) {
+      formatDate(date) {
         return moment(date).format('hh:mmA DD-MM-YY');
       },
-      type_animate: function () {
+      type_animate() {
         const _self = this;
 
         const now = moment();
@@ -286,7 +287,7 @@
           return '';
         }
       },
-      type_icon: function () {
+      type_icon() {
         switch (this.type_class()) {
           case 'theme-success':
             return 'done';
@@ -306,7 +307,7 @@
             break;
         }
       },
-      type_class: function () {
+      type_class() {
         const _self = this;
 
         const now = moment();
@@ -326,28 +327,28 @@
           return 'theme-primary';
         }
       },
-      loadLog: function () {
+      loadLog() {
         const _self = this;
         _self.$set(_self.log, 'loading', false);
 
-        getLog(_self.Task.MainTaskID).then(function (res) {
+        getLog(_self.Task.MainTaskID).then(res => {
           _self.$set(_self.log, 'content', res.data);
-        }).catch(function (err) {
+        }).catch(err => {
           console.dir(err);
         });
       },
-      loadProgressHistory: function () {
+      loadProgressHistory() {
         const _self = this;
         _self.$set(_self.progressHistory, 'loading', false);
 
-        getProgressHistory(_self.Task.MainTaskID).then(function (res) {
+        getProgressHistory(_self.Task.MainTaskID).then(res => {
           _self.$set(_self.progressHistory, 'content', res.data);
-        }).catch(function (err) {
+        }).catch(err => {
           console.dir(err);
         });
       }
     },
-    mounted: function () {
+    mounted() {
       const _self = this;
       const task = _self.$route.params.Task;
       const type = _self.$route.params.Type;
@@ -361,7 +362,7 @@
       //   });
       // }
 
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         _self.loadLog();
         _self.loadProgressHistory();
       }, 1000);
