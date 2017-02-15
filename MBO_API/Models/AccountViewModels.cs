@@ -26,6 +26,8 @@ namespace MBO_API.Models
 
     public class UserInfoViewModel
     {
+        public string ID { get; set; }
+
         public string Email { get; set; }
 
         public bool HasRegistered { get; set; }

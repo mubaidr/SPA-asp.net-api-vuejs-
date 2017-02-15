@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,7 +18,8 @@ namespace MBO_API.Models
         public int Progress { get; set; }
 
         public DateTime UpdateDate { get; set; }
-        
+
+        [JsonIgnore]
         public virtual MainTask MainTask { get; set; }
     }
 }

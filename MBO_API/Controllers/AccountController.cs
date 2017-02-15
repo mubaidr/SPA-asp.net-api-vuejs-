@@ -61,6 +61,7 @@ namespace MBO_API.Controllers
 
             return new UserInfoViewModel
             {
+                ID = User.Identity.GetUserId(),
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null

@@ -54,6 +54,14 @@
   border: none!important;
 }
 
+.md-list.expanded .md-list-item-container {
+  padding: 0!important;
+}
+
+.text-right {
+  text-align: right;
+}
+
 
 /*Footer*/
 

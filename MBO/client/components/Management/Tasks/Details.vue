@@ -1,65 +1,95 @@
 <template>
   <div>
     <span class="md-headline">{{Task.Title}}</span><br/>
-    <span class="md-subheading">{{Task.AssignedBy.UserName}}</span>
+    <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/>
+    <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
     <br/><br/>
-    <md-layout :md-gutter="24">
-      <md-layout md-flex="20" md-flex-small="50" md-flex-xsmall="100">
-        <span class="md-subheading"><span class="md-caption">Description:<br/></span> {{Task.Description}}</span>
-      </md-layout>
-      <md-layout md-flex="20" md-flex-small="50" md-flex-xsmall="100">
-        <span class="md-subheading"><span class="md-caption">Due Date:<br/></span> {{formatDate(Task.DateDue)}}
-        </span>
-      </md-layout>
-      <md-layout md-flex="20" md-flex-small="50" md-flex-xsmall="100">
-        <span class="md-subheading"><span class="md-caption">Assigned On:<br/></span> {{formatDate(Task.DateAssigned)}}</span>
-      </md-layout>
-      <md-layout md-flex="15" md-flex-small="50" md-flex-xsmall="100">
-        <div class="md-subheading"><span class="md-caption">Assigned To:<br/></span>
-          <div class="md-caption" v-show="Task.AssignedTo.length">
-            <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
+    <md-layout :md-gutter="8">
+      <md-layout md-flex="30" md-flex-small="100">
+        <md-whiteframe md-tag="section" class="full-width padded">
+          <div>
+            <span class="md-display-1">Details</span>
+            <div :class="type_class()" class="pull-right">
+              <md-icon :class="type_animate()">{{type_icon()}}</md-icon>
+            </div>
           </div>
-          <div class="md-caption" v-show="!Task.AssignedTo.length">
-            <span class="chip-custom">Self</span>
+          <md-list class="md-double-line expanded">
+            <md-list-item>
+              <div class="md-list-text-container">
+                <span>{{Task.Description}}</span>
+                <span>Description</span>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div class="md-list-text-container">
+                <span>{{formatDate(Task.DateDue)}}</span>
+                <span>Due Date</span>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div class="md-list-text-container">
+                <div v-show="Task.AssignedTo.length">
+                  <p class="no-margin" v-for="user in Task.AssignedTo">{{user.Email}}</p>
+                </div>
+                <div v-show="!Task.AssignedTo.length">
+                  <span>Self</span>
+                </div>
+                <span>Assigned To</span>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div class="md-list-text-container">
+                <span>{{Task.Progress}}% Complete</span>
+                <span>Progress</span>
+              </div>
+            </md-list-item>
+            <md-list-item>
+              <div class="md-list-text-container">
+                <span>{{Task.Status.Title + ': ' + Task.Status.Description}}</span>
+                <span>Status</span>
+              </div>
+            </md-list-item>
+          </md-list>
+        </md-whiteframe>
+      </md-layout>
+      <md-layout md-flex="40" md-flex-small="100">
+        <md-whiteframe md-tag="section" class="full-width padded">
+          <span class="md-display-1">Comments</span>
+          <md-input-container>
+            <label>Add Comment</label>
+            <md-textarea></md-textarea>
+          </md-input-container>
+          <md-button class="md-raised md-accent pull-right no-margin" :disabled="log.loading">
+            <md-icon>send</md-icon>
+            Comment
+          </md-button>
+          <div style="width:100%;height: 340px; overflow-y: auto;margin-top: 100px;">
+            <ul class="full-width comment-list chat">
+              <li v-for="comment in log.content" :class="isSelf(comment.ApplicationUser.Id)">
+                <p>{{comment.Description}}</p>
+                <span>{{comment.ApplicationUser.UserName}}</span>
+                <span>{{formatDate(comment.LogTime)}}</span>
+              </li>
+            </ul>
           </div>
-        </div>
+        </md-whiteframe>
       </md-layout>
-      <md-layout md-flex="5" md-flex-small="50" md-flex-xsmall="100">
-        <span class="md-subheading"><span class="md-caption">Status:<br/></span>
-        <div :class="type_class()">
-          <md-icon :class="type_animate()">{{type_icon()}}</md-icon>
-        </div>
-      </md-layout>
-      <md-layout md-flex="20" md-flex-small="50" md-flex-xsmall="100">
-        <span class="md-subheading"><span class="md-caption">Progress:</span> {{Task.Progress}}%</span>
-        <md-progress :md-theme="type_class()" :md-progress="Task.Progress"></md-progress>
+      <md-layout md-flex="30" md-flex-small="100">
+        <md-whiteframe md-tag="section" class="full-width padded">
+          <span class="md-display-1">Progress updates</span>
+          <p>Following lists shows information about the progress updates.</p>
+          <br/>
+          <div style="width:100%;height: 430px; overflow-y: auto;">
+            <ul class="full-width comment-list">
+              <li v-for="comment in progressHistory.content">
+                <md-progress :md-progress="comment.Progress"></md-progress>
+                <span>{{comment.Progress}}% at {{formatDate(comment.UpdateTime)}}</span>
+              </li>
+            </ul>
+          </div>
+        </md-whiteframe>
       </md-layout>
     </md-layout>
-    <hr/>
-    <md-layout :md-gutter="24">
-      <md-layout md-flex="50" md-flex-small="100">
-        <h3>Comments</h3>
-        <ul class="full-width comment-list">
-          <li class="no-border">
-            <md-input-container>
-              <label>Add Comment</label>
-              <md-textarea maxlength="100"></md-textarea>
-            </md-input-container>
-          </li>
-          <li v-for="comment in log.content">
-            <!--TODO Align to right is self reply-->
-            <p>{{comment.Description}}</p>
-            <span>{{comment.ApplicationUser.UserName}}</span>
-            <span>{{formatDate(comment.LogTime)}}</span>
-          </li>
-        </ul>
-      </md-layout>
-      <md-layout md-flex="50" md-flex-small="100">
-        <h3>Progress updates</h3>
-      </md-layout>
-    </md-layout>
-    <pre>{{log.content}}</pre>
-    <pre>{{progressHistory.content}}</pre>
   </div>
 </template>
 <script>
@@ -139,6 +169,44 @@
             "AccessFailedCount": 0,
             "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
             "UserName": "tester@test.com"
+          }, {
+            "Claims": [],
+            "Logins": [],
+            "Roles": [],
+            "FirstName": null,
+            "LastName": null,
+            "FullName": null,
+            "Email": "tester2@test.com",
+            "EmailConfirmed": false,
+            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
+            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
+            "PhoneNumber": null,
+            "PhoneNumberConfirmed": false,
+            "TwoFactorEnabled": false,
+            "LockoutEndDateUtc": null,
+            "LockoutEnabled": false,
+            "AccessFailedCount": 0,
+            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
+            "UserName": "tester2@test.com"
+          }, {
+            "Claims": [],
+            "Logins": [],
+            "Roles": [],
+            "FirstName": null,
+            "LastName": null,
+            "FullName": null,
+            "Email": "tester3@test.com",
+            "EmailConfirmed": false,
+            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
+            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
+            "PhoneNumber": null,
+            "PhoneNumberConfirmed": false,
+            "TwoFactorEnabled": false,
+            "LockoutEndDateUtc": null,
+            "LockoutEnabled": false,
+            "AccessFailedCount": 0,
+            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
+            "UserName": "tester3@test.com"
           }]
         },
         Type: 'view',
@@ -162,7 +230,15 @@
         this.$set(this.progressHistory, 'loading', false);
       }
     },
+    computed: {
+      userinfo: function () {
+        return this.$store.getters.getUserInfo || {};
+      }
+    },
     methods: {
+      isSelf: function (userid) {
+        return this.userinfo.ID == userid ? 'text-right' : 'text-left';
+      },
       formatDate: function (date) {
         return moment(date).format('HH:mmA DD-MM-YY');
       },
@@ -225,7 +301,7 @@
         const _self = this;
         _self.$set(_self.log, 'loading', false);
 
-        getLog().then(function (res) {
+        getLog(_self.Task.MainTaskID).then(function (res) {
           _self.$set(_self.log, 'content', res.data);
         }).catch(function (err) {
           console.dir(err);
@@ -235,7 +311,7 @@
         const _self = this;
         _self.$set(_self.progressHistory, 'loading', false);
 
-        getProgressHistory().then(function (res) {
+        getProgressHistory(_self.Task.MainTaskID).then(function (res) {
           _self.$set(_self.progressHistory, 'content', res.data);
         }).catch(function (err) {
           console.dir(err);
@@ -248,7 +324,7 @@
       const type = _self.$route.params.Type;
       /*
       if (task) {
-        _self.$set(_self, 'Type', type);
+        _self.$set(_self, 'Type', type || 'view');
         _self.$set(_self, 'Task', task);
       } else {
         _self.$router.push({
@@ -257,10 +333,12 @@
       }
       */
 
-      //TODO fetch comments, progress history
+      window.setTimeout(function () {
 
-      _self.loadLog();
-      _self.loadProgressHistory();
+        _self.loadLog();
+        _self.loadProgressHistory();
+      }, 200);
+
     }
   }
 
@@ -306,10 +384,21 @@
   }
   
   .comment-list li {
-    border-bottom: 1px solid #aaa;
-    border-color: rgba(0, 0, 0, .12);
-    margin: 0;
-    padding: 20px 0;
+    border-radius: 3px;
+    margin: 5px;
+    margin-left: 0;
+    padding: 10px 5px;
+  }
+  
+  .comment-list li.text-right {}
+  
+  .comment-list.chat li {
+    background-color: rgba(233, 30, 99, 0.1);
+  }
+  
+  .comment-list.chat li.text-right {
+    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0.025);
   }
   
   .comment-list li.no-border {
@@ -319,7 +408,6 @@
   .comment-list p {
     margin-top: 0;
     padding-top: 0;
-    text-align: left;
   }
   
   .comment-list span {
@@ -331,6 +419,10 @@
   
   .comment-list span {
     font-size: 0.75em;
+  }
+  
+  .padded {
+    padding: 20px;
   }
 
 </style>

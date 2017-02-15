@@ -22,6 +22,12 @@ namespace MBO_API.Controllers
             return db.Logs;
         }
 
+        // GET: api/Logs
+        public IQueryable<Log> GetLogs(int mainTaskID)
+        {
+            return db.Logs.Where(l=>l.MainTaskID == mainTaskID).OrderByDescending(l => l.LogTime);
+        }
+
         // GET: api/Logs/5
         [ResponseType(typeof(Log))]
         public IHttpActionResult GetLog(int id)

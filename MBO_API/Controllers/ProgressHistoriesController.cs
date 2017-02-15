@@ -22,6 +22,12 @@ namespace MBO_API.Controllers
             return db.ProgressHistories;
         }
 
+        // GET: api/ProgressHistories
+        public IQueryable<ProgressHistory> GetProgressHistories(int mainTaskID)
+        {
+            return db.ProgressHistories.Where(p => p.MainTaskID == mainTaskID).OrderByDescending(p => p.UpdateDate);
+        }
+
         // GET: api/ProgressHistories/5
         [ResponseType(typeof(ProgressHistory))]
         public IHttpActionResult GetProgressHistory(int id)
