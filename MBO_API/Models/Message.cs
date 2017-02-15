@@ -19,12 +19,14 @@ namespace MBO_API.Models
         [Key]
         public int MessageID { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         public DateTime Time { get; set; }
-
+                
         public string SenderID { get; set; }
 
+        [Required]
         public string ReceiverID { get; set; }
 
         public bool IsRead { get; set; }

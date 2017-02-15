@@ -17,7 +17,7 @@
       </md-card-content>
       <md-card-content>
         <div class="card-date" :class="type_class()" title="Due Date">
-          <span class="text-muted">{{formatedDueDate()}}</span>
+          <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
         </div>
         <md-tooltip md-direction="top">Progress and Status</md-tooltip>
         <md-progress :md-theme="type_class()" :md-progress="Task.Progress"></md-progress>
@@ -85,8 +85,8 @@
           return 'theme-primary';
         }
       },
-      formatedDueDate: function () {
-        return moment(this.Task.DateDue).format('HH:mm A [-] DD-MM-YYYY');
+      formatDate: function (date) {
+        return moment(date).format('hh:mmA DD-MM-YY');
       },
       refConfirm: function () {
         return 'ref-confirm-' + this.Task.MainTaskID;

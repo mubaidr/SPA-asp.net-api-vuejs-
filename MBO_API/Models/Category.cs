@@ -18,14 +18,10 @@ namespace MBO_API.Models
         public int CategoryID { get; set; }
 
         [Required]
-        [MinLength(5)]
-        [MaxLength(25)]
         public string Title { get; set; }
 
         [Required]
-        [MinLength(5)]
         [MaxLength(250)]
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         
         [JsonIgnore]

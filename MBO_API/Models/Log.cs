@@ -10,34 +10,25 @@ namespace MBO_API.Models
     {
         public Log()
         {
+            Title = "";
+            Description = "Task Created!";
             LogTime = DateTime.Now;
         }
 
         [Key]
         public int LogID { get; set; }
-
-        [Required]
-        [MinLength(5)]
-        [MaxLength(25)]
+                
         public string Title { get; set; }
 
         [Required]
-        [MinLength(5)]
         [MaxLength(250)]
         public string Description { get; set; }
-
-        [Required]
-        [DataType(DataType.DateTime)]
-        [ScaffoldColumn(false)]
+        
         public DateTime LogTime { get; set; }
         
         [Required]
-        [Display(Name = "Task")]
         public int MainTaskID { get; set; }
-
-        [Required]
-        [Display(Name = "User")]
-        [ScaffoldColumn(false)]
+        
         public string ApplicationUserID { get; set; }
 
         [JsonIgnore]

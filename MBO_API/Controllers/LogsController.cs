@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MBO_API.Models;
+using Microsoft.AspNet.Identity;
 
 namespace MBO_API.Controllers
 {
@@ -80,17 +81,21 @@ namespace MBO_API.Controllers
         [ResponseType(typeof(Log))]
         public IHttpActionResult PostLog(Log log)
         {
+            var userId = RequestContext.Principal.Identity.GetUserId();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            log.ApplicationUserID = userId;
 
             db.Logs.Add(log);
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = log.LogID }, log);
         }
-
+        
         // DELETE: api/Logs/5
         [ResponseType(typeof(Log))]
         public IHttpActionResult DeleteLog(int id)

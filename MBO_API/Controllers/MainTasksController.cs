@@ -65,12 +65,12 @@ namespace MBO_API.Controllers
                 case "completed":
                     taskList = (from m in db.MainTask
                                 where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.Progress == 100 && m.IsDeleted == false
-                                select m).OrderBy(m => m.DateDue);
+                                select m);
                     break;
                 case "trash":
                     taskList = (from m in db.MainTask
                                 where (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true
-                                select m).OrderBy(m => m.DateDue);
+                                select m);
                     break;
                 default:
                     taskList = from m in db.MainTask
@@ -90,7 +90,7 @@ namespace MBO_API.Controllers
             
             return new TaskListResult
             {
-                mainTask = taskList.OrderBy(orderby).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList(),
+                mainTask = taskList.OrderByDescending(m => m.DateDue).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList(),
                 count = count,
                 last_page = last_page == 0 ? 1: last_page
             };
@@ -128,6 +128,7 @@ namespace MBO_API.Controllers
             try
             {
                 db.SaveChanges();
+                //TODO Add progress history and comment
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -171,6 +172,22 @@ namespace MBO_API.Controllers
             }
 
             db.MainTask.Add(mainTask);
+            db.SaveChanges();
+
+            //Add default progress histry and comment
+            var progressHisotry = new ProgressHistory()
+            {                
+                MainTaskID = mainTask.MainTaskID
+            };
+            db.ProgressHistories.Add(progressHisotry);
+
+            var log = new Log()
+            {
+                ApplicationUserID = userId,
+                MainTaskID = mainTask.MainTaskID
+            };
+            db.Logs.Add(log);
+
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = mainTask.MainTaskID }, mainTask);

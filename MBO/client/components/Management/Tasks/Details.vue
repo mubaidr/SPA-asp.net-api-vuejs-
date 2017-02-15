@@ -3,53 +3,45 @@
     <span class="md-headline">{{Task.Title}}</span><br/>
     <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/>
     <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
-    <br/><br/>
+    <p>
+      <a href="#" @click.stop.prevent="goBack()">Go Back</a>
+    </p>
     <md-layout :md-gutter="8">
       <md-layout md-flex="30" md-flex-small="100">
         <md-whiteframe md-tag="section" class="full-width padded">
-          <div>
-            <span class="md-display-1">Details</span>
-            <div :class="type_class()" class="pull-right">
-              <md-icon :class="type_animate()">{{type_icon()}}</md-icon>
-            </div>
-          </div>
-          <md-list class="md-double-line expanded">
-            <md-list-item>
-              <div class="md-list-text-container">
-                <span>{{Task.Description}}</span>
-                <span>Description</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <div class="md-list-text-container">
-                <span>{{formatDate(Task.DateDue)}}</span>
-                <span>Due Date</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <div class="md-list-text-container">
-                <div v-show="Task.AssignedTo.length">
-                  <p class="no-margin" v-for="user in Task.AssignedTo">{{user.Email}}</p>
-                </div>
-                <div v-show="!Task.AssignedTo.length">
-                  <span>Self</span>
-                </div>
-                <span>Assigned To</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <div class="md-list-text-container">
-                <span>{{Task.Progress}}% Complete</span>
-                <span>Progress</span>
-              </div>
-            </md-list-item>
-            <md-list-item>
-              <div class="md-list-text-container">
-                <span>{{Task.Status.Title + ': ' + Task.Status.Description}}</span>
-                <span>Status</span>
-              </div>
-            </md-list-item>
-          </md-list>
+          <span class="md-display-1">Details</span>
+          <br/><br/>
+          <md-table>
+            <md-table-body>
+              <md-table-row>
+                <md-table-cell>Description</md-table-cell>
+                <md-table-cell>{{Task.Description}}</md-table-cell>
+              </md-table-row>
+              <md-table-row>
+                <md-table-cell>Assigned To</md-table-cell>
+                <md-table-cell>
+                  <div v-show="Task.AssignedTo.length">
+                    <p class="no-margin" v-for="user in Task.AssignedTo">{{user.Email}}</p>
+                  </div>
+                  <div v-show="!Task.AssignedTo.length">
+                    <span>Self</span>
+                  </div>
+                </md-table-cell>
+              </md-table-row>
+              <md-table-row>
+                <md-table-cell>Status</md-table-cell>
+                <md-table-cell>{{Task.Status.Title + ': ' + Task.Status.Description}}</md-table-cell>
+              </md-table-row>
+              <md-table-row>
+                <md-table-cell>Progress</md-table-cell>
+                <md-table-cell>{{Task.Progress}}% Complete</md-table-cell>
+              </md-table-row>
+              <md-table-row>
+                <md-table-cell>Due Date</md-table-cell>
+                <md-table-cell :class="type_class()">{{formatDate(Task.DateDue)}}</md-table-cell>
+              </md-table-row>
+            </md-table-body>
+          </md-table>
         </md-whiteframe>
       </md-layout>
       <md-layout md-flex="40" md-flex-small="100">
@@ -57,13 +49,20 @@
           <span class="md-display-1">Comments</span>
           <md-input-container>
             <label>Add Comment</label>
-            <md-textarea></md-textarea>
+            <md-textarea v-model="comment"></md-textarea>
           </md-input-container>
-          <md-button class="md-raised md-accent pull-right no-margin" :disabled="log.loading">
+          <md-button class="md-raised md-accent pull-right no-margin" :disabled="log.loading" @click.native="addComment">
             <md-icon>send</md-icon>
             Comment
           </md-button>
-          <div style="width:100%;height: 340px; overflow-y: auto;margin-top: 100px;">
+          <div class="flex-vertical min-height full-width" v-show="!log.content.length">
+            <div class="no-content">
+              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+              <span v-if="log.loading">Loading...</span>
+              <span v-show="!log.content.length && !log.loading">Awww... Nothing here!</span>
+            </div>
+          </div>
+          <div style="width:100%;height: 340px; overflow-y: auto;margin-top: 100px;" v-show="log.content.length">
             <ul class="full-width comment-list chat">
               <li v-for="comment in log.content" :class="isSelf(comment.ApplicationUser.Id)">
                 <p>{{comment.Description}}</p>
@@ -79,7 +78,14 @@
           <span class="md-display-1">Progress updates</span>
           <p>Following lists shows information about the progress updates.</p>
           <br/>
-          <div style="width:100%;height: 430px; overflow-y: auto;">
+          <div class="flex-vertical min-height full-width" v-show="!progressHistory.content.length">
+            <div class="no-content">
+              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+              <span v-if="progressHistory.loading">Loading...</span>
+              <span v-show="!progressHistory.content.length && !progressHistory.loading">Awww... Nothing here!</span>
+            </div>
+          </div>
+          <div style="width:100%;height: 430px; overflow-y: auto;" v-show="progressHistory.content.length">
             <ul class="full-width comment-list">
               <li v-for="comment in progressHistory.content">
                 <md-progress :md-progress="comment.Progress"></md-progress>
@@ -97,6 +103,7 @@
     getDetails
   } from 'services/tasks';
   import {
+    addLog,
     getLog
   } from 'services/taskLog';
   import {
@@ -219,7 +226,8 @@
         progressHistory: {
           content: [],
           loading: true
-        }
+        },
+        comment: "Something to chear!"
       }
     },
     watch: {
@@ -236,11 +244,32 @@
       }
     },
     methods: {
+      addComment: function () {
+        const _self = this;
+        let text = _self.comment;
+        if (text) {
+
+          addLog({
+            Description: text,
+            MainTaskID: _self.Task.MainTaskID
+          }).then(function (res) {
+            _self.$set(_self.log, 'content', res.data);
+          }).catch(function (err) {
+            console.log(err);
+          });
+
+        } else {
+          return false;
+        }
+      },
+      goBack: function () {
+        this.$router.go(-1);
+      },
       isSelf: function (userid) {
         return this.userinfo.ID == userid ? 'text-right' : 'text-left';
       },
       formatDate: function (date) {
-        return moment(date).format('HH:mmA DD-MM-YY');
+        return moment(date).format('hh:mmA DD-MM-YY');
       },
       type_animate: function () {
         const _self = this;
@@ -322,22 +351,20 @@
       const _self = this;
       const task = _self.$route.params.Task;
       const type = _self.$route.params.Type;
-      /*
-      if (task) {
-        _self.$set(_self, 'Type', type || 'view');
-        _self.$set(_self, 'Task', task);
-      } else {
-        _self.$router.push({
-          path: '/tasks'
-        });
-      }
-      */
+
+      // if (task) {
+      //   _self.$set(_self, 'Type', type || 'view');
+      //   _self.$set(_self, 'Task', task);
+      // } else {
+      //   _self.$router.push({
+      //     path: '/tasks'
+      //   });
+      // }
 
       window.setTimeout(function () {
-
         _self.loadLog();
         _self.loadProgressHistory();
-      }, 200);
+      }, 1000);
 
     }
   }
@@ -355,6 +382,26 @@
     margin: 25px 0;
     border-color: #eee;
     border-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  .theme-danger {
+    color: #f44336;
+  }
+  
+  .theme-warn {
+    color: #ff5722;
+  }
+  
+  .theme-normal {
+    color: #ff9800;
+  }
+  
+  .theme-primary {
+    color: #cddc39;
+  }
+  
+  .theme-success {
+    color: #4caf50;
   }
   
   .theme-danger .md-icon {
@@ -393,11 +440,12 @@
   .comment-list li.text-right {}
   
   .comment-list.chat li {
-    background-color: rgba(233, 30, 99, 0.1);
+    border: 1px solid rgba(233, 30, 99, 0.08);
+    background-color: rgba(233, 30, 99, 0.075);
   }
   
   .comment-list.chat li.text-right {
-    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.05);
     background-color: rgba(0, 0, 0, 0.025);
   }
   

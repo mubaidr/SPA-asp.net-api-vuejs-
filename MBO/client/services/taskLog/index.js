@@ -7,7 +7,9 @@ import api from 'api';
 import axios from 'axios';
 
 function addLog(obj) {
-  return axios.post(api.url + '/api/Logs');
+  return axios.post(api.url + '/api/Logs', {
+    params: obj
+  });
 };
 
 function getLog(id) {
