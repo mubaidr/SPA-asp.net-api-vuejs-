@@ -9,13 +9,13 @@
   export default {
     name: 'app-message',
     props: ['state'],
-    data: function () {
+    data() {
       return {
         show: false
       }
     },
     watch: {
-      'state.title': function (val) {
+      'state.title' (val) {
         if (val === '' || val === null || val === undefined) {
           this.$set(this, 'show', false);
         } else {

@@ -7,9 +7,9 @@ import api from 'api';
 import axios from 'axios';
 
 function getCategories() {
-  return axios.get(api.url + '/api/Categories');
+  return axios.get(`${api.url}/api/Categories`);
 };
 
 function getStatus() {
-  return axios.get(api.url + '/api/Status');
+  return axios.get(`${api.url}/api/Status`);
 };

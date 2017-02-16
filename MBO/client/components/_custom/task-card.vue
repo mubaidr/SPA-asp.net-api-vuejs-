@@ -99,24 +99,24 @@
   export default {
     name: 'task-card',
     props: ['Task', 'Type'],
-    data: function () {
+    data() {
       return {
         DialogCloseTarget: null
       }
     },
     computed: {
-      isSelfCreated: function () {
+      isSelfCreated() {
         return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
       }
     },
     methods: {
-      formatDate: function (date) {
+      formatDate(date) {
         return moment(date).format('hh:mmA DD-MM-YY');
       },
-      refConfirm: function () {
-        return 'ref-confirm-' + this.Task.MainTaskID;
+      refConfirm() {
+        return `ref-confirm-${this.Task.MainTaskID}`;
       },
-      type_animate: function () {
+      type_animate() {
         const _self = this;
 
         const now = moment();
@@ -131,7 +131,7 @@
           return '';
         }
       },
-      type_icon: function () {
+      type_icon() {
         switch (this.type_class()) {
           case 'theme-success':
             return 'done';
@@ -151,7 +151,7 @@
             break;
         }
       },
-      type_class: function () {
+      type_class() {
         const _self = this;
 
         const now = moment();
@@ -171,12 +171,12 @@
           return 'theme-primary';
         }
       },
-      viewDetails: function (obj) {
+      viewDetails(obj) {
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
         if (!obj) obj = 'view';
 
-        var url = {
+        const url = {
           //named route required for sending params
           name: 'task-details',
           params: {
@@ -187,10 +187,10 @@
 
         this.$router.push(url);
       },
-      confirmDelete: function () {
+      confirmDelete() {
         this.$refs[this.refConfirm()].open();
       },
-      onDeleteClose: function (type) {
+      onDeleteClose(type) {
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
 
@@ -203,7 +203,7 @@
             _self.animateTrashButton();
             _self.$refs[_self.refConfirm()].close();
 
-            window.setTimeout(function () {
+            window.setTimeout(() => {
               _self.$emit('remove-task-item', {
                 id: TaskId,
                 type: _self.Type
@@ -219,17 +219,17 @@
         }
 
       },
-      animateTrashButton: function () {
-        window.setTimeout(function () {
+      animateTrashButton() {
+        window.setTimeout(() => {
           document.getElementById('btn-view-trash').className += " animate-active";
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
               .replace(/(?:^|\s)animate-active(?!\S)/g, '');
           }, 250);
         }, 200);
       }
     },
-    mounted: function () {}
+    mounted() {}
   }
 
 </script>

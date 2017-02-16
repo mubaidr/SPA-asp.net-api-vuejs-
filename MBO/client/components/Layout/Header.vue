@@ -125,7 +125,7 @@
     </md-sidenav>
     <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout"
       @close="onClose">
-      </md-dialog-confirm>
+    </md-dialog-confirm>
   </div>
 </template>
 <script>
@@ -135,10 +135,10 @@
 
   const vm = {
     computed: {
-      isAuthenticated: function () {
+      isAuthenticated() {
         return this.$store.getters.isAuhtenticated;
       },
-      userinfo: function () {
+      userinfo() {
         return this.$store.getters.getUserInfo || {};
       }
     },
@@ -150,7 +150,7 @@
         const _self = this;
 
         if (type === 'ok') {
-          signout().then(function (res) {
+          signout().then(res => {
 
             _self.$router.push({
               path: '/signout'
@@ -164,7 +164,7 @@
       },
       redirect(path) {
         this.$router.push({
-          path: path
+          path
         });
       }
     }

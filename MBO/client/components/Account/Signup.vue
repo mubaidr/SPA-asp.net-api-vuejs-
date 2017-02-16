@@ -27,7 +27,7 @@
               <label>Confirm Password</label>
               <md-input v-model="credentials.ConfirmPassword" type="password" name="ConfirmPassword" v-validate data-vv-name="ConfirmPassword"
                 data-vv-rules="required|confirmed:Password"></md-input>
-                <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
+              <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
             </md-input-container>
             <app-message :state="state"></app-message>
           </md-card-content>
@@ -48,7 +48,7 @@
   } from 'services/account'
 
   export default {
-    data: function () {
+    data() {
       return {
         credentials: {
           Email: 'tester@test.com',
@@ -64,7 +64,7 @@
       }
     },
     methods: {
-      setErrorDetails: function (err) {
+      setErrorDetails(err) {
         //console.dir(err);
         const _self = this;
         if (err) {
@@ -76,9 +76,9 @@
           _self.$set(_self.state, 'title', null);
         }
       },
-      formValidate: function (event) {
+      formValidate(event) {
         event.preventDefault();
-        var _self = this;
+        const _self = this;
 
         _self.$validator.validateAll().then(success => {
           if (!success) return;
@@ -86,7 +86,7 @@
           _self.setErrorDetails();
           _self.$set(_self.state, 'loading', true);
 
-          signup(this.credentials).then(function (res) {
+          signup(this.credentials).then(res => {
 
             _self.$router.push({
               path: '/signin',

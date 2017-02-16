@@ -7,7 +7,7 @@ axios.interceptors.request.use(config => {
 
   if (store.getters.isAuhtenticated) {
     const auth = store.getters.getAuth;
-    config.headers.Authorization = auth.token_type + ' ' + auth.access_token;
+    config.headers.Authorization = `${auth.token_type} ${auth.access_token}`;
   }
 
   return config;

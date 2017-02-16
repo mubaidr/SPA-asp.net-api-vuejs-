@@ -101,7 +101,6 @@
   </div>
 </template>
 <script>
-  //TODO convert all js to es6 using lebab tool
   import {
     getDetails
   } from 'services/tasks';

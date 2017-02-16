@@ -14,7 +14,7 @@
   import Footer from './Layout/Footer'
 
   export default {
-    data: function () {
+    data() {
       return {
         transitionName: 'slide-up'
       }

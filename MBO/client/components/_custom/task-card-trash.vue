@@ -54,18 +54,18 @@
   export default {
     name: 'task-card',
     props: ['Task'],
-    data: function () {
+    data() {
       return {
         DialogCloseTarget: null
       }
     },
     computed: {
-      isSelfCreated: function () {
+      isSelfCreated() {
         return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
       }
     },
     methods: {
-      type_class: function () {
+      type_class() {
         const _self = this;
 
         const now = moment();
@@ -85,24 +85,24 @@
           return 'theme-primary';
         }
       },
-      formatDate: function (date) {
+      formatDate(date) {
         return moment(date).format('hh:mmA DD-MM-YY');
       },
-      refConfirm: function () {
-        return 'ref-confirm-' + this.Task.MainTaskID;
+      refConfirm() {
+        return `ref-confirm-${this.Task.MainTaskID}`;
       },
-      dialogSuccessClose: function () {
+      dialogSuccessClose() {
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
         _self.$emit('remove-task-item', {
           id: TaskId
         });
       },
-      viewDetails: function () {},
-      confirmRestore: function () {
+      viewDetails() {},
+      confirmRestore() {
         this.$refs[this.refConfirm()].open();
       },
-      restoreTask: function (type) {
+      restoreTask(type) {
         const _self = this;
         const TaskId = _self.Task.MainTaskID;
 
@@ -115,7 +115,7 @@
         });
       }
     },
-    mounted: function () {}
+    mounted() {}
   }
 
 </script>

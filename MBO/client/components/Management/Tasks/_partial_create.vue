@@ -61,7 +61,7 @@
 
   export default {
     name: 'task-create',
-    data: function () {
+    data() {
       return {
         Page: {
           isLoading: false
@@ -109,7 +109,7 @@
     methods: {
       formValidate(event) {
         event.preventDefault();
-        var _self = this;
+        const _self = this;
 
         if (_self.datepicker_startTime.time) {
           _self.$set(_self.Task, 'DateDue', moment(_self.datepicker_startTime.time, 'DD-MM-YYYY HH:mm A').format(
@@ -127,17 +127,17 @@
           create({
             mainTask: this.Task,
             users: this.Users
-          }).then(function (res) {
+          }).then(res => {
 
             _self.$router.push({
               path: '/tasks'
             });
 
-          }).catch(function (err) {
+          }).catch(err => {
 
             _self.$store.commit('setState', {
               loading: false,
-              err: err
+              err
             });
 
           });
@@ -145,7 +145,7 @@
         });
       }
     },
-    mounted: function () {
+    mounted() {
       const _self = this;
 
       const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A');
@@ -161,7 +161,7 @@
       }).catch(err => {});
 
     }
-  };
+  }
 
 </script>
 <style scoped>

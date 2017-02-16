@@ -49,7 +49,7 @@
       'task-card': taskCard,
       'pagination': pagination
     },
-    data: function () {
+    data() {
       return {
         Tasks: {
           Assigned: {
@@ -82,16 +82,16 @@
       }
     },
     watch: {
-      'Tasks.Assigned.content': function () {
+      'Tasks.Assigned.content' () {
         this.$set(this.Tasks.Assigned, 'loading', false);
       },
-      'Tasks.Created.content': function () {
+      'Tasks.Created.content' () {
         this.$set(this.Tasks.Created, 'loading', false);
       },
-      'Tasks.Completed.content': function () {
+      'Tasks.Completed.content' () {
         this.$set(this.Tasks.Completed, 'loading', false);
       },
-      'failAlert': function (val) {
+      'failAlert' (val) {
         const _self = this;
         if (val) {
           _self.$refs.snackbar.open();
@@ -101,12 +101,12 @@
       }
     },
     computed: {
-      settings: function () {
+      settings() {
         return this.$store.getters.getSettings;
       }
     },
     methods: {
-      tabChange: function (index) {
+      tabChange(index) {
         const _self = this;
         _self.$set(_self, 'currentTab', Object.keys(_self.Tasks)[index]);
 
@@ -128,15 +128,15 @@
             break;
         }
       },
-      activeTab: function () {
+      activeTab() {
         const _self = this;
         let _path = _self.$route.query.sub;
-        if (Object.keys(_self.Tasks).indexOf(_path) === -1) {
+        if (!Object.keys(_self.Tasks).includes(_path)) {
           _path = 'Assigned';
         }
         _self.$set(_self, 'currentTab', _path);
       },
-      search: function (obj) {
+      search(obj) {
         const _self = this;
 
         switch (_self.currentTab) {
@@ -151,24 +151,24 @@
             break;
         }
       },
-      retry: function () {
+      retry() {
         const _self = this;
         _self.$set(_self, 'failAlert', false);
 
-        window.setTimeout(function () {
+        window.setTimeout(() => {
           _self.loadCompleted();
           _self.loadCreated();
           _self.loadAssigned();
         }, 500);
       },
-      removeTaskItem: function (obj) {
+      removeTaskItem(obj) {
         const _self = this;
-        var id = obj.id;
-        var type = obj.type;
+        const id = obj.id;
+        const type = obj.type;
 
-        var ts = _self.Tasks[type].content;
+        const ts = _self.Tasks[type].content;
 
-        for (var i = 0; i < ts.length; i++) {
+        for (let i = 0; i < ts.length; i++) {
           if (ts[i].MainTaskID == id) {
             _self.Tasks[type].content.splice(i, 1);
             break;
@@ -177,7 +177,7 @@
 
         window.setTimeout(_self.search, 250);
       },
-      loadAssigned: function (obj) {
+      loadAssigned(obj) {
         const _self = this;
         _self.$set(_self.Tasks.Assigned, 'loading', true);
         listAssigned(obj).then(res => {
@@ -189,7 +189,7 @@
           _self.$set(_self, 'failAlert', true);
         });
       },
-      loadCompleted: function (obj) {
+      loadCompleted(obj) {
         const _self = this;
         _self.$set(_self.Tasks.Completed, 'loading', true);
         listCompleted(obj).then(res => {
@@ -201,7 +201,7 @@
           _self.$set(_self, 'failAlert', true);
         });
       },
-      loadCreated: function (obj) {
+      loadCreated(obj) {
         const _self = this;
         _self.$set(_self.Tasks.Created, 'loading', true);
         listCreated(obj).then(res => {
@@ -214,11 +214,11 @@
         });
       }
     },
-    mounted: function () {
+    mounted() {
       const _self = this;
       _self.activeTab();
 
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         _self.search();
       }, 250);
 

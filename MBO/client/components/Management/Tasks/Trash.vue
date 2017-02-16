@@ -41,7 +41,7 @@
       'task-card-trash': taskCardTrash,
       'pagination': pagination
     },
-    data: function () {
+    data() {
       return {
         Tasks: {
           Trash: {
@@ -57,10 +57,10 @@
       }
     },
     watch: {
-      'Tasks.Trash.content': function () {
+      'Tasks.Trash.content' () {
         this.$set(this.Tasks.Trash, 'loading', false);
       },
-      'failAlert': function (val) {
+      'failAlert' (val) {
         const _self = this;
         if (val) {
           _self.$refs.snackbar.open();
@@ -70,19 +70,19 @@
       }
     },
     methods: {
-      retry: function () {
+      retry() {
         const _self = this;
         _self.$refs.snackbar.close();
-        window.setTimeout(function () {
+        window.setTimeout(() => {
           _self.loadTrash();
         }, 500);
       },
-      removeTaskItem: function (obj) {
+      removeTaskItem(obj) {
         const _self = this;
-        var id = obj.id;
-        var ts = _self.Tasks.Trash.content;
+        const id = obj.id;
+        const ts = _self.Tasks.Trash.content;
 
-        for (var i = 0; i < ts.length; i++) {
+        for (let i = 0; i < ts.length; i++) {
           if (ts[i].MainTaskID == id) {
             _self.Tasks.Trash.content.splice(i, 1);
             break;
@@ -90,7 +90,7 @@
         }
         this.retry();
       },
-      loadTrash: function (paging) {
+      loadTrash(paging) {
         const _self = this;
         _self.$set(_self.Tasks.Trash, 'loading', true);
         listTrash(paging).then(res => {
@@ -103,10 +103,10 @@
         });
       }
     },
-    mounted: function () {
+    mounted() {
       const _self = this;
 
-      window.setTimeout(function () {
+      window.setTimeout(() => {
         _self.loadTrash();
       }, 250);
 

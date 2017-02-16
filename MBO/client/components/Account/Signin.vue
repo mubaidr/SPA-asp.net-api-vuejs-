@@ -43,7 +43,7 @@
   } from 'services/account';
 
   export default {
-    data: function () {
+    data() {
       return {
         credentials: {
           UserName: 'tester@test.com',
@@ -58,7 +58,7 @@
       }
     },
     methods: {
-      setErrorDetails: function (err) {
+      setErrorDetails(err) {
         //TODO register as global method
         //console.dir(err);
         const _self = this;
@@ -71,9 +71,9 @@
           _self.$set(_self.state, 'title', null);
         }
       },
-      formValidate: function (event) {
+      formValidate(event) {
         event.preventDefault();
-        var _self = this;
+        const _self = this;
 
         _self.$validator.validateAll().then(success => {
           if (!success) return;
@@ -81,7 +81,7 @@
           _self.setErrorDetails();
           _self.$set(_self.state, 'loading', true);
 
-          signin(this.credentials).then(function (res) {
+          signin(this.credentials).then(res => {
 
             _self.$store.commit('setAuthentication', res.data);
 

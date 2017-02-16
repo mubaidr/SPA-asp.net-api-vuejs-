@@ -55,7 +55,7 @@
   export default {
     name: 'pagination',
     props: ['lastpage', 'count', 'loading'],
-    data: function () {
+    data() {
       return {
         paging: {
           page: 1,
@@ -68,25 +68,25 @@
       }
     },
     watch: {
-      'lastpage': function (val) {
+      'lastpage' (val) {
         if (val == 0) {
           this.lastpage = 1;
         }
       },
-      'paging.page': function () {
+      'paging.page' () {
         this.refresh();
       },
-      'paging.orderby': function () {
+      'paging.orderby' () {
         this.refresh();
       }
     },
     computed: {
-      settings: function () {
+      settings() {
         return this.$store.getters.getSettings;
       }
     },
     methods: {
-      search: function () {
+      search() {
         const _self = this;
         _self.$set(_self.paging, 'page', 1);
         _self.refresh();
@@ -97,20 +97,20 @@
         leading: false,
         trailing: true
       }),
-      nextPage: function () {
+      nextPage() {
         this.$set(this.paging, 'page', this.paging.page + 1);
       },
-      previousPage: function () {
+      previousPage() {
         this.$set(this.paging, 'page', this.paging.page - 1);
       },
-      firstPage: function () {
+      firstPage() {
         this.$set(this.paging, 'page', 1);
       },
-      lastPage: function () {
+      lastPage() {
         this.$set(this.paging, 'page', this.lastpage);
       }
     },
-    mounted: function () {
+    mounted() {
       this.$material.inkRipple = false;
     }
   }
