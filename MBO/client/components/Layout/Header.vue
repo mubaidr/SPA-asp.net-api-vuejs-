@@ -133,7 +133,7 @@
     signout
   } from 'services/account'
 
-  const vm = {
+  export default {
     computed: {
       isAuthenticated() {
         return this.$store.getters.isAuhtenticated;
@@ -169,7 +169,6 @@
       }
     }
   }
-  export default vm;
 
 </script>
 <style scoped>

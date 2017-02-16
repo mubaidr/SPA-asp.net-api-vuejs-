@@ -63,7 +63,8 @@
           </md-button>
           <md-menu md-direction="bottom left">
             <md-button class="md-icon-button" md-menu-trigger>
-              <md-icon>low_priority</md-icon>
+              <md-tooltip md-direction="top">Progress</md-tooltip>
+              <md-icon>trending_up</md-icon>
             </md-button>
             <md-menu-content>
               <md-menu-item>My Item 1</md-menu-item>

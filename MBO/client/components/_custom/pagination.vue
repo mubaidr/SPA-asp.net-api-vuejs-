@@ -111,7 +111,7 @@
       }
     },
     mounted() {
-      this.$material.inkRipple = false;
+      //this.$material.inkRipple = false;
     }
   }
 
