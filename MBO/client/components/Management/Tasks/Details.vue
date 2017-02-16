@@ -7,7 +7,7 @@
       <a href="#" @click.stop.prevent="goBack()">Go Back</a>
     </p>
     <md-layout :md-gutter="8">
-      <md-layout md-flex="30" md-flex-small="100">
+      <md-layout md-flex="30" md-flex-small="100" style="display: none;">
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-display-1">Details</span>
           <br/><br/>
@@ -44,6 +44,7 @@
           </md-table>
         </md-whiteframe>
       </md-layout>
+      <md-layout></md-layout>
       <md-layout md-flex="40" md-flex-small="100">
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-display-1">Comments</span>
@@ -62,7 +63,7 @@
               <span v-show="!log.content.length && !log.loading">Awww... Nothing here!</span>
             </div>
           </div>
-          <div style="width:100%;height: 340px; overflow-y: auto;margin-top: 100px;" v-show="log.content.length">
+          <div style="width:100%;height: auto; overflow-y: auto;margin-top: 100px;" v-show="log.content.length">
             <ul class="full-width comment-list chat">
               <li v-for="comment in log.content" :class="isSelf(comment.ApplicationUser.Id)">
                 <p>{{comment.Description}}</p>
@@ -73,7 +74,8 @@
           </div>
         </md-whiteframe>
       </md-layout>
-      <md-layout md-flex="30" md-flex-small="100">
+      <md-layout></md-layout>
+      <md-layout md-flex="30" md-flex-small="100" style="display: none;">
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-display-1">Progress updates</span>
           <p>Following lists shows information about the progress updates.</p>

@@ -63,9 +63,9 @@ function listTrash(obj) {
 }
 
 function objToQuery(obj) {
-  var query = '';
-  var val = '';
-  for (var prop in obj) {
+  let query = '';
+  let val = '';
+  for (const prop in obj) {
     val = obj[prop];
     if (val && (val.trim && val.trim() !== '') || val > 0) {
       query += '&' + prop + '=' + val;

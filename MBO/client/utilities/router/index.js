@@ -124,7 +124,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (store.getters.isAuhtenticated) {
-    var _not_valid = ['signin', 'signup', 'recover'];
+    const _not_valid = ['signin', 'signup', 'recover'];
 
     if (_not_valid.lastIndexOf(to.name) >= 0) {
       next({

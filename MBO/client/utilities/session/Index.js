@@ -1,17 +1,17 @@
 export default {
-  getAuth: function () {
+  getAuth() {
     return JSON.parse(localStorage.getItem('auth'));
   },
-  setAuth: function (auth) {
+  setAuth(auth) {
     localStorage.setItem('auth', JSON.stringify(auth));
   },
-  getUserInfo: function () {
+  getUserInfo() {
     return JSON.parse(localStorage.getItem('userinfo'));
   },
-  setUserInfo: function (userinfo) {
+  setUserInfo(userinfo) {
     localStorage.setItem('userinfo', JSON.stringify(userinfo));
   },
-  clear: function () {
+  clear() {
     localStorage.removeItem('auth');
     localStorage.removeItem('userinfo');
   }

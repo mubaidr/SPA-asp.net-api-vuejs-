@@ -64,19 +64,19 @@ const mutations = {
 const actions = {};
 
 const getters = {
-  isAuhtenticated: function (state) {
+  isAuhtenticated(state) {
     return state.auth !== null && typeof state.auth !== 'undefined';
   },
-  getUserInfo: function (state) {
+  getUserInfo(state) {
     return state.userinfo;
   },
-  getAuth: function (state) {
+  getAuth(state) {
     return state.auth;
   },
-  getViewMode: function () {
+  getViewMode() {
     return state.settings.view;
   },
-  getSettings: function () {
+  getSettings() {
     return state.settings;
   }
 };

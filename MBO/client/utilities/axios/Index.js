@@ -3,7 +3,7 @@ import router from 'utilities/router';
 import store from 'utilities/store';
 import session from 'utilities/session';
 
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(config => {
 
   if (store.getters.isAuhtenticated) {
     const auth = store.getters.getAuth;
@@ -11,15 +11,9 @@ axios.interceptors.request.use(function (config) {
   }
 
   return config;
-}, function (error) {
-  return Promise.reject(error);
-});
+}, error => Promise.reject(error));
 
 //TODO redirect to login if auth failed or expired
-axios.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  return Promise.reject(error);
-});
+axios.interceptors.response.use(response => response, error => Promise.reject(error));
 
 export default axios;
