@@ -30,13 +30,7 @@
   width: 100%;
 }
 
-.right-align {
-  text-align: right;
-}
 
-.pull-right {
-  float: right;
-}
 
 .no-padding {
   padding: 0;
@@ -44,6 +38,10 @@
 
 .no-margin {
   margin: 0;
+}
+
+.padded {
+  padding: 20px;
 }
 
 .dim-text {
@@ -58,10 +56,21 @@
   padding: 0!important;
 }
 
+.text-center{
+  text-align: center;
+}
+
 .text-right {
   text-align: right;
 }
 
+.right-align {
+  text-align: right;
+}
+
+.pull-right {
+  float: right;
+}
 
 /*Footer*/
 

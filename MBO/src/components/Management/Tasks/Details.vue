@@ -1,14 +1,17 @@
 <template>
   <div>
-    <span class="md-headline">{{Task.Title}}</span><br/>
-    <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/>
-    <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
-    <p>
-      <a href="#" @click.stop.prevent="goBack()">Go Back</a>
-    </p>
+    
     <md-layout :md-gutter="8">      
       <md-layout></md-layout>
       <md-layout md-flex="40" md-flex-small="100">
+        <md-whiteframe md-tag="section" class="full-width padded">
+          <span class="md-headline">{{Task.Title}}</span> by
+          <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/> on 
+          <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
+          <p>
+            <a href="#" @click.stop.prevent="goBack()" class="pull-right">Go Back</a>
+          </p>
+        </md-whiteframe>        
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-display-1">Comments</span>
           <md-input-container>
@@ -336,8 +339,5 @@
     font-size: 0.75em;
   }
   
-  .padded {
-    padding: 20px;
-  }
 
 </style>

@@ -1,11 +1,13 @@
 <template>
-  <div>
-    <span class="md-display-1">Tasks</span>
-    <p>
-      <router-link class="md-accent" :to="{path: '/tasks/trash'}">
-        View Trash
-      </router-link>
-    </p>
+  <div>    
+    <md-whiteframe md-tag="section" class="full-width padded text-center">
+      <span class="md-display-1">Tasks</span>
+      <p>
+        <router-link class="md-accent" :to="{path: '/tasks/trash'}">
+          View Trash
+        </router-link>
+      </p>
+    </md-whiteframe>    
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="2">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
