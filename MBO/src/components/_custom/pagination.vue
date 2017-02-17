@@ -36,7 +36,7 @@
                 <md-subheader>
                   <span>Sort By</span>
                 </md-subheader>
-                <md-menu-item v-for="sort in settings.task_view.sort" :disabled="sort.enabled">
+                <md-menu-item v-for="sort in settings.taskView.sort" :disabled="sort.enabled">
                   <span>{{sort.name}} {{sort.type}}</span>
                   <md-icon>{{sort.icon}}</md-icon>
                 </md-menu-item>
