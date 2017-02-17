@@ -135,37 +135,37 @@
 
   export default {
     computed: {
-      isAuthenticated() {
-        return this.$store.getters.isAuhtenticated;
+      isAuthenticated () {
+        return this.$store.getters.isAuhtenticated
       },
-      userinfo() {
-        return this.$store.getters.getUserInfo || {};
+      userinfo () {
+        return this.$store.getters.getUserInfo || {}
       }
     },
     methods: {
-      openDialog(ref) {
-        this.$refs[ref].open();
+      openDialog (ref) {
+        this.$refs[ref].open()
       },
-      onClose(type) {
-        const _self = this;
+      onClose (type) {
+        const _self = this
 
         if (type === 'ok') {
           signout().then(res => {
-
             _self.$router.push({
               path: '/signout'
-            });
-
-          }).catch(err => {});
+            })
+          }).catch(err => {
+            console.log(err)
+          })
         }
       },
-      toggleLeftSidenav() {
-        this.$refs.leftSidenav.toggle();
+      toggleLeftSidenav () {
+        this.$refs.leftSidenav.toggle()
       },
-      redirect(path) {
+      redirect (path) {
         this.$router.push({
           path
-        });
+        })
       }
     }
   }

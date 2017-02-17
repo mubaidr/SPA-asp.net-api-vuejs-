@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import VueMaterial from 'vue-material';
+import Vue from 'vue'
+import VueMaterial from 'vue-material'
 
-Vue.use(VueMaterial);
+Vue.use(VueMaterial)
 
 Vue.material.registerTheme({
   default: {
@@ -15,7 +15,7 @@ Vue.material.registerTheme({
     accent: 'indigo'
   },
   'theme-danger': {
-    primary: 'red',
+    primary: 'red'
   },
   'theme-warn': {
     primary: 'deep-orange'
@@ -29,4 +29,4 @@ Vue.material.registerTheme({
   'theme-success': {
     primary: 'green'
   }
-});
+})

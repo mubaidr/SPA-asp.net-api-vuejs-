@@ -1,1 +1,1 @@
-window.Promise = require('pinkie-promise');
+window.Promise = require('pinkie-promise')

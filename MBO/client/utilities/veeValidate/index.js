@@ -1,6 +1,7 @@
-import Vue from 'vue';
-import VeeValidate from 'vee-validate';
+import Vue from 'vue'
+import VeeValidate from 'vee-validate'
 
+/*
 const config = {
   errorBagName: 'errors', // change if property conflicts.
   fieldsBagName: 'fields',
@@ -8,7 +9,8 @@ const config = {
   locale: 'en',
   dictionary: null,
   strict: true
-};
+}
+*/
 
 const dictionary = {
   en: {
@@ -19,7 +21,7 @@ const dictionary = {
       confirmPassword: 'Confirm Password'
     }
   }
-};
+}
 
-VeeValidate.Validator.updateDictionary(dictionary);
-Vue.use(VeeValidate);
+VeeValidate.Validator.updateDictionary(dictionary)
+Vue.use(VeeValidate)

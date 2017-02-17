@@ -4,29 +4,30 @@ export {
   signout,
   getUserInfo,
   getUsersList
-};
-
-import api from 'api';
-import axios from 'axios';
-import qs from 'qs';
-
-function signup(obj) {
-  return axios.post(`${api.url}/api/Account/Register`, obj);
 }
 
-function signin(obj) {
-  obj.grant_type = 'password';
-  return axios.post(`${api.url}/Token`, qs.stringify(obj));
+import api from 'api'
+import axios from 'axios'
+import qs from 'qs'
+
+function signup (obj) {
+  return axios.post(`${api.url}/api/Account/Register`, obj)
 }
 
-function signout() {
-  return axios.post(`${api.url}/api/Account/Logout`);
+function signin (obj) {
+  // eslint-disable-next-line camelcase
+  obj.grant_type = 'password'
+  return axios.post(`${api.url}/Token`, qs.stringify(obj))
 }
 
-function getUserInfo() {
-  return axios.get(`${api.url}/api/Account/UserInfo`);
+function signout () {
+  return axios.post(`${api.url}/api/Account/Logout`)
 }
 
-function getUsersList() {
-  return axios.get(`${api.url}/api/Account/Users`);
+function getUserInfo () {
+  return axios.get(`${api.url}/api/Account/UserInfo`)
+}
+
+function getUsersList () {
+  return axios.get(`${api.url}/api/Account/Users`)
 }

@@ -10,66 +10,65 @@ export {
   listCreated,
   listCompleted,
   listTrash
-};
-
-import api from 'api';
-import axios from 'utilities/axios';
-import qs from 'qs';
-
-const path = "/api/MainTasks";
-
-function create(obj) {
-  return axios.post(api.url + path, obj);
 }
 
-function getDetails(obj) {
-  return axios.get(api.url + path, obj);
+import api from 'api'
+import axios from 'utilities/axios'
+
+const path = '/api/MainTasks'
+
+function create (obj) {
+  return axios.post(api.url + path, obj)
 }
 
-function edit(obj) {
-  return axios.post(api.url + path, obj);
+function getDetails (obj) {
+  return axios.get(api.url + path, obj)
 }
 
-function remove(obj) {
-  return axios.post(`${api.url + path}/Remove/?id=${obj.id}`, obj);
+function edit (obj) {
+  return axios.post(api.url + path, obj)
 }
 
-function restore(obj) {
-  return axios.post(`${api.url + path}/Restore/?id=${obj.id}`, obj);
+function remove (obj) {
+  return axios.post(`${api.url + path}/Remove/?id=${obj.id}`, obj)
 }
 
-function deleteTask(obj) {
-  return axios.post(api.url + path, obj);
+function restore (obj) {
+  return axios.post(`${api.url + path}/Restore/?id=${obj.id}`, obj)
 }
 
-function listAll() {
-  return axios.get(api.url + path);
+function deleteTask (obj) {
+  return axios.post(api.url + path, obj)
 }
 
-function listAssigned(obj) {
-  return axios.get(`${api.url + path}?type=assigned${objToQuery(obj)}`);
+function listAll () {
+  return axios.get(api.url + path)
 }
 
-function listCreated(obj) {
-  return axios.get(`${api.url + path}?type=created${objToQuery(obj)}`);
+function listAssigned (obj) {
+  return axios.get(`${api.url + path}?type=assigned${objToQuery(obj)}`)
 }
 
-function listCompleted(obj) {
-  return axios.get(`${api.url + path}?type=completed${objToQuery(obj)}`);
+function listCreated (obj) {
+  return axios.get(`${api.url + path}?type=created${objToQuery(obj)}`)
 }
 
-function listTrash(obj) {
-  return axios.get(`${api.url + path}?type=trash${objToQuery(obj)}`);
+function listCompleted (obj) {
+  return axios.get(`${api.url + path}?type=completed${objToQuery(obj)}`)
 }
 
-function objToQuery(obj) {
-  let query = '';
-  let val = '';
+function listTrash (obj) {
+  return axios.get(`${api.url + path}?type=trash${objToQuery(obj)}`)
+}
+
+function objToQuery (obj) {
+  let query = ''
+  let val = ''
   for (const prop in obj) {
-    val = obj[prop];
+    val = obj[prop]
     if (val && (val.trim && val.trim() !== '') || val > 0) {
-      query += `&${prop}=${val}`;
+      query += `&${prop}=${val}`
     }
   }
-  return query;
+  return query
 }

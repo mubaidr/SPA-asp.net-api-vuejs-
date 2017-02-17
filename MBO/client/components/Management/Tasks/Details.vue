@@ -6,44 +6,7 @@
     <p>
       <a href="#" @click.stop.prevent="goBack()">Go Back</a>
     </p>
-    <md-layout :md-gutter="8">
-      <md-layout md-flex="30" md-flex-small="100" style="display: none;">
-        <md-whiteframe md-tag="section" class="full-width padded">
-          <span class="md-display-1">Details</span>
-          <br/><br/>
-          <md-table>
-            <md-table-body>
-              <md-table-row>
-                <md-table-cell>Description</md-table-cell>
-                <md-table-cell>{{Task.Description}}</md-table-cell>
-              </md-table-row>
-              <md-table-row>
-                <md-table-cell>Assigned To</md-table-cell>
-                <md-table-cell>
-                  <div v-show="Task.AssignedTo.length">
-                    <p class="no-margin" v-for="user in Task.AssignedTo">{{user.Email}}</p>
-                  </div>
-                  <div v-show="!Task.AssignedTo.length">
-                    <span>Self</span>
-                  </div>
-                </md-table-cell>
-              </md-table-row>
-              <md-table-row>
-                <md-table-cell>Status</md-table-cell>
-                <md-table-cell>{{Task.Status.Title + ': ' + Task.Status.Description}}</md-table-cell>
-              </md-table-row>
-              <md-table-row>
-                <md-table-cell>Progress</md-table-cell>
-                <md-table-cell>{{Task.Progress}}% Complete</md-table-cell>
-              </md-table-row>
-              <md-table-row>
-                <md-table-cell>Due Date</md-table-cell>
-                <md-table-cell :class="type_class()">{{formatDate(Task.DateDue)}}</md-table-cell>
-              </md-table-row>
-            </md-table-body>
-          </md-table>
-        </md-whiteframe>
-      </md-layout>
+    <md-layout :md-gutter="8">      
       <md-layout></md-layout>
       <md-layout md-flex="40" md-flex-small="100">
         <md-whiteframe md-tag="section" class="full-width padded">
@@ -74,148 +37,119 @@
           </div>
         </md-whiteframe>
       </md-layout>
-      <md-layout></md-layout>
-      <md-layout md-flex="30" md-flex-small="100" style="display: none;">
-        <md-whiteframe md-tag="section" class="full-width padded">
-          <span class="md-display-1">Progress updates</span>
-          <p>Following lists shows information about the progress updates.</p>
-          <br/>
-          <div class="flex-vertical min-height full-width" v-show="!progressHistory.content.length">
-            <div class="no-content">
-              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
-              <span v-if="progressHistory.loading">Loading...</span>
-              <span v-show="!progressHistory.content.length && !progressHistory.loading">Awww... Nothing here!</span>
-            </div>
-          </div>
-          <div style="width:100%;height: 430px; overflow-y: auto;" v-show="progressHistory.content.length">
-            <ul class="full-width comment-list">
-              <li v-for="comment in progressHistory.content">
-                <md-progress :md-progress="comment.Progress"></md-progress>
-                <span>{{comment.Progress}}% at {{formatDate(comment.UpdateTime)}}</span>
-              </li>
-            </ul>
-          </div>
-        </md-whiteframe>
-      </md-layout>
+      <md-layout></md-layout>      
     </md-layout>
   </div>
 </template>
 <script>
   import {
-    getDetails
-  } from 'services/tasks';
-  import {
     addLog,
     getLog
-  } from 'services/taskLog';
-  import {
-    getProgressHistory
-  } from 'services/progressHistory';
-
-  import moment from 'moment';
+  } from 'services/taskLog'
+  import moment from 'moment'
 
   export default {
-    data() {
+    data () {
       return {
         Task: {
-          "AssignedBy": {
-            "Claims": [],
-            "Logins": [],
-            "Roles": [],
-            "FirstName": null,
-            "LastName": null,
-            "FullName": null,
-            "Email": "tester@test.com",
-            "EmailConfirmed": false,
-            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
-            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
-            "PhoneNumber": null,
-            "PhoneNumberConfirmed": false,
-            "TwoFactorEnabled": false,
-            "LockoutEndDateUtc": null,
-            "LockoutEnabled": false,
-            "AccessFailedCount": 0,
-            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
-            "UserName": "tester@test.com"
+          'AssignedBy': {
+            'Claims': [],
+            'Logins': [],
+            'Roles': [],
+            'FirstName': null,
+            'LastName': null,
+            'FullName': null,
+            'Email': 'tester@test.com',
+            'EmailConfirmed': false,
+            'PasswordHash': 'AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==',
+            'SecurityStamp': '1292a83d-745b-4570-954b-015527ff1a42',
+            'PhoneNumber': null,
+            'PhoneNumberConfirmed': false,
+            'TwoFactorEnabled': false,
+            'LockoutEndDateUtc': null,
+            'LockoutEnabled': false,
+            'AccessFailedCount': 0,
+            'Id': 'c9c03a40-d155-45cf-abd5-48f8cc4cf8e8',
+            'UserName': 'tester@test.com'
           },
-          "Category": {
-            "CategoryID": 3,
-            "Title": "Placement",
-            "Description": "Placement"
+          'Category': {
+            'CategoryID': 3,
+            'Title': 'Placement',
+            'Description': 'Placement'
           },
-          "Status": {
-            "StatusID": 1,
-            "Title": "Assigned",
-            "Description": "Task has been created",
-            "Level": 0
+          'Status': {
+            'StatusID': 1,
+            'Title': 'Assigned',
+            'Description': 'Task has been created',
+            'Level': 0
           },
-          "MainTaskID": 3,
-          "Title": "OOOOOOO",
-          "Description": "ssss",
-          "IsDeleted": false,
-          "Progress": 33,
-          "DateAssigned": "2017-01-11T12:34:08.537",
-          "DateDue": "2017-12-01T12:33:00",
-          "StatusID": 1,
-          "CategoryID": 3,
-          "AssignedByID": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
-          "AssignedTo": [{
-            "Claims": [],
-            "Logins": [],
-            "Roles": [],
-            "FirstName": null,
-            "LastName": null,
-            "FullName": null,
-            "Email": "tester@test.com",
-            "EmailConfirmed": false,
-            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
-            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
-            "PhoneNumber": null,
-            "PhoneNumberConfirmed": false,
-            "TwoFactorEnabled": false,
-            "LockoutEndDateUtc": null,
-            "LockoutEnabled": false,
-            "AccessFailedCount": 0,
-            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
-            "UserName": "tester@test.com"
+          'MainTaskID': 3,
+          'Title': 'OOOOOOO',
+          'Description': 'ssss',
+          'IsDeleted': false,
+          'Progress': 33,
+          'DateAssigned': '2017-01-11T12:34:08.537',
+          'DateDue': '2017-12-01T12:33:00',
+          'StatusID': 1,
+          'CategoryID': 3,
+          'AssignedByID': 'c9c03a40-d155-45cf-abd5-48f8cc4cf8e8',
+          'AssignedTo': [{
+            'Claims': [],
+            'Logins': [],
+            'Roles': [],
+            'FirstName': null,
+            'LastName': null,
+            'FullName': null,
+            'Email': 'tester@test.com',
+            'EmailConfirmed': false,
+            'PasswordHash': 'AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA===',
+            'SecurityStamp': '1292a83d-745b-4570-954b-015527ff1a42',
+            'PhoneNumber': null,
+            'PhoneNumberConfirmed': false,
+            'TwoFactorEnabled': false,
+            'LockoutEndDateUtc': null,
+            'LockoutEnabled': false,
+            'AccessFailedCount': 0,
+            'Id': 'c9c03a40-d155-45cf-abd5-48f8cc4cf8e8',
+            'UserName': 'tester@test.com'
           }, {
-            "Claims": [],
-            "Logins": [],
-            "Roles": [],
-            "FirstName": null,
-            "LastName": null,
-            "FullName": null,
-            "Email": "tester2@test.com",
-            "EmailConfirmed": false,
-            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
-            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
-            "PhoneNumber": null,
-            "PhoneNumberConfirmed": false,
-            "TwoFactorEnabled": false,
-            "LockoutEndDateUtc": null,
-            "LockoutEnabled": false,
-            "AccessFailedCount": 0,
-            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
-            "UserName": "tester2@test.com"
+            'Claims': [],
+            'Logins': [],
+            'Roles': [],
+            'FirstName': null,
+            'LastName': null,
+            'FullName': null,
+            'Email': 'tester2@test.com',
+            'EmailConfirmed': false,
+            'PasswordHash': 'AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA===',
+            'SecurityStamp': '1292a83d-745b-4570-954b-015527ff1a42',
+            'PhoneNumber': null,
+            'PhoneNumberConfirmed': false,
+            'TwoFactorEnabled': false,
+            'LockoutEndDateUtc': null,
+            'LockoutEnabled': false,
+            'AccessFailedCount': 0,
+            'Id': 'c9c03a40-d155-45cf-abd5-48f8cc4cf8e8',
+            'UserName': 'tester2@test.com'
           }, {
-            "Claims": [],
-            "Logins": [],
-            "Roles": [],
-            "FirstName": null,
-            "LastName": null,
-            "FullName": null,
-            "Email": "tester3@test.com",
-            "EmailConfirmed": false,
-            "PasswordHash": "AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA==",
-            "SecurityStamp": "1292a83d-745b-4570-954b-015527ff1a42",
-            "PhoneNumber": null,
-            "PhoneNumberConfirmed": false,
-            "TwoFactorEnabled": false,
-            "LockoutEndDateUtc": null,
-            "LockoutEnabled": false,
-            "AccessFailedCount": 0,
-            "Id": "c9c03a40-d155-45cf-abd5-48f8cc4cf8e8",
-            "UserName": "tester3@test.com"
+            'Claims': [],
+            'Logins': [],
+            'Roles': [],
+            'FirstName': null,
+            'LastName': null,
+            'FullName': null,
+            'Email': 'tester3@test.com',
+            'EmailConfirmed': false,
+            'PasswordHash': 'AAfNlYFPlbFENjLpOXQXzgm513SNYAoLZWlId5Md7j3lIFLOQaKZKNl0wk7O1lVkpA===',
+            'SecurityStamp': '1292a83d-745b-4570-954b-015527ff1a42',
+            'PhoneNumber': null,
+            'PhoneNumberConfirmed': false,
+            'TwoFactorEnabled': false,
+            'LockoutEndDateUtc': null,
+            'LockoutEnabled': false,
+            'AccessFailedCount': 0,
+            'Id': 'c9c03a40-d155-45cf-abd5-48f8cc4cf8e8',
+            'UserName': 'tester3@test.com'
           }]
         },
         Type: 'view',
@@ -229,145 +163,76 @@
           content: [],
           loading: true
         },
-        comment: "Something to chear!"
+        comment: 'Something to chear!'
       }
     },
     watch: {
       'log.content' () {
-        this.$set(this.log, 'loading', false);
+        this.$set(this.log, 'loading', false)
       },
       'progressHistory.content' () {
-        this.$set(this.progressHistory, 'loading', false);
+        this.$set(this.progressHistory, 'loading', false)
       }
     },
     computed: {
-      userinfo() {
-        return this.$store.getters.getUserInfo || {};
+      userinfo () {
+        return this.$store.getters.getUserInfo || {}
       }
     },
     methods: {
-      addComment() {
-        const _self = this;
-        let text = _self.comment;
+      addComment () {
+        const _self = this
+        const text = _self.comment
         if (text) {
-
           addLog({
             Description: text,
             MainTaskID: _self.Task.MainTaskID
           }).then(res => {
-            _self.$set(_self.log, 'content', res.data);
+            _self.$set(_self.log, 'content', res.data)
           }).catch(err => {
-            console.log(err);
-          });
-
+            console.log(err)
+          })
         } else {
-          return false;
+          return false
         }
       },
-      goBack() {
-        this.$router.go(-1);
+      goBack () {
+        this.$router.go(-1)
       },
-      isSelf(userid) {
-        return this.userinfo.ID == userid ? 'text-right' : 'text-left';
+      isSelf (userid) {
+        return this.userinfo.ID === userid ? 'text-right' : 'text-left'
       },
-      formatDate(date) {
-        return moment(date).format('hh:mmA DD-MM-YY');
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YY')
       },
-      type_animate() {
-        const _self = this;
-
-        const now = moment();
-        const dueDate = moment(_self.Task.DateDue);
-        const diff = now.diff(dueDate, 'days');
-
-        if (diff < 0) {
-          return 'animate-danger';
-        } else if (diff < 2) {
-          return 'animate-warn';
-        } else {
-          return '';
-        }
-      },
-      type_icon() {
-        switch (this.type_class()) {
-          case 'theme-success':
-            return 'done';
-            break;
-          case 'theme-danger':
-            return 'warning';
-            break;
-          case 'theme-warn':
-            return 'av_timer';
-            break;
-          case 'theme-normal':
-            return 'timelapse';
-            break;
-          case 'theme-primary':
-          default:
-            return 'timer';
-            break;
-        }
-      },
-      type_class() {
-        const _self = this;
-
-        const now = moment();
-        const dueDate = moment(_self.Task.DateDue);
-        const diff = now.diff(dueDate, 'days');
-
-        if (_self.Task.Progress == 100) {
-          return 'theme-success';
-        }
-        if (diff < 0) {
-          return 'theme-danger';
-        } else if (diff < 2) {
-          return 'theme-warn';
-        } else if (diff < 5) {
-          return 'theme-normal';
-        } else {
-          return 'theme-primary';
-        }
-      },
-      loadLog() {
-        const _self = this;
-        _self.$set(_self.log, 'loading', false);
+      loadLog () {
+        const _self = this
+        _self.$set(_self.log, 'loading', false)
 
         getLog(_self.Task.MainTaskID).then(res => {
-          _self.$set(_self.log, 'content', res.data);
+          _self.$set(_self.log, 'content', res.data)
         }).catch(err => {
-          console.dir(err);
-        });
-      },
-      loadProgressHistory() {
-        const _self = this;
-        _self.$set(_self.progressHistory, 'loading', false);
-
-        getProgressHistory(_self.Task.MainTaskID).then(res => {
-          _self.$set(_self.progressHistory, 'content', res.data);
-        }).catch(err => {
-          console.dir(err);
-        });
+          console.dir(err)
+        })
       }
     },
-    mounted() {
-      const _self = this;
-      const task = _self.$route.params.Task;
-      const type = _self.$route.params.Type;
+    mounted () {
+      const _self = this
+      const task = _self.$route.params.Task
+      const type = _self.$route.params.Type
 
-      // if (task) {
-      //   _self.$set(_self, 'Type', type || 'view');
-      //   _self.$set(_self, 'Task', task);
-      // } else {
-      //   _self.$router.push({
-      //     path: '/tasks'
-      //   });
-      // }
+      if (task) {
+        _self.$set(_self, 'Type', type || 'view')
+        _self.$set(_self, 'Task', task)
+      } else {
+        _self.$router.push({
+          path: '/tasks'
+        })
+      }
 
       window.setTimeout(() => {
-        _self.loadLog();
-        _self.loadProgressHistory();
-      }, 1000);
-
+        _self.loadLog()
+      }, 500)
     }
   }
 

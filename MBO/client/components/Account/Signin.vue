@@ -40,10 +40,10 @@
   import {
     signin,
     getUserInfo
-  } from 'services/account';
+  } from 'services/account'
 
   export default {
-    data() {
+    data () {
       return {
         credentials: {
           UserName: 'tester@test.com',
@@ -58,52 +58,47 @@
       }
     },
     methods: {
-      setErrorDetails(err) {
-        //TODO register as global method
-        //console.dir(err);
-        const _self = this;
+      setErrorDetails (err) {
+        // TODO register as global method
+        // console.dir(err);
+        const _self = this
         if (err) {
-          _self.$set(_self.state, 'title', err.message);
+          _self.$set(_self.state, 'title', err.message)
           if (err.response && err.response.data && err.response.data.error_description) {
-            _self.$set(_self.state, 'details', err.response.data.error_description);
+            _self.$set(_self.state, 'details', err.response.data.error_description)
           }
         } else {
-          _self.$set(_self.state, 'title', null);
+          _self.$set(_self.state, 'title', null)
         }
       },
-      formValidate(event) {
-        event.preventDefault();
-        const _self = this;
+      formValidate (event) {
+        event.preventDefault()
+        const _self = this
 
         _self.$validator.validateAll().then(success => {
-          if (!success) return;
+          if (!success) return
 
-          _self.setErrorDetails();
-          _self.$set(_self.state, 'loading', true);
+          _self.setErrorDetails()
+          _self.$set(_self.state, 'loading', true)
 
           signin(this.credentials).then(res => {
-
-            _self.$store.commit('setAuthentication', res.data);
+            _self.$store.commit('setAuthentication', res.data)
 
             getUserInfo().then(res => {
-
-              _self.$store.commit('setUserInfo', res.data);
+              _self.$store.commit('setUserInfo', res.data)
 
               _self.$router.push({
                 path: '/dashboard'
-              });
-
+              })
             }).catch(err => {
-              _self.$set(_self.state, 'loading', false);
-              _self.setErrorDetails(err);
-            });
-
+              _self.$set(_self.state, 'loading', false)
+              _self.setErrorDetails(err)
+            })
           }).catch(err => {
-            _self.$set(_self.state, 'loading', false);
-            _self.setErrorDetails(err);
-          });
-
-        });
+            _self.$set(_self.state, 'loading', false)
+            _self.setErrorDetails(err)
+          })
+        })
       }
     }
   }

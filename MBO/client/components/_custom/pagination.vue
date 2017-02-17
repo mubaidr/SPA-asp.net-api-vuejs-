@@ -51,67 +51,67 @@
   </md-layout>
 </template>
 <script>
-  import _ from 'lodash';
+  import _ from 'lodash'
   export default {
     name: 'pagination',
     props: ['lastpage', 'count', 'loading'],
-    data() {
+    data () {
       return {
         paging: {
           page: 1,
           orderby: '',
           filter: ''
         },
-        search_options: {
+        searchOptions: {
           active: false
         }
       }
     },
     watch: {
       'lastpage' (val) {
-        if (val == 0) {
-          this.lastpage = 1;
+        if (val === 0) {
+          this.lastpage = 1
         }
       },
       'paging.page' () {
-        this.refresh();
+        this.refresh()
       },
       'paging.orderby' () {
-        this.refresh();
+        this.refresh()
       }
     },
     computed: {
-      settings() {
-        return this.$store.getters.getSettings;
+      settings () {
+        return this.$store.getters.getSettings
       }
     },
     methods: {
-      search() {
-        const _self = this;
-        _self.$set(_self.paging, 'page', 1);
-        _self.refresh();
+      search () {
+        const _self = this
+        _self.$set(_self.paging, 'page', 1)
+        _self.refresh()
       },
       refresh: _.debounce(function () {
-        this.$emit('refresh', this.paging);
+        this.$emit('refresh', this.paging)
       }, 500, {
         leading: false,
         trailing: true
       }),
-      nextPage() {
-        this.$set(this.paging, 'page', this.paging.page + 1);
+      nextPage () {
+        this.$set(this.paging, 'page', this.paging.page + 1)
       },
-      previousPage() {
-        this.$set(this.paging, 'page', this.paging.page - 1);
+      previousPage () {
+        this.$set(this.paging, 'page', this.paging.page - 1)
       },
-      firstPage() {
-        this.$set(this.paging, 'page', 1);
+      firstPage () {
+        this.$set(this.paging, 'page', 1)
       },
-      lastPage() {
-        this.$set(this.paging, 'page', this.lastpage);
+      lastPage () {
+        this.$set(this.paging, 'page', this.lastpage)
       }
     },
-    mounted() {
-      //this.$material.inkRipple = false;
+    mounted () {
+      // this.$material.inkRipple = false;
     }
   }
 

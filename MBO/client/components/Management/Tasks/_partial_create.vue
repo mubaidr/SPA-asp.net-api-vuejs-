@@ -36,7 +36,7 @@
         <div>
           <label for="DateDue" class="custom-label">Target Date</label>
           <br/>
-          <date-picker :date="datepicker_startTime" :option="datepicker_option" :limit="datepicker_limit" orientation="landscape" autoOk="true"></date-picker>
+          <date-picker :date="datepickerStartTime" :option="datepickerOption" :limit="datepickerLimit" orientation="landscape" autoOk="true"></date-picker>
         </div>
         <!--<app-message></app-message>-->
       </md-card-content>
@@ -50,18 +50,18 @@
 <script>
   import {
     create
-  } from 'services/tasks';
+  } from 'services/tasks'
   import {
     getUsersList
   } from 'services/account'
   import {
     getCategories
-  } from 'services/catalogs';
-  import moment from 'moment';
+  } from 'services/catalogs'
+  import moment from 'moment'
 
   export default {
     name: 'task-create',
-    data() {
+    data () {
       return {
         Page: {
           isLoading: false
@@ -77,10 +77,10 @@
           Categories: [],
           Users: []
         },
-        datepicker_startTime: {
+        datepickerStartTime: {
           time: ''
         },
-        datepicker_option: {
+        datepickerOption: {
           type: 'min',
           format: 'DD-MM-YYYY HH:mm A',
           inputStyle: {
@@ -100,66 +100,64 @@
           ],
           autoOk: true
         },
-        datepicker_limit: [{
+        datepickerLimit: [{
           type: 'weekday',
           available: [1, 2, 3, 4, 5]
         }]
       }
     },
     methods: {
-      formValidate(event) {
-        event.preventDefault();
-        const _self = this;
+      formValidate (event) {
+        event.preventDefault()
+        const _self = this
 
-        if (_self.datepicker_startTime.time) {
-          _self.$set(_self.Task, 'DateDue', moment(_self.datepicker_startTime.time, 'DD-MM-YYYY HH:mm A').format(
-            'MM-DD-YYYY HH:mm A'));
+        if (_self.datepickerStartTime.time) {
+          _self.$set(_self.Task, 'DateDue', moment(_self.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format(
+            'MM-DD-YYYY HH:mm A'))
         }
 
         _self.$validator.validateAll().then(success => {
-          if (!success) return;
+          if (!success) return
 
           _self.$store.commit('setState', {
             loading: true,
             alert: false
-          });
+          })
 
           create({
             mainTask: this.Task,
             users: this.Users
           }).then(res => {
-
             _self.$router.push({
               path: '/tasks'
-            });
-
+            })
           }).catch(err => {
-
             _self.$store.commit('setState', {
               loading: false,
               err
-            });
-
-          });
-
-        });
+            })
+          })
+        })
       }
     },
-    mounted() {
-      const _self = this;
+    mounted () {
+      const _self = this
 
-      const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A');
-      _self.$set(_self.Task, 'DateDue', now);
-      _self.$set(_self.datepicker_startTime, 'time', now);
+      const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A')
+      _self.$set(_self.Task, 'DateDue', now)
+      _self.$set(_self.datepickerStartTime, 'time', now)
 
       getCategories().then(res => {
-        _self.$set(_self.Catalog, 'Categories', res.data);
-      }).catch(err => {});
+        _self.$set(_self.Catalog, 'Categories', res.data)
+      }).catch(err => {
+        console.log(err)
+      })
 
       getUsersList().then(res => {
-        _self.$set(_self.Catalog, 'Users', res.data);
-      }).catch(err => {});
-
+        _self.$set(_self.Catalog, 'Users', res.data)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 

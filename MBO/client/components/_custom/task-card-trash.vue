@@ -16,11 +16,11 @@
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
-        <div class="card-date" :class="type_class()" title="Due Date">
+        <div class="card-date" :class="typeClass()" title="Due Date">
           <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
         </div>
         <md-tooltip md-direction="top">Progress and Status</md-tooltip>
-        <md-progress :md-theme="type_class()" :md-progress="Task.Progress"></md-progress>
+        <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
         <md-tooltip md-direction="top">Task is assigned to followiung users</md-tooltip>
@@ -48,74 +48,74 @@
 <script>
   import {
     restore
-  } from 'services/tasks';
-  import moment from 'moment';
+  } from 'services/tasks'
+  import moment from 'moment'
 
   export default {
     name: 'task-card',
     props: ['Task'],
-    data() {
+    data () {
       return {
         DialogCloseTarget: null
       }
     },
     computed: {
-      isSelfCreated() {
-        return this.$store.getters.getUserInfo.Email == this.Task.AssignedBy.Email;
+      isSelfCreated () {
+        return this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
       }
     },
     methods: {
-      type_class() {
-        const _self = this;
+      typeClass () {
+        const _self = this
 
-        const now = moment();
-        const dueDate = moment(_self.Task.DateDue);
-        const diff = now.diff(dueDate, 'days');
+        const now = moment()
+        const dueDate = moment(_self.Task.DateDue)
+        const diff = now.diff(dueDate, 'days')
 
-        if (_self.Task.Progress == 100) {
-          return 'theme-success';
+        if (_self.Task.Progress === 100) {
+          return 'theme-success'
         }
         if (diff < 0) {
-          return 'theme-danger';
+          return 'theme-danger'
         } else if (diff < 2) {
-          return 'theme-warn';
+          return 'theme-warn'
         } else if (diff < 5) {
-          return 'theme-normal';
+          return 'theme-normal'
         } else {
-          return 'theme-primary';
+          return 'theme-primary'
         }
       },
-      formatDate(date) {
-        return moment(date).format('hh:mmA DD-MM-YY');
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YY')
       },
-      refConfirm() {
-        return `ref-confirm-${this.Task.MainTaskID}`;
+      refConfirm () {
+        return `ref-confirm-${this.Task.MainTaskID}`
       },
-      dialogSuccessClose() {
-        const _self = this;
-        const TaskId = _self.Task.MainTaskID;
+      dialogSuccessClose () {
+        const _self = this
+        const TaskId = _self.Task.MainTaskID
         _self.$emit('remove-task-item', {
           id: TaskId
-        });
+        })
       },
-      viewDetails() {},
-      confirmRestore() {
-        this.$refs[this.refConfirm()].open();
+      viewDetails () {},
+      confirmRestore () {
+        this.$refs[this.refConfirm()].open()
       },
-      restoreTask(type) {
-        const _self = this;
-        const TaskId = _self.Task.MainTaskID;
+      restoreTask (type) {
+        const _self = this
+        const TaskId = _self.Task.MainTaskID
 
         restore({
           id: TaskId
         }).then(res => {
-          this.$refs['dialog-success'].open();
+          this.$refs['dialog-success'].open()
         }).catch(err => {
-          console.dir(err);
-        });
+          console.dir(err)
+        })
       }
     },
-    mounted() {}
+    mounted () {}
   }
 
 </script>

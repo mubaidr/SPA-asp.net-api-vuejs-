@@ -1,93 +1,92 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import router from 'utilities/router';
-import session from 'utilities/session';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import session from 'utilities/session'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 const state = {
   auth: session.getAuth(),
   userinfo: session.getUserInfo(),
   settings: {
-    task_view: {
+    taskView: {
       sort: [{
-          name: 'Priority',
-          icon: 'keyboard_arrow_down',
-          type: '',
-          enabled: false
-        },
-        {
-          name: 'Due Time',
-          icon: 'keyboard_arrow_down',
-          type: '',
-          enabled: true
-        }
+        name: 'Priority',
+        icon: 'keyboard_arrow_down',
+        type: '',
+        enabled: false
+      },
+      {
+        name: 'Due Time',
+        icon: 'keyboard_arrow_down',
+        type: '',
+        enabled: true
+      }
       ],
       filter: [{
-          name: 'Users',
-          icon: 'keyboard_arrow_down',
-          type: '',
-          enabled: false
-        },
-        {
-          name: 'Categories',
-          icon: 'keyboard_arrow_down',
-          type: '',
-          enabled: false
-        }
+        name: 'Users',
+        icon: 'keyboard_arrow_down',
+        type: '',
+        enabled: false
+      },
+      {
+        name: 'Categories',
+        icon: 'keyboard_arrow_down',
+        type: '',
+        enabled: false
+      }
       ]
     }
   }
-};
+}
 
 const mutations = {
-  setAuthentication(state, auth) {
-    state.auth = auth;
-    session.setAuth(auth);
+  setAuthentication (state, auth) {
+    state.auth = auth
+    session.setAuth(auth)
   },
-  setUserInfo(state, userinfo) {
-    state.userinfo = userinfo;
-    session.setUserInfo(userinfo);
+  setUserInfo (state, userinfo) {
+    state.userinfo = userinfo
+    session.setUserInfo(userinfo)
   },
-  removeAuthentication(state) {
-    state.auth = null;
-    state.userinfo = null;
-    session.clear();
+  removeAuthentication (state) {
+    state.auth = null
+    state.userinfo = null
+    session.clear()
   },
-  setViewMode(state, view) {
+  setViewMode (state, view) {
     if (view.type) {
-      state.settings.view.type = view.type;
+      state.settings.view.type = view.type
     }
   }
-};
+}
 
-const actions = {};
+const actions = {}
 
 const getters = {
-  isAuhtenticated(state) {
-    return state.auth !== null && typeof state.auth !== 'undefined';
+  isAuhtenticated (state) {
+    return state.auth !== null && typeof state.auth !== 'undefined'
   },
-  getUserInfo(state) {
-    return state.userinfo;
+  getUserInfo (state) {
+    return state.userinfo
   },
-  getAuth(state) {
-    return state.auth;
+  getAuth (state) {
+    return state.auth
   },
-  getViewMode() {
-    return state.settings.view;
+  getViewMode () {
+    return state.settings.view
   },
-  getSettings() {
-    return state.settings;
+  getSettings () {
+    return state.settings
   }
-};
+}
 
 const store = new Vuex.Store({
   state,
   mutations,
   actions,
   getters
-});
+})
 
-export default store;
+export default store
 
-//todo add qoates with different categories to display with empty data, error state or waiting screens!
+// todo add qoates with different categories to display with empty data, error state or waiting screens!

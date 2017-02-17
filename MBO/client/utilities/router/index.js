@@ -1,34 +1,33 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import store from 'utilities/store';
-//Anonymous
-import Home from 'components/Home/Home';
-import About from 'components/Home/About';
-import Contact from 'components/Home/Contact';
-//Error
-import Error_ from 'components/Error/Error_';
-import Error_404 from 'components/Error/Error_404';
-import Error_500 from 'components/Error/Error_500';
-//Account
-import Signin from 'components/Account/Signin';
-import Signup from 'components/Account/Signup';
-import Profile from 'components/Account/Profile';
-import Signout from 'components/Account/Signout';
-import Recover from 'components/Account/Recover';
-//Data
-import Dashboard from 'components/Management/Dashboard.vue';
-import Settings from 'components/Management/Settings.vue';
-import Search from 'components/Management/Search.vue';
-//Tasks
-import Tasks from 'components/Management/Tasks/index.vue';
-import TasksList from 'components/Management/Tasks/List.vue';
+import Vue from 'vue'
+import Router from 'vue-router'
+import store from 'utilities/store'
+// Anonymous
+import Home from 'components/Home/Home'
+import About from 'components/Home/About'
+import Contact from 'components/Home/Contact'
+// Error
+import Error_ from 'components/Error/Error_'
+import Error404 from 'components/Error/Error404'
+import Error500 from 'components/Error/Error500'
+// Account
+import Signin from 'components/Account/Signin'
+import Signup from 'components/Account/Signup'
+import Profile from 'components/Account/Profile'
+// import Signout from 'components/Account/Signout'
+import Recover from 'components/Account/Recover'
+// Data
+import Dashboard from 'components/Management/Dashboard.vue'
+import Settings from 'components/Management/Settings.vue'
+import Search from 'components/Management/Search.vue'
+// Tasks
+import Tasks from 'components/Management/Tasks/index.vue'
+import TasksList from 'components/Management/Tasks/List.vue'
 import TasksTrash from 'components/Management/Tasks/Trash.vue'
-import TasksCreate from 'components/Management/Tasks/Create.vue';
-import TasksDetails from 'components/Management/Tasks/Details.vue';
-//TODO Messages
+import TasksCreate from 'components/Management/Tasks/Create.vue'
+import TasksDetails from 'components/Management/Tasks/Details.vue'
+// TODO Messages
 
-
-Vue.use(Router);
+Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
@@ -90,13 +89,13 @@ const router = new Router({
     component: Error_,
     children: [{
       path: '404',
-      component: Error_404
+      component: Error404
     }, {
       path: '500',
-      component: Error_500
+      component: Error500
     }]
   }, {
-    //Tasks
+    // Tasks
     path: '/tasks',
     component: Tasks,
     meta: {
@@ -120,23 +119,23 @@ const router = new Router({
     path: '*',
     redirect: '/error/404'
   }]
-});
+})
 
 router.beforeEach((to, from, next) => {
   if (store.getters.isAuhtenticated) {
-    const _not_valid = ['signin', 'signup', 'recover'];
+    const notValid = ['signin', 'signup', 'recover']
 
-    if (_not_valid.lastIndexOf(to.name) >= 0) {
+    if (notValid.lastIndexOf(to.name) >= 0) {
       next({
         path: '/dashboard'
-      });
+      })
     } else if (to.path === '/signout') {
-      store.commit('removeAuthentication');
+      store.commit('removeAuthentication')
       next({
         path: '/home'
-      });
+      })
     } else {
-      next();
+      next()
     }
   } else {
     if (to.matched.some(record => record.meta.requiresAuth)) {
@@ -145,16 +144,15 @@ router.beforeEach((to, from, next) => {
         query: {
           redirect: to.fullPath
         }
-      });
+      })
     } else if (to.path === '/signout') {
       next({
         path: '/home'
-      });
+      })
     } else {
-      next();
+      next()
     }
   }
+})
 
-});
-
-export default router;
+export default router

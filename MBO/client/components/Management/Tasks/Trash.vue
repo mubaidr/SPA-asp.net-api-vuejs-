@@ -6,7 +6,7 @@
         View All Tasks
       </router-link>
     </p>
-    <pagination :lastpage="Tasks.Trash.last_page" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
+    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
     <md-layout md-gutter>
       <transition-group name="list-out" tag="ul" class="no-padding">
         <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
@@ -29,11 +29,11 @@
   </div>
 </template>
 <script>
-  import taskCardTrash from 'components/_custom/task-card-trash.vue';
-  import pagination from 'components/_custom/pagination.vue';
+  import taskCardTrash from 'components/_custom/task-card-trash.vue'
+  import pagination from 'components/_custom/pagination.vue'
   import {
     listTrash
-  } from 'services/tasks';
+  } from 'services/tasks'
 
   export default {
     name: 'task-list-trash',
@@ -41,7 +41,7 @@
       'task-card-trash': taskCardTrash,
       'pagination': pagination
     },
-    data() {
+    data () {
       return {
         Tasks: {
           Trash: {
@@ -49,7 +49,7 @@
             icon: 'assignment_return',
             content: [],
             loading: true,
-            last_page: 1,
+            lastPage: 1,
             count: 0
           }
         },
@@ -58,58 +58,58 @@
     },
     watch: {
       'Tasks.Trash.content' () {
-        this.$set(this.Tasks.Trash, 'loading', false);
+        this.$set(this.Tasks.Trash, 'loading', false)
       },
       'failAlert' (val) {
-        const _self = this;
+        const _self = this
         if (val) {
-          _self.$refs.snackbar.open();
+          _self.$refs.snackbar.open()
         } else {
-          _self.$refs.snackbar.close();
+          _self.$refs.snackbar.close()
         }
       }
     },
     methods: {
-      retry() {
-        const _self = this;
-        _self.$refs.snackbar.close();
+      retry () {
+        const _self = this
+        _self.$refs.snackbar.close()
         window.setTimeout(() => {
-          _self.loadTrash();
-        }, 500);
+          _self.loadTrash()
+        }, 500)
       },
-      removeTaskItem(obj) {
-        const _self = this;
-        const id = obj.id;
-        const ts = _self.Tasks.Trash.content;
+      removeTaskItem (obj) {
+        const _self = this
+        const id = obj.id
+        const ts = _self.Tasks.Trash.content
 
         for (let i = 0; i < ts.length; i++) {
-          if (ts[i].MainTaskID == id) {
-            _self.Tasks.Trash.content.splice(i, 1);
-            break;
+          if (ts[i].MainTaskID === id) {
+            _self.Tasks.Trash.content.splice(i, 1)
+            break
           }
         }
-        this.retry();
+        this.retry()
       },
-      loadTrash(paging) {
-        const _self = this;
-        _self.$set(_self.Tasks.Trash, 'loading', true);
+      loadTrash (paging) {
+        const _self = this
+        _self.$set(_self.Tasks.Trash, 'loading', true)
         listTrash(paging).then(res => {
-          _self.$set(_self.Tasks.Trash, 'content', res.data.mainTask);
-          _self.$set(_self.Tasks.Trash, 'last_page', res.data.last_page);
-          _self.$set(_self.Tasks.Trash, 'count', res.data.count);
+          _self.$set(_self.Tasks.Trash, 'content', res.data.mainTask)
+          _self.$set(_self.Tasks.Trash, 'lastPage', res.data.lastPage)
+          _self.$set(_self.Tasks.Trash, 'count', res.data.count)
         }).catch(err => {
-          _self.$set(_self.Tasks.Trash, 'loading', false);
-          _self.$set(_self, 'failAlert', true);
-        });
+          _self.$set(_self.Tasks.Trash, 'loading', false)
+          _self.$set(_self, 'failAlert', true)
+          console.log(err)
+        })
       }
     },
-    mounted() {
-      const _self = this;
+    mounted () {
+      const _self = this
 
       window.setTimeout(() => {
-        _self.loadTrash();
-      }, 250);
-
+        _self.loadTrash()
+      }, 250)
     }
   }
 

@@ -5,20 +5,20 @@
 </template>
 <script>
   export default {
-    data() {
+    data () {
       return {
         transitionName: 'slide-up'
       }
     },
     watch: {
       '$route' (to, from) {
-        //console.log(to, from);
-        const toDepth = to.path.split('/').length;
-        const fromDepth = from.path.split('/').length;
-        if (toDepth == fromDepth) {
-          this.$set(this, 'transitionName', 'slide-up');
+        // console.log(to, from);
+        const toDepth = to.path.split('/').length
+        const fromDepth = from.path.split('/').length
+        if (toDepth === fromDepth) {
+          this.$set(this, 'transitionName', 'slide-up')
         } else {
-          this.$set(this, 'transitionName', toDepth < fromDepth ? 'slide-right' : 'slide-left');
+          this.$set(this, 'transitionName', toDepth < fromDepth ? 'slide-right' : 'slide-left')
         }
       }
     }

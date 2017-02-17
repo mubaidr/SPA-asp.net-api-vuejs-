@@ -1,18 +1,18 @@
 export default {
-  getAuth() {
-    return JSON.parse(localStorage.getItem('auth'));
+  getAuth () {
+    return JSON.parse(window.localStorage.getItem('auth'))
   },
-  setAuth(auth) {
-    localStorage.setItem('auth', JSON.stringify(auth));
+  setAuth (auth) {
+    window.localStorage.setItem('auth', JSON.stringify(auth))
   },
-  getUserInfo() {
-    return JSON.parse(localStorage.getItem('userinfo'));
+  getUserInfo () {
+    return JSON.parse(window.localStorage.getItem('userinfo'))
   },
-  setUserInfo(userinfo) {
-    localStorage.setItem('userinfo', JSON.stringify(userinfo));
+  setUserInfo (userinfo) {
+    window.localStorage.setItem('userinfo', JSON.stringify(userinfo))
   },
-  clear() {
-    localStorage.removeItem('auth');
-    localStorage.removeItem('userinfo');
+  clear () {
+    window.localStorage.removeItem('auth')
+    window.localStorage.removeItem('userinfo')
   }
-};
+}
