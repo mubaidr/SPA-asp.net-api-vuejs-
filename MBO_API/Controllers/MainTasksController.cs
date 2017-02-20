@@ -15,6 +15,8 @@ namespace MBO_API.Controllers
 {
     public class MainTasksController : ApiController
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public class MainTaskUsers
         {
             public MainTask mainTask { get; set; }
@@ -27,8 +29,6 @@ namespace MBO_API.Controllers
             public int count { get; set; }
             public int last_page { get; set; }
         }
-
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/MainTasks
         public List<MainTask> GetMainTask()

@@ -35,7 +35,9 @@
         public DateTime DateAssigned { get; set; }
         
         public DateTime DateDue { get; set; }
-        
+
+        public DateTime? DateCompleted { get; set; }
+
         public int StatusID { get; set; }
         
         public int CategoryID { get; set; }
