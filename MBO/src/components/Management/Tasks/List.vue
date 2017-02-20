@@ -1,13 +1,20 @@
 <template>
-  <div>    
-    <md-whiteframe md-tag="section" class="full-width padded text-center">
-      <span class="md-display-1">Tasks</span>
-      <p>
-        <router-link class="md-accent" :to="{path: '/tasks/trash'}">
-          View Trash
-        </router-link>
-      </p>
-    </md-whiteframe>    
+  <div>
+    <md-whiteframe md-tag="section" class="full-width">
+      <md-toolbar>
+        <md-button class="md-icon-button" @click.native="$router.push({ path: '/dashboard' })">
+          <md-tooltip md-direction="top">Dashboard</md-tooltip>
+          <md-icon>arrow_back</md-icon>
+        </md-button>
+        <span class="md-headline">Tasks</span>
+        <span style="flex: 1"></span>
+        <md-button @click.native="$router.push({path: '/tasks/trash'})">
+          <md-tooltip md-direction="top">Archived</md-tooltip>
+          Archived
+        </md-button>
+      </md-toolbar>      
+    </md-whiteframe>
+    <br/>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="2">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
@@ -184,7 +191,7 @@
         _self.$set(_self.Tasks.Assigned, 'loading', true)
         listAssigned(obj).then(res => {
           _self.$set(_self.Tasks.Assigned, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Assigned, 'lastPage', res.data.lastPage)
+          _self.$set(_self.Tasks.Assigned, 'lastPage', res.data.last_page)
           _self.$set(_self.Tasks.Assigned, 'count', res.data.count)
         }).catch(err => {
           _self.$set(_self.Tasks.Assigned, 'loading', false)
@@ -197,7 +204,7 @@
         _self.$set(_self.Tasks.Completed, 'loading', true)
         listCompleted(obj).then(res => {
           _self.$set(_self.Tasks.Completed, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Completed, 'lastPage', res.data.lastPage)
+          _self.$set(_self.Tasks.Completed, 'lastPage', res.data.last_page)
           _self.$set(_self.Tasks.Completed, 'count', res.data.count)
         }).catch(err => {
           _self.$set(_self.Tasks.Completed, 'loading', false)
@@ -210,7 +217,7 @@
         _self.$set(_self.Tasks.Created, 'loading', true)
         listCreated(obj).then(res => {
           _self.$set(_self.Tasks.Created, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Created, 'lastPage', res.data.lastPage)
+          _self.$set(_self.Tasks.Created, 'lastPage', res.data.last_page)
           _self.$set(_self.Tasks.Created, 'count', res.data.count)
         }).catch(err => {
           _self.$set(_self.Tasks.Created, 'loading', false)

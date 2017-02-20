@@ -9,9 +9,7 @@
           <md-icon>menu</md-icon>
         </md-button>
         <span style="flex: 1;">
-          <md-layout md-hide-xsmall>
-            <h2 class="md-title">Get Busy with Management By Objectives!</h2>
-          </md-layout>
+          <h2 class="md-title">MBO</h2>
         </span>
         <!--TODO Display notifications here!-->
         <md-speed-dial v-show="isAuthenticated" md-open="click" md-direction="left" class="md-fab-bottom-right add-task">
@@ -178,7 +176,7 @@
   
   .add-task {
     bottom: -20%!important;
-    right: 5%!important;
+    right: 0.75%!important;
   }
 
 </style>
