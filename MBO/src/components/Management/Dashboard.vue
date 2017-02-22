@@ -6,7 +6,7 @@
           <md-subheader class="md-inset">Tasks Created</md-subheader>
           <md-list-item>
             <md-icon>assignment</md-icon>
-            <span>{{dashboard.TasksCreatedCount}}</span>
+            <!--<vuecountup :end="2500" :duration="5" :options="{useEasing : true, useGrouping : true, separator : ',', decimal : '.', prefix : '', suffix : ''}"></vuecountup>-->
           </md-list-item>
         </md-list>
       </md-layout>

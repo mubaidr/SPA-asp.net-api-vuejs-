@@ -12,4 +12,5 @@ import {
 app.$mount('#app')
 
 import 'utilities/veeValidate'
+// import 'utilities/vue-countup'
 import 'assets/script/site.js'
