@@ -1,5 +1,5 @@
 <template>
-  <md-layout :class="{hidden: count == 0}">
+  <md-layout>
     <md-layout md-hide-small></md-layout>
     <md-layout md-flex="33" md-flex-medium="100">
       <md-whiteframe md-tag="section" class="full-width" md-elevation="0">
