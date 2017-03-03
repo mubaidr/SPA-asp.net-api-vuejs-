@@ -30,7 +30,13 @@
     <br/>
     <md-layout md-gutter="40">
       <md-layout md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
-        <span class="md-display-1">Graph Here</span>
+        <md-layout md-gutter>
+          <md-layout md-flex-small="100">
+            <bar-chart :options="{responsive: true, maintainAspectRatio: true}" class="chart-full-width"></bar-chart>
+          </md-layout>
+          <md-layout md-flex-small="100"></md-layout>
+          <md-layout md-flex-small="100"></md-layout>
+        </md-layout>        
       </md-layout>
       <md-layout md-flex-xsmall="100" md-flex-small="30" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
         <md-list class="full-width">
@@ -80,7 +86,7 @@
 </template>
 <script>
   import CountUp from 'countup.js'
-  
+  import ChartTasks from 'components/_charts/tasks.js'
   import {
     getDashboard
   } from 'services/dashboard'
@@ -91,6 +97,7 @@
         dashboard: {}
       }
     },
+    components: {'bar-chart': ChartTasks},
     mounted () {
       getDashboard().then(res => {
         this.$set(this, 'dashboard', res.data)
@@ -115,7 +122,7 @@
 <style scoped>
   .counter {
     width: 50%;
-    margin: 0 auto;
+    margin: 5px auto;
     text-align: center;
     padding: 10% 5%;
     font-size: 50px;
@@ -126,6 +133,14 @@
 
   a .md-chip{
     float: right;
+  }
+
+  .chart-full-width{
+    width:100%;
+  }
+
+  .chart-full-width canvas{
+    width:100%;
   }
 
 </style>
