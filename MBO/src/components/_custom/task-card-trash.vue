@@ -31,7 +31,7 @@
           <span class="chip-custom">Self</span>
         </div>
       </md-card-content>
-      <md-card-actions>
+      <md-card-actions class="custom-footer">
         <div v-show="isSelfCreated">
           <md-button class="md-icon-button" @click.native="restoreTask">
             <md-tooltip md-direction="top">Restore</md-tooltip>
@@ -123,61 +123,68 @@
   .card-cont {
     margin: 0 10px 10px 0;
   }
-  
+
   .card-date {
     margin-bottom: 10px;
   }
-  
+
   .md-card-custom {
     min-width: 280px;
     width: 98%;
     overflow-x: hidden;
   }
-  
+
   .md-card-custom .md-card-content:last-child {
     padding-top: 0!important;
   }
-  
+
   .md-caption {
     /*margin-top: 10px;*/
   }
-  
+
   .md-caption ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
     margin-top: 5px;
   }
-  
+
   .text-muted {
     opacity: 0.6;
   }
-  
+
   .chip-custom {
     background-color: rgba(0, 0, 0, 0.1);
     padding: 5px;
     border-radius: 2px;
     margin-right: 2px;
   }
-  
+
   .theme-danger .md-icon {
     color: #f44336;
   }
-  
+
   .theme-warn .md-icon {
     color: #ff5722;
   }
-  
+
   .theme-normal .md-icon {
     color: #ff9800;
   }
-  
+
   .theme-primary .md-icon {
     color: #cddc39;
   }
-  
+
   .theme-success .md-icon {
     color: #4caf50;
   }
 
+  .card-cont .custom-footer {
+    visibility: hidden;
+  }
+
+  .card-cont:hover .custom-footer {
+    visibility: visible;
+  }
 </style>

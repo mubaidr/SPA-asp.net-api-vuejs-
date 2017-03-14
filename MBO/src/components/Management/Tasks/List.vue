@@ -1,18 +1,18 @@
 <template>
   <div>
     <md-whiteframe md-tag="section" class="full-width">
-      <md-toolbar>
+      <md-toolbar class="md-transparent">
         <md-button class="md-icon-button" @click.native="$router.push({ path: '/dashboard' })">
           <md-tooltip md-direction="top">Dashboard</md-tooltip>
-          <md-icon>arrow_back</md-icon>
+          <md-icon class="md-accent">arrow_back</md-icon>
         </md-button>
         <span class="md-headline">Tasks</span>
         <span style="flex: 1"></span>
-        <md-button @click.native="$router.push({path: '/tasks/trash'})">
+        <md-button class="md-accent" @click.native="$router.push({path: '/tasks/trash'})">
           <md-tooltip md-direction="top">Archived</md-tooltip>
           Archived
         </md-button>
-      </md-toolbar>      
+      </md-toolbar>
     </md-whiteframe>
     <br/>
     <md-whiteframe md-tag="section" md-elevation="0">
@@ -241,16 +241,16 @@
   .no-content {
     text-align: center;
   }
-  
+
   .no-content span {
     font-size: 1.25em;
     opacity: 0.75;
   }
-  
+
   .no-content i {
     margin-bottom: 10px;
   }
-  
+
   .md-tab {
     padding: 16px 2px;
   }

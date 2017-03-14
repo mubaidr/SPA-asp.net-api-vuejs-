@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using MBO_API.Models;
@@ -13,6 +10,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MBO_API.Controllers
 {
+    [Authorize]
     public class LogsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -95,7 +93,7 @@ namespace MBO_API.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = log.LogID }, log);
         }
-        
+
         // DELETE: api/Logs/5
         [ResponseType(typeof(Log))]
         public IHttpActionResult DeleteLog(int id)

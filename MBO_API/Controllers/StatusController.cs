@@ -8,6 +8,7 @@ using MBO_API.Models;
 
 namespace MBO_API.Controllers
 {
+    [Authorize]
     public class StatusController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

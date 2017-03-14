@@ -9,10 +9,10 @@ using MBO_API.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace MBO_API.Controllers
 {
+    [Authorize]
     public class MainTasksController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -22,7 +22,7 @@ namespace MBO_API.Controllers
             public MainTask mainTask { get; set; }
             public string[] users { get; set; }
         }
-        
+
         public class TaskListResult
         {
             public List<MainTask> mainTask { get; set; }
@@ -42,9 +42,9 @@ namespace MBO_API.Controllers
 
             return taskList.ToList();
         }
-        
-        // GET: api/MainTasks?type=created        
-        public TaskListResult GetMainTask(string type, string filter = "", string orderby = "DateDue", int page = 1, int pagesize = 3)
+
+        // GET: api/MainTasks?type=created
+        public TaskListResult GetMainTask(string type, string filter = "", string orderby = "DateDue", int page = 1, int pagesize = 12)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             var last_page = 0;
@@ -78,16 +78,16 @@ namespace MBO_API.Controllers
                                select m;
                     break;
             }
-            
+
             if (!string.IsNullOrWhiteSpace(filter))
             {
                 taskList = taskList.Where(t => t.Description.Contains(filter) || t.Title.Contains(filter));
             }
 
-            var count = taskList.Count();            
+            var count = taskList.Count();
             var mod = count % pagesize;
             last_page = mod > 0 ? ((count - mod) / pagesize) + 1: count/pagesize;
-            
+
             return new TaskListResult
             {
                 mainTask = taskList.OrderByDescending(m => m.DateDue).Skip(pagesize * (page - 1)).Take(pagesize).Include(m => m.AssignedTo).ToList(),
@@ -176,7 +176,7 @@ namespace MBO_API.Controllers
 
             //Add default progress histry and comment
             var progressHisotry = new ProgressHistory()
-            {                
+            {
                 MainTaskID = mainTask.MainTaskID
             };
             db.ProgressHistories.Add(progressHisotry);

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace MBO_API.Models
 {
@@ -23,7 +21,7 @@ namespace MBO_API.Models
         public string Description { get; set; }
 
         public DateTime Time { get; set; }
-                
+
         public string SenderID { get; set; }
 
         [Required]
@@ -35,6 +33,6 @@ namespace MBO_API.Models
         public virtual ApplicationUser Sender { get; set; }
 
         [InverseProperty("MessagesReceived")]
-        public virtual ApplicationUser Receiver { get; set; }        
+        public virtual ApplicationUser Receiver { get; set; }
     }
 }

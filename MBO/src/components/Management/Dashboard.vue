@@ -4,39 +4,35 @@
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksCreatedCount">0</span>
-          <br/>
-          <span style="font-size: small; opacity: 0.75;">Created</span>
-        </span>        
+        <br/>
+        <span style="font-size: small; opacity: 0.75;">Created</span>
+        </span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksAssignedCount">0</span>
-          <br/>
-          <span style="font-size: small; opacity: 0.75;">Assigned</span></span>
+        <br/>
+        <span style="font-size: small; opacity: 0.75;">Assigned</span></span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksCompletedCount">0</span>
-          <br/>
-          <span style="font-size: small; opacity: 0.75;">Completed</span></span>
+        <br/>
+        <span style="font-size: small; opacity: 0.75;">Completed</span></span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.LogsCount">0</span>
-          <br/>
-          <span style="font-size: small; opacity: 0.75;">Comments</span></span>
+        <br/>
+        <span style="font-size: small; opacity: 0.75;">Comments</span></span>
       </md-layout>
     </md-layout>
     <br/>
     <md-layout md-gutter="40">
       <md-layout md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
         <md-layout md-gutter>
-          <md-layout md-flex-small="100">
-            <bar-chart :options="{responsive: true, maintainAspectRatio: true}" class="chart-full-width"></bar-chart>
-          </md-layout>
-          <md-layout md-flex-small="100"></md-layout>
-          <md-layout md-flex-small="100"></md-layout>
-        </md-layout>        
+          <bar-chart :options="{responsive: true, maintainAspectRatio: true}" class="chart-full-width"></bar-chart>
+        </md-layout>
       </md-layout>
       <md-layout md-flex-xsmall="100" md-flex-small="30" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
         <md-list class="full-width">
@@ -97,7 +93,9 @@
         dashboard: {}
       }
     },
-    components: {'bar-chart': ChartTasks},
+    components: {
+      'bar-chart': ChartTasks
+    },
     mounted () {
       getDashboard().then(res => {
         this.$set(this, 'dashboard', res.data)
@@ -131,16 +129,16 @@
     text-shadow: 0 0 3px black;
   }
 
-  a .md-chip{
+  a .md-chip {
     float: right;
   }
 
-  .chart-full-width{
-    width:100%;
+  .chart-full-width {
+    width: 100%;
   }
 
-  .chart-full-width canvas{
-    width:100%;
+  .chart-full-width canvas {
+    width: 100%;
   }
 
 </style>

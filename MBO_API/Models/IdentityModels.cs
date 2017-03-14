@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
 
 namespace MBO_API.Models
@@ -27,7 +26,7 @@ namespace MBO_API.Models
 
         [DisplayName("Last Name")]
         public string LastName { get; set; }
-                
+
         public string FullName { get; }
 
         //[DisplayName("Role")]
@@ -63,7 +62,7 @@ namespace MBO_API.Models
             : base("MBO", throwIfV1Schema: false)
         {
         }
-        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
@@ -73,7 +72,7 @@ namespace MBO_API.Models
         public DbSet<Category> Category { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<Status> Status { get; set; }
-        public DbSet<Message> Message { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<ProgressHistory> ProgressHistories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -81,6 +80,6 @@ namespace MBO_API.Models
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             base.OnModelCreating(modelBuilder);
         }
-        
+
     }
 }
