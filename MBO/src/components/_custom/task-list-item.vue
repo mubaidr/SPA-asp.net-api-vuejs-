@@ -10,22 +10,26 @@
             {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
-        <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
+        <!--<md-menu md-size="5" md-direction="bottom left">
           <md-button class="md-icon-button" md-menu-trigger>
             <md-tooltip md-direction="top">Menu</md-tooltip>
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item @click.native="confirmDelete">
-              <span>Delete</span>
-              <md-icon>archive</md-icon>
+            <md-menu-item @click.native="details">
+              <span>Add Comment</span>
+              <md-icon>chat</md-icon>
+            </md-menu-item>
+            <md-menu-item>
+              <span>View Detail</span>
+              <md-icon>details</md-icon>
             </md-menu-item>
             <md-menu-item>
               <span>Update</span>
               <md-icon>mode_edit</md-icon>
             </md-menu-item>
           </md-menu-content>
-        </md-menu>
+        </md-menu>-->
       </md-card-header>
       <md-card-content style="padding-bottom: 0">
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
@@ -49,9 +53,17 @@
       </md-card-content>
       <md-card-actions class="custom-footer">
         <div v-show="isSelfCreated">
+          <md-button class="md-icon-button" @click.native="confirmDelete">
+            <md-tooltip md-direction="top">Archive</md-tooltip>
+            <md-icon>archive</md-icon>
+          </md-button>
+          <md-button class="md-icon-button" @click.native="viewDetails('edit')">
+            <md-tooltip md-direction="top">Update</md-tooltip>
+            <md-icon>mode_edit</md-icon>
+          </md-button>
           <md-menu md-direction="bottom left">
             <md-button class="md-icon-button" md-menu-trigger>
-              <md-tooltip md-direction="top">Priority</md-tooltip>
+              <md-tooltip md-direction="top">Progress</md-tooltip>
               <md-icon>trending_up</md-icon>
             </md-button>
             <md-menu-content>
@@ -273,6 +285,14 @@
 
   .theme-success .md-icon {
     color: #4caf50;
+  }
+
+  .card-cont .custom-footer {
+    visibility: hidden;
+  }
+
+  .card-cont:hover .custom-footer {
+    visibility: visible;
   }
 
 </style>

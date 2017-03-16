@@ -1,7 +1,7 @@
 <template>
   <!--<md-layout md-flex="20" md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33" class="card">-->
   <div class="card-cont">
-    <md-card md-with-hover class="md-card-custom">
+    <md-card class="md-card-custom">
       <md-card-header>
         <md-card-header-text>
           <div class="md-title" v-on:click="viewDetails()">
@@ -180,11 +180,4 @@
     color: #4caf50;
   }
 
-  .card-cont .custom-footer {
-    visibility: hidden;
-  }
-
-  .card-cont:hover .custom-footer {
-    visibility: visible;
-  }
 </style>

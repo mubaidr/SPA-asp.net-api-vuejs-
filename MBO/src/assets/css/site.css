@@ -289,11 +289,11 @@
 }
 
 .slide-up-enter {
-  transform: translateY(-500px);
+  transform: translateY(-100px);
 }
 
 .slide-up-leave {
-  transform: translateY(-200px);
+  transform: translateY(-50px);
 }
 
 
@@ -314,7 +314,7 @@
 }
 
 .slide-right-leave-active {
-  transform: translateX(50px);
+  transform: translateX(-50px);
 }
 
 
@@ -331,7 +331,7 @@
 }
 
 .slide-left-enter {
-  transform: translateX(100px);
+  transform: translateX(-100px);
 }
 
 .slide-left-leave-active {
