@@ -1,22 +1,22 @@
 <template>
   <div>
-    <md-whiteframe md-tag="section" class="full-width">
-      <md-toolbar class="md-transparent">
+    <!--<md-whiteframe md-tag="section" class="full-width">-->
+      <md-toolbar class="md-transparent  md-dense">
         <md-button class="md-icon-button" @click.native="$router.push({ path: '/dashboard' })">
           <md-tooltip md-direction="top">Dashboard</md-tooltip>
           <md-icon class="md-accent">arrow_back</md-icon>
         </md-button>
-        <span class="md-headline">Tasks</span>
+        <span>Tasks</span>
         <span style="flex: 1"></span>
         <md-button class="md-accent" @click.native="$router.push({path: '/tasks/trash'})">
           <md-tooltip md-direction="top">Archived</md-tooltip>
           Archived
         </md-button>
       </md-toolbar>
-    </md-whiteframe>
+    <!--</md-whiteframe>-->
     <br/>
     <md-whiteframe md-tag="section" md-elevation="0">
-      <md-tabs md-fixed @change="tabChange" md-elevation="2">
+      <md-tabs md-fixed @change="tabChange" md-elevation="1">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
           <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
           <md-layout md-gutter>

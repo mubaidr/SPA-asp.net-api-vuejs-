@@ -29,7 +29,7 @@
         </md-speed-dial>
       </div>
     </md-whiteframe>
-    <md-sidenav class="md-left" ref="leftSidenav">
+    <md-sidenav class="md-left md-fixed" ref="leftSidenav">
       <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">
         <div class="md-toolbar-container"></div>
         <div class="md-toolbar-container">
@@ -132,6 +132,11 @@
   } from 'services/account'
 
   export default {
+    watch: {
+      '$route' () {
+        window.setTimeout(this.$refs.leftSidenav.close, 500)
+      }
+    },
     computed: {
       isAuthenticated () {
         return this.$store.getters.isAuhtenticated
@@ -165,7 +170,8 @@
           path
         })
       }
-    }
+    },
+    mounted () {}
   }
 
 </script>
@@ -173,7 +179,7 @@
   .header-custom {
     margin-bottom: 1%;
   }
-  
+
   .add-task {
     bottom: -20%!important;
     right: 0.75%!important;

@@ -1,19 +1,19 @@
 <template>
   <div>
-    <md-whiteframe md-tag="section" class="full-width">
-      <md-toolbar class="md-transparent">
+    <!--<md-whiteframe md-tag="section" class="full-width">-->
+      <md-toolbar class="md-transparent md-dense">
         <md-button md-hide-small class="md-icon-button" @click.native="$router.push({ path: '/tasks' })">
           <md-tooltip md-direction="top">Tasks</md-tooltip>
           <md-icon class="md-accent">arrow_back</md-icon>
         </md-button>
-        <span class="md-headline">Archived Tasks</span>
+        <span>Archived Tasks</span>
         <span style="flex: 1"></span>
         <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
           <md-tooltip md-direction="top">Dashboard</md-tooltip>
           Dashboard
         </md-button>
       </md-toolbar>
-    </md-whiteframe>
+    <!--</md-whiteframe>-->
     <br/>
     <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
     <md-layout md-gutter>
