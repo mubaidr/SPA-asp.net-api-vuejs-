@@ -219,8 +219,8 @@
   }
 
   .md-card-custom {
-    min-width: 280px;
-    width: 98%;
+    min-width: 295px;
+    width: 99%;
     overflow-x: hidden;
   }
 
