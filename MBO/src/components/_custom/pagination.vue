@@ -2,7 +2,7 @@
   <md-layout>
     <md-layout md-hide-small></md-layout>
     <md-layout md-flex="33" md-flex-medium="100">
-      <md-whiteframe md-tag="section" class="full-width" md-elevation="0">
+      <md-whiteframe md-tag="section" class="full-width margin-bottom" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">
             <md-button md-hide-small class="md-icon-button" @click.native="firstPage" :disabled="paging.page == 1 || loading">
@@ -27,7 +27,7 @@
               <md-tooltip md-direction="top">Search</md-tooltip>
               <md-input v-model="paging.filter" @change="search" placeholder="Search"></md-input>
             </md-input-container>
-            <md-menu md-direction="bottom left" md-size="3">
+            <md-menu md-direction="bottom left" md-size="5">
               <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
                 <md-tooltip md-direction="top">Sort</md-tooltip>
                 <md-icon>sort</md-icon>
@@ -39,6 +39,21 @@
                 <md-menu-item v-for="sort in settings.taskView.sort" :disabled="sort.enabled">
                   <span>{{sort.name}} {{sort.type}}</span>
                   <md-icon>{{sort.icon}}</md-icon>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+            <md-menu md-direction="bottom left" md-size="5" :show="viewMenu">
+              <md-button md-menu-trigger class="md-icon-button" :disabled="loading">
+                <md-tooltip md-direction="top">View</md-tooltip>
+                <md-icon>dashboard</md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-subheader>
+                  <span>Change View</span>
+                </md-subheader>
+                <md-menu-item v-for="view in settings.taskView.view" :disabled="view.enabled" @click.native="changeView">
+                  <span>{{view.name}}</span>
+                  <md-icon>{{view.icon}}</md-icon>
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
@@ -54,7 +69,7 @@
   import _ from 'lodash'
   export default {
     name: 'pagination',
-    props: ['lastpage', 'count', 'loading'],
+    props: ['lastpage', 'count', 'loading', 'view-menu'],
     data () {
       return {
         paging: {
@@ -108,6 +123,9 @@
       },
       lastPage () {
         this.$set(this.paging, 'page', this.lastpage)
+      },
+      changeView () {
+        this.$store.commit('toggleViewMode')
       }
     },
     mounted () {
@@ -120,9 +138,13 @@
   .hidden {
     visibility: hidden;
   }
-  
+
   .md-input-container {
     max-width: 180px;
+  }
+
+  .margin-bottom{
+    margin-bottom: 20px;
   }
 
 </style>

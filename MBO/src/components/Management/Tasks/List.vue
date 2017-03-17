@@ -18,14 +18,15 @@
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="1">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
-          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" @refresh="search"></pagination>
+          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" @refresh="search"></pagination>
           <md-layout md-gutter>
-            <transition-group name="list-out" tag="ul" class="min-height no-padding">
-              <li class="list-out-item" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
-                <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name"></task-card>
+            <transition-group name="list-out" tag="ul" class="min-height no-padding full-width simple-list" v-if="TaskList.content.length">
+              <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
+                <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
               </li>
             </transition-group>
-            <div class="flex-vertical min-height full-width" v-show="!TaskList.content.length">
+            <div class="flex-vertical min-height full-width" v-else>
               <div class="no-content">
                 <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
                 <span v-if="TaskList.loading">Loading...</span>
@@ -46,6 +47,7 @@
 <script>
   import pagination from 'components/_custom/pagination.vue'
   import taskCard from 'components/_custom/task-card.vue'
+  import taskListItem from 'components/_custom/task-list-item.vue'
   import {
     listAssigned,
     listCreated,
@@ -56,6 +58,7 @@
     name: 'task-list-all',
     components: {
       'task-card': taskCard,
+      'task-list-item': taskListItem,
       'pagination': pagination
     },
     data () {
@@ -112,6 +115,14 @@
     computed: {
       settings () {
         return this.$store.getters.getSettings
+      },
+      activeView () {
+        var _self = this
+        for (var i = 0; i < _self.settings.taskView.view.length; i++) {
+          if (_self.settings.taskView.view[i].enabled) {
+            return _self.settings.taskView.view[i].name
+          }
+        }
       }
     },
     methods: {
@@ -253,6 +264,12 @@
 
   .md-tab {
     padding: 16px 2px;
+  }
+
+  .simple-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
 </style>

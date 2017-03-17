@@ -46,7 +46,7 @@
   import moment from 'moment'
 
   export default {
-    name: 'task-list-item',
+    name: 'task-list-item-trash',
     props: ['Task', 'Type'],
     data () {
       return {

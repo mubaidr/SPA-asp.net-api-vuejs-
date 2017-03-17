@@ -7,7 +7,7 @@ Vue.use(Vuex)
 const state = {
   auth: session.getAuth(),
   userinfo: session.getUserInfo(),
-  settings: {
+  settings: session.getSettings() || {
     taskView: {
       sort: [{
         name: 'Priority',
@@ -34,7 +34,17 @@ const state = {
         type: '',
         enabled: false
       }
-      ]
+      ],
+      view: [{
+        name: 'Card',
+        icon: 'view_module',
+        enabled: true
+      },
+      {
+        name: 'List',
+        icon: 'view_list',
+        enabled: false
+      }]
     }
   }
 }
@@ -53,10 +63,11 @@ const mutations = {
     state.userinfo = null
     session.clear()
   },
-  setViewMode (state, view) {
-    if (view.type) {
-      state.settings.view.type = view.type
+  toggleViewMode (state) {
+    for (var i = 0; i < state.settings.taskView.view.length; i++) {
+      state.settings.taskView.view[i].enabled = !state.settings.taskView.view[i].enabled
     }
+    session.setSettings(state.settings)
   }
 }
 

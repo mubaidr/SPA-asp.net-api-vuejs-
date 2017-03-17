@@ -138,10 +138,6 @@
     padding-top: 0!important;
   }
 
-  .md-caption {
-    /*margin-top: 10px;*/
-  }
-
   .md-caption ul {
     list-style: none;
     padding-left: 0;

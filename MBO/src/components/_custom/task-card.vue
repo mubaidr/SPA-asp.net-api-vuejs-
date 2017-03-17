@@ -1,24 +1,23 @@
 <template>
   <div class="card-cont">
     <md-card class="md-card-custom">
+      <md-ink-ripple />
       <md-card-header>
         <md-card-header-text>
           <div class="md-title text-primary" v-on:click="viewDetails()">
             {{Task.Title}}</div>
           <div class="md-subhead" v-on:click="viewDetails()">
-            <md-tooltip md-direction="top">Task is assigned by this User</md-tooltip>
             {{Task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
         <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
           <md-button class="md-icon-button" md-menu-trigger>
-            <md-tooltip md-direction="top">Menu</md-tooltip>
             <md-icon>more_vert</md-icon>
           </md-button>
           <md-menu-content>
             <md-menu-item @click.native="confirmDelete">
               <span>Delete</span>
-              <md-icon>archive</md-icon>
+              <md-icon>delete</md-icon>
             </md-menu-item>
             <md-menu-item>
               <span>Update</span>
@@ -35,11 +34,9 @@
           <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
           <md-icon :class="typeAnimate()" class="pull-right">{{typeIcon()}}</md-icon>
         </div>
-        <md-tooltip md-direction="top">Progress and Status</md-tooltip>
         <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
-        <md-tooltip md-direction="top">Task is assigned to followiung Users</md-tooltip>
         <div class="md-caption" v-show="Task.AssignedTo.length">
           <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
         </div>
@@ -51,7 +48,6 @@
         <div v-show="isSelfCreated">
           <md-menu md-direction="bottom left">
             <md-button class="md-icon-button" md-menu-trigger>
-              <md-tooltip md-direction="top">Priority</md-tooltip>
               <md-icon>trending_up</md-icon>
             </md-button>
             <md-menu-content>
@@ -63,7 +59,6 @@
           </md-menu>
         </div>
         <md-button class="md-icon-button" @click.native="viewDetails('comment')">
-          <md-tooltip md-direction="top">Comment</md-tooltip>
           <md-icon>chat</md-icon>
         </md-button>
       </md-card-actions>
@@ -231,10 +226,6 @@
 
   .md-card-custom .md-card-content:last-child {
     padding-top: 0!important;
-  }
-
-  .md-caption {
-    /*margin-top: 10px;*/
   }
 
   .md-caption ul {

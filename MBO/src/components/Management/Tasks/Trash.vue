@@ -15,14 +15,15 @@
       </md-toolbar>
     <!--</md-whiteframe>-->
     <br/>
-    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" @refresh="loadTrash"></pagination>
+    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false" @refresh="loadTrash"></pagination>
     <md-layout md-gutter>
-      <transition-group name="list-out" tag="ul" class="no-padding">
-        <li class="list-out-item" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
-          <task-card-trash @remove-task-item="removeTaskItem" :Task="Task"></task-card-trash>
+      <transition-group name="list-out" tag="ul" class="min-height no-padding full-width simple-list" v-if="Tasks.Trash.content.length">
+        <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
+          <task-card-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'Card'"></task-card-trash>
+          <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
         </li>
       </transition-group>
-      <div class="flex-vertical min-height full-width" v-show="!Tasks.Trash.content.length">
+      <div class="flex-vertical min-height full-width" v-else>
         <div class="no-content">
           <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
           <span v-if="Tasks.Trash.loading">Loading...</span>
@@ -39,6 +40,7 @@
 </template>
 <script>
   import taskCardTrash from 'components/_custom/task-card-trash.vue'
+  import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
   import pagination from 'components/_custom/pagination.vue'
   import {
     listTrash
@@ -48,6 +50,7 @@
     name: 'task-list-trash',
     components: {
       'task-card-trash': taskCardTrash,
+      'task-list-item-trash': taskListItemTrash,
       'pagination': pagination
     },
     data () {
@@ -75,6 +78,19 @@
           _self.$refs.snackbar.open()
         } else {
           _self.$refs.snackbar.close()
+        }
+      }
+    },
+    computed: {
+      settings () {
+        return this.$store.getters.getSettings
+      },
+      activeView () {
+        var _self = this
+        for (var i = 0; i < _self.settings.taskView.view.length; i++) {
+          if (_self.settings.taskView.view[i].enabled) {
+            return _self.settings.taskView.view[i].name
+          }
         }
       }
     },
@@ -137,4 +153,9 @@
     margin-bottom: 10px;
   }
 
+  .simple-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 </style>
