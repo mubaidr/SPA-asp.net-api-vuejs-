@@ -11,27 +11,38 @@ const state = {
     taskView: {
       sort: [{
         name: 'Priority',
+        code: 'PriorityUp',
+        icon: 'keyboard_arrow_up',
+        enabled: false
+      },
+      {
+        name: 'Priority',
+        code: 'PriorityDown',
         icon: 'keyboard_arrow_down',
-        type: '',
         enabled: false
       },
       {
         name: 'Due Time',
+        code: 'DueTimeUp',
         icon: 'keyboard_arrow_down',
-        type: '',
-        enabled: true
-      }
-      ],
-      filter: [{
-        name: 'Users',
-        icon: 'keyboard_arrow_down',
-        type: '',
         enabled: false
       },
       {
-        name: 'Categories',
+        name: 'Due Time',
+        code: 'DueTimeDown',
         icon: 'keyboard_arrow_down',
-        type: '',
+        enabled: true
+      },
+      {
+        name: 'Assigned Time',
+        code: 'AssignedTimeUp',
+        icon: 'keyboard_arrow_down',
+        enabled: false
+      },
+      {
+        name: 'Assigned Time',
+        code: 'AssignedTimeDown',
+        icon: 'keyboard_arrow_down',
         enabled: false
       }
       ],

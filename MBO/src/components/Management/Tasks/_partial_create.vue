@@ -41,10 +41,10 @@
         <!--<app-message></app-message>-->
       </md-card-content>
       <md-card-actions>        
-        <md-button md-hide-small class="md-accent" @click.native="$router.push({ path: '/tasks' })">
+        <!--<md-button md-hide-small class="md-accent" @click.native="$router.push({ path: '/tasks' })">
           <md-tooltip md-direction="top">Tasks</md-tooltip>
           Tasks
-        </md-button>
+        </md-button>-->
         <md-button id="btn-Submit" class="md-raised md-accent" @click.native="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>

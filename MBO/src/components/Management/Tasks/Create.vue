@@ -8,8 +8,14 @@
         </md-button>
         <span>Create Task</span>
         <span style="flex: 1"></span>
+        <md-button class="md-accent" @click.native="$router.push({path: '/tasks/'})">
+          <md-tooltip md-direction="top">Archived</md-tooltip>
+          <md-icon>assignment</md-icon>
+          Tasks
+        </md-button>
         <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
           <md-tooltip md-direction="top">Dashboard</md-tooltip>
+          <md-icon>dashboard</md-icon>
           Dashboard
         </md-button>
       </md-toolbar>

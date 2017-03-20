@@ -74,7 +74,7 @@
       return {
         paging: {
           page: 1,
-          orderby: '',
+          orderby: 'DueTimeDown',
           filter: ''
         },
         searchOptions: {
