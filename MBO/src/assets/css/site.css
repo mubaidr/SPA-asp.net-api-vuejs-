@@ -64,6 +64,11 @@
   text-align: right;
 }
 
+.text-left {
+  text-align: left;
+}
+
+
 .right-align {
   text-align: right;
 }
