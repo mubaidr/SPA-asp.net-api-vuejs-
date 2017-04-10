@@ -13,7 +13,6 @@ import Error500 from 'components/Error/Error500'
 import Signin from 'components/Account/Signin'
 import Signup from 'components/Account/Signup'
 import Profile from 'components/Account/Profile'
-// import Signout from 'components/Account/Signout'
 import Recover from 'components/Account/Recover'
 // Data
 import Dashboard from 'components/Management/Dashboard.vue'
@@ -25,7 +24,10 @@ import TasksList from 'components/Management/Tasks/List.vue'
 import TasksTrash from 'components/Management/Tasks/Trash.vue'
 import TasksCreate from 'components/Management/Tasks/Create.vue'
 import TasksDetails from 'components/Management/Tasks/Details.vue'
-// TODO Messages
+// Messages
+import Messages from 'components/Management/Messages/Index.vue'
+import MessagesInbox from 'components/Management/Messages/Inbox.vue'
+import MessagesTrash from 'components/Management/Messages/Trash.vue'
 
 Vue.use(Router)
 
@@ -115,6 +117,20 @@ const router = new Router({
       path: 'details',
       component: TasksDetails
     }]
+  },
+  {
+    path: '/messages',
+    component: Messages,
+    meta: {
+      requiresAuth: true
+    },
+    children: [{
+      path: '',
+      component: MessagesInbox
+    },
+    {
+      path: 'trash',
+      component: MessagesTrash}]
   }, {
     path: '*',
     redirect: '/error/404'

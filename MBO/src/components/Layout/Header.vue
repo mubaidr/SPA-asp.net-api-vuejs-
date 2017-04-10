@@ -22,7 +22,7 @@
             <md-tooltip md-direction="top">Assigment</md-tooltip>
             <md-icon>assignment</md-icon>
           </md-button>
-          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/messages/create')">
+          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/messages')">
             <md-tooltip md-direction="top">Message</md-tooltip>
             <md-icon>chat</md-icon>
           </md-button>

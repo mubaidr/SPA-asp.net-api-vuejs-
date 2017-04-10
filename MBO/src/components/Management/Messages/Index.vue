@@ -1,5 +1,5 @@
 <template>
-  <transition :name="transitionName" mode="out-in">
+  <transition>
     <router-view></router-view>
   </transition>
 </template>

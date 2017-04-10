@@ -5,6 +5,9 @@
   </div>
 </template>
 <script>
+  import {
+    getUsersList
+  } from 'services/account'
 
   export default {
     name: 'message-create',
