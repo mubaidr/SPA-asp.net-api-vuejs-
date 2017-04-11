@@ -38,26 +38,25 @@
       </md-layout>
       <md-layout>
         <md-progress class="md-primary" :class="{hidden: !ActiveChat.loading }" md-indeterminate></md-progress>
-        <pre>
-          {{ Catalog.loading }}
-        </pre>
+        <div class="scroll">
+          <ul class="chat-list">
+            <li v-for="chat in ActiveChat.data">
+              <pre>{{chat}}</pre>
+            </li>
+          </ul>
+        </div>
       </md-layout>
-      <md-layout></md-layout>
     </md-layout>
   </div>
 </template>
 <script>
-  import {
-    getUsersList
-  } from 'services/account'
+  import _ from 'lodash'
+  import { getAllContacts, getMessages } from 'services/messages'
 
   export default {
     name: 'message-create',
     data () {
       return {
-        Page: {
-          loading: false
-        },
         ActiveChat: {
           loading: false,
           data: []
@@ -70,8 +69,10 @@
       }
     },
     watch: {
-      'ActiveUser' (a, b, c) {
-        console.log(a, b, c)
+      'ActiveUser' (user) {
+        var _self = this
+        _self.$set(_self.ActiveChat, 'loading', true)
+        _self.fetchMessages()
       }
     },
     computed: {
@@ -85,17 +86,31 @@
         if (user.Id !== _self.ActiveUser.Id) {
           _self.$set(_self, 'ActiveUser', user)
         }
-      }
+      },
+      fetchMessages: _.debounce(function () {
+        const _self = this
+        getMessages({
+          contact: _self.ActiveUser.Id
+        }).then(res => {
+          _self.ActiveChat = {
+            data: res.data,
+            loading: false
+          }
+        }).catch(err => { console.log(err.response) })
+      }, 500, {
+        leading: false,
+        trailing: true
+      })
     },
     mounted () {
       const _self = this
-      getUsersList().then(res => {
+      getAllContacts().then(res => {
         _self.Catalog = {
           Users: res.data,
           loading: false
         }
       }).catch(err => {
-        console.log(err)
+        console.log(err.response)
       })
     }
   }

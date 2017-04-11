@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using MBO_API.Models;
+using Microsoft.AspNet.Identity;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
-using MBO_API.Models;
-using Microsoft.AspNet.Identity;
 
 namespace MBO_API.Controllers
 {
@@ -15,16 +15,18 @@ namespace MBO_API.Controllers
         public IQueryable<Message> GetMessages(string contact)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
-            return db.Messages.Where(m => (m.SenderID == userId || m.SenderID == contact) || (m.ReceiverID == userId || m.ReceiverID == contact));
+            return db.Messages.Where(m => (m.SenderID == userId && m.ReceiverID == contact) || (m.SenderID == contact || m.ReceiverID == userId)).OrderBy(m => m.Time);
         }
 
-        // GET: api/Messages/5
+        // GET: api/Messages/GetAllContacts
+        [Route("api/Messages/GetAllContacts")]
         public IQueryable<ApplicationUser> GetAllContacts()
         {
             return db.Users;
         }
 
-        // GET: api/Messages/5
+        // GET: api/Messages/GetContacts
+        [Route("api/Messages/GetContacts")]
         public IQueryable<ApplicationUser> GetContacts()
         {
             var userId = RequestContext.Principal.Identity.GetUserId();

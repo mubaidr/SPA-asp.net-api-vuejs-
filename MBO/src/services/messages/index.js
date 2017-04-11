@@ -1,8 +1,8 @@
 export {
-  GetAllContacts,
+  getAllContacts,
   getContacts,
-  get,
-  post
+  getMessages,
+  postMessage
 }
 
 import api from 'api'
@@ -10,19 +10,19 @@ import axios from 'utilities/axios'
 
 const path = '/api/Messages'
 
-function GetAllContacts () {
-  return axios.post(api.url)
+function getAllContacts () {
+  return axios.get(api.url + path + '/getAllContacts')
 }
 
 function getContacts (obj) {
-  return axios.post(api.url + path, obj)
+  return axios.get(api.url + path + '/getContacts', obj)
 }
 
-function get (obj) {
+function getMessages (obj) {
   return axios.get(api.url + path, obj)
 }
 
-function post (obj) {
+function postMessage (obj) {
   return axios.post(api.url + path, obj)
 }
 
