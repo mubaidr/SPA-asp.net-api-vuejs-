@@ -122,15 +122,15 @@
     color: #fff;
     text-shadow: 0 0 3px black;
   }
-
+  
   a .md-chip {
     float: right;
   }
-
+  
   .chart-full-width {
     width: 100%;
   }
-
+  
   .chart-full-width canvas {
     width: 100%;
   }

@@ -130,7 +130,8 @@ const router = new Router({
     },
     {
       path: 'trash',
-      component: MessagesTrash}]
+      component: MessagesTrash
+    }]
   }, {
     path: '*',
     redirect: '/error/404'

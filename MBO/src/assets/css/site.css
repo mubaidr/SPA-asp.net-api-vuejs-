@@ -30,7 +30,9 @@
   width: 100%;
 }
 
-
+.hidden{
+  visibility: hidden;
+}
 
 .no-padding {
   padding: 0;
