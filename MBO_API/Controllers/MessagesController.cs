@@ -6,13 +6,14 @@ using System.Web.Http.Description;
 
 namespace MBO_API.Controllers
 {
-    [Authorize]
+    // TODO add document/file attach
+    // [Authorize]
     public class MessagesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Messages
-        public IQueryable<Message> GetMessages(string contact)
+        public IQueryable<Message> GetMessages([FromBody]string contact)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             return db.Messages.Where(m => (m.SenderID == userId && m.ReceiverID == contact) || (m.SenderID == contact || m.ReceiverID == userId)).OrderBy(m => m.Time);
