@@ -127,7 +127,7 @@
       filteredContacts () {
         var _self = this
         return _self.Catalog.Users.filter((item) => {
-          return (item.Email.includes(_self.Filter.contact) || item.UserName.includes(_self.Filter.contact) || item.FullName.includes(_self.Filter.contact))
+          return (item.Email.includes(_self.Filter.contact) || item.UserName.includes(_self.Filter.contact) || (item.FullName && item.FullName.includes(_self.Filter.contact)))
         })
       }
     },
