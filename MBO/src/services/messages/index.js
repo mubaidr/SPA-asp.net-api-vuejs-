@@ -14,12 +14,12 @@ function getAllContacts () {
   return axios.get(api.url + path + '/getAllContacts')
 }
 
-function getContacts (obj) {
-  return axios.get(api.url + path + '/getContacts', obj)
+function getContacts () {
+  return axios.get(api.url + path + '/getContacts')
 }
 
 function getMessages (obj) {
-  return axios.get(api.url + path, obj)
+  return axios.get(api.url + path + '?contact=' + obj.contact)
 }
 
 function postMessage (obj) {

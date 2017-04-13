@@ -1,5 +1,6 @@
 ﻿using MBO_API.Models;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
@@ -13,7 +14,7 @@ namespace MBO_API.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Messages
-        public IQueryable<Message> GetMessages([FromBody]string contact)
+        public IQueryable<Message> GetMessages(string contact)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             return db.Messages.Where(m => (m.SenderID == userId && m.ReceiverID == contact) || (m.SenderID == contact || m.ReceiverID == userId)).OrderBy(m => m.Time);
@@ -49,6 +50,10 @@ namespace MBO_API.Controllers
         [ResponseType(typeof(Message))]
         public IHttpActionResult PostMessage(Message message)
         {
+            var userId = RequestContext.Principal.Identity.GetUserId();
+            message.Time = DateTime.Now;
+            message.SenderID = userId;
+            message.IsRead = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
