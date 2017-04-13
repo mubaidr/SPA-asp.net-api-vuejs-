@@ -30,20 +30,28 @@
       <md-layout md-flex-small="33" md-flex="20">
         <md-whiteframe md-tag="section" class="full-width">
           <md-progress class="md-primary" :class="{hide: !Catalog.loading }" md-indeterminate></md-progress>
+          <div class="padded-container">
+            <md-input-container>
+              <label>Search</label>
+              <md-input v-model="Filter.contact"></md-input>
+            </md-input-container>
+          </div>
           <ul class="contact-list">
-            <li v-for="user in Catalog.Users" class="full-width text-left" @click="openChat(user)" :class="{'active' : ActiveUser && user.Id == ActiveUser.Id}">
+            <li v-for="user in filteredContacts" class="full-width text-left" @click="openChat(user)" :class="{'active' : ActiveChat.user && user.Id == ActiveChat.user.Id}">
               <md-icon>account_circle</md-icon>
               <span>{{ user.Email }}</span>
             </li>
           </ul>
+          <pre>{{Filter.contact}}</pre>
+          <pre>{{filteredContacts}}</pre>
         </md-whiteframe>
       </md-layout>
       <md-layout>
         <md-whiteframe md-tag="section" class="full-width">
           <md-progress class="md-primary" :class="{hide: !ActiveChat.loading }" md-indeterminate></md-progress>
           <div class="padded-container">
-            <div class="scroll">
-              <div v-if="ActiveUser != null">
+            <div class="scroll" ref="scrollContainer">
+              <div v-if="ActiveChat.user != null">
                 <ul class="chat-list" v-if="ActiveChat.data.length">
                   <li v-for="chat in ActiveChat.data">
                     <pre>{{chat}}</pre>
@@ -52,7 +60,7 @@
                 <div v-else>
                   <p class="text-center">
                     <span class="md-caption">Say hello!</span>
-                    <p class="text-center">This is beigning of your conversation with {{ActiveUser.Email}}</p>
+                    <p class="text-center">This is beigning of your conversation with {{ActiveChat.user.Email}}</p>
                   </p>
                 </div>
               </div>
@@ -67,7 +75,7 @@
               </div>
             </div>
             <br/>
-            <div v-if="ActiveUser != null">
+            <div v-if="ActiveChat.user != null" class="message-draft">
               <md-input-container>
                 <label>Write your message here...</label>
                 <md-input v-model="ActiveChat.message" @keyup.enter.native="sendMessage"></md-input>
@@ -91,19 +99,22 @@
     data () {
       return {
         ActiveChat: {
+          user: null,
           message: null,
           loading: false,
           data: []
         },
-        ActiveUser: null,
         Catalog: {
           loading: true,
           Users: []
+        },
+        Filter: {
+          contact: ''
         }
       }
     },
     watch: {
-      'ActiveUser' (user) {
+      'ActiveChat.user' (user) {
         var _self = this
         _self.$set(_self.ActiveChat, 'loading', true)
         _self.fetchMessages()
@@ -112,28 +123,35 @@
     computed: {
       userInfo () {
         return this.$store.getters.getUserInfo
+      },
+      filteredContacts () {
+        var _self = this
+        return _self.Catalog.Users.filter((item) => {
+          return (item.Email.includes(_self.Filter.contact) || item.UserName.includes(_self.Filter.contact) || item.FullName.includes(_self.Filter.contact))
+        })
       }
     },
     methods: {
+      scrollChat () {
+        this.$refs['scrollContainer'].scrollTop = this.$refs['scrollContainer'].scrollHeight
+      },
       sendMessage () {
         console.log(this.ActiveChat)
       },
       openChat (user) {
         var _self = this
-        if (!_self.ActiveUser || user.Id !== _self.ActiveUser.Id) {
-          _self.$set(_self, 'ActiveUser', user)
+        if (!_self.ActiveChat.user || user.Id !== _self.ActiveChat.user.Id) {
+          _self.$set(_self.ActiveChat, 'user', user)
         }
       },
       fetchMessages: _.debounce(function () {
         const _self = this
         getMessages({
-          contact: _self.ActiveUser.Id
+          contact: _self.ActiveChat.user.Id
         }).then(res => {
-          _self.ActiveChat = {
-            data: res.data,
-            loading: false,
-            message: null
-          }
+          _self.$set(_self.ActiveChat, 'data', res.data)
+          _self.$set(_self.ActiveChat, 'loading', false)
+          _self.$set(_self.ActiveChat, 'message', null)
         }).catch(err => { console.log(err.response) })
       }, 500, {
         leading: false,
@@ -168,16 +186,11 @@
     cursor: pointer;
     margin: 0;
     padding: 15px;
-    border: 1px solid #efefef;
-    border-bottom: none;
-    color: rgba(0, 0, 0, 0.75);
+    border-bottom: 1px solid #efefef;
+    color: rgba(0, 0, 0, 0.7);
     transition: background-color 0.5s ease-out;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-  
-  .contact-list li:last-child {
-    border-bottom: 1px solid #efefef;
   }
   
   .contact-list li:not(.active):hover {
@@ -187,8 +200,7 @@
   
   .contact-list li.active {
     color: #3f51b5;
-    background-color: rgba(63, 81, 181, 0.05);
-    border-color: rgba(63, 81, 181, 0.1);
+    background-color: rgba(63, 81, 181, 0.1);
   }
   
   .padded-container {
@@ -208,7 +220,7 @@
     width: 100%;
   }
   
-  .md-input-container {
+  .message-draft .md-input-container {
     width: 94%;
   }
 

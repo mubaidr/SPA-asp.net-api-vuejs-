@@ -23,7 +23,8 @@ namespace MBO_API.Controllers
         [Route("api/Messages/GetAllContacts")]
         public IQueryable<ApplicationUser> GetAllContacts()
         {
-            return db.Users;
+            var userId = RequestContext.Principal.Identity.GetUserId();
+            return db.Users.Where(u => u.Id != userId);
         }
 
         // GET: api/Messages/GetContacts
@@ -41,7 +42,7 @@ namespace MBO_API.Controllers
                             select m.Sender
                             );
 
-            return contacts;
+            return contacts.Where(u => u.Id != userId);
         }
 
         // POST: api/Messages
