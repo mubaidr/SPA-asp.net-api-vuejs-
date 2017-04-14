@@ -1,37 +1,55 @@
 <template>
   <div>
-    <!--<md-whiteframe md-tag="section" class="full-width">-->
+
     <md-toolbar class="md-transparent md-dense">
-      <md-button class="md-icon-button md-accent" @click.native="$router.push({path: '/dashboard' })">
-        <md-tooltip md-direction="top">Dashboard</md-tooltip>
-        <md-icon>arrow_back</md-icon>
-      </md-button>
-      <span>Inbox</span>
-      <span style="flex: 1"></span>
-      <md-button class="md-accent" @click.native="$router.push({path: '/tasks'})">
-        <md-tooltip md-direction="top">Tasks</md-tooltip>
-        <md-icon>assignment</md-icon>
-        Tasks
-      </md-button>
-      <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
-        <md-tooltip md-direction="top">Dashboard</md-tooltip>
-        <md-icon>dashboard</md-icon>
-        Dashboard
-      </md-button>
+      <div class="md-toolbar-container">
+        <md-button class="md-icon-button md-accent" @click.native="$router.push({path: '/dashboard' })">
+          <md-tooltip md-direction="top">Dashboard</md-tooltip>
+          <md-icon>arrow_back</md-icon>
+        </md-button>
+        <span>Inbox</span>
+        <span style="flex: 1"></span>
+        <md-button class="md-accent" @click.native="$router.push({path: '/tasks'})">
+          <md-tooltip md-direction="top">Tasks</md-tooltip>
+          <md-icon>assignment</md-icon>
+          Tasks
+        </md-button>
+        <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
+          <md-tooltip md-direction="top">Dashboard</md-tooltip>
+          <md-icon>dashboard</md-icon>
+          Dashboard
+        </md-button>
+      </div>
     </md-toolbar>
-    <!--</md-whiteframe > -->
+    <md-whiteframe md-tag="section" class="full-width">
+      <md-toolbar class="md-transparent md-dense">
+        <div class="md-toolbar-container">
+          <md-button class="md-accent">
+            <md-tooltip md-direction="top">Create new message</md-tooltip>
+            <md-icon>mail</md-icon>
+            <span>Compose</span>
+          </md-button>
+          <span style="flex: 1"></span>
+          <md-button class="md-accent" @click.native="$router.push({path: '/tasks'})">
+            <md-tooltip md-direction="top">Refresh</md-tooltip>
+            <md-icon>refresh</md-icon>
+            Refresh
+          </md-button>
+        </div>
+      </md-toolbar>
+    </md-whiteframe>
     <br />
     <md-layout md-gutter="24">
       <md-layout md-flex-small="33" md-flex="15">
         <md-whiteframe md-tag="section" class="full-width">
           <md-list class="mail-list">
-            <md-list-item @click.native="openFolder('inbox')" :class="{'active': ActiveFolder == 'inbox'}">
-              <md-icon>move_to_inbox</md-icon> <span>Inbox</span>
+            <md-list-item @click.native="openFolder('inbox')" :class="{'md-primary': ActiveFolder == 'inbox'}">
+              <md-icon>inbox</md-icon> <span>Inbox</span>
             </md-list-item>
-            <md-list-item @click.native="openFolder('inbox')" :class="{'active': ActiveFolder == 'sent'}">
+            <md-list-item @click.native="openFolder('inbox')" :class="{'md-primary': ActiveFolder == 'sent'}">
               <md-icon>send</md-icon> <span>Sent Mail</span>
             </md-list-item>
-            <md-list-item @click.native="openFolder('inbox')" :class="{'active': ActiveFolder == 'trash'}">
+            <md-list-item @click.native="openFolder('inbox')" :class="{'md-primary': ActiveFolder == 'trash'}">
               <md-icon>delete</md-icon> <span>Trash</span>
             </md-list-item>
           </md-list>
@@ -41,7 +59,7 @@
         <md-whiteframe md-tag="section" class="full-width">
           <md-progress class="md-primary" :class="{hide: !ActiveFolder.loading }" md-indeterminate></md-progress>
           <div class="padded-container">
-            load message list here
+            {{ActiveFolder.data}}
           </div>
         </md-whiteframe>
       </md-layout>
@@ -58,18 +76,13 @@
       return {
         ActiveFolder: {
           name: 'inbox',
+          filter: '',
           loading: false,
           data: []
         }
       }
     },
-    watch: {
-      'ActiveFolder.name' (folder) {
-        var _self = this
-        _self.$set(_self.ActiveChat, 'loading', true)
-        _self.fetchMessages()
-      }
-    },
+    watch: {},
     computed: {
       userInfo () {
         return this.$store.getters.getUserInfo
@@ -83,27 +96,27 @@
           var msg = _self.createMessage()
           _self.lastMessage = _self.ActiveChat.message
           postMessage(msg).then(res => {
-            var msgs = _self.ActiveChat.data
-            msgs.push(msg)
-            _self.$set(_self.ActiveChat, 'data', msgs)
-            _self.$set(_self.ActiveChat, 'message', null)
-            this.scrollChat()
+            // var msgs = _self.ActiveChat.data
+            // msgs.push(msg)
+            // _self.$set(_self.ActiveChat, 'data', msgs)
+            // _self.$set(_self.ActiveChat, 'message', null)
+            // this.scrollChat()
           }).catch(err => { console.log(err.data) })
         }
       },
       openFolder (folder) {
         var _self = this
-        _self.$set(_self, 'ActiveFolder', folder)
+        _self.$set(_self.ActiveFolder, 'name', folder)
+        _self.$set(_self.ActiveFolder, 'loading', true)
+        _self.fetchMessages()
       },
       fetchMessages: _.debounce(function () {
         const _self = this
         getMessages({
-          contact: _self.ActiveChat.user.Id
+          folder: _self.ActiveFolder.name
         }).then(res => {
-          _self.$set(_self.ActiveChat, 'data', res.data)
+          _self.$set(_self.ActiveFolder, 'data', res.data.message)
           _self.$set(_self.ActiveChat, 'loading', false)
-          _self.$set(_self.ActiveChat, 'message', null)
-          this.scrollChat()
         }).catch(err => { console.log(err.data) })
       }, 500, {
         leading: false,

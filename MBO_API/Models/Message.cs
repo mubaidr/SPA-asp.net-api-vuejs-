@@ -29,6 +29,8 @@ namespace MBO_API.Models
 
         public bool IsRead { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [InverseProperty("MessagesSent")]
         public virtual ApplicationUser Sender { get; set; }
 

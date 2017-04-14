@@ -19,7 +19,7 @@ function getContacts () {
 }
 
 function getMessages (obj) {
-  return axios.get(api.url + path + '?contact=' + obj.contact)
+  return axios.get(api.url + path + '?folder=' + obj.folder)
 }
 
 function postMessage (obj) {
