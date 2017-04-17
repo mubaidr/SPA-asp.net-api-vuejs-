@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <md-toolbar class="md-transparent md-dense">
       <div class="md-toolbar-container">
         <md-button class="md-icon-button md-accent" @click.native="$router.push({path: '/dashboard' })">

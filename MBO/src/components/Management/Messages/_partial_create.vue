@@ -54,7 +54,11 @@
         }
       }
     },
-    methods: {},
+    methods: {
+      formValidate () {
+
+      }
+    },
     mounted () {
       const _self = this
 

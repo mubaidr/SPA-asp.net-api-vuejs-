@@ -88,21 +88,26 @@ namespace MBO_API.Controllers
 
         // POST: api/Messages
         [ResponseType(typeof(Message))]
-        public IHttpActionResult PostMessage(Message message)
+        public IHttpActionResult PostMessage(ICollection<Message> message)
         {
-            var userId = RequestContext.Principal.Identity.GetUserId();
-            message.Time = DateTime.Now;
-            message.SenderID = userId;
-            message.IsRead = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Messages.Add(message);
+            var userId = RequestContext.Principal.Identity.GetUserId();
+            for (var i = 0; i < message.Count; i++)
+            {
+                var msg = message.ElementAt(i);
+                msg.Time = DateTime.Now;
+                msg.SenderID = userId;
+                msg.IsRead = false;
+
+                db.Messages.Add(msg);
+            }
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = message.MessageID }, message);
+            return CreatedAtRoute("DefaultApi", new { success = true }, message);
         }
 
         protected override void Dispose(bool disposing)
