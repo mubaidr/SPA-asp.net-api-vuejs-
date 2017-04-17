@@ -1,24 +1,24 @@
 <template>
   <div>
     <!--<md-whiteframe md-tag="section" class="full-width">-->
-      <md-toolbar class="md-transparent  md-dense">
-        <md-button class="md-icon-button" @click.native="$router.push({ path: '/dashboard' })">
-          <md-tooltip md-direction="top">Dashboard</md-tooltip>
-          <md-icon class="md-accent">arrow_back</md-icon>
-        </md-button>
-        <span>All Tasks</span>
-        <span style="flex: 1"></span>
-        <md-button class="md-accent" @click.native="$router.push({path: '/tasks/trash'})">
-          <md-tooltip md-direction="top">Archived</md-tooltip>
-          <md-icon>delete</md-icon>
-          Archived
-        </md-button>
-        <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
-          <md-tooltip md-direction="top">Dashboard</md-tooltip>
-          <md-icon>dashboard</md-icon>
-          Dashboard
-        </md-button>
-      </md-toolbar>
+    <md-toolbar class="md-transparent  md-dense">
+      <md-button class="md-icon-button" @click.native="$router.push({ path: '/dashboard' })">
+        <md-tooltip md-direction="top">Dashboard</md-tooltip>
+        <md-icon class="md-accent">arrow_back</md-icon>
+      </md-button>
+      <span>All Tasks</span>
+      <span style="flex: 1"></span>
+      <md-button class="md-accent" @click.native="$router.push({path: '/tasks/trash'})">
+        <md-tooltip md-direction="top">Archived</md-tooltip>
+        <md-icon>delete</md-icon>
+        Archived
+      </md-button>
+      <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
+        <md-tooltip md-direction="top">Dashboard</md-tooltip>
+        <md-icon>dashboard</md-icon>
+        Dashboard
+      </md-button>
+    </md-toolbar>
     <!--</md-whiteframe>-->
     <br/>
     <md-whiteframe md-tag="section" md-elevation="0">
@@ -36,7 +36,7 @@
               </transition-group>
               <div class="flex-vertical min-height full-width" v-else>
                 <div class="no-content">
-                  <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br/>
                   <span v-if="TaskList.loading">Loading...</span>
                   <span v-else>Awww... Nothing here!</span>
                   <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
@@ -259,24 +259,11 @@
 
 </script>
 <style scoped>
-  .no-content {
-    text-align: center;
-  }
-
-  .no-content span {
-    font-size: 1.25em;
-    opacity: 0.75;
-  }
-
-  .no-content i {
-    margin-bottom: 10px;
-  }
-
   .md-tab {
     padding: 16px 2px;
   }
-
-  .simple-list{
+  
+  .simple-list {
     list-style: none;
     padding: 0;
     margin: 0;
