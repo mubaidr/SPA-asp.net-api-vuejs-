@@ -44,22 +44,21 @@
         <md-whiteframe md-tag="section" class="full-width" v-else>
           <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length"
             :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
-          <md-list class="md-double-line" v-if="ActiveFolder.data.length">
+          <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
             <md-list-item v-for="chat in ActiveFolder.data">
+              <!--TODO add notficaiton for unread time-->
 
-              <div class="md-list-text-container">
-                <span>{{chat.Sender.Email}}</span>
+              <div class="md-list-text-container" :class="{'unread': !chat.IsRead}">
                 <span>{{chat.Description}}</span>
+                <span class="small">{{chat.Sender.Email}}</span>
+                <span class="small">{{formatDate(chat.Time)}}</span>
               </div>
 
               <md-button class="md-icon-button md-list-action">
-                <md-icon>delete</md-icon>
+                <md-icon class="md-accent">reply</md-icon>
               </md-button>
               <md-button class="md-icon-button md-list-action">
-                <md-icon>markunread</md-icon>
-              </md-button>
-              <md-button class="md-icon-button md-list-action">
-                <md-icon>reply</md-icon>
+                <md-icon class="md-accent">delete</md-icon>
               </md-button>
             </md-list-item>
           </md-list>
@@ -82,6 +81,7 @@
   import { getMessages, postMessage } from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
+  import moment from 'moment'
 
   export default {
     data () {
@@ -107,6 +107,9 @@
       }
     },
     methods: {
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YYYY')
+      },
       search () {
         const _self = this
         console.log('searching...', _self)
@@ -168,6 +171,30 @@
   
   .padded-container {
     padding: 20px;
+  }
+  
+  .md-custom-inbox {
+    padding: 0;
+  }
+  
+  .md-custom-inbox .md-list-item {
+    cursor: pointer;
+    padding: 10px 0;
+    border-color: #eee;
+    border-width: 1px;
+    border-style: solid;
+  }
+  
+  .md-custom-inbox .md-list-item:hover {
+    background-color: #eee;
+  }
+  
+  .md-custom-inbox .md-list-item .unread span {
+    color: #3f51b5;
+  }
+  
+  .small {
+    font-size: 0.75em;
   }
 
 </style>

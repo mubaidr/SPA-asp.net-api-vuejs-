@@ -1,27 +1,28 @@
 <template>
   <div>
     <!--<md-whiteframe md-tag="section" class="full-width">-->
-      <md-toolbar class="md-transparent md-dense">
-        <md-button md-hide-small class="md-icon-button" @click.native="$router.push({ path: '/tasks' })">
-          <md-tooltip md-direction="top">Tasks</md-tooltip>
-          <md-icon class="md-accent">arrow_back</md-icon>
-        </md-button>
-        <span>Archived Tasks</span>
-        <span style="flex: 1"></span>
-        <md-button class="md-accent" @click.native="$router.push({path: '/tasks/'})">
-          <md-tooltip md-direction="top">Archived</md-tooltip>
-          <md-icon>assignment</md-icon>
-          Tasks
-        </md-button>
-        <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
-          <md-tooltip md-direction="top">Dashboard</md-tooltip>
-          <md-icon>dashboard</md-icon>
-          Dashboard
-        </md-button>
-      </md-toolbar>
+    <md-toolbar class="md-transparent md-dense">
+      <md-button md-hide-small class="md-icon-button" @click.native="$router.push({ path: '/tasks' })">
+        <md-tooltip md-direction="top">Tasks</md-tooltip>
+        <md-icon class="md-accent">arrow_back</md-icon>
+      </md-button>
+      <span>Archived Tasks</span>
+      <span style="flex: 1"></span>
+      <md-button class="md-accent" @click.native="$router.push({path: '/tasks/'})">
+        <md-tooltip md-direction="top">Archived</md-tooltip>
+        <md-icon>assignment</md-icon>
+        Tasks
+      </md-button>
+      <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
+        <md-tooltip md-direction="top">Dashboard</md-tooltip>
+        <md-icon>dashboard</md-icon>
+        Dashboard
+      </md-button>
+    </md-toolbar>
     <!--</md-whiteframe>-->
     <br/>
-    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false" @refresh="loadTrash"></pagination>
+    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false"
+      :compact="true" @refresh="loadTrash"></pagination>
     <md-layout md-gutter>
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
       <md-layout md-gutter>
@@ -153,19 +154,20 @@
   .no-content {
     text-align: center;
   }
-
+  
   .no-content span {
     font-size: 1.25em;
     opacity: 0.75;
   }
-
+  
   .no-content i {
     margin-bottom: 10px;
   }
-
-  .simple-list{
+  
+  .simple-list {
     list-style: none;
     padding: 0;
     margin: 0;
   }
+
 </style>

@@ -2,33 +2,33 @@
   <md-layout>
     <md-layout md-hide-small :class="{'hide': fullWidth == true}"></md-layout>
     <md-layout md-flex-medium="100">
-      <md-whiteframe md-tag="section" class="full-width margin-bottom" md-elevation="0">
+      <md-whiteframe md-tag="section" class="full-width margin-bottom" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">
-            <md-button md-hide-small class="md-icon-button md-dense" @click.native="firstPage" :disabled="paging.page == 1 || loading">
+            <md-button md-hide-small class="md-icon-button md-accent md-dense" @click.native="firstPage" :disabled="paging.page == 1 || loading">
               <md-tooltip md-direction="top">First Page</md-tooltip>
               <md-icon>first_page</md-icon>
             </md-button>
-            <md-button class="md-icon-button md-dense" @click.native="previousPage" :disabled="paging.page == 1 || loading">
+            <md-button class="md-icon-button md-accent md-dense" @click.native="previousPage" :disabled="paging.page == 1 || loading">
               <md-tooltip md-direction="top">Previous Page</md-tooltip>
               <md-icon>chevron_left</md-icon>
             </md-button>
-            <span> Page {{paging.page}}/{{lastpage}} </span>
-            <md-button class="md-icon-button md-dense" @click.native="nextPage" :disabled="paging.page == lastpage || loading">
+            <span>&nbsp; Page {{paging.page}}/{{lastpage}} </span>
+            <md-button class="md-icon-button md-accent md-dense" @click.native="nextPage" :disabled="paging.page == lastpage || loading">
               <md-tooltip md-direction="top">Next Page</md-tooltip>
               <md-icon>chevron_right</md-icon>
             </md-button>
-            <md-button md-hide-small class="md-icon-button md-dense" @click.native="lastPage" :disabled="paging.page == lastpage || loading">
+            <md-button md-hide-small class="md-icon-button md-accent md-dense" @click.native="lastPage" :disabled="paging.page == lastpage || loading">
               <md-tooltip md-direction="top">Last Page</md-tooltip>
               <md-icon>last_page</md-icon>
             </md-button>
             <span style="flex: 1"></span>
-            <md-input-container md-inline>
+            <md-input-container md-theme="default">
               <md-tooltip md-direction="top">Search</md-tooltip>
               <md-input v-model="paging.filter" @change="search" placeholder="Search"></md-input>
             </md-input-container>
             <md-menu md-direction="bottom left" md-size="5" v-show="sortMenu">
-              <md-button md-menu-trigger class="md-icon-button md-dense" :disabled="loading">
+              <md-button md-menu-trigger class="md-icon-button md-accent md-dense" :disabled="loading">
                 <md-tooltip md-direction="top">Sort</md-tooltip>
                 <md-icon>sort</md-icon>
               </md-button>
@@ -43,7 +43,7 @@
               </md-menu-content>
             </md-menu>
             <md-menu md-direction="bottom left" md-size="5">
-              <md-button md-menu-trigger class="md-icon-button md-dense" :disabled="loading" v-show="viewMenu">
+              <md-button md-menu-trigger class="md-icon-button md-accent md-dense" :disabled="loading" v-show="viewMenu">
                 <md-tooltip md-direction="top">View</md-tooltip>
                 <md-icon>dashboard</md-icon>
               </md-button>
@@ -57,11 +57,19 @@
                 </md-menu-item>
               </md-menu-content>
             </md-menu>
-            <md-button class="md-button md-dense" :disabled="loading" @click.native="refresh">
-              <md-tooltip md-direction="top">Refresh</md-tooltip>
-              <md-icon>refresh</md-icon>
-              <span>Refresh</span>
-            </md-button>
+            <div v-if="compact">
+              <md-button class="md-icon-button md-accent md-dense" :disabled="loading" @click.native="refresh">
+                <md-tooltip md-direction="top">Refresh</md-tooltip>
+                <md-icon>refresh</md-icon>
+              </md-button>
+            </div>
+            <div v-else>
+              <md-button class="md-button md-accent md-dense" :disabled="loading" @click.native="refresh">
+                <md-tooltip md-direction="top">Refresh</md-tooltip>
+                <md-icon>refresh</md-icon>
+                <span>Refresh</span>
+              </md-button>
+            </div>
           </div>
         </md-toolbar>
         <md-progress class="md-accent" :class="{ hidden: !loading }" md-indeterminate></md-progress>
@@ -74,7 +82,7 @@
   import _ from 'lodash'
   export default {
     name: 'pagination',
-    props: ['lastpage', 'count', 'loading', 'view-menu', 'full-width', 'sort-menu', 'refresh-menu'],
+    props: ['lastpage', 'count', 'loading', 'view-menu', 'full-width', 'sort-menu', 'refresh-menu', 'compact'],
     data () {
       return {
         paging: {
@@ -148,8 +156,8 @@
     max-width: 180px;
   }
   
-  .margin-bottom {
-    margin-bottom: 20px;
+  .md-button {
+    margin-right: 0;
   }
 
 </style>

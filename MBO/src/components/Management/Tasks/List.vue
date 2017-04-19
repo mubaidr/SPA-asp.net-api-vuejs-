@@ -24,7 +24,8 @@
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="1">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
-          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" @refresh="search"></pagination>
+          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true"
+            @refresh="search"></pagination>
           <md-layout md-gutter>
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
             <md-layout md-gutter>
