@@ -15,6 +15,12 @@ namespace MBO_API.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public class MessageNew
+        {
+            public string Description { get; set; }
+            public ICollection<string> Receivers { get; set; }
+        }
+
         public class MessageListResult
         {
             public List<Message> message { get; set; }
@@ -87,24 +93,30 @@ namespace MBO_API.Controllers
         }
 
         // POST: api/Messages
-        [ResponseType(typeof(Message))]
-        public IHttpActionResult PostMessage(ICollection<Message> message)
+        [ResponseType(typeof(MessageNew))]
+        public IHttpActionResult PostMessage(MessageNew message)
         {
-            if (!ModelState.IsValid)
+            if (message.Description.Trim().Length < 0 || message.Receivers.Count < 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest();
             }
 
             var userId = RequestContext.Principal.Identity.GetUserId();
-            for (var i = 0; i < message.Count; i++)
-            {
-                var msg = message.ElementAt(i);
-                msg.Time = DateTime.Now;
-                msg.SenderID = userId;
-                msg.IsRead = false;
+            var description = message.Description;
 
-                db.Messages.Add(msg);
+            for (var i = 0; i < message.Receivers.Count; i++)
+            {
+                db.Messages.Add(new Message
+                {
+                    Description = description,
+                    Time = DateTime.Now,
+                    SenderID = userId,
+                    IsRead = false,
+                    IsDeleted = false,
+                    ReceiverID = message.Receivers.ElementAt(i)
+                });
             }
+
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { success = true }, message);

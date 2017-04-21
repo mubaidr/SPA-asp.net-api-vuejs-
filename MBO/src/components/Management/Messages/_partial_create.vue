@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-vertical min-height full-width">
-    <md-layout md-hide-small></md-layout>
+  <div class="full-width">
+    <md-layout md-hide-medium></md-layout>
     <md-layout>
       <md-card class="full-width">
         <md-card-header class="indigo">
@@ -15,12 +15,12 @@
         <md-card-content>
           <md-input-container>
             <label>Details</label>
-            <md-textarea v-model="Description" maxlength="200" name="Description"></md-textarea>
+            <md-textarea v-model="Description" name="Description"></md-textarea>
           </md-input-container>
           <md-input-container>
             <label for="Users">Send To</label>
             <md-select name="Users" multiple v-model="Users">
-              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName">{{user.UserName}}</md-option>
+              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :disabled="user.Id == userInfo.Id">{{user.UserName}}</md-option>
             </md-select>
           </md-input-container>
         </md-card-content>
@@ -32,10 +32,12 @@
         </md-card-actions>
       </md-card>
     </md-layout>
-    <md-layout md-hide-small></md-layout>
+    <md-layout md-hide-medium></md-layout>
   </div>
 </template>
 <script>
+  // import _ from 'lodash'
+  import { postMessage } from 'services/messages'
   import {
     getUsersList
   } from 'services/account'
@@ -44,7 +46,7 @@
     name: 'message-create',
     data () {
       return {
-        Description: '',
+        Description: 'Some text message!',
         Page: {
           isLoading: false
         },
@@ -54,19 +56,42 @@
         }
       }
     },
+    computed: { userInfo () { return this.$store.getters.getUserInfo } },
     methods: {
-      formValidate () {
+      sendMessage () {
+        const _self = this
+        var msg = _self.createMessage()
+        _self.Page.isLoading = true
 
+        postMessage(msg).then(res => {
+          _self.$emit('message-sent')
+        }).catch(err => {
+          console.log(err.data)
+        }).then(() => {
+          _self.Page.isLoading = false
+        })
+      },
+      createMessage () {
+        const _self = this
+        return {
+          Description: _self.Description.trim(),
+          Receivers: _self.Users
+        }
+      },
+      formValidate () {
+        if (this.Description.trim()) {
+          this.sendMessage()
+        }
       }
     },
-    mounted () {
+    created () {
       const _self = this
-
-      getUsersList().then(res => {
-        _self.$set(_self.Catalog, 'Users', res.data)
-      }).catch(err => {
+      getUsersList().then(res => { _self.$set(_self.Catalog, 'Users', res.data) }).catch(err => {
         console.log(err)
       })
+    },
+    mounted () {
+
     }
   }
 

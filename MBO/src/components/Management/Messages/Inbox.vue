@@ -40,37 +40,39 @@
         </md-whiteframe>
       </md-layout>
       <md-layout>
-        <message-create v-if="ActiveFolder.name == 'compose'"></message-create>
-        <md-whiteframe md-tag="section" class="full-width" v-else>
-          <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length"
-            :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
-          <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
-            <md-list-item v-for="chat in ActiveFolder.data">
-              <!--TODO add notficaiton for unread time-->
+        <transition name="slide-right">
+          <message-create v-if="ActiveFolder.name == 'compose'" @message-sent="messageSent"></message-create>
+          <md-whiteframe md-tag="section" class="full-width" v-else>
+            <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length"
+              :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
+            <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
+              <md-list-item v-for="chat in ActiveFolder.data">
+                <!--TODO add notficaiton for unread time-->
 
-              <div class="md-list-text-container" :class="{'unread': !chat.IsRead}">
-                <span>{{chat.Description}}</span>
-                <span class="small">{{chat.Sender.Email}}</span>
-                <span class="small">{{formatDate(chat.Time)}}</span>
+                <div class="md-list-text-container" :class="{'unread': !chat.IsRead}">
+                  <span>{{chat.Description}}</span>
+                  <span class="small">{{chat.Sender.Email}}</span>
+                  <span class="small">{{formatDate(chat.Time)}}</span>
+                </div>
+
+                <md-button class="md-icon-button md-list-action">
+                  <md-icon class="md-accent">reply</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-list-action">
+                  <md-icon class="md-accent">delete</md-icon>
+                </md-button>
+              </md-list-item>
+            </md-list>
+            <div class="flex-vertical min-height full-width" v-else>
+              <div class="no-content">
+                <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br/>
+                <p v-if="ActiveFolder.loading">Loading...</p>
+                <p v-else>Awww... Nothing here!</p>
+                <span v-show="ActiveFolder.error">An error occured while trying to fetch data.</span>
               </div>
-
-              <md-button class="md-icon-button md-list-action">
-                <md-icon class="md-accent">reply</md-icon>
-              </md-button>
-              <md-button class="md-icon-button md-list-action">
-                <md-icon class="md-accent">delete</md-icon>
-              </md-button>
-            </md-list-item>
-          </md-list>
-          <div class="flex-vertical min-height full-width" v-else>
-            <div class="no-content">
-              <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br/>
-              <p v-if="ActiveFolder.loading">Loading...</p>
-              <p v-else>Awww... Nothing here!</p>
-              <span v-show="ActiveFolder.error">An error occured while trying to fetch data.</span>
             </div>
-          </div>
-        </md-whiteframe>
+          </md-whiteframe>
+        </transition>
       </md-layout>
     </md-layout>
     <pre>{{ActiveFolder.data}}</pre>
@@ -78,7 +80,7 @@
 </template>
 <script>
   import _ from 'lodash'
-  import { getMessages, postMessage } from 'services/messages'
+  import { getMessages } from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
   import moment from 'moment'
@@ -107,25 +109,15 @@
       }
     },
     methods: {
+      messageSent () {
+        this.openFolder('inbox')
+      },
       formatDate (date) {
         return moment(date).format('hh:mmA DD-MM-YYYY')
       },
       search () {
         const _self = this
         console.log('searching...', _self)
-      },
-      sendMessage () {
-        const _self = this
-
-        if (_self.ActiveChat.message.trim() !== '' && _self.ActiveChat.message !== _self.lastMessage) {
-          var msg = _self.createMessage()
-          _self.lastMessage = _self.ActiveChat.message
-          postMessage(msg).then(res => {
-            // var msgs = _self.ActiveChat.data
-            // msgs.push(msg)
-            // this.scrollChat()
-          }).catch(err => { console.log(err.data) })
-        }
       },
       openFolder (folder) {
         const _self = this
@@ -146,17 +138,7 @@
       }, 500, {
         leading: false,
         trailing: true
-      }),
-      createMessage () {
-        const _self = this
-        return {
-          Description: _self.ActiveChat.message,
-          ReceiverID: _self.ActiveChat.user.Id,
-          Sender: _self.userInfo,
-          Receiver: _self.ActiveChat.user,
-          Time: new Date()
-        }
-      }
+      })
     },
     mounted () {
       // const _self = this
