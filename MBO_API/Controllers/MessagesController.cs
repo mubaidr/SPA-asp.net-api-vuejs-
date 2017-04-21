@@ -29,7 +29,7 @@ namespace MBO_API.Controllers
         }
 
         // GET: api/Messages
-        public MessageListResult GetMessages(string folder, string filter = "", int page = 1, int pagesize = 12)
+        public MessageListResult GetMessages(string folder, string filter = "", int page = 1, int pagesize = 10)
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
             var last_page = 0;

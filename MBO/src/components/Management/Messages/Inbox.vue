@@ -42,7 +42,7 @@
       <md-layout>
         <transition name="slide-right">
           <message-create v-if="ActiveFolder.name == 'compose'" @message-sent="messageSent"></message-create>
-          <md-whiteframe md-tag="section" class="full-width" v-else>
+          <md-whiteframe md-tag="section" class="min-height full-width" v-else>
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length"
               :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
             <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
@@ -75,7 +75,6 @@
         </transition>
       </md-layout>
     </md-layout>
-    <pre>{{ActiveFolder.data}}</pre>
   </div>
 </template>
 <script>
@@ -93,6 +92,7 @@
           filter: '',
           loading: false,
           lastPage: 1,
+          count: 0,
           data: [],
           error: null
         }
@@ -133,12 +133,18 @@
           folder: _self.ActiveFolder.name
         }).then(res => {
           _self.ActiveFolder.data = res.data.message
+          _self.ActiveFolder.count = res.data.count
+          _self.ActiveFolder.lastPage = res.data.last_page
+        }).catch(err => { console.log(err.data) }).then(() => {
           _self.ActiveFolder.loading = false
-        }).catch(err => { console.log(err.data) })
+        })
       }, 500, {
         leading: false,
         trailing: true
       })
+    },
+    created () {
+      this.openFolder('inbox')
     },
     mounted () {
       // const _self = this
