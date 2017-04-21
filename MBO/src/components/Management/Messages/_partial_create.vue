@@ -86,7 +86,9 @@
     },
     created () {
       const _self = this
-      getUsersList().then(res => { _self.$set(_self.Catalog, 'Users', res.data) }).catch(err => {
+      getUsersList().then(res => {
+        _self.Catalog.Users = res.data
+      }).catch(err => {
         console.log(err)
       })
     },

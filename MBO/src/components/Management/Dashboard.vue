@@ -90,23 +90,29 @@
     components: {
       'bar-chart': ChartTasks
     },
-    mounted () {
+    created () {
+      var _self = this
+
       getDashboard().then(res => {
-        this.$set(this, 'dashboard', res.data)
+        _self.dashboard = res.data
+
         window.setTimeout(function () {
           var options = {
             useEasing: true,
             separator: ','
           }
+
           var els = document.getElementsByClassName('counter-up')
-          for (var i = 0; i < els.length; i++) {
+          for (var i = 0; i <
+            els.length; i++) {
             var countup = new CountUp(els[i], 0, els[i].getAttribute('data-total'), 0, 3, options)
             countup.start()
           }
         }, 500)
-      }).catch(err => {
-        console.log(err)
-      })
+      }).catch(err => { console.log(err) })
+    },
+    mounted () {
+
     }
   }
 

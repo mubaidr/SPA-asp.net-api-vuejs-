@@ -106,13 +106,13 @@
     },
     watch: {
       'Tasks.Assigned.content' () {
-        this.$set(this.Tasks.Assigned, 'loading', false)
+        this.Tasks.Assigned.loading = false
       },
       'Tasks.Created.content' () {
-        this.$set(this.Tasks.Created, 'loading', false)
+        this.Tasks.Created.loading = false
       },
       'Tasks.Completed.content' () {
-        this.$set(this.Tasks.Completed, 'loading', false)
+        this.Tasks.Completed.loading = false
       },
       'failAlert' (val) {
         const _self = this
@@ -139,7 +139,7 @@
     methods: {
       tabChange (index) {
         const _self = this
-        _self.$set(_self, 'currentTab', Object.keys(_self.Tasks)[index])
+        _self.currentTab = Object.keys(_self.Tasks)[index]
 
         switch (_self.currentTab) {
           case 'Assigned':
@@ -165,7 +165,7 @@
         if (!Object.keys(_self.Tasks).includes(_path)) {
           _path = 'Assigned'
         }
-        _self.$set(_self, 'currentTab', _path)
+        _self.currentTab = _path
       },
       search (obj) {
         const _self = this
@@ -184,7 +184,7 @@
       },
       retry () {
         const _self = this
-        _self.$set(_self, 'failAlert', false)
+        _self.failAlert = false
 
         window.setTimeout(() => {
           _self.loadCompleted()
@@ -210,41 +210,47 @@
       },
       loadAssigned (obj) {
         const _self = this
-        _self.$set(_self.Tasks.Assigned, 'loading', true)
+
+        _self.Tasks.Assigned.loading = true
+
         listAssigned(obj).then(res => {
-          _self.$set(_self.Tasks.Assigned, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Assigned, 'lastPage', res.data.last_page)
-          _self.$set(_self.Tasks.Assigned, 'count', res.data.count)
-        }).catch(err => {
-          _self.$set(_self.Tasks.Assigned, 'loading', false)
-          _self.$set(_self, 'failAlert', true)
-          console.log(err)
+          _self.Tasks.Assigned.content = res.data.mainTask
+          _self.Tasks.Assigned.lastPage = res.data.last_page
+          _self.Tasks.Assigned.count = res.data.count
+        }).catch(() => {
+          _self.failAlert = true
+        }).then(() => {
+          _self.Tasks.Assigned.loading = false
         })
       },
       loadCompleted (obj) {
         const _self = this
-        _self.$set(_self.Tasks.Completed, 'loading', true)
+
+        _self.Tasks.Completed.loading = true
+
         listCompleted(obj).then(res => {
-          _self.$set(_self.Tasks.Completed, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Completed, 'lastPage', res.data.last_page)
-          _self.$set(_self.Tasks.Completed, 'count', res.data.count)
-        }).catch(err => {
-          _self.$set(_self.Tasks.Completed, 'loading', false)
-          _self.$set(_self, 'failAlert', true)
-          console.log(err)
+          _self.Tasks.Completed.content = res.data.mainTask
+          _self.Tasks.Completed.lastPage = res.data.last_page
+          _self.Tasks.Completed.count = res.data.count
+        }).catch(() => {
+          _self.failAlert = true
+        }).then(() => {
+          _self.Tasks.Completed.loading = false
         })
       },
       loadCreated (obj) {
         const _self = this
-        _self.$set(_self.Tasks.Created, 'loading', true)
+
+        _self.Tasks.Created.loading = true
+
         listCreated(obj).then(res => {
-          _self.$set(_self.Tasks.Created, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Created, 'lastPage', res.data.last_page)
-          _self.$set(_self.Tasks.Created, 'count', res.data.count)
-        }).catch(err => {
-          _self.$set(_self.Tasks.Created, 'loading', false)
-          _self.$set(_self, 'failAlert', true)
-          console.log(err)
+          _self.Tasks.Created.content = res.data.mainTask
+          _self.Tasks.Created.lastPage = res.data.last_page
+          _self.Tasks.Created.count = res.data.count
+        }).catch(() => {
+          _self.failAlert = true
+        }).then(() => {
+          _self.Tasks.Created.loading = false
         })
       }
     },

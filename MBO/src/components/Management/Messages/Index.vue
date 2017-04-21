@@ -15,9 +15,9 @@
         const toDepth = to.path.split('/').length
         const fromDepth = from.path.split('/').length
         if (toDepth === fromDepth) {
-          this.$set(this, 'transitionName', 'slide-up')
+          this.transitionName = 'slide-up'
         } else {
-          this.$set(this, 'transitionName', toDepth < fromDepth ? 'slide-right' : 'slide-left')
+          this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
         }
       }
     }

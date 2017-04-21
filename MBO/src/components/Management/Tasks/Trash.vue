@@ -81,7 +81,7 @@
     },
     watch: {
       'Tasks.Trash.content' () {
-        this.$set(this.Tasks.Trash, 'loading', false)
+        this.Tasks.Trash.loading = false
       },
       'failAlert' (val) {
         const _self = this
@@ -128,15 +128,16 @@
       },
       loadTrash (paging) {
         const _self = this
-        _self.$set(_self.Tasks.Trash, 'loading', true)
+        this.Tasks.Trash.loading = true
         listTrash(paging).then(res => {
-          _self.$set(_self.Tasks.Trash, 'content', res.data.mainTask)
-          _self.$set(_self.Tasks.Trash, 'lastPage', res.data.lastPage)
-          _self.$set(_self.Tasks.Trash, 'count', res.data.count)
+          _self.Tasks.Trash.content = res.data.mainTask
+          _self.Tasks.Trash.lastPage = res.data.lastPage
+          _self.Tasks.Trash.count = res.data.count
         }).catch(err => {
-          _self.$set(_self.Tasks.Trash, 'loading', false)
-          _self.$set(_self, 'failAlert', true)
+          _self.failAlert = true
           console.log(err)
+        }).then(() => {
+          this.Tasks.Trash.loading = false
         })
       }
     },

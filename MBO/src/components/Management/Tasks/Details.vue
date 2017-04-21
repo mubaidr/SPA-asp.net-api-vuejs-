@@ -1,17 +1,17 @@
 <template>
   <div>
-    
-    <md-layout :md-gutter="8">      
+
+    <md-layout :md-gutter="8">
       <md-layout></md-layout>
       <md-layout md-flex="40" md-flex-small="100">
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-headline">{{Task.Title}}</span> by
-          <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/> on 
+          <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/> on
           <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
           <p>
             <a href="#" @click.stop.prevent="goBack()" class="pull-right">Go Back</a>
           </p>
-        </md-whiteframe>        
+        </md-whiteframe>
         <md-whiteframe md-tag="section" class="full-width padded">
           <span class="md-display-1">Comments</span>
           <md-input-container>
@@ -40,7 +40,7 @@
           </div>
         </md-whiteframe>
       </md-layout>
-      <md-layout></md-layout>      
+      <md-layout></md-layout>
     </md-layout>
   </div>
 </template>
@@ -171,10 +171,10 @@
     },
     watch: {
       'log.content' () {
-        this.$set(this.log, 'loading', false)
+        this.log.loading = false
       },
       'progressHistory.content' () {
-        this.$set(this.progressHistory, 'loading', false)
+        this.progressHistory.loading = false
       }
     },
     computed: {
@@ -191,7 +191,7 @@
             Description: text,
             MainTaskID: _self.Task.MainTaskID
           }).then(res => {
-            _self.$set(_self.log, 'content', res.data)
+            _self.log.content = res.data
           }).catch(err => {
             console.log(err)
           })
@@ -210,12 +210,14 @@
       },
       loadLog () {
         const _self = this
-        _self.$set(_self.log, 'loading', false)
+        _self.log.loading = true
 
         getLog(_self.Task.MainTaskID).then(res => {
-          _self.$set(_self.log, 'content', res.data)
+          _self.log.content = res.data
         }).catch(err => {
           console.dir(err)
+        }).then(() => {
+          _self.log.loading = false
         })
       }
     },
@@ -225,8 +227,8 @@
       const type = _self.$route.params.Type
 
       if (task) {
-        _self.$set(_self, 'Type', type || 'view')
-        _self.$set(_self, 'Task', task)
+        _self.Type = type || 'view'
+        _self.Task = task
       } else {
         _self.$router.push({
           path: '/tasks'
@@ -338,6 +340,5 @@
   .comment-list span {
     font-size: 0.75em;
   }
-  
 
 </style>

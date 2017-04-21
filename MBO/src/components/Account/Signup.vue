@@ -68,12 +68,12 @@
         // console.dir(err);
         const _self = this
         if (err) {
-          _self.$set(_self.state, 'title', err.message)
+          _self.state.title = err.message
           if (err.response && err.response.data && err.response.data.error_description) {
-            _self.$set(_self.state, 'details', err.response.data.error_description)
+            _self.state.title = err.response.data.error_description
           }
         } else {
-          _self.$set(_self.state, 'title', null)
+          _self.state.title = null
         }
       },
       formValidate (event) {
@@ -84,7 +84,8 @@
           if (!success) return
 
           _self.setErrorDetails()
-          _self.$set(_self.state, 'loading', true)
+
+          _self.state.loading = true
 
           signup(this.credentials).then(res => {
             _self.$router.push({
@@ -94,8 +95,9 @@
               }
             })
           }).catch(err => {
-            _self.$set(_self.state, 'loading', false)
             _self.setErrorDetails(err)
+          }).then(() => {
+            _self.state.loading = false
           })
         })
       }

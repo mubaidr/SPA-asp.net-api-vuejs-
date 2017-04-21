@@ -40,7 +40,7 @@
         </div>
         <!--<app-message></app-message>-->
       </md-card-content>
-      <md-card-actions>        
+      <md-card-actions>
         <!--<md-button md-hide-small class="md-accent" @click.native="$router.push({ path: '/tasks' })">
           <md-tooltip md-direction="top">Tasks</md-tooltip>
           Tasks
@@ -115,8 +115,7 @@
         const _self = this
 
         if (_self.datepickerStartTime.time) {
-          _self.$set(_self.Task, 'DateDue', moment(_self.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format(
-            'MM-DD-YYYY HH:mm A'))
+          _self.Task.DateDue = moment(_self.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format('MM-DD-YYYY HH:mm A')
         }
 
         _self.$validator.validateAll().then(success => {
@@ -143,25 +142,21 @@
         })
       }
     },
-    mounted () {
+    created () {
       const _self = this
-
       const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A')
-      _self.$set(_self.Task, 'DateDue', now)
-      _self.$set(_self.datepickerStartTime, 'time', now)
+      _self.Task.DateDue = now
+      _self.datepickerStartTime = now
 
-      getCategories().then(res => {
-        _self.$set(_self.Catalog, 'Categories', res.data)
-      }).catch(err => {
-        console.log(err)
-      })
+      _self.getCategories().then(res => {
+        _self.Catalog.Categories = res.data
+      }).catch(err => { console.log(err) })
 
-      getUsersList().then(res => {
-        _self.$set(_self.Catalog, 'Users', res.data)
-      }).catch(err => {
-        console.log(err)
-      })
-    }
+      _self.getUsersList().then(res => {
+        _self.Catalog.Users = res.data
+      }).catch(err => { console.log(err) })
+    },
+    mounted () { }
   }
 
 </script>

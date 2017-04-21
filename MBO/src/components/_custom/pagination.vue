@@ -116,7 +116,7 @@
     methods: {
       search () {
         const _self = this
-        _self.$set(_self.paging, 'page', 1)
+        _self.paging.page = 1
         _self.refresh()
       },
       refresh: _.debounce(function () {
@@ -126,24 +126,22 @@
         trailing: true
       }),
       nextPage () {
-        this.$set(this.paging, 'page', this.paging.page + 1)
+        this.paging.page += 1
       },
       previousPage () {
-        this.$set(this.paging, 'page', this.paging.page - 1)
+        this.paging.page -= 1
       },
       firstPage () {
-        this.$set(this.paging, 'page', 1)
+        this.paging.page = 1
       },
       lastPage () {
-        this.$set(this.paging, 'page', this.lastpage)
+        this.paging.page = this.lastpage
       },
       changeView () {
         this.$store.commit('toggleViewMode')
       }
     },
-    mounted () {
-      // this.$material.inkRipple = false;
-    }
+    mounted () { }
   }
 
 </script>

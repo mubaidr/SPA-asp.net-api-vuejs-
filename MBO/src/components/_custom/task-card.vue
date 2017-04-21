@@ -177,7 +177,7 @@
           remove({
             id: TaskId
           }).then(res => {
-            _self.$set(_self, 'DialogCloseTarget', '#btn-view-trash')
+            _self.DialogCloseTarget = '#btn-view-trash'
             _self.animateTrashButton()
             _self.$refs[_self.refConfirm()].close()
 
@@ -191,7 +191,7 @@
             console.dir(err)
           })
         } else {
-          _self.$set(_self, 'DialogCloseTarget', null)
+          _self.DialogCloseTarget = null
           _self.$refs[_self.refConfirm()].close()
         }
       },
@@ -205,7 +205,7 @@
         }, 200)
       }
     },
-    mounted () {}
+    mounted () { }
   }
 
 </script>
@@ -213,55 +213,55 @@
   .card-cont {
     margin: 0 10px 10px 0;
   }
-
+  
   .card-date {
     margin-bottom: 10px;
   }
-
+  
   .md-card-custom {
     min-width: 295px;
     width: 99%;
     overflow-x: hidden;
   }
-
+  
   .md-card-custom .md-card-content:last-child {
     padding-top: 0!important;
   }
-
+  
   .md-caption ul {
     list-style: none;
     padding-left: 0;
     margin: 0;
     margin-top: 5px;
   }
-
+  
   .text-muted {
     opacity: 0.6;
   }
-
+  
   .chip-custom {
     background-color: rgba(0, 0, 0, 0.1);
     padding: 5px;
     border-radius: 2px;
     margin-right: 2px;
   }
-
+  
   .theme-danger .md-icon {
     color: #f44336;
   }
-
+  
   .theme-warn .md-icon {
     color: #ff5722;
   }
-
+  
   .theme-normal .md-icon {
     color: #ff9800;
   }
-
+  
   .theme-primary .md-icon {
     color: #cddc39;
   }
-
+  
   .theme-success .md-icon {
     color: #4caf50;
   }

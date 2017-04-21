@@ -142,7 +142,7 @@
           remove({
             id: TaskId
           }).then(res => {
-            _self.$set(_self, 'DialogCloseTarget', '#btn-view-trash')
+            _self.DialogCloseTarget = '#btn-view-trash'
             _self.animateTrashButton()
             _self.$refs[_self.refConfirm()].close()
 
@@ -156,7 +156,7 @@
             console.dir(err)
           })
         } else {
-          _self.$set(_self, 'DialogCloseTarget', null)
+          _self.DialogCloseTarget = null
           _self.$refs[_self.refConfirm()].close()
         }
       },
@@ -170,7 +170,7 @@
         }, 200)
       }
     },
-    mounted () {}
+    mounted () { }
   }
 
 </script>
@@ -179,44 +179,44 @@
     margin: 0 auto;
     display: block;
   }
-
+  
   .list-item-cont li {
     padding: 10px 0;
     border: 1px solid #efefef!important;
   }
-
+  
   .text-muted {
     opacity: 0.6;
   }
-
+  
   .text-small {
     font-size: 60%;
   }
-
+  
   .theme-danger .md-icon {
     color: #f44336;
   }
-
+  
   .theme-warn .md-icon {
     color: #ff5722;
   }
-
+  
   .theme-normal .md-icon {
     color: #ff9800;
   }
-
+  
   .theme-primary .md-icon {
     color: #cddc39;
   }
-
+  
   .theme-success .md-icon {
     color: #4caf50;
   }
-
+  
   .card-cont .custom-footer {
     visibility: hidden;
   }
-
+  
   .card-cont:hover .custom-footer {
     visibility: visible;
   }

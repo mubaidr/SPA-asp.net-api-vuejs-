@@ -16,11 +16,7 @@
     },
     watch: {
       'state.title' (val) {
-        if (val === '' || val === null || val === undefined) {
-          this.$set(this, 'show', false)
-        } else {
-          this.$set(this, 'show', true)
-        }
+        this.show = !(val === '' || val === null || val === undefined)
       }
     }
   }
