@@ -20,16 +20,15 @@
       </md-button>
     </md-toolbar>
     <!--</md-whiteframe>-->
-    <br/>
+    <br>
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="1">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
-          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true"
-            @refresh="search"></pagination>
-          <md-layout md-gutter>
+          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true" @refresh="search"></pagination>
+          <md-layout md-gutter="">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
-            <md-layout md-gutter>
-              <transition-group name="list-out" tag="ul" class="min-height no-padding full-width simple-list" v-if="TaskList.content.length">
+            <md-layout md-gutter="">
+              <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="TaskList.content.length">
                 <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
                   <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
                   <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
@@ -37,9 +36,9 @@
               </transition-group>
               <div class="flex-vertical min-height full-width" v-else>
                 <div class="no-content">
-                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br/>
+                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
                   <span v-if="TaskList.loading">Loading...</span>
-                  <span v-else>Awww... Nothing here!</span>
+                  <span v-else="">Awww... Nothing here!</span>
                   <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
                 </div>
               </div>
@@ -49,7 +48,7 @@
         </md-tab>
       </md-tabs>
       <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
-        <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
+        <span>Unable to fetch data!<br> If the problem persists please contact support.</span>
         <md-button class="md-accent" @click.native="retry">Retry</md-button>
       </md-snackbar>
     </md-whiteframe>
@@ -265,7 +264,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .md-tab {
     padding: 16px 2px;
   }

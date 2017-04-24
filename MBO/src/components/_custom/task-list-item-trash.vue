@@ -1,7 +1,7 @@
 <template>
   <div class="list-item-cont">
     <md-list-item class="li-custom">
-      <md-ink-ripple />
+      <md-ink-ripple>
       <div class="md-list-text-container">
         <span>{{Task.Title}} <span class="text-small"> by {{Task.AssignedBy.Email}} at {{formatDate(Task.DateDue)}}</span></span>
         <span></span>
@@ -27,7 +27,7 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-    </md-list-item>
+    </md-ink-ripple></md-list-item>
     <!--Delete Confirmation-->
     <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
       <md-dialog-title>Move to Archive</md-dialog-title>

@@ -4,15 +4,15 @@
     <md-layout :md-gutter="8">
       <md-layout></md-layout>
       <md-layout md-flex="40" md-flex-small="100">
-        <md-whiteframe md-tag="section" class="full-width padded">
+        <md-whiteframe class="full-width padded" md-tag="section">
           <span class="md-headline">{{Task.Title}}</span> by
-          <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br/> on
+          <span class="md-subheading">{{Task.AssignedBy.UserName}}</span><br> on
           <span class="md-caption">{{formatDate(Task.DateAssigned)}}</span>
           <p>
-            <a href="#" @click.stop.prevent="goBack()" class="pull-right">Go Back</a>
+            <a class="pull-right" href="#" @click.stop.prevent="goBack()">Go Back</a>
           </p>
         </md-whiteframe>
-        <md-whiteframe md-tag="section" class="full-width padded">
+        <md-whiteframe class="full-width padded" md-tag="section">
           <span class="md-display-1">Comments</span>
           <md-input-container>
             <label>Add Comment</label>
@@ -24,7 +24,7 @@
           </md-button>
           <div class="flex-vertical min-height full-width" v-show="!log.content.length">
             <div class="no-content">
-              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br>
               <span v-if="log.loading">Loading...</span>
               <span v-show="!log.content.length && !log.loading">Awww... Nothing here!</span>
             </div>
@@ -242,7 +242,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .chip-custom {
     background-color: rgba(0, 0, 0, 0.1);
     padding: 5px;

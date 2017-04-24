@@ -2,10 +2,10 @@
   <md-layout>
     <md-layout md-hide-small :class="{'hide': fullWidth == true}"></md-layout>
     <md-layout md-flex-medium="100">
-      <md-whiteframe md-tag="section" class="full-width margin-bottom" md-elevation="1">
+      <md-whiteframe class="full-width margin-bottom" md-tag="section" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">
-            <md-button md-hide-small class="md-icon-button md-accent md-dense" @click.native="firstPage" :disabled="paging.page == 1 || loading">
+            <md-button class="md-icon-button md-accent md-dense" md-hide-small @click.native="firstPage" :disabled="paging.page == 1 || loading">
               <md-tooltip md-direction="top">First Page</md-tooltip>
               <md-icon>first_page</md-icon>
             </md-button>
@@ -18,7 +18,7 @@
               <md-tooltip md-direction="top">Next Page</md-tooltip>
               <md-icon>chevron_right</md-icon>
             </md-button>
-            <md-button md-hide-small class="md-icon-button md-accent md-dense" @click.native="lastPage" :disabled="paging.page == lastpage || loading">
+            <md-button class="md-icon-button md-accent md-dense" md-hide-small @click.native="lastPage" :disabled="paging.page == lastpage || loading">
               <md-tooltip md-direction="top">Last Page</md-tooltip>
               <md-icon>last_page</md-icon>
             </md-button>
@@ -28,7 +28,7 @@
               <md-input v-model="paging.filter" @change="search" placeholder="Search"></md-input>
             </md-input-container>
             <md-menu md-direction="bottom left" md-size="5" v-show="sortMenu">
-              <md-button md-menu-trigger class="md-icon-button md-accent md-dense" :disabled="loading">
+              <md-button class="md-icon-button md-accent md-dense" md-menu-trigger :disabled="loading">
                 <md-tooltip md-direction="top">Sort</md-tooltip>
                 <md-icon>sort</md-icon>
               </md-button>
@@ -43,7 +43,7 @@
               </md-menu-content>
             </md-menu>
             <md-menu md-direction="bottom left" md-size="5">
-              <md-button md-menu-trigger class="md-icon-button md-accent md-dense" :disabled="loading" v-show="viewMenu">
+              <md-button class="md-icon-button md-accent md-dense" md-menu-trigger :disabled="loading" v-show="viewMenu">
                 <md-tooltip md-direction="top">View</md-tooltip>
                 <md-icon>dashboard</md-icon>
               </md-button>
@@ -63,7 +63,7 @@
                 <md-icon>refresh</md-icon>
               </md-button>
             </div>
-            <div v-else>
+            <div v-else="">
               <md-button class="md-button md-accent md-dense" :disabled="loading" @click.native="refresh">
                 <md-tooltip md-direction="top">Refresh</md-tooltip>
                 <md-icon>refresh</md-icon>
@@ -145,7 +145,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .hidden {
     visibility: hidden;
   }

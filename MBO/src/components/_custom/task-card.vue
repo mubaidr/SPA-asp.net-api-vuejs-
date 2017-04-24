@@ -1,7 +1,7 @@
 <template>
   <div class="card-cont">
     <md-card class="md-card-custom">
-      <md-ink-ripple />
+      <md-ink-ripple>
       <md-card-header>
         <md-card-header-text>
           <div class="md-title text-primary" v-on:click="viewDetails()">
@@ -30,9 +30,9 @@
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
-        <div class="card-date" :class="typeClass()" title="Due Date">
+        <div class="card-date" title="Due Date" :class="typeClass()">
           <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
-          <md-icon :class="typeAnimate()" class="pull-right">{{typeIcon()}}</md-icon>
+          <md-icon class="pull-right" :class="typeAnimate()">{{typeIcon()}}</md-icon>
         </div>
         <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
@@ -53,7 +53,7 @@
             <md-menu-content>
               <md-menu-item>My Item 1</md-menu-item>
               <md-menu-item>My Item 2</md-menu-item>
-              <md-menu-item disabled>My Item 3</md-menu-item>
+              <md-menu-item disabled="">My Item 3</md-menu-item>
               <md-menu-item>My Item 4</md-menu-item>
             </md-menu-content>
           </md-menu>
@@ -62,7 +62,7 @@
           <md-icon>chat</md-icon>
         </md-button>
       </md-card-actions>
-    </md-card>
+    </md-ink-ripple></md-card>
     <!--Delete Confirmation-->
     <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
       <md-dialog-title>Move to Archive</md-dialog-title>
@@ -209,7 +209,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .card-cont {
     margin: 0 10px 10px 0;
   }

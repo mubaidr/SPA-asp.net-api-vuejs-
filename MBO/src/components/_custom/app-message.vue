@@ -1,7 +1,7 @@
 <template>
   <div class="form-message" :class="state.type" v-show="show">
     <span>{{state.title}}!</span>
-    <br/>
+    <br>
     <span>{{state.details}}</span>
   </div>
 </template>
@@ -22,7 +22,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .form-message.info {
     color: #4c1f50;
   }

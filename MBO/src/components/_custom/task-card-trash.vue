@@ -16,7 +16,7 @@
         <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
-        <div class="card-date" :class="typeClass()" title="Due Date">
+        <div class="card-date" title="Due Date" :class="typeClass()">
           <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
         </div>
         <md-tooltip md-direction="top">Progress and Status</md-tooltip>
@@ -119,7 +119,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .card-cont {
     margin: 0 10px 10px 0;
   }

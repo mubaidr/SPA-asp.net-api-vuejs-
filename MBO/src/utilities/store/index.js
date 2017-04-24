@@ -85,7 +85,7 @@ const mutations = {
 const actions = {}
 
 const getters = {
-  isAuhtenticated (state) {
+  isAuthenticated (state) {
     return state.auth !== null && typeof state.auth !== 'undefined'
   },
   getUserInfo (state) {

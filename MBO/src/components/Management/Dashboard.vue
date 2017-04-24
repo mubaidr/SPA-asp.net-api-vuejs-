@@ -4,34 +4,34 @@
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksCreatedCount">0</span>
-        <br/>
+        <br>
         <span style="font-size: small; opacity: 0.75;">Created</span>
         </span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksAssignedCount">0</span>
-        <br/>
+        <br>
         <span style="font-size: small; opacity: 0.75;">Assigned</span></span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksCompletedCount">0</span>
-        <br/>
+        <br>
         <span style="font-size: small; opacity: 0.75;">Completed</span></span>
       </md-layout>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.LogsCount">0</span>
-        <br/>
+        <br>
         <span style="font-size: small; opacity: 0.75;">Comments</span></span>
       </md-layout>
     </md-layout>
-    <br/>
+    <br>
     <md-layout md-gutter="40">
       <md-layout md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
-        <md-layout md-gutter>
-          <bar-chart :options="{responsive: true, maintainAspectRatio: true}" class="chart-full-width"></bar-chart>
+        <md-layout md-gutter="">
+          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
         </md-layout>
       </md-layout>
       <md-layout md-flex-xsmall="100" md-flex-small="30" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">
@@ -117,7 +117,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .counter {
     width: 50%;
     margin: 5px auto;

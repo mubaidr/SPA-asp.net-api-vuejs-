@@ -1,6 +1,6 @@
 <template>
   <div class="full-width">
-    <md-layout md-hide-medium></md-layout>
+    <md-layout md-hide-medium=""></md-layout>
     <md-layout>
       <md-card class="full-width">
         <md-card-header class="indigo">
@@ -10,12 +10,12 @@
               <span>New Message</span>
             </div>
           </md-card-header-text>
-          <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+          <md-spinner class="md-accent" md-indeterminate v-show="Page.isLoading"></md-spinner>
         </md-card-header>
         <md-card-content>
           <md-input-container>
             <label>Details</label>
-            <md-textarea v-model="Description" name="Description"></md-textarea>
+            <md-textarea name="Description" v-model="Description"></md-textarea>
           </md-input-container>
           <md-input-container>
             <label for="Users">Send To</label>
@@ -25,14 +25,14 @@
           </md-input-container>
         </md-card-content>
         <md-card-actions>
-          <md-button id="btn-Submit" class="md-raised md-accent" @click.native="formValidate" :disabled="Page.isLoading">
+          <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="Page.isLoading">
             <md-icon>send</md-icon>
             Send
           </md-button>
         </md-card-actions>
       </md-card>
     </md-layout>
-    <md-layout md-hide-medium></md-layout>
+    <md-layout md-hide-medium=""></md-layout>
   </div>
 </template>
 <script>
@@ -98,7 +98,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
 
 
 </style>

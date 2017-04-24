@@ -2,7 +2,7 @@
   <div>
     <!--<md-whiteframe md-tag="section" class="full-width">-->
     <md-toolbar class="md-transparent md-dense">
-      <md-button md-hide-small class="md-icon-button" @click.native="$router.push({ path: '/tasks' })">
+      <md-button class="md-icon-button" md-hide-small @click.native="$router.push({ path: '/tasks' })">
         <md-tooltip md-direction="top">Tasks</md-tooltip>
         <md-icon class="md-accent">arrow_back</md-icon>
       </md-button>
@@ -20,13 +20,12 @@
       </md-button>
     </md-toolbar>
     <!--</md-whiteframe>-->
-    <br/>
-    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false"
-      :compact="true" @refresh="loadTrash"></pagination>
-    <md-layout md-gutter>
+    <br>
+    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false" :compact="true" @refresh="loadTrash"></pagination>
+    <md-layout md-gutter="">
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
-      <md-layout md-gutter>
-        <transition-group name="list-out" tag="ul" class="min-height no-padding full-width simple-list" v-if="Tasks.Trash.content.length">
+      <md-layout md-gutter="">
+        <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="Tasks.Trash.content.length">
           <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
             <task-card-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'Card'"></task-card-trash>
             <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
@@ -34,9 +33,9 @@
         </transition-group>
         <div class="flex-vertical min-height full-width" v-else>
           <div class="no-content">
-            <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br/>
+            <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br>
             <span v-if="Tasks.Trash.loading">Loading...</span>
-            <span v-else>Awww... Nothing here!</span>
+            <span v-else="">Awww... Nothing here!</span>
             <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
           </div>
         </div>
@@ -44,7 +43,7 @@
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
     </md-layout>
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
-      <span>Unable to fetch data!<br/> If the problem persists please contact support.</span>
+      <span>Unable to fetch data!<br> If the problem persists please contact support.</span>
       <md-button class="md-accent" @click.native="retry">Retry</md-button>
     </md-snackbar>
   </div>
@@ -151,7 +150,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .no-content {
     text-align: center;
   }

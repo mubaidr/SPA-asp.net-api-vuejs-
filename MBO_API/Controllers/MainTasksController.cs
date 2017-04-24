@@ -175,11 +175,11 @@ namespace MBO_API.Controllers
             db.SaveChanges();
 
             //Add default progress histry and comment
-            var progressHisotry = new ProgressHistory()
+            var progressHistory = new ProgressHistory()
             {
                 MainTaskID = mainTask.MainTaskID
             };
-            db.ProgressHistories.Add(progressHisotry);
+            db.ProgressHistories.Add(progressHistory);
 
             var log = new Log()
             {

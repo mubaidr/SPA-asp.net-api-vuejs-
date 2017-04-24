@@ -22,7 +22,7 @@
     </md-toolbar>
     <md-layout md-gutter="24">
       <md-layout md-flex-small="33" md-flex="15">
-        <md-whiteframe md-tag="section" class="full-width">
+        <md-whiteframe class="full-width" md-tag="section">
           <md-list class="mail-list">
             <md-list-item :disabled="ActiveFolder.loading" @click.native="openFolder('compose')" :class="{'md-primary': ActiveFolder.name == 'compose'}">
               <md-icon>mail</md-icon> <span>Compose</span>
@@ -42,9 +42,8 @@
       <md-layout>
         <transition name="slide-right">
           <message-create v-if="ActiveFolder.name == 'compose'" @message-sent="messageSent"></message-create>
-          <md-whiteframe md-tag="section" class="min-height full-width" v-else>
-            <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length"
-              :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
+          <md-whiteframe class="min-height full-width" md-tag="section" v-else>
+            <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
             <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
               <md-list-item v-for="chat in ActiveFolder.data">
                 <!--TODO add notficaiton for unread time-->
@@ -65,9 +64,9 @@
             </md-list>
             <div class="flex-vertical min-height full-width" v-else>
               <div class="no-content">
-                <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br/>
+                <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
                 <p v-if="ActiveFolder.loading">Loading...</p>
-                <p v-else>Awww... Nothing here!</p>
+                <p v-else="">Awww... Nothing here!</p>
                 <span v-show="ActiveFolder.error">An error occured while trying to fetch data.</span>
               </div>
             </div>
@@ -152,7 +151,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .mail-list {
     padding: 0;
   }

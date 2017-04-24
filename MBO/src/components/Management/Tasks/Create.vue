@@ -20,13 +20,13 @@
         </md-button>
       </md-toolbar>
     <!--</md-whiteframe>-->
-    <br/>
+    <br>
     <md-layout>
-      <md-layout md-hide-small></md-layout>
+      <md-layout md-hide-small=""></md-layout>
       <md-layout>
         <task-create></task-create>
       </md-layout>
-      <md-layout md-hide-small>
+      <md-layout md-hide-small="">
       </md-layout>
     </md-layout>
   </div>

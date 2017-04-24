@@ -8,12 +8,12 @@
             <span>New Task</span>
           </div>
         </md-card-header-text>
-        <md-spinner md-indeterminate class="md-accent" v-show="Page.isLoading"></md-spinner>
+        <md-spinner class="md-accent" md-indeterminate v-show="Page.isLoading"></md-spinner>
       </md-card-header>
       <md-card-content>
         <md-input-container :class="{'md-input-invalid': errors.has('Title')}">
           <label>Title</label>
-          <md-input v-model="Task.Title" maxlength="50" type="text" name="Title" v-validate data-vv-name="Title" data-vv-rules="required|min:5"></md-input>
+          <md-input name="Title" data-vv-name="Title" data-vv-rules="required|min:5" type="text" v-model="Task.Title" maxlength="50" v-validate></md-input>
           <span class="md-error">{{errors.first('Title')}}</span>
         </md-input-container>
         <!--<md-input-container>
@@ -34,8 +34,8 @@
           </md-select>
         </md-input-container>
         <div>
-          <label for="DateDue" class="custom-label">Target Date</label>
-          <br/>
+          <label class="custom-label" for="DateDue">Target Date</label>
+          <br>
           <date-picker :date="datepickerStartTime" :option="datepickerOption" :limit="datepickerLimit" orientation="landscape" autoOk="true"></date-picker>
         </div>
         <!--<app-message></app-message>-->
@@ -45,7 +45,7 @@
           <md-tooltip md-direction="top">Tasks</md-tooltip>
           Tasks
         </md-button>-->
-        <md-button id="btn-Submit" class="md-raised md-accent" @click.native="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
+        <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
   </div>
@@ -148,11 +148,11 @@
       _self.Task.DateDue = now
       _self.datepickerStartTime = now
 
-      _self.getCategories().then(res => {
+      getCategories().then(res => {
         _self.Catalog.Categories = res.data
       }).catch(err => { console.log(err) })
 
-      _self.getUsersList().then(res => {
+      getUsersList().then(res => {
         _self.Catalog.Users = res.data
       }).catch(err => { console.log(err) })
     },
@@ -160,7 +160,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .compact-card .md-card-content,
   .compact-card .md-card-actions {
     padding: 0;

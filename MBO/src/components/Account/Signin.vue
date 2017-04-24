@@ -1,7 +1,7 @@
 <template>
-  <md-layout md-gutter>
-    <md-layout md-hide-xsmall></md-layout>
-    <md-layout md-hide-medium></md-layout>
+  <md-layout md-gutter="">
+    <md-layout md-hide-xsmall=""></md-layout>
+    <md-layout md-hide-medium=""></md-layout>
     <md-layout>
       <div class="flex-vertical min-height full-width">
         <md-card class="full-width">
@@ -10,30 +10,30 @@
               <div class="md-title">Get started</div>
               <span>Sign In</span>
             </md-card-header-text>
-            <md-spinner md-indeterminate class="md-accent" v-show="state.loading"></md-spinner>
+            <md-spinner class="md-accent" md-indeterminate v-show="state.loading"></md-spinner>
           </md-card-header>
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
               <label>Email</label>
-              <md-input v-model="credentials.UserName" type="email" name="Email" v-validate data-vv-name="Email" data-vv-rules="required|email|min:6"></md-input>
+              <md-input name="Email" data-vv-name="Email" data-vv-rules="required|email|min:6" type="email" v-model="credentials.UserName" v-validate></md-input>
               <span class="md-error">{{errors.first('Email')}}</span>
             </md-input-container>
             <md-input-container md-has-password :class="{'md-input-invalid': errors.has('Password')}">
               <label>Password</label>
-              <md-input v-model="credentials.Password" type="password" name="Password" v-validate data-vv-name="Password" data-vv-rules="required|min:6"></md-input>
+              <md-input name="Password" data-vv-name="Password" data-vv-rules="required|min:6" type="password" v-model="credentials.Password" v-validate></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
             </md-input-container>
             <app-message :state="state"></app-message>
           </md-card-content>
           <md-card-actions>
-            <router-link tag="md-button" to="/recover" class="md-accent">Forgot password?</router-link>
-            <md-button id="btnSubmit" class="md-raised md-accent" @click.native="formValidate" :disabled="state.loading">Sing In</md-button>
+            <router-link class="md-accent" tag="md-button" to="/recover">Forgot password?</router-link>
+            <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Sing In</md-button>
           </md-card-actions>
         </md-card>
       </div>
     </md-layout>
-    <md-layout md-hide-xsmall></md-layout>
-    <md-layout md-hide-medium></md-layout>
+    <md-layout md-hide-xsmall=""></md-layout>
+    <md-layout md-hide-medium=""></md-layout>
   </md-layout>
 </template>
 <script>

@@ -27,7 +27,6 @@ import TasksDetails from 'components/Management/Tasks/Details.vue'
 // Messages
 import Messages from 'components/Management/Messages/Index.vue'
 import MessagesInbox from 'components/Management/Messages/Inbox.vue'
-import MessagesTrash from 'components/Management/Messages/Trash.vue'
 
 Vue.use(Router)
 
@@ -127,10 +126,6 @@ const router = new Router({
     children: [{
       path: '',
       component: MessagesInbox
-    },
-    {
-      path: 'trash',
-      component: MessagesTrash
     }]
   }, {
     path: '*',
@@ -139,7 +134,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (store.getters.isAuhtenticated) {
+  if (store.getters.isAuthenticated) {
     const notValid = ['signin', 'signup', 'recover']
 
     if (notValid.lastIndexOf(to.name) >= 0) {
