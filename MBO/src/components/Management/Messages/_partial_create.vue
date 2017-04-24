@@ -20,7 +20,10 @@
           <md-input-container>
             <label for="Users">Send To</label>
             <md-select name="Users" multiple v-model="Users">
-              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :disabled="user.Id == userInfo.Id">{{user.UserName}}</md-option>
+              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :disabled="user.Id == userInfo.ID">
+                {{user.UserName}} 
+                <span class="md-caption">{{user.Email}}</span>
+                </md-option>
             </md-select>
           </md-input-container>
         </md-card-content>

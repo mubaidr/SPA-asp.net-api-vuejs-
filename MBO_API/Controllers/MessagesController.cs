@@ -10,7 +10,7 @@ using System.Web.Http.Description;
 namespace MBO_API.Controllers
 {
     // TODO add document/file attach
-    // [Authorize]
+    [Authorize]
     public class MessagesController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -94,6 +94,7 @@ namespace MBO_API.Controllers
 
         // POST: api/Messages
         [ResponseType(typeof(MessageNew))]
+        [HttpPost]
         public IHttpActionResult PostMessage(MessageNew message)
         {
             if (message.Description.Trim().Length < 0 || message.Receivers.Count < 0)
@@ -120,6 +121,49 @@ namespace MBO_API.Controllers
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { success = true }, message);
+        }
+
+        // POST: api/Messages/Delete
+        [ResponseType(typeof(Message))]
+        [HttpPost]
+        public IHttpActionResult DeleteMessage(int Id)
+        {
+            var msg = db.Messages.Find(Id);
+            if (msg != null)
+            {
+                msg.IsDeleted = true;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            db.Entry(msg).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Ok(msg);
+        }
+
+        // POST: api/Messages/Delete
+        [ResponseType(typeof(Message))]
+        [Route("api/Messages/Read")]
+        [HttpPost]
+        public IHttpActionResult ReadMessage(int Id)
+        {
+            var msg = db.Messages.Find(Id);
+            if (msg != null)
+            {
+                msg.IsRead = true;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            db.Entry(msg).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Ok(msg);
         }
 
         protected override void Dispose(bool disposing)

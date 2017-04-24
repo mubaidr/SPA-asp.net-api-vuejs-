@@ -89,9 +89,6 @@
           page: 1,
           orderby: 'DueTimeDown',
           filter: ''
-        },
-        searchOptions: {
-          active: false
         }
       }
     },
@@ -146,6 +143,10 @@
 
 </script>
 <style scoped="">
+  .margin-bottom{
+    margin-bottom: 5px;
+  }
+
   .hidden {
     visibility: hidden;
   }
