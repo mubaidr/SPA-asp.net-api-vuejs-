@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const state = {
   auth: session.getAuth(),
-  userinfo: session.getUserInfo(),
+  userInfo: session.getUserInfo(),
   settings: session.getSettings() || {
     taskView: {
       sort: [{
@@ -65,13 +65,13 @@ const mutations = {
     state.auth = auth
     session.setAuth(auth)
   },
-  setUserInfo (state, userinfo) {
-    state.userinfo = userinfo
-    session.setUserInfo(userinfo)
+  setUserInfo (state, userInfo) {
+    state.userInfo = userInfo
+    session.setUserInfo(userInfo)
   },
   removeAuthentication (state) {
     state.auth = null
-    state.userinfo = null
+    state.userInfo = null
     session.clear()
   },
   toggleViewMode (state) {
@@ -89,7 +89,7 @@ const getters = {
     return state.auth !== null && typeof state.auth !== 'undefined'
   },
   getUserInfo (state) {
-    return state.userinfo
+    return state.userInfo
   },
   getAuth (state) {
     return state.auth

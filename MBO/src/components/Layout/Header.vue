@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-whiteframe md-tag="md-toolbar" md-elevation="3" class="header-custom">
+    <md-whiteframe class="header-custom" md-tag="md-toolbar" md-elevation="3">
       <div class="md-toolbar-container">
       </div>
       <div class="md-toolbar-container">
@@ -12,10 +12,10 @@
           <h2 class="md-title">MBO</h2>
         </span>
         <!--TODO Display notifications here!-->
-        <md-speed-dial v-show="isAuthenticated" md-open="click" md-direction="left" class="md-fab-bottom-right add-task">
+        <md-speed-dial class="md-fab-bottom-right add-task" v-show="isAuthenticated" md-open="click" md-direction="left">
           <md-button class="md-fab" md-fab-trigger>
             <md-tooltip md-direction="top">New</md-tooltip>
-            <md-icon md-icon-morph>close</md-icon>
+            <md-icon md-icon-morph="">close</md-icon>
             <md-icon>add</md-icon>
           </md-button>
           <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/tasks/create')">
@@ -30,11 +30,11 @@
       </div>
     </md-whiteframe>
     <md-sidenav class="md-left md-fixed" ref="leftSidenav">
-      <md-whiteframe md-tag="md-toolbar" md-elevation="0" class="md-default">
+      <md-whiteframe class="md-default" md-tag="md-toolbar" md-elevation="0">
         <div class="md-toolbar-container"></div>
         <div class="md-toolbar-container">
           <h2 class="md-title" v-show="!isAuthenticated">My Account</h2>
-          <h2 class="md-title" v-show="isAuthenticated">{{userinfo.Email}}</h2>
+          <h2 class="md-title" v-show="isAuthenticated">{{userInfo.Email}}</h2>
           <span style="flex: 1;"></span>
         </div>
         <md-list v-show="!isAuthenticated">
@@ -121,8 +121,7 @@
         </md-list>
       </md-whiteframe>
     </md-sidenav>
-    <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout"
-      @close="onClose">
+    <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout" @close="onClose">
     </md-dialog-confirm>
   </div>
 </template>
@@ -139,9 +138,9 @@
     },
     computed: {
       isAuthenticated () {
-        return this.$store.getters.isAuhtenticated
+        return this.$store.getters.isAuthenticated
       },
-      userinfo () {
+      userInfo () {
         return this.$store.getters.getUserInfo || {}
       }
     },
@@ -175,7 +174,7 @@
   }
 
 </script>
-<style scoped>
+<style scoped="">
   .header-custom {
     margin-bottom: 1%;
   }
