@@ -83,11 +83,10 @@
         this.Tasks.Trash.loading = false
       },
       'failAlert' (val) {
-        const _self = this
         if (val) {
-          _self.$refs.snackbar.open()
+          this.$refs.snackbar.open()
         } else {
-          _self.$refs.snackbar.close()
+          this.$refs.snackbar.close()
         }
       }
     },
@@ -96,44 +95,40 @@
         return this.$store.getters.getSettings
       },
       activeView () {
-        var _self = this
-        for (var i = 0; i < _self.settings.taskView.view.length; i++) {
-          if (_self.settings.taskView.view[i].enabled) {
-            return _self.settings.taskView.view[i].name
+        for (var i = 0; i < this.settings.taskView.view.length; i++) {
+          if (this.settings.taskView.view[i].enabled) {
+            return this.settings.taskView.view[i].name
           }
         }
       }
     },
     methods: {
       retry () {
-        const _self = this
-        _self.$refs.snackbar.close()
+        this.$refs.snackbar.close()
         window.setTimeout(() => {
-          _self.loadTrash()
+          this.loadTrash()
         }, 500)
       },
       removeTaskItem (obj) {
-        const _self = this
         const id = obj.id
-        const ts = _self.Tasks.Trash.content
+        const ts = this.Tasks.Trash.content
 
         for (let i = 0; i < ts.length; i++) {
           if (ts[i].MainTaskID === id) {
-            _self.Tasks.Trash.content.splice(i, 1)
+            this.Tasks.Trash.content.splice(i, 1)
             break
           }
         }
         this.retry()
       },
       loadTrash (paging) {
-        const _self = this
         this.Tasks.Trash.loading = true
         listTrash(paging).then(res => {
-          _self.Tasks.Trash.content = res.data.mainTask
-          _self.Tasks.Trash.lastPage = res.data.lastPage
-          _self.Tasks.Trash.count = res.data.count
+          this.Tasks.Trash.content = res.data.mainTask
+          this.Tasks.Trash.lastPage = res.data.lastPage
+          this.Tasks.Trash.count = res.data.count
         }).catch(err => {
-          _self.failAlert = true
+          this.failAlert = true
           console.log(err)
         }).then(() => {
           this.Tasks.Trash.loading = false
@@ -141,10 +136,8 @@
       }
     },
     mounted () {
-      const _self = this
-
       window.setTimeout(() => {
-        _self.loadTrash()
+        this.loadTrash()
       }, 250)
     }
   }

@@ -144,7 +144,28 @@ namespace MBO_API.Controllers
             return Ok(msg);
         }
 
-        // POST: api/Messages/Delete
+        // POST: api/Messages/Restore
+        [ResponseType(typeof(Message))]
+        [HttpPost]
+        public IHttpActionResult RestoreMessage(int Id)
+        {
+            var msg = db.Messages.Find(Id);
+            if (msg != null)
+            {
+                msg.IsDeleted = false;
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            db.Entry(msg).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Ok(msg);
+        }
+
+        // POST: api/Messages/Read
         [ResponseType(typeof(Message))]
         [Route("api/Messages/Read")]
         [HttpPost]

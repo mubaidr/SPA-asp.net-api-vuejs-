@@ -66,13 +66,11 @@
     },
     methods: {
       typeClass () {
-        const _self = this
-
         const now = moment()
-        const dueDate = moment(_self.Task.DateDue)
+        const dueDate = moment(this.Task.DateDue)
         const diff = now.diff(dueDate, 'days')
 
-        if (_self.Task.Progress === 100) {
+        if (this.Task.Progress === 100) {
           return 'theme-success'
         }
         if (diff < 0) {
@@ -92,9 +90,8 @@
         return `ref-confirm-${this.Task.MainTaskID}`
       },
       dialogSuccessClose () {
-        const _self = this
-        const TaskId = _self.Task.MainTaskID
-        _self.$emit('remove-task-item', {
+        const TaskId = this.Task.MainTaskID
+        this.$emit('remove-task-item', {
           id: TaskId
         })
       },
@@ -103,8 +100,7 @@
         this.$refs[this.refConfirm()].open()
       },
       restoreTask (type) {
-        const _self = this
-        const TaskId = _self.Task.MainTaskID
+        const TaskId = this.Task.MainTaskID
 
         restore({
           id: TaskId

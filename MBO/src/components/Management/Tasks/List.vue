@@ -114,11 +114,10 @@
         this.Tasks.Completed.loading = false
       },
       'failAlert' (val) {
-        const _self = this
         if (val) {
-          _self.$refs.snackbar.open()
+          this.$refs.snackbar.open()
         } else {
-          _self.$refs.snackbar.close()
+          this.$refs.snackbar.close()
         }
       }
     },
@@ -127,138 +126,124 @@
         return this.$store.getters.getSettings
       },
       activeView () {
-        var _self = this
-        for (var i = 0; i < _self.settings.taskView.view.length; i++) {
-          if (_self.settings.taskView.view[i].enabled) {
-            return _self.settings.taskView.view[i].name
+        for (var i = 0; i < this.settings.taskView.view.length; i++) {
+          if (this.settings.taskView.view[i].enabled) {
+            return this.settings.taskView.view[i].name
           }
         }
       }
     },
     methods: {
       tabChange (index) {
-        const _self = this
-        _self.currentTab = Object.keys(_self.Tasks)[index]
+        this.currentTab = Object.keys(this.Tasks)[index]
 
-        switch (_self.currentTab) {
+        switch (this.currentTab) {
           case 'Assigned':
-            if (!_self.Tasks[_self.currentTab].content.length) {
-              _self.loadAssigned()
+            if (!this.Tasks[this.currentTab].content.length) {
+              this.loadAssigned()
             }
             break
           case 'Created':
-            if (!_self.Tasks[_self.currentTab].content.length) {
-              _self.loadCreated()
+            if (!this.Tasks[this.currentTab].content.length) {
+              this.loadCreated()
             }
             break
           case 'Completed':
-            if (!_self.Tasks[_self.currentTab].content.length) {
-              _self.loadCompleted()
+            if (!this.Tasks[this.currentTab].content.length) {
+              this.loadCompleted()
             }
             break
         }
       },
       activeTab () {
-        const _self = this
-        let _path = _self.$route.query.sub
-        if (!Object.keys(_self.Tasks).includes(_path)) {
+        let _path = this.$route.query.sub
+        if (!Object.keys(this.Tasks).includes(_path)) {
           _path = 'Assigned'
         }
-        _self.currentTab = _path
+        this.currentTab = _path
       },
       search (obj) {
-        const _self = this
-
-        switch (_self.currentTab) {
+        switch (this.currentTab) {
           case 'Assigned':
-            _self.loadAssigned(obj)
+            this.loadAssigned(obj)
             break
           case 'Created':
-            _self.loadCreated(obj)
+            this.loadCreated(obj)
             break
           case 'Completed':
-            _self.loadCompleted(obj)
+            this.loadCompleted(obj)
             break
         }
       },
       retry () {
-        const _self = this
-        _self.failAlert = false
+        this.failAlert = false
 
         window.setTimeout(() => {
-          _self.loadCompleted()
-          _self.loadCreated()
-          _self.loadAssigned()
+          this.loadCompleted()
+          this.loadCreated()
+          this.loadAssigned()
         }, 500)
       },
       removeTaskItem (obj) {
-        const _self = this
         const id = obj.id
         const type = obj.type
 
-        const ts = _self.Tasks[type].content
+        const ts = this.Tasks[type].content
 
         for (let i = 0; i < ts.length; i++) {
           if (ts[i].MainTaskID === id) {
-            _self.Tasks[type].content.splice(i, 1)
+            this.Tasks[type].content.splice(i, 1)
             break
           }
         }
 
-        window.setTimeout(_self.search, 250)
+        window.setTimeout(this.search, 250)
       },
       loadAssigned (obj) {
-        const _self = this
-
-        _self.Tasks.Assigned.loading = true
+        this.Tasks.Assigned.loading = true
 
         listAssigned(obj).then(res => {
-          _self.Tasks.Assigned.content = res.data.mainTask
-          _self.Tasks.Assigned.lastPage = res.data.last_page
-          _self.Tasks.Assigned.count = res.data.count
+          this.Tasks.Assigned.content = res.data.mainTask
+          this.Tasks.Assigned.lastPage = res.data.last_page
+          this.Tasks.Assigned.count = res.data.count
         }).catch(() => {
-          _self.failAlert = true
+          this.failAlert = true
         }).then(() => {
-          _self.Tasks.Assigned.loading = false
+          this.Tasks.Assigned.loading = false
         })
       },
       loadCompleted (obj) {
-        const _self = this
-
-        _self.Tasks.Completed.loading = true
+        this.Tasks.Completed.loading = true
 
         listCompleted(obj).then(res => {
-          _self.Tasks.Completed.content = res.data.mainTask
-          _self.Tasks.Completed.lastPage = res.data.last_page
-          _self.Tasks.Completed.count = res.data.count
+          this.Tasks.Completed.content = res.data.mainTask
+          this.Tasks.Completed.lastPage = res.data.last_page
+          this.Tasks.Completed.count = res.data.count
         }).catch(() => {
-          _self.failAlert = true
+          this.failAlert = true
         }).then(() => {
-          _self.Tasks.Completed.loading = false
+          this.Tasks.Completed.loading = false
         })
       },
       loadCreated (obj) {
-        const _self = this
-
-        _self.Tasks.Created.loading = true
+        this.Tasks.Created.loading = true
 
         listCreated(obj).then(res => {
-          _self.Tasks.Created.content = res.data.mainTask
-          _self.Tasks.Created.lastPage = res.data.last_page
-          _self.Tasks.Created.count = res.data.count
+          this.Tasks.Created.content = res.data.mainTask
+          this.Tasks.Created.lastPage = res.data.last_page
+          this.Tasks.Created.count = res.data.count
         }).catch(() => {
-          _self.failAlert = true
+          this.failAlert = true
         }).then(() => {
-          _self.Tasks.Created.loading = false
+          this.Tasks.Created.loading = false
         })
       }
     },
     mounted () {
-      const _self = this
-      _self.activeTab()
+      this.activeTab()
 
       window.setTimeout(() => {
-        _self.search()
+        this.search()
       }, 250)
     }
   }

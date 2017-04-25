@@ -54,11 +54,14 @@
                 <div>
                   <span class="md-caption">{{formatDate(chat.Time)}}</span>
                 </div>
-                <md-button class="md-icon-button md-list-action" v-show="chat.Sender.Id !== userInfo.ID">
+                <md-button class="md-icon-button md-list-action" v-show="chat.Sender.Id !== userInfo.ID" @click.native="replyMessage(chat)">
                   <md-icon class="md-accent">reply</md-icon>
                 </md-button>
-                <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)">
+                <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-if="!chat.IsDeleted">
                   <md-icon class="md-accent">delete</md-icon>
+                </md-button>
+                <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-else>
+                  <md-icon class="md-accent">restore</md-icon>
                 </md-button>
               </md-list-item>
             </md-list>
@@ -78,7 +81,7 @@
 </template>
 <script>
   import _ from 'lodash'
-  import { getMessages, deleteMessage, markReadMessage } from 'services/messages'
+  import { getMessages, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
   import moment from 'moment'
@@ -108,9 +111,23 @@
       }
     },
     methods: {
+      replyMessage (chat) {
+        // TODO add message quote
+        console.log(chat)
+      },
       readMessage (id) {
         markReadMessage(id).catch(() => {
           console.log('some error')
+        })
+      },
+      unDeleteMessage (id) {
+        this.ActiveFolder.loading = true
+        restoreMessage(id).then(() => {
+          this.openFolder(this.ActiveFolder.name)
+        }).catch(err => {
+          console.log(err)
+        }).then(() => {
+          this.ActiveFolder.loading = false
         })
       },
       removeMessage (id) {
@@ -130,49 +147,45 @@
         return moment(date).format('hh:mmA DD-MM-YYYY')
       },
       search (obj) {
-        const _self = this
-  
         var pagingOptions = {}
-        pagingOptions.folder = _self.ActiveFolder.name
+        pagingOptions.folder = this.ActiveFolder.name
         pagingOptions.filter = obj.filter
         pagingOptions.orderby = obj.orderby
         pagingOptions.page = obj.page
 
-        _self.ActiveFolder.loading = true
+        this.ActiveFolder.loading = true
         getMessages(pagingOptions).then(res => {
-          _self.ActiveFolder.data = res.data.message
-          _self.ActiveFolder.count = res.data.count
-          _self.ActiveFolder.lastPage = res.data.last_page
+          this.ActiveFolder.data = res.data.message
+          this.ActiveFolder.count = res.data.count
+          this.ActiveFolder.lastPage = res.data.last_page
         })
         .catch(err => {
           console.log(err.data)
         })
         .then(() => {
-          _self.ActiveFolder.loading = false
+          this.ActiveFolder.loading = false
         })
       },
       openFolder (folder) {
-        const _self = this
-        _self.ActiveFolder.name = folder
+        this.ActiveFolder.name = folder
         if (folder !== 'compose') {
-          _self.ActiveFolder.data = []
-          _self.ActiveFolder.loading = true
-          _self.ActiveFolder.filter = ''
-          _self.ActiveFolder.lastPage = 1
-          _self.ActiveFolder.count = 0
-          _self.fetchMessages()
+          this.ActiveFolder.data = []
+          this.ActiveFolder.loading = true
+          this.ActiveFolder.filter = ''
+          this.ActiveFolder.lastPage = 1
+          this.ActiveFolder.count = 0
+          this.fetchMessages()
         }
       },
       fetchMessages: _.debounce(function () {
-        const _self = this
         getMessages({
-          folder: _self.ActiveFolder.name
+          folder: this.ActiveFolder.name
         }).then(res => {
-          _self.ActiveFolder.data = res.data.message
-          _self.ActiveFolder.count = res.data.count
-          _self.ActiveFolder.lastPage = res.data.last_page
+          this.ActiveFolder.data = res.data.message
+          this.ActiveFolder.count = res.data.count
+          this.ActiveFolder.lastPage = res.data.last_page
         }).catch(err => { console.log(err.data) }).then(() => {
-          _self.ActiveFolder.loading = false
+          this.ActiveFolder.loading = false
         })
       }, 500, {
         leading: false,
@@ -182,9 +195,7 @@
     created () {
       this.openFolder('inbox')
     },
-    mounted () {
-      // const _self = this
-    }
+    mounted () {}
   }
 
 </script>

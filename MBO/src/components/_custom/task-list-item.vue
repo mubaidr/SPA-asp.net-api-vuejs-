@@ -66,10 +66,8 @@
         return `ref-confirm-${this.Task.MainTaskID}`
       },
       typeAnimate () {
-        const _self = this
-
         const now = moment()
-        const dueDate = moment(_self.Task.DateDue)
+        const dueDate = moment(this.Task.DateDue)
         const diff = now.diff(dueDate, 'days')
 
         if (diff < 0) {
@@ -96,13 +94,11 @@
         }
       },
       typeClass () {
-        const _self = this
-
         const now = moment()
-        const dueDate = moment(_self.Task.DateDue)
+        const dueDate = moment(this.Task.DateDue)
         const diff = now.diff(dueDate, 'days')
 
-        if (_self.Task.Progress === 100) {
+        if (this.Task.Progress === 100) {
           return 'theme-success'
         }
         if (diff < 0) {
@@ -116,15 +112,14 @@
         }
       },
       viewDetails (obj) {
-        const _self = this
-        // const TaskId = _self.Task.MainTaskID
+      // const TaskId = this.Task.MainTaskID
         if (!obj) obj = 'view'
 
         const url = {
           // named route required for sending params
           name: 'task-details',
           params: {
-            Task: _self.Task,
+            Task: this.Task,
             Type: obj
           }
         }
@@ -135,29 +130,28 @@
         this.$refs[this.refConfirm()].open()
       },
       onDeleteClose (type) {
-        const _self = this
-        const TaskId = _self.Task.MainTaskID
+        const TaskId = this.Task.MainTaskID
 
         if (type === 'ok') {
           remove({
             id: TaskId
           }).then(res => {
-            _self.DialogCloseTarget = '#btn-view-trash'
-            _self.animateTrashButton()
-            _self.$refs[_self.refConfirm()].close()
+            this.DialogCloseTarget = '#btn-view-trash'
+            this.animateTrashButton()
+            this.$refs[this.refConfirm()].close()
 
             window.setTimeout(() => {
-              _self.$emit('remove-task-item', {
+              this.$emit('remove-task-item', {
                 id: TaskId,
-                type: _self.Type
+                type: this.Type
               })
             }, 250)
           }).catch(err => {
             console.dir(err)
           })
         } else {
-          _self.DialogCloseTarget = null
-          _self.$refs[_self.refConfirm()].close()
+          this.DialogCloseTarget = null
+          this.$refs[this.refConfirm()].close()
         }
       },
       animateTrashButton () {

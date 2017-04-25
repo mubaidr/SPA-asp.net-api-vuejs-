@@ -112,16 +112,15 @@
     methods: {
       formValidate (event) {
         event.preventDefault()
-        const _self = this
-
-        if (_self.datepickerStartTime.time) {
-          _self.Task.DateDue = moment(_self.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format('MM-DD-YYYY HH:mm A')
+  
+        if (this.datepickerStartTime.time) {
+          this.Task.DateDue = moment(this.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format('MM-DD-YYYY HH:mm A')
         }
 
-        _self.$validator.validateAll().then(success => {
+        this.$validator.validateAll().then(success => {
           if (!success) return
 
-          _self.$store.commit('setState', {
+          this.$store.commit('setState', {
             loading: true,
             alert: false
           })
@@ -130,11 +129,11 @@
             mainTask: this.Task,
             users: this.Users
           }).then(res => {
-            _self.$router.push({
+            this.$router.push({
               path: '/tasks'
             })
           }).catch(err => {
-            _self.$store.commit('setState', {
+            this.$store.commit('setState', {
               loading: false,
               err
             })
@@ -143,17 +142,16 @@
       }
     },
     created () {
-      const _self = this
       const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A')
-      _self.Task.DateDue = now
-      _self.datepickerStartTime = now
+      this.Task.DateDue = now
+      this.datepickerStartTime = now
 
       getCategories().then(res => {
-        _self.Catalog.Categories = res.data
+        this.Catalog.Categories = res.data
       }).catch(err => { console.log(err) })
 
       getUsersList().then(res => {
-        _self.Catalog.Users = res.data
+        this.Catalog.Users = res.data
       }).catch(err => { console.log(err) })
     },
     mounted () { }

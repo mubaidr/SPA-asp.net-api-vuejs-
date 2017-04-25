@@ -91,10 +91,8 @@
       'bar-chart': ChartTasks
     },
     created () {
-      var _self = this
-
       getDashboard().then(res => {
-        _self.dashboard = res.data
+        this.dashboard = res.data
 
         window.setTimeout(function () {
           var options = {

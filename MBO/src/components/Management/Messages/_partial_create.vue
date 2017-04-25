@@ -62,23 +62,21 @@
     computed: { userInfo () { return this.$store.getters.getUserInfo } },
     methods: {
       sendMessage () {
-        const _self = this
-        var msg = _self.createMessage()
-        _self.Page.isLoading = true
+        var msg = this.createMessage()
+        this.Page.isLoading = true
 
         postMessage(msg).then(res => {
-          _self.$emit('message-sent')
+          this.$emit('message-sent')
         }).catch(err => {
           console.log(err.data)
         }).then(() => {
-          _self.Page.isLoading = false
+          this.Page.isLoading = false
         })
       },
       createMessage () {
-        const _self = this
         return {
-          Description: _self.Description.trim(),
-          Receivers: _self.Users
+          Description: this.Description.trim(),
+          Receivers: this.Users
         }
       },
       formValidate () {
@@ -88,9 +86,8 @@
       }
     },
     created () {
-      const _self = this
       getUsersList().then(res => {
-        _self.Catalog.Users = res.data
+        this.Catalog.Users = res.data
       }).catch(err => {
         console.log(err)
       })

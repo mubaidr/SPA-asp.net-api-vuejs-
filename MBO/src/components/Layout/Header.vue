@@ -149,11 +149,9 @@
         this.$refs[ref].open()
       },
       onClose (type) {
-        const _self = this
-
         if (type === 'ok') {
           signout().then(res => {
-            _self.$router.push({
+            this.$router.push({
               path: '/signout'
             })
           }).catch(err => {

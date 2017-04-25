@@ -4,7 +4,8 @@ export {
   getMessages,
   postMessage,
   markReadMessage,
-  deleteMessage
+  deleteMessage,
+  restoreMessage
 }
 
 import api from 'api'
@@ -29,8 +30,11 @@ function postMessage (obj) {
 }
 
 function deleteMessage (obj) {
-  console.log(api.url + path + '/Delete?Id=' + obj)
   return axios.post(api.url + path + '/Delete?Id=' + obj)
+}
+
+function restoreMessage (obj) {
+  return axios.post(api.url + path + '/Restore?Id=' + obj)
 }
 
 function markReadMessage (obj) {

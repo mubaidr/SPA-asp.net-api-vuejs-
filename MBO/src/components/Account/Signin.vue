@@ -61,45 +61,44 @@
       setErrorDetails (err) {
         // TODO register as global method
         // console.dir(err);
-        const _self = this
+  
         if (err) {
-          _self.state.title = err.message
+          this.state.title = err.message
           if (err.response && err.response.data && err.response.data.error_description) {
-            _self.state.details = err.response.data.error_description
+            this.state.details = err.response.data.error_description
           }
         } else {
-          _self.state.title = null
+          this.state.title = null
         }
       },
       formValidate (event) {
         event.preventDefault()
-        const _self = this
-
-        _self.$validator.validateAll().then(success => {
+  
+        this.$validator.validateAll().then(success => {
           if (!success) return
 
-          _self.setErrorDetails()
+          this.setErrorDetails()
 
-          _self.state.loading = true
+          this.state.loading = true
 
           signin(this.credentials).then(res => {
-            _self.$store.commit('setAuthentication', res.data)
+            this.$store.commit('setAuthentication', res.data)
 
             getUserInfo().then(res => {
-              _self.$store.commit('setUserInfo', res.data)
+              this.$store.commit('setUserInfo', res.data)
 
-              _self.$router.push({
+              this.$router.push({
                 path: '/dashboard'
               })
             }).catch(err => {
-              _self.setErrorDetails(err)
+              this.setErrorDetails(err)
             }).then(() => {
-              _self.state.loading = true
+              this.state.loading = true
             })
           }).catch(err => {
-            _self.setErrorDetails(err)
+            this.setErrorDetails(err)
           }).then(() => {
-            _self.state.loading = true
+            this.state.loading = true
           })
         })
       }

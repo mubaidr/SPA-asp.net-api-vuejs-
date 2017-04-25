@@ -184,14 +184,13 @@
     },
     methods: {
       addComment () {
-        const _self = this
-        const text = _self.comment
+        const text = this.comment
         if (text) {
           addLog({
             Description: text,
-            MainTaskID: _self.Task.MainTaskID
+            MainTaskID: this.Task.MainTaskID
           }).then(res => {
-            _self.log.content = res.data
+            this.log.content = res.data
           }).catch(err => {
             console.log(err)
           })
@@ -209,34 +208,32 @@
         return moment(date).format('hh:mmA DD-MM-YY')
       },
       loadLog () {
-        const _self = this
-        _self.log.loading = true
+        this.log.loading = true
 
-        getLog(_self.Task.MainTaskID).then(res => {
-          _self.log.content = res.data
+        getLog(this.Task.MainTaskID).then(res => {
+          this.log.content = res.data
         }).catch(err => {
           console.dir(err)
         }).then(() => {
-          _self.log.loading = false
+          this.log.loading = false
         })
       }
     },
     mounted () {
-      const _self = this
-      const task = _self.$route.params.Task
-      const type = _self.$route.params.Type
+      const task = this.$route.params.Task
+      const type = this.$route.params.Type
 
       if (task) {
-        _self.Type = type || 'view'
-        _self.Task = task
+        this.Type = type || 'view'
+        this.Task = task
       } else {
-        _self.$router.push({
+        this.$router.push({
           path: '/tasks'
         })
       }
 
       window.setTimeout(() => {
-        _self.loadLog()
+        this.loadLog()
       }, 500)
     }
   }

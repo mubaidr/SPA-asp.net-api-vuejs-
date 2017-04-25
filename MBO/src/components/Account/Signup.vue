@@ -65,38 +65,37 @@
     methods: {
       setErrorDetails (err) {
         // console.dir(err);
-        const _self = this
+  
         if (err) {
-          _self.state.title = err.message
+          this.state.title = err.message
           if (err.response && err.response.data && err.response.data.error_description) {
-            _self.state.title = err.response.data.error_description
+            this.state.title = err.response.data.error_description
           }
         } else {
-          _self.state.title = null
+          this.state.title = null
         }
       },
       formValidate (event) {
         event.preventDefault()
-        const _self = this
-
-        _self.$validator.validateAll().then(success => {
+  
+        this.$validator.validateAll().then(success => {
           if (!success) return
 
-          _self.setErrorDetails()
+          this.setErrorDetails()
 
-          _self.state.loading = true
+          this.state.loading = true
 
           signup(this.credentials).then(res => {
-            _self.$router.push({
+            this.$router.push({
               path: '/signin',
               params: {
                 message: 'signup-success'
               }
             })
           }).catch(err => {
-            _self.setErrorDetails(err)
+            this.setErrorDetails(err)
           }).then(() => {
-            _self.state.loading = false
+            this.state.loading = false
           })
         })
       }

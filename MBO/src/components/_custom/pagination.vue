@@ -112,9 +112,8 @@
     },
     methods: {
       search () {
-        const _self = this
-        _self.paging.page = 1
-        _self.refresh()
+        this.paging.page = 1
+        this.refresh()
       },
       refresh: _.debounce(function () {
         this.$emit('refresh', this.paging)
