@@ -51,7 +51,7 @@ namespace MBO_API.Controllers
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
-                msgs = msgs.Where(m => m.Description.Contains(filter) || m.Sender.Email.Contains(filter) || m.Sender.FullName.Contains(filter));
+                msgs = msgs.Where(m => m.Description.Contains(filter) || m.Sender.Email.Contains(filter) || m.Sender.FirstName.Contains(filter) || m.Sender.LastName.Contains(filter));
             }
 
             var count = msgs.Count();

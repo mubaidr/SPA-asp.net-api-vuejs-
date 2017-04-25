@@ -44,35 +44,37 @@
           <message-create v-if="ActiveFolder.name == 'compose'" @message-sent="messageSent"></message-create>
           <md-whiteframe class="min-height full-width" md-tag="section" v-else>
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
-            <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">              
-              <md-list-item v-for="chat in ActiveFolder.data">
-                <!--TODO add notification for unread time-->
-                <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
-                  <span>{{chat.Description}}</span>
-                  <span class="small">{{chat.Sender.Email}}</span>
+            <transition name="slide-up" mode="out-in">
+              <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">              
+                <md-list-item v-for="chat in ActiveFolder.data">
+                  <!--TODO add notification for unread time-->
+                  <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
+                    <span>{{chat.Description}}</span>
+                    <span class="small">{{chat.Sender.Email}}</span>
+                  </div>
+                  <div>
+                    <span class="md-caption">{{formatDate(chat.Time)}}</span>
+                  </div>
+                  <md-button class="md-icon-button md-list-action" v-show="chat.Sender.Id !== userInfo.ID" @click.native="replyMessage(chat)">
+                    <md-icon class="md-accent">reply</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-if="!chat.IsDeleted">
+                    <md-icon class="md-accent">delete</md-icon>
+                  </md-button>
+                  <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-else>
+                    <md-icon class="md-accent">restore</md-icon>
+                  </md-button>
+                </md-list-item>
+              </md-list>
+              <div class="flex-vertical min-height full-width" v-else>
+                <div class="no-content">
+                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
+                  <p v-if="ActiveFolder.loading">Loading...</p>
+                  <p v-else="">Awww... Nothing here!</p>
+                  <span v-show="ActiveFolder.error">An error occurred while trying to fetch data.</span>
                 </div>
-                <div>
-                  <span class="md-caption">{{formatDate(chat.Time)}}</span>
-                </div>
-                <md-button class="md-icon-button md-list-action" v-show="chat.Sender.Id !== userInfo.ID" @click.native="replyMessage(chat)">
-                  <md-icon class="md-accent">reply</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-if="!chat.IsDeleted">
-                  <md-icon class="md-accent">delete</md-icon>
-                </md-button>
-                <md-button class="md-icon-button md-list-action" @click.native="removeMessage(chat.MessageID)" v-else>
-                  <md-icon class="md-accent">restore</md-icon>
-                </md-button>
-              </md-list-item>
-            </md-list>
-            <div class="flex-vertical min-height full-width" v-else>
-              <div class="no-content">
-                <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
-                <p v-if="ActiveFolder.loading">Loading...</p>
-                <p v-else="">Awww... Nothing here!</p>
-                <span v-show="ActiveFolder.error">An error occurred while trying to fetch data.</span>
               </div>
-            </div>
+            </transition>
           </md-whiteframe>
         </transition>
       </md-layout>
