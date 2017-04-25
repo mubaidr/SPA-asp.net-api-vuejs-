@@ -47,6 +47,7 @@
 
   export default {
     name: 'message-create',
+    props: ['message'],
     data () {
       return {
         Description: 'Some text message!',
@@ -86,6 +87,11 @@
       }
     },
     created () {
+      this.Description = this.message.Description
+      this.Users.length = 0
+      this.Users.push(this.message.User)
+      console.log('test')
+
       getUsersList().then(res => {
         this.Catalog.Users = res.data
       }).catch(err => {

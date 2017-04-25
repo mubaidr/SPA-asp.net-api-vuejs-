@@ -41,7 +41,7 @@
       </md-layout>
       <md-layout>
         <transition name="slide-right">
-          <message-create v-if="ActiveFolder.name == 'compose'" @message-sent="messageSent"></message-create>
+          <message-create v-if="ActiveFolder.name == 'compose'" :message="Message" @message-sent="messageSent"></message-create>
           <md-whiteframe class="min-height full-width" md-tag="section" v-else>
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
             <transition name="slide-up" mode="out-in">
@@ -50,7 +50,8 @@
                   <!--TODO add notification for unread time-->
                   <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
                     <span>{{chat.Description}}</span>
-                    <span class="small">{{chat.Sender.Email}}</span>
+                    <span class="small" v-if="ActiveFolder.name === 'inbox'">{{chat.Sender.Email}}</span>
+                    <span class="small" v-else>{{chat.Receiver.Email}}</span>
                   </div>
                   <div>
                     <span class="md-caption">{{formatDate(chat.Time)}}</span>
@@ -99,6 +100,10 @@
           count: 0,
           data: [],
           error: null
+        },
+        Message: {
+          Description: '',
+          User: ''
         }
       }
     },
@@ -114,8 +119,9 @@
     },
     methods: {
       replyMessage (chat) {
-        // TODO add message quote
-        console.log(chat)
+        this.Message.Description = chat.Description
+        this.Message.User = chat.SenderID
+        this.openFolder('compose')
       },
       readMessage (id) {
         markReadMessage(id).catch(() => {
@@ -171,6 +177,7 @@
       openFolder (folder) {
         this.ActiveFolder.name = folder
         if (folder !== 'compose') {
+          this.Message = {}
           this.ActiveFolder.data = []
           this.ActiveFolder.loading = true
           this.ActiveFolder.filter = ''
