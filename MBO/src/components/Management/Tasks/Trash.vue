@@ -25,20 +25,22 @@
     <md-layout md-gutter="">
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
       <md-layout md-gutter="">
-        <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="Tasks.Trash.content.length">
-          <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
-            <task-card-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'Card'"></task-card-trash>
-            <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
-          </li>
-        </transition-group>
-        <div class="flex-vertical min-height full-width" v-else>
-          <div class="no-content">
-            <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br>
-            <span v-if="Tasks.Trash.loading">Loading...</span>
-            <span v-else="">Awww... Nothing here!</span>
-            <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
+        <transition name="slide-up" mode="out-in">
+          <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="Tasks.Trash.content.length">
+            <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in Tasks.Trash.content" v-bind:key="Task.MainTaskID">
+              <task-card-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'Card'"></task-card-trash>
+              <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
+            </li>
+          </transition-group>
+          <div class="flex-vertical min-height full-width" v-else>
+            <div class="no-content">
+              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br>
+              <span v-if="Tasks.Trash.loading">Loading...</span>
+              <span v-else="">Awww... Nothing here!</span>
+              <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
+            </div>
           </div>
-        </div>
+        </transition>
       </md-layout>
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
     </md-layout>

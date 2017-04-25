@@ -28,20 +28,22 @@
           <md-layout md-gutter="">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
             <md-layout md-gutter="">
-              <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="TaskList.content.length">
-                <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
-                  <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
-                  <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
-                </li>
-              </transition-group>
-              <div class="flex-vertical min-height full-width" v-else>
-                <div class="no-content">
-                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
-                  <span v-if="TaskList.loading">Loading...</span>
-                  <span v-else="">Awww... Nothing here!</span>
-                  <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
+              <transition name="slide-up" mode="out-in">
+                <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="TaskList.content.length">
+                  <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                    <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
+                    <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
+                  </li>
+                </transition-group>
+                <div class="flex-vertical min-height full-width" v-else>
+                  <div class="no-content">
+                    <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
+                    <span v-if="TaskList.loading">Loading...</span>
+                    <span v-else="">Awww... Nothing here!</span>
+                    <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
+                  </div>
                 </div>
-              </div>
+              </transition>
             </md-layout>
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
           </md-layout>
