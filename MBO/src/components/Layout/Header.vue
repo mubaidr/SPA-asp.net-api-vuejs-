@@ -22,7 +22,7 @@
             <md-tooltip md-direction="top">Assigment</md-tooltip>
             <md-icon>assignment</md-icon>
           </md-button>
-          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/messages')">
+          <md-button class="md-fab md-accent md-mini md-clean" @click.native="redirect('/messages?folder=compose')">
             <md-tooltip md-direction="top">Message</md-tooltip>
             <md-icon>chat</md-icon>
           </md-button>
@@ -85,18 +85,35 @@
             <span>Tasks</span>
           </md-subheader>
           <md-list-item>
+            <md-icon>add</md-icon>
+            <span><router-link to="/tasks/create">New</router-link></span>
+          </md-list-item>
+          <md-list-item>
             <md-icon>assignment_return</md-icon>
-            <span><router-link :to="{path: '/tasks'}">List</router-link></span>
+            <span>
+              <router-link :to="{path: '/tasks', query: {sub: 'Assigned'}}">Assigned to me</router-link>
+            </span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>assignment</md-icon>
+            <span><router-link :to="{path: '/tasks', query: {sub: 'Created'}}">Created by me</router-link>
+            </span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>assignment_turned_in</md-icon>
+            <span><router-link :to="{path: '/tasks', query: {sub: 'Completed'}}">Completed</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span><router-link to="/tasks/trash">Trash</router-link></span>
+            <span><router-link to="/tasks/trash">Trash</router-link>
+            </span>
           </md-list-item>
           <md-subheader>
             <span>Messages</span>
           </md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">Create New</router-link></span>
+            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">New</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>mail</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox</router-link></span>

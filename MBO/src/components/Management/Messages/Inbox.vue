@@ -24,16 +24,16 @@
       <md-layout md-flex-small="33" md-flex="15">
         <md-whiteframe class="full-width" md-tag="section">
           <md-list class="mail-list">
-            <md-list-item :disabled="ActiveFolder.loading" @click.native="openFolder('compose')" :class="{'md-primary': ActiveFolder.name == 'compose'}">
+            <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'compose'" @click.native="openFolder('compose')" :class="ActiveFolder.name == 'compose' ? 'md-primary': ''">
               <md-icon>mail</md-icon> <span>Compose</span>
             </md-list-item>
-            <md-list-item :disabled="ActiveFolder.loading" @click.native="openFolder('inbox')" :class="{'md-primary': ActiveFolder.name == 'inbox'}">
+            <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'inbox'" @click.native="openFolder('inbox')" :class="ActiveFolder.name == 'inbox' ? 'md-primary': ''">
               <md-icon>inbox</md-icon> <span>Inbox</span>
             </md-list-item>
-            <md-list-item :disabled="ActiveFolder.loading" @click.native="openFolder('sent')" :class="{'md-primary': ActiveFolder.name == 'sent'}">
+            <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'sent'" @click.native="openFolder('sent')" :class="ActiveFolder.name == 'sent' ? 'md-primary': ''">
               <md-icon>send</md-icon> <span>Sent Mail</span>
             </md-list-item>
-            <md-list-item :disabled="ActiveFolder.loading" @click.native="openFolder('trash')" :class="{'md-primary': ActiveFolder.name == 'trash'}">
+            <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'trash'" @click.native="openFolder('trash')" :class="ActiveFolder.name == 'trash' ? 'md-primary': ''">
               <md-icon>delete</md-icon> <span>Trash</span>
             </md-list-item>
           </md-list>
@@ -197,7 +197,9 @@
           this.ActiveFolder.data = res.data.message
           this.ActiveFolder.count = res.data.count
           this.ActiveFolder.lastPage = res.data.last_page
-        }).catch(err => { console.log(err.data) }).then(() => {
+        }).catch(err => {
+          console.log(err.data)
+        }).then(() => {
           this.ActiveFolder.loading = false
         })
       }, 500, {

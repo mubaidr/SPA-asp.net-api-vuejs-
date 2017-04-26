@@ -29,8 +29,14 @@
     </md-layout>
     <br>
     <md-layout md-gutter="40">
-      <md-layout md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
-        <md-layout md-gutter="">
+      <md-layout md-gutter="8" md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
+        <md-layout>
+          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
+        </md-layout>
+        <md-layout>
+          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
+        </md-layout>
+        <md-layout>
           <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
         </md-layout>
       </md-layout>
@@ -39,7 +45,7 @@
           <md-subheader class="md-inset">My Tasks</md-subheader>
           <md-list-item>
             <md-icon>add</md-icon>
-            <span><router-link to="/tasks/create">Create</router-link></span>
+            <span><router-link to="/tasks/create">New</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_return</md-icon>
@@ -64,7 +70,7 @@
           </md-list-item>
           <md-subheader class="md-inset">Messages</md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">Create New</router-link></span>
+            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">New</router-link></span>
           </md-list-item>
           <md-list-item>
             <md-icon>mail</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox <md-chip>{{dashboard.MessagesReceivedCount}}</md-chip></router-link></span>
