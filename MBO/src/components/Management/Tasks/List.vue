@@ -208,8 +208,8 @@
           this.Tasks.Assigned.content = res.data.mainTask
           this.Tasks.Assigned.lastPage = res.data.last_page
           this.Tasks.Assigned.count = res.data.count
-        }).catch(() => {
-          this.failAlert = true
+        }).catch(err => {
+          this.setErrorDetails(err)
         }).then(() => {
           this.Tasks.Assigned.loading = false
         })
@@ -221,8 +221,8 @@
           this.Tasks.Completed.content = res.data.mainTask
           this.Tasks.Completed.lastPage = res.data.last_page
           this.Tasks.Completed.count = res.data.count
-        }).catch(() => {
-          this.failAlert = true
+        }).catch(err => {
+          this.setErrorDetails(err)
         }).then(() => {
           this.Tasks.Completed.loading = false
         })
@@ -234,8 +234,8 @@
           this.Tasks.Created.content = res.data.mainTask
           this.Tasks.Created.lastPage = res.data.last_page
           this.Tasks.Created.count = res.data.count
-        }).catch(() => {
-          this.failAlert = true
+        }).catch(err => {
+          this.setErrorDetails(err)
         }).then(() => {
           this.Tasks.Created.loading = false
         })

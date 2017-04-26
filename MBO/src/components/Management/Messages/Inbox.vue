@@ -128,8 +128,8 @@
         this.openFolder('compose')
       },
       readMessage (id) {
-        markReadMessage(id).catch(() => {
-          console.log('some error')
+        markReadMessage(id).catch(err => {
+          this.setErrorDetails(err)
         })
       },
       unDeleteMessage (id) {
@@ -137,7 +137,7 @@
         restoreMessage(id).then(() => {
           this.openFolder(this.ActiveFolder.name)
         }).catch(err => {
-          console.log(err)
+          this.setErrorDetails(err)
         }).then(() => {
           this.ActiveFolder.loading = false
         })
@@ -147,7 +147,7 @@
         deleteMessage(id).then(() => {
           this.openFolder(this.ActiveFolder.name)
         }).catch(err => {
-          console.log(err)
+          this.setErrorDetails(err)
         }).then(() => {
           this.ActiveFolder.loading = false
         })
@@ -172,7 +172,7 @@
           this.ActiveFolder.lastPage = res.data.last_page
         })
         .catch(err => {
-          console.log(err.data)
+          this.setErrorDetails(err)
         })
         .then(() => {
           this.ActiveFolder.loading = false
@@ -198,7 +198,7 @@
           this.ActiveFolder.count = res.data.count
           this.ActiveFolder.lastPage = res.data.last_page
         }).catch(err => {
-          console.log(err.data)
+          this.setErrorDetails(err)
         }).then(() => {
           this.ActiveFolder.loading = false
         })

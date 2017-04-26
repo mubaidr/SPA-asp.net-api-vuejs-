@@ -58,19 +58,6 @@
       }
     },
     methods: {
-      setErrorDetails (err) {
-        // TODO register as global method
-        // console.dir(err);
-  
-        if (err) {
-          this.state.title = err.message
-          if (err.response && err.response.data && err.response.data.error_description) {
-            this.state.details = err.response.data.error_description
-          }
-        } else {
-          this.state.title = null
-        }
-      },
       formValidate (event) {
         event.preventDefault()
   

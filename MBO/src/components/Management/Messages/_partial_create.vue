@@ -69,7 +69,7 @@
         postMessage(msg).then(res => {
           this.$emit('message-sent')
         }).catch(err => {
-          console.log(err.data)
+          this.setErrorDetails(err)
         }).then(() => {
           this.Page.isLoading = false
         })
@@ -94,7 +94,7 @@
       getUsersList().then(res => {
         this.Catalog.Users = res.data
       }).catch(err => {
-        console.log(err)
+        this.setErrorDetails(err)
       })
     },
     mounted () {

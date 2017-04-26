@@ -133,10 +133,7 @@
               path: '/tasks'
             })
           }).catch(err => {
-            this.$store.commit('setState', {
-              loading: false,
-              err
-            })
+            this.setErrorDetails(err)
           })
         })
       }
@@ -148,11 +145,15 @@
 
       getCategories().then(res => {
         this.Catalog.Categories = res.data
-      }).catch(err => { console.log(err) })
+      }).catch(err => {
+        this.setErrorDetails(err)
+      })
 
       getUsersList().then(res => {
         this.Catalog.Users = res.data
-      }).catch(err => { console.log(err) })
+      }).catch(err => {
+        this.setErrorDetails(err)
+      })
     },
     mounted () { }
   }

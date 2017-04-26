@@ -130,8 +130,7 @@
           this.Tasks.Trash.lastPage = res.data.lastPage
           this.Tasks.Trash.count = res.data.count
         }).catch(err => {
-          this.failAlert = true
-          console.log(err)
+          this.setErrorDetails(err)
         }).then(() => {
           this.Tasks.Trash.loading = false
         })

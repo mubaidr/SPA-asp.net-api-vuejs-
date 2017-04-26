@@ -119,7 +119,9 @@
             countup.start()
           }
         }, 500)
-      }).catch(err => { console.log(err) })
+      }).catch(err => {
+        this.setErrorDetails(err)
+      })
     },
     mounted () {
 
