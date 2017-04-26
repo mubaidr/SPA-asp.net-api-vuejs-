@@ -64,10 +64,16 @@
           </md-list-item>
           <md-subheader class="md-inset">Messages</md-subheader>
           <md-list-item>
-            <md-icon>mail</md-icon> <span><router-link :to="{path: '/Messages'}">Inbox <md-chip>{{dashboard.MessagesReceivedCount}}</md-chip></router-link></span>
+            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">Create New</router-link></span>
           </md-list-item>
           <md-list-item>
-            <md-icon>delete</md-icon> <span><router-link :to="{path: '/Messages/Trash'}">Trash <md-chip>{{dashboard.MessagesDeletedCount}}</md-chip></router-link></span>
+            <md-icon>mail</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox <md-chip>{{dashboard.MessagesReceivedCount}}</md-chip></router-link></span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>send</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'sent'}}">Sent <md-chip>{{dashboard.MessagesSentCount}}</md-chip></router-link></span>
+          </md-list-item>
+          <md-list-item>
+            <md-icon>delete</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'trash'}}">Trash <md-chip>{{dashboard.MessagesDeletedCount}}</md-chip></router-link></span>
           </md-list-item>
         </md-list>
       </md-layout>

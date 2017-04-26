@@ -57,26 +57,28 @@ namespace MBO_API.Controllers
         public Dashboard Get()
         {
             var userId = RequestContext.Principal.Identity.GetUserId();
-            var dashboard = new Dashboard();
 
-            dashboard.TasksCreatedCount = db.MainTask.Where(m => m.AssignedByID == userId && m.IsDeleted == false).Count();
-            dashboard.TasksAssignedCount = db.MainTask.Where(m => m.AssignedTo.All(u => u.Id == userId) && m.IsDeleted == false).Count();
-            dashboard.TasksCompletedCount = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false && m.Progress == 100).Count();
-            dashboard.TasksDeletedCount = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true).Count();
+            var dashboard = new Dashboard()
+            {
+                TasksCreatedCount = db.MainTask.Where(m => m.AssignedByID == userId && m.IsDeleted == false).Count(),
+                TasksAssignedCount = db.MainTask.Where(m => m.AssignedTo.All(u => u.Id == userId) && m.IsDeleted == false).Count(),
+                TasksCompletedCount = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false && m.Progress == 100).Count(),
+                TasksDeletedCount = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true).Count(),
 
-            dashboard.LogsCount = db.Logs.Where(l => l.MainTask.AssignedByID == userId || l.MainTask.AssignedTo.All(u => u.Id == userId)).Count();
+                LogsCount = db.Logs.Where(l => l.MainTask.AssignedByID == userId || l.MainTask.AssignedTo.All(u => u.Id == userId)).Count(),
 
-            dashboard.MessagesReceivedCount = db.Messages.Where(m => (m.ReceiverID == userId)).Count();
-            dashboard.MessagesSentCount = db.Messages.Where(m => (m.SenderID == userId)).Count();
-            // dashboard.MessagesDeletedCount = db.Messages.Where(m => (m.ReceiverID == userId || m.SenderID == userId)).Count();
+                MessagesReceivedCount = db.Messages.Where(m => (m.ReceiverID == userId)).Count(),
+                MessagesSentCount = db.Messages.Where(m => (m.SenderID == userId)).Count(),
+                MessagesDeletedCount = db.Messages.Where(m => (m.ReceiverID == userId || m.SenderID == userId) && m.IsDeleted == true).Count(),
 
-            dashboard.TasksCreatedLatest = db.MainTask.Where(m => m.AssignedByID == userId && m.IsDeleted == false).OrderByDescending(m => m.DateAssigned).Take(10).ToList();
-            dashboard.TasksAssignedLatest = db.MainTask.Where(m => m.AssignedTo.All(u => u.Id == userId) && m.IsDeleted == false).Take(10).ToList();
-            dashboard.TasksCompletedLatest = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false && m.Progress == 100).OrderByDescending(m => m.DateCompleted).Take(10).ToList();
-            dashboard.TasksDeletedLatest = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true).OrderByDescending(m => m.DateCompleted).Take(10).ToList();
+                TasksCreatedLatest = db.MainTask.Where(m => m.AssignedByID == userId && m.IsDeleted == false).OrderByDescending(m => m.DateAssigned).Take(10).ToList(),
+                TasksAssignedLatest = db.MainTask.Where(m => m.AssignedTo.All(u => u.Id == userId) && m.IsDeleted == false).Take(10).ToList(),
+                TasksCompletedLatest = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == false && m.Progress == 100).OrderByDescending(m => m.DateCompleted).Take(10).ToList(),
+                TasksDeletedLatest = db.MainTask.Where(m => (m.AssignedTo.All(u => u.Id == userId) || m.AssignedByID == userId) && m.IsDeleted == true).OrderByDescending(m => m.DateCompleted).Take(10).ToList(),
 
-            dashboard.LogsLatest = db.Logs.Where(l => l.MainTask.AssignedByID == userId || l.MainTask.AssignedTo.All(u => u.Id == userId)).OrderByDescending(l => l.LogTime).Take(10).ToList();
-            dashboard.MessagesLatest = db.Messages.Where(m => (m.ReceiverID == userId || m.SenderID == userId)).OrderByDescending(m => m.Time).Take(10).ToList();
+                LogsLatest = db.Logs.Where(l => l.MainTask.AssignedByID == userId || l.MainTask.AssignedTo.All(u => u.Id == userId)).OrderByDescending(l => l.LogTime).Take(10).ToList(),
+                MessagesLatest = db.Messages.Where(m => (m.ReceiverID == userId || m.SenderID == userId)).OrderByDescending(m => m.Time).Take(10).ToList()
+            };
 
             return dashboard;
         }

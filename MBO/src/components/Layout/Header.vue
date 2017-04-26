@@ -96,16 +96,16 @@
             <span>Messages</span>
           </md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span>Compose</span>
+            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">Create New</router-link></span>
           </md-list-item>
           <md-list-item>
-            <md-icon>mail</md-icon> <span>Inbox</span>
+            <md-icon>mail</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox</router-link></span>
           </md-list-item>
           <md-list-item>
-            <md-icon>send</md-icon> <span>Outbox</span>
+            <md-icon>send</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'sent'}}">Sent</router-link></span>
           </md-list-item>
           <md-list-item>
-            <md-icon>delete</md-icon> <span>Trash</span>
+            <md-icon>delete</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'trash'}}">Trash</router-link></span>
           </md-list-item>
           <md-subheader>
             <span>Support</span>

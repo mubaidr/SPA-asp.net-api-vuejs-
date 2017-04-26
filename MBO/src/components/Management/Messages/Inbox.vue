@@ -111,7 +111,11 @@
       'message-create': messageCreate,
       'pagination': pagination
     },
-    watch: {},
+    watch: {
+      '$route.query.folder' (folder) {
+        this.openFolder(folder)
+      }
+    },
     computed: {
       userInfo () {
         return this.$store.getters.getUserInfo
@@ -202,7 +206,8 @@
       })
     },
     created () {
-      this.openFolder('inbox')
+      var folder = this.$route.query.folder || 'inbox'
+      this.openFolder(folder)
     },
     mounted () {}
   }
