@@ -2,7 +2,7 @@
   <div>
     <app-header></app-header>
     <div class="container">
-      <transition :name="transitionName" mode="out-in">
+      <transition appear :name="transitionName" mode="out-in">
         <router-view></router-view>
       </transition>
     </div>

@@ -40,13 +40,13 @@
         </md-whiteframe>
       </md-layout>
       <md-layout>
-        <transition name="slide-right">
+        <transition name="slide-right" appear>
           <message-create v-if="ActiveFolder.name == 'compose'" :message="Message" @message-sent="messageSent"></message-create>
           <md-whiteframe class="min-height full-width" md-tag="section" v-else>
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
-            <transition name="slide-up" mode="out-in">
+            <transition name="slide-up" appear mode="out-in">
               <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">              
-                <md-list-item v-for="chat in ActiveFolder.data">
+                <md-list-item v-for="chat in ActiveFolder.data" @click.native="readMessage(chat)">
                   <!--TODO add notification for unread time-->
                   <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
                     <span>{{chat.Description}}</span>
@@ -127,10 +127,12 @@
         this.Message.User = chat.SenderID
         this.openFolder('compose')
       },
-      readMessage (id) {
-        markReadMessage(id).catch(err => {
-          this.setErrorDetails(err)
-        })
+      readMessage (msg) {
+        if (!msg.IsRead) {
+          markReadMessage(msg.MessageID).catch(err => {
+            this.setErrorDetails(err)
+          })
+        }
       },
       unDeleteMessage (id) {
         this.ActiveFolder.loading = true

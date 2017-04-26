@@ -28,8 +28,8 @@
           <md-layout md-gutter="">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
             <md-layout md-gutter="">
-              <transition name="slide-up" mode="out-in">
-                <transition-group class="min-height no-padding full-width simple-list" name="list-out" tag="ul" v-if="TaskList.content.length">
+              <transition name="slide-up" appear mode="out-in">
+                <transition-group class="min-height no-padding full-width simple-list" name="list-out" appear tag="ul" v-if="TaskList.content.length">
                   <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
                     <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
                     <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>

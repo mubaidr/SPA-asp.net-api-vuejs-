@@ -146,6 +146,7 @@ namespace MBO_API.Controllers
 
         // POST: api/Messages/Restore
         [ResponseType(typeof(Message))]
+        [Route("api/Messages/Restore")]
         [HttpPost]
         public IHttpActionResult RestoreMessage(int Id)
         {

@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition appear="">
     <router-view></router-view>
   </transition>
 </template>
