@@ -36,7 +36,7 @@
 
   export default {
     components: {
-      'task-create': taskCreate
+      taskCreate
     }
   }
 

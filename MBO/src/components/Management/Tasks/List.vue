@@ -24,7 +24,7 @@
     <md-whiteframe md-tag="section" md-elevation="0">
       <md-tabs md-fixed @change="tabChange" md-elevation="1">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks">
-          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true" @refresh="search"></pagination>
+          <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true" :full-width="true" @refresh="search"></pagination>
           <md-layout md-gutter="">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
             <md-layout md-gutter="">
@@ -35,14 +35,7 @@
                     <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
                   </li>
                 </transition-group>
-                <div class="flex-vertical min-height full-width" v-else>
-                  <div class="no-content">
-                    <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
-                    <span v-if="TaskList.loading">Loading...</span>
-                    <span v-else="">Awww... Nothing here!</span>
-                    <span v-show="TaskList.error">An error occured while trying to fetch data.</span>
-                  </div>
-                </div>
+                <data-state :loading="TaskList.loading" :error="TaskList.error" v-else></data-state>
               </transition>
             </md-layout>
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
@@ -60,6 +53,7 @@
   import pagination from 'components/_custom/pagination.vue'
   import taskCard from 'components/_custom/task-card.vue'
   import taskListItem from 'components/_custom/task-list-item.vue'
+  import dataState from 'components/_custom/data-state.vue'
   import {
     listAssigned,
     listCreated,
@@ -69,9 +63,10 @@
   export default {
     name: 'task-list-all',
     components: {
-      'task-card': taskCard,
-      'task-list-item': taskListItem,
-      'pagination': pagination
+      taskCard,
+      taskListItem,
+      pagination,
+      dataState
     },
     data () {
       return {

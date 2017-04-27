@@ -21,7 +21,7 @@
     </md-toolbar>
     <!--</md-whiteframe>-->
     <br>
-    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false" :compact="true" @refresh="loadTrash"></pagination>
+    <pagination :lastpage="Tasks.Trash.lastPage" :loading="Tasks.Trash.loading" :count="Tasks.Trash.count" :view-menu="false" :compact="true" :full-width="true" @refresh="loadTrash"></pagination>
     <md-layout md-gutter="">
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
       <md-layout md-gutter="">
@@ -32,14 +32,7 @@
               <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
             </li>
           </transition-group>
-          <div class="flex-vertical min-height full-width" v-else>
-            <div class="no-content">
-              <md-icon class="md-accent md-size-2x" md-size-2x>cloud_queue</md-icon><br>
-              <span v-if="Tasks.Trash.loading">Loading...</span>
-              <span v-else="">Awww... Nothing here!</span>
-              <span v-show="Tasks.Trash.error">An error occured while trying to fetch data.</span>
-            </div>
-          </div>
+          <data-state :loading="Tasks.Trash.loading" :error="Tasks.Trash.error" v-else></data-state>
         </transition>
       </md-layout>
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
@@ -54,6 +47,7 @@
   import taskCardTrash from 'components/_custom/task-card-trash.vue'
   import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
   import pagination from 'components/_custom/pagination.vue'
+  import dataState from 'components/_custom/data-state.vue'
   import {
     listTrash
   } from 'services/tasks'
@@ -61,9 +55,10 @@
   export default {
     name: 'task-list-trash',
     components: {
-      'task-card-trash': taskCardTrash,
-      'task-list-item-trash': taskListItemTrash,
-      'pagination': pagination
+      taskCardTrash,
+      taskListItemTrash,
+      pagination,
+      dataState
     },
     data () {
       return {

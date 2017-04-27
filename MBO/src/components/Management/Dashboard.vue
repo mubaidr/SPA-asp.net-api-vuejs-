@@ -100,7 +100,7 @@
       }
     },
     components: {
-      'bar-chart': ChartTasks
+      ChartTasks
     },
     created () {
       getDashboard().then(res => {
