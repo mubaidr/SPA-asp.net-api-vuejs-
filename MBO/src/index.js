@@ -4,6 +4,7 @@ import 'assets/css/site.css'
 
 import 'utilities/vue-material'
 import 'components/_custom'
+import 'utilities/veeValidate'
 
 import {
   app
@@ -11,6 +12,4 @@ import {
 
 app.$mount('#app')
 
-import 'utilities/veeValidate'
-import 'velocity-animate'
 import 'assets/script/site.js'

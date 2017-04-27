@@ -7,57 +7,8 @@ Vue.use(Vuex)
 const state = {
   auth: session.getAuth(),
   userInfo: session.getUserInfo(),
-  settings: session.getSettings() || {
-    taskView: {
-      sort: [{
-        name: 'Priority',
-        code: 'PriorityUp',
-        icon: 'keyboard_arrow_up',
-        enabled: false
-      },
-      {
-        name: 'Priority',
-        code: 'PriorityDown',
-        icon: 'keyboard_arrow_down',
-        enabled: false
-      },
-      {
-        name: 'Due Time',
-        code: 'DueTimeUp',
-        icon: 'keyboard_arrow_down',
-        enabled: false
-      },
-      {
-        name: 'Due Time',
-        code: 'DueTimeDown',
-        icon: 'keyboard_arrow_down',
-        enabled: true
-      },
-      {
-        name: 'Assigned Time',
-        code: 'AssignedTimeUp',
-        icon: 'keyboard_arrow_down',
-        enabled: false
-      },
-      {
-        name: 'Assigned Time',
-        code: 'AssignedTimeDown',
-        icon: 'keyboard_arrow_down',
-        enabled: false
-      }
-      ],
-      view: [{
-        name: 'Card',
-        icon: 'view_module',
-        enabled: true
-      },
-      {
-        name: 'List',
-        icon: 'view_list',
-        enabled: false
-      }]
-    }
-  }
+  settings: session.getSettings(),
+  quotes: session.getQuotes()
 }
 
 const mutations = {
@@ -79,6 +30,20 @@ const mutations = {
       state.settings.taskView.view[i].enabled = !state.settings.taskView.view[i].enabled
     }
     session.setSettings(state.settings)
+  },
+  setErrorState (err) {
+    if (err) {
+      this.state.title = err.message
+      try {
+        if (err.response.data.error_description) {
+          this.state.details = err.response.data.error_description
+        }
+      } catch (error) {
+        this.state.details = err.details ? err.details : 'Server Error!'
+      }
+    } else {
+      this.state.title = null
+    }
   }
 }
 
@@ -94,11 +59,32 @@ const getters = {
   getAuth (state) {
     return state.auth
   },
-  getViewMode () {
+  getViewMode (state) {
     return state.settings.view
   },
-  getSettings () {
+  getSettings (state) {
     return state.settings
+  },
+  getQuoteEmpty (state) {
+    console.log(state)
+    let items = state.quotes.empty
+    return items[Math.floor(Math.random() * items.length)]
+  },
+  getQuoteTry (state) {
+    let items = state.quotes.try
+    return items[Math.floor(Math.random() * items.length)]
+  },
+  getQuoteFail (state) {
+    let items = state.quotes.fail
+    return items[Math.floor(Math.random() * items.length)]
+  },
+  getQuoteSuccess (state) {
+    let items = state.quotes.success
+    return items[Math.floor(Math.random() * items.length)]
+  },
+  getQuoteInspire (state) {
+    let items = state.quotes.inspire
+    return items[Math.floor(Math.random() * items.length)]
   }
 }
 
@@ -110,5 +96,3 @@ const store = new Vuex.Store({
 })
 
 export default store
-
-// todo add qoates with different categories to display with empty data, error state or waiting screens!

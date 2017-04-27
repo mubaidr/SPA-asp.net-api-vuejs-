@@ -106,19 +106,6 @@
   color: rgba(255, 255, 255, .87);
   margin-bottom: 40px;
 }
-/*Empty placeholder*/
-.no-content {
-  text-align: center;
-}
-
-.no-content span {
-  font-size: 1.25em;
-  opacity: 0.75;
-}
-
-.no-content i {
-  margin-bottom: 10px;
-}
 
 /*vue-datepicker*/
 

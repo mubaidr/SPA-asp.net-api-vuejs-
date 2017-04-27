@@ -2,7 +2,7 @@
   <md-layout>
     <md-layout md-hide-small :class="{'hide': fullWidth == true}"></md-layout>
     <md-layout md-flex-medium="100">
-      <md-whiteframe class="full-width margin-bottom" md-tag="section" md-elevation="1">
+      <md-whiteframe class="full-width" md-tag="section" md-elevation="1">
         <md-toolbar class="md-dense md-transparent">
           <div class="md-toolbar-container">
             <md-button class="md-icon-button md-accent md-dense" md-hide-small @click.native="firstPage" :disabled="paging.page == 1 || loading">

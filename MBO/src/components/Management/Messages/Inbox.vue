@@ -46,8 +46,7 @@
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
             <transition name="slide-up" appear mode="out-in">
               <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">              
-                <md-list-item v-for="chat in ActiveFolder.data" @click.native="readMessage(chat)">
-                  <!--TODO add notification for unread time-->
+                <md-list-item v-for="chat in ActiveFolder.data" @click.native="readMessage(chat)">                  
                   <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
                     <span>{{chat.Description}}</span>
                     <span class="small" v-if="ActiveFolder.name === 'inbox'">{{chat.Sender.Email}}</span>
@@ -67,14 +66,7 @@
                   </md-button>
                 </md-list-item>
               </md-list>
-              <div class="flex-vertical min-height full-width" v-else>
-                <div class="no-content">
-                  <md-icon class="md-accent md-size-2x">cloud_queue</md-icon><br>
-                  <p v-if="ActiveFolder.loading">Loading...</p>
-                  <p v-else="">Awww... Nothing here!</p>
-                  <span v-show="ActiveFolder.error">An error occurred while trying to fetch data.</span>
-                </div>
-              </div>
+              <data-state :loading="ActiveFolder.loading" :error="ActiveFolder.error" v-else></data-state>
             </transition>
           </md-whiteframe>
         </transition>
@@ -86,6 +78,7 @@
   import _ from 'lodash'
   import { getMessages, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
+  import dataState from 'components/_custom/data-state.vue'
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
   import moment from 'moment'
 
@@ -108,8 +101,9 @@
       }
     },
     components: {
-      'message-create': messageCreate,
-      'pagination': pagination
+      messageCreate,
+      pagination,
+      dataState
     },
     watch: {
       '$route.query.folder' (folder) {
