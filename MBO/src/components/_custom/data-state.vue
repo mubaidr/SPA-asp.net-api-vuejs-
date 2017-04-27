@@ -39,12 +39,14 @@ export default {
   },
   methods: {
     getQuote () {
+      let quotes = this.$store.getters.getAllQuotes
+
       if (this.loading) {
-        return this.$store.getters.getQuoteTry
+        return quotes.try[Math.floor(Math.random() * quotes.try.length)]
       } else if (this.error) {
-        return this.$store.getters.getQuoteFail
+        return quotes.fail[Math.floor(Math.random() * quotes.fail.length)]
       }
-      return this.$store.getters.getQuoteEmpty
+      return quotes.empty[Math.floor(Math.random() * quotes.empty.length)]
     }
   },
   created () {

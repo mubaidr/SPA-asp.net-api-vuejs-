@@ -65,25 +65,11 @@ const getters = {
   getSettings (state) {
     return state.settings
   },
+  getAllQuotes () {
+    return state.quotes
+  },
   getQuoteEmpty (state) {
-    console.log(state)
     let items = state.quotes.empty
-    return items[Math.floor(Math.random() * items.length)]
-  },
-  getQuoteTry (state) {
-    let items = state.quotes.try
-    return items[Math.floor(Math.random() * items.length)]
-  },
-  getQuoteFail (state) {
-    let items = state.quotes.fail
-    return items[Math.floor(Math.random() * items.length)]
-  },
-  getQuoteSuccess (state) {
-    let items = state.quotes.success
-    return items[Math.floor(Math.random() * items.length)]
-  },
-  getQuoteInspire (state) {
-    let items = state.quotes.inspire
     return items[Math.floor(Math.random() * items.length)]
   }
 }
