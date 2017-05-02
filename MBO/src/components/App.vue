@@ -10,8 +10,8 @@
   </div>
 </template>
 <script>
-  import Header from './Layout/Header'
-  import Footer from './Layout/Footer'
+  import appHeader from './Layout/Header'
+  import appFooter from './Layout/Footer'
 
   export default {
     data () {
@@ -20,8 +20,8 @@
       }
     },
     components: {
-      'app-footer': Footer,
-      'app-header': Header
+      appFooter,
+      appHeader
     },
     watch: {
       '$route' (to, from) {

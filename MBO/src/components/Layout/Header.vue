@@ -148,6 +148,7 @@
   } from 'services/account'
 
   export default {
+    name: 'app-header',
     watch: {
       '$route' () {
         window.setTimeout(this.$refs.leftSidenav.close, 500)

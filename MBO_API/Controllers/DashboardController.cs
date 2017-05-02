@@ -67,8 +67,8 @@ namespace MBO_API.Controllers
 
                 LogsCount = db.Logs.Where(l => l.MainTask.AssignedByID == userId || l.MainTask.AssignedTo.All(u => u.Id == userId)).Count(),
 
-                MessagesReceivedCount = db.Messages.Where(m => (m.ReceiverID == userId)).Count(),
-                MessagesSentCount = db.Messages.Where(m => (m.SenderID == userId)).Count(),
+                MessagesReceivedCount = db.Messages.Where(m => m.ReceiverID == userId && m.IsDeleted == false).Count(),
+                MessagesSentCount = db.Messages.Where(m => (m.SenderID == userId && m.IsDeleted == false)).Count(),
                 MessagesDeletedCount = db.Messages.Where(m => (m.ReceiverID == userId || m.SenderID == userId) && m.IsDeleted == true).Count(),
 
                 TasksCreatedLatest = db.MainTask.Where(m => m.AssignedByID == userId && m.IsDeleted == false).OrderByDescending(m => m.DateAssigned).Take(10).ToList(),
