@@ -1,7 +1,6 @@
 <template>
   <md-layout md-gutter="">
-    <md-layout md-hide-xsmall=""></md-layout>
-    <md-layout md-hide-medium=""></md-layout>
+    <md-layout md-hide-small=""></md-layout>
     <md-layout>
       <div class="flex-vertical min-height full-width">
         <md-card class="full-width">
@@ -32,64 +31,63 @@
         </md-card>
       </div>
     </md-layout>
-    <md-layout md-hide-xsmall=""></md-layout>
-    <md-layout md-hide-medium=""></md-layout>
+    <md-layout md-hide-small=""></md-layout>
   </md-layout>
 </template>
 <script>
-  import {
-    signin,
-    getUserInfo
-  } from 'services/account'
+import {
+  signin,
+  getUserInfo
+} from 'services/account'
 
-  export default {
-    data () {
-      return {
-        credentials: {
-          UserName: 'tester@test.com',
-          Password: 'tester1234'
-        },
-        state: {
-          loading: false,
-          type: 'error',
-          title: null,
-          details: null
-        }
+export default {
+  data () {
+    return {
+      credentials: {
+        UserName: 'tester@test.com',
+        Password: 'tester1234'
+      },
+      state: {
+        loading: false,
+        type: 'error',
+        title: null,
+        details: null
       }
-    },
-    methods: {
-      formValidate (event) {
-        event.preventDefault()
-  
-        this.$validator.validateAll().then(success => {
-          if (!success) return
+    }
+  },
+  methods: {
+    formValidate (event) {
+      event.preventDefault()
 
-          this.setErrorDetails()
+      this.$validator.validateAll().then(success => {
+        if (!success) return
 
-          this.state.loading = true
+        this.setErrorDetails()
 
-          signin(this.credentials).then(res => {
-            this.$store.commit('setAuthentication', res.data)
+        this.state.loading = true
 
-            getUserInfo().then(res => {
-              this.$store.commit('setUserInfo', res.data)
+        signin(this.credentials).then(res => {
+          this.$store.commit('setAuthentication', res.data)
 
-              this.$router.push({
-                path: '/dashboard'
-              })
-            }).catch(err => {
-              this.setErrorDetails(err)
-            }).then(() => {
-              this.state.loading = true
+          getUserInfo().then(res => {
+            this.$store.commit('setUserInfo', res.data)
+
+            this.$router.push({
+              path: '/dashboard'
             })
           }).catch(err => {
             this.setErrorDetails(err)
           }).then(() => {
             this.state.loading = true
           })
+        }).catch(err => {
+          this.setErrorDetails(err)
+        }).then(() => {
+          this.state.loading = true
         })
-      }
+      })
     }
   }
+}
 
 </script>
