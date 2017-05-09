@@ -1,10 +1,10 @@
+import api from 'api'
+import axios from 'axios'
+
 export {
   addProgressHistory,
   getProgressHistory
 }
-
-import api from 'api'
-import axios from 'axios'
 
 function addProgressHistory (obj) {
   return axios.post(`${api.url}/api/ProgressHistories`)

@@ -1,3 +1,6 @@
+import api from 'api'
+import axios from 'utilities/axios'
+
 export {
   create,
   edit,
@@ -11,9 +14,6 @@ export {
   listCompleted,
   listTrash
 }
-
-import api from 'api'
-import axios from 'utilities/axios'
 
 const path = '/api/MainTasks'
 
@@ -66,7 +66,7 @@ function objToQuery (obj) {
   let val = ''
   for (const prop in obj) {
     val = obj[prop]
-    if (val && (val.trim && val.trim() !== '') || val > 0) {
+    if ((val && (val.trim && val.trim() !== '')) || val > 0) {
       query += `&${prop}=${val}`
     }
   }

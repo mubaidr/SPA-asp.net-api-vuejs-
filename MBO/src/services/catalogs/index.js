@@ -1,10 +1,10 @@
+import api from 'api'
+import axios from 'axios'
+
 export {
   getCategories,
   getStatus
 }
-
-import api from 'api'
-import axios from 'axios'
 
 function getCategories () {
   return axios.get(`${api.url}/api/Categories`)

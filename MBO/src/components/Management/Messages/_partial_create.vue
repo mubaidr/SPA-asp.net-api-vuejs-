@@ -20,10 +20,10 @@
           <md-input-container>
             <label for="Users">Send To</label>
             <md-select name="Users" multiple v-model="Users">
-              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :disabled="user.Id == userInfo.ID">
-                {{user.UserName}} 
+              <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :disabled="user.Id == userInfo.ID" :key="user.Id">
+                {{user.UserName}}
                 <span class="md-caption">{{user.Email}}</span>
-                </md-option>
+              </md-option>
             </md-select>
           </md-input-container>
         </md-card-content>
@@ -39,71 +39,70 @@
   </div>
 </template>
 <script>
-  // import _ from 'lodash'
-  import { postMessage } from 'services/messages'
-  import {
-    getUsersList
-  } from 'services/account'
+// import _ from 'lodash'
+import { postMessage } from 'services/messages'
+import {
+  getUsersList
+} from 'services/account'
 
-  export default {
-    name: 'message-create',
-    props: ['message'],
-    data () {
-      return {
-        Description: 'Some text message!',
-        Page: {
-          isLoading: false
-        },
-        Users: [],
-        Catalog: {
-          Users: []
-        }
-      }
-    },
-    computed: { userInfo () { return this.$store.getters.getUserInfo } },
-    methods: {
-      sendMessage () {
-        var msg = this.createMessage()
-        this.Page.isLoading = true
-
-        postMessage(msg).then(res => {
-          this.$emit('message-sent')
-        }).catch(err => {
-          this.setErrorDetails(err)
-        }).then(() => {
-          this.Page.isLoading = false
-        })
+export default {
+  name: 'message-create',
+  props: ['message'],
+  data () {
+    return {
+      Description: 'Some text message!',
+      Page: {
+        isLoading: false
       },
-      createMessage () {
-        return {
-          Description: this.Description.trim(),
-          Receivers: this.Users
-        }
-      },
-      formValidate () {
-        if (this.Description.trim()) {
-          this.sendMessage()
-        }
+      Users: [],
+      Catalog: {
+        Users: []
       }
-    },
-    created () {
-      this.Description = this.message.Description
-      this.Users.length = 0
-      this.Users.push(this.message.User)
+    }
+  },
+  computed: { userInfo () { return this.$store.getters.getUserInfo } },
+  methods: {
+    sendMessage () {
+      var msg = this.createMessage()
+      this.Page.isLoading = true
 
-      getUsersList().then(res => {
-        this.Catalog.Users = res.data
+      postMessage(msg).then(res => {
+        this.$emit('message-sent')
       }).catch(err => {
         this.setErrorDetails(err)
+      }).then(() => {
+        this.Page.isLoading = false
       })
     },
-    mounted () {
-
+    createMessage () {
+      return {
+        Description: this.Description.trim(),
+        Receivers: this.Users
+      }
+    },
+    formValidate () {
+      if (this.Description.trim()) {
+        this.sendMessage()
+      }
     }
+  },
+  created () {
+    this.Description = this.message.Description
+    this.Users.length = 0
+    this.Users.push(this.message.User)
+
+    getUsersList().then(res => {
+      this.Catalog.Users = res.data
+    }).catch(err => {
+      this.setErrorDetails(err)
+    })
+  },
+  mounted () {
+
   }
+}
 
 </script>
 <style scoped="">
-
 
 </style>

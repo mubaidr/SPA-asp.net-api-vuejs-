@@ -25,16 +25,20 @@
         <md-whiteframe class="full-width" md-tag="section">
           <md-list class="mail-list">
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'compose'" @click.native="openFolder('compose')" :class="ActiveFolder.name == 'compose' ? 'md-primary': ''">
-              <md-icon>mail</md-icon> <span>Compose</span>
+              <md-icon>mail</md-icon>
+              <span>Compose</span>
             </md-list-item>
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'inbox'" @click.native="openFolder('inbox')" :class="ActiveFolder.name == 'inbox' ? 'md-primary': ''">
-              <md-icon>inbox</md-icon> <span>Inbox</span>
+              <md-icon>inbox</md-icon>
+              <span>Inbox</span>
             </md-list-item>
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'sent'" @click.native="openFolder('sent')" :class="ActiveFolder.name == 'sent' ? 'md-primary': ''">
-              <md-icon>send</md-icon> <span>Sent Mail</span>
+              <md-icon>send</md-icon>
+              <span>Sent Mail</span>
             </md-list-item>
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'trash'" @click.native="openFolder('trash')" :class="ActiveFolder.name == 'trash' ? 'md-primary': ''">
-              <md-icon>delete</md-icon> <span>Trash</span>
+              <md-icon>delete</md-icon>
+              <span>Trash</span>
             </md-list-item>
           </md-list>
         </md-whiteframe>
@@ -46,7 +50,7 @@
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
             <transition name="slide-up" appear mode="out-in">
               <md-list class="md-double-line md-custom-inbox" v-if="ActiveFolder.data.length">
-                <md-list-item v-for="chat in ActiveFolder.data" @click.native="readMessage(chat)">
+                <md-list-item v-for="chat in ActiveFolder.data" @click.native="readMessage(chat)" :key="chat.ID">
                   <div class="md-list-text-container" :class="{'unread': !chat.IsRead && chat.SenderID != userInfo.ID}">
                     <span>{{chat.Description}}</span>
                     <span class="small" v-if="ActiveFolder.name === 'inbox'">{{chat.Sender.Email}}</span>

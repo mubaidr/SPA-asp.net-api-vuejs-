@@ -36,7 +36,7 @@
                 <md-subheader>
                   <span>Sort By</span>
                 </md-subheader>
-                <md-menu-item v-for="sort in settings.taskView.sort" :disabled="sort.enabled">
+                <md-menu-item v-for="sort in settings.taskView.sort" :disabled="sort.enabled" :key="sort.name">
                   <span>{{sort.name}} {{sort.type}}</span>
                   <md-icon>{{sort.icon}}</md-icon>
                 </md-menu-item>
@@ -51,7 +51,7 @@
                 <md-subheader>
                   <span>Change View</span>
                 </md-subheader>
-                <md-menu-item v-for="view in settings.taskView.view" :disabled="view.enabled" @click.native="changeView">
+                <md-menu-item v-for="view in settings.taskView.view" :disabled="view.enabled" @click.native="changeView" :key="view.name">
                   <span>{{view.name}}</span>
                   <md-icon>{{view.icon}}</md-icon>
                 </md-menu-item>
@@ -79,83 +79,82 @@
   </md-layout>
 </template>
 <script>
-  import _ from 'lodash'
-  export default {
-    name: 'pagination',
-    props: ['lastpage', 'count', 'loading', 'view-menu', 'full-width', 'sort-menu', 'refresh-menu', 'compact'],
-    data () {
-      return {
-        paging: {
-          page: 1,
-          orderby: 'DueTimeDown',
-          filter: ''
-        }
+import _ from 'lodash'
+export default {
+  name: 'pagination',
+  props: ['lastpage', 'count', 'loading', 'view-menu', 'full-width', 'sort-menu', 'refresh-menu', 'compact'],
+  data () {
+    return {
+      paging: {
+        page: 1,
+        orderby: 'DueTimeDown',
+        filter: ''
+      }
+    }
+  },
+  watch: {
+    'lastpage' (val) {
+      if (val === 0) {
+        this.lastpage = 1
       }
     },
-    watch: {
-      'lastpage' (val) {
-        if (val === 0) {
-          this.lastpage = 1
-        }
-      },
-      'paging.page' () {
-        this.refresh()
-      },
-      'paging.orderby' () {
-        this.refresh()
-      }
+    'paging.page' () {
+      this.refresh()
     },
-    computed: {
-      settings () {
-        return this.$store.getters.getSettings
-      }
+    'paging.orderby' () {
+      this.refresh()
+    }
+  },
+  computed: {
+    settings () {
+      return this.$store.getters.getSettings
+    }
+  },
+  methods: {
+    search () {
+      this.paging.page = 1
+      this.refresh()
     },
-    methods: {
-      search () {
-        this.paging.page = 1
-        this.refresh()
-      },
-      refresh: _.debounce(function () {
-        this.$emit('refresh', this.paging)
-      }, 500, {
-        leading: false,
-        trailing: true
-      }),
-      nextPage () {
-        this.paging.page += 1
-      },
-      previousPage () {
-        this.paging.page -= 1
-      },
-      firstPage () {
-        this.paging.page = 1
-      },
-      lastPage () {
-        this.paging.page = this.lastpage
-      },
-      changeView () {
-        this.$store.commit('toggleViewMode')
-      }
+    refresh: _.debounce(function () {
+      this.$emit('refresh', this.paging)
+    }, 500, {
+      leading: false,
+      trailing: true
+    }),
+    nextPage () {
+      this.paging.page += 1
     },
-    mounted () { }
-  }
+    previousPage () {
+      this.paging.page -= 1
+    },
+    firstPage () {
+      this.paging.page = 1
+    },
+    lastPage () {
+      this.paging.page = this.lastpage
+    },
+    changeView () {
+      this.$store.commit('toggleViewMode')
+    }
+  },
+  mounted () { }
+}
 
 </script>
 <style scoped="">
-  .margin-bottom{
-    margin-bottom: 5px;
-  }
+.margin-bottom {
+  margin-bottom: 5px;
+}
 
-  .hidden {
-    visibility: hidden;
-  }
-  
-  .md-input-container {
-    max-width: 180px;
-  }
-  
-  .md-button {
-    margin-right: 0;
-  }
+.hidden {
+  visibility: hidden;
+}
 
+.md-input-container {
+  max-width: 180px;
+}
+
+.md-button {
+  margin-right: 0;
+}
 </style>
