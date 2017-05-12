@@ -43,26 +43,36 @@
           </md-subheader>
           <md-list-item>
             <md-icon>person_outline</md-icon>
-            <span><router-link to="/signin">Sign In</router-link></span>
+            <span>
+              <router-link to="/signin">Sign In</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>person_add</md-icon>
-            <span><router-link to="/signup">Register</router-link></span>
+            <span>
+              <router-link to="/signup">Register</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>settings_backup_restore</md-icon>
-            <span><router-link to="/recover">Recover</router-link></span>
+            <span>
+              <router-link to="/recover">Recover</router-link>
+            </span>
           </md-list-item>
           <md-subheader>
             <span>Support</span>
           </md-subheader>
           <md-list-item>
             <md-icon>phone</md-icon>
-            <span><router-link to="/contact">Contact</router-link></span>
+            <span>
+              <router-link to="/contact">Contact</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>info</md-icon>
-            <span><router-link to="/about">About</router-link></span>
+            <span>
+              <router-link to="/about">About</router-link>
+            </span>
           </md-list-item>
         </md-list>
         <md-list v-show="isAuthenticated">
@@ -71,22 +81,30 @@
           </md-subheader>
           <md-list-item>
             <md-icon>dashboard</md-icon>
-            <span><router-link class="md-clean" to="/dashboard">Dashboard</router-link></span>
+            <span>
+              <router-link class="md-clean" to="/dashboard">Dashboard</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>person</md-icon>
-            <span><router-link to="/profile">Profile</router-link></span>
+            <span>
+              <router-link to="/profile">Profile</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>subdirectory_arrow_left</md-icon>
-            <span><a href="#" @click="openDialog('signout')">Sign Out</a></span>
+            <span>
+              <a href="#" @click="openDialog('signout')">Sign Out</a>
+            </span>
           </md-list-item>
           <md-subheader>
             <span>Tasks</span>
           </md-subheader>
           <md-list-item>
             <md-icon>add</md-icon>
-            <span><router-link to="/tasks/create">New</router-link></span>
+            <span>
+              <router-link to="/tasks/create">New</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_return</md-icon>
@@ -96,44 +114,63 @@
           </md-list-item>
           <md-list-item>
             <md-icon>assignment</md-icon>
-            <span><router-link :to="{path: '/tasks', query: {sub: 'Created'}}">Created by me</router-link>
+            <span>
+              <router-link :to="{path: '/tasks', query: {sub: 'Created'}}">Created by me</router-link>
             </span>
           </md-list-item>
           <md-list-item>
             <md-icon>assignment_turned_in</md-icon>
-            <span><router-link :to="{path: '/tasks', query: {sub: 'Completed'}}">Completed</router-link>
+            <span>
+              <router-link :to="{path: '/tasks', query: {sub: 'Completed'}}">Completed</router-link>
             </span>
           </md-list-item>
           <md-list-item>
             <md-icon>delete</md-icon>
-            <span><router-link to="/tasks/trash">Trash</router-link>
+            <span>
+              <router-link to="/tasks/trash">Trash</router-link>
             </span>
           </md-list-item>
           <md-subheader>
             <span>Messages</span>
           </md-subheader>
           <md-list-item>
-            <md-icon>add</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'compose'}}">New</router-link></span>
+            <md-icon>add</md-icon>
+            <span>
+              <router-link :to="{path: '/messages', query: {folder: 'compose'}}">New</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
-            <md-icon>mail</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox</router-link></span>
+            <md-icon>mail</md-icon>
+            <span>
+              <router-link :to="{path: '/messages', query: {folder: 'inbox'}}">Inbox</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
-            <md-icon>send</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'sent'}}">Sent</router-link></span>
+            <md-icon>send</md-icon>
+            <span>
+              <router-link :to="{path: '/messages', query: {folder: 'sent'}}">Sent</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
-            <md-icon>delete</md-icon> <span><router-link :to="{path: '/messages', query: {folder: 'trash'}}">Trash</router-link></span>
+            <md-icon>delete</md-icon>
+            <span>
+              <router-link :to="{path: '/messages', query: {folder: 'trash'}}">Trash</router-link>
+            </span>
           </md-list-item>
           <md-subheader>
             <span>Support</span>
           </md-subheader>
           <md-list-item>
             <md-icon>phone</md-icon>
-            <span><router-link to="/contact">Contact</router-link></span>
+            <span>
+              <router-link to="/contact">Contact</router-link>
+            </span>
           </md-list-item>
           <md-list-item>
             <md-icon>info</md-icon>
-            <span><router-link to="/about">About</router-link></span>
+            <span>
+              <router-link to="/about">About</router-link>
+            </span>
           </md-list-item>
         </md-list>
       </md-whiteframe>
@@ -143,61 +180,60 @@
   </div>
 </template>
 <script>
-  import {
-    signout
-  } from 'services/account'
+import {
+  signout
+} from 'services/account'
 
-  export default {
-    name: 'app-header',
-    watch: {
-      '$route' () {
-        window.setTimeout(this.$refs.leftSidenav.close, 500)
-      }
+export default {
+  name: 'app-header',
+  watch: {
+    '$route' () {
+      window.setTimeout(this.$refs.leftSidenav.close, 500)
+    }
+  },
+  computed: {
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
     },
-    computed: {
-      isAuthenticated () {
-        return this.$store.getters.isAuthenticated
-      },
-      userInfo () {
-        return this.$store.getters.getUserInfo || {}
-      }
+    userInfo () {
+      return this.$store.getters.getUserInfo || {}
+    }
+  },
+  methods: {
+    openDialog (ref) {
+      this.$refs[ref].open()
     },
-    methods: {
-      openDialog (ref) {
-        this.$refs[ref].open()
-      },
-      onClose (type) {
-        if (type === 'ok') {
-          signout().then(res => {
-            this.$router.push({
-              path: '/signout'
-            })
-          }).catch(err => {
-            console.log(err)
+    onClose (type) {
+      if (type === 'ok') {
+        signout().then(res => {
+          this.$router.push({
+            path: '/signout'
           })
-        }
-      },
-      toggleLeftSidenav () {
-        this.$refs.leftSidenav.toggle()
-      },
-      redirect (path) {
-        this.$router.push({
-          path
+        }).catch(err => {
+          console.log(err)
         })
       }
     },
-    mounted () {}
-  }
+    toggleLeftSidenav () {
+      this.$refs.leftSidenav.toggle()
+    },
+    redirect (path) {
+      this.$router.push({
+        path
+      })
+    }
+  },
+  mounted () { }
+}
 
 </script>
 <style scoped="">
-  .header-custom {
-    margin-bottom: 1%;
-  }
+.header-custom {
+  margin-bottom: 1%;
+}
 
-  .add-task {
-    bottom: -20%!important;
-    right: 0.75%!important;
-  }
-
+.add-task {
+  bottom: -20%!important;
+  right: 0.75%!important;
+}
 </style>

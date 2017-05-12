@@ -1,68 +1,66 @@
 <template>
   <div class="card-cont">
     <md-card class="md-card-custom">
-      <md-ink-ripple>
-        <md-card-header>
-          <md-card-header-text>
-            <div class="md-title text-primary" v-on:click="viewDetails()">
-              {{Task.Title}}</div>
-            <div class="md-subhead" v-on:click="viewDetails()">
-              {{Task.AssignedBy.Email}}
-            </div>
-          </md-card-header-text>
-          <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
+      <md-card-header>
+        <md-card-header-text>
+          <div class="md-title text-primary" v-on:click="viewDetails()">
+            {{Task.Title}}</div>
+          <div class="md-subhead" v-on:click="viewDetails()">
+            {{Task.AssignedBy.Email}}
+          </div>
+        </md-card-header-text>
+        <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
+          <md-button class="md-icon-button" md-menu-trigger>
+            <md-icon>more_vert</md-icon>
+          </md-button>
+          <md-menu-content>
+            <md-menu-item @click.native="confirmDelete">
+              <span>Delete</span>
+              <md-icon>delete</md-icon>
+            </md-menu-item>
+            <md-menu-item>
+              <span>Update</span>
+              <md-icon>mode_edit</md-icon>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+      </md-card-header>
+      <md-card-content style="padding-bottom: 0">
+        <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
+      </md-card-content>
+      <md-card-content>
+        <div class="card-date" title="Due Date" :class="typeClass()">
+          <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
+          <md-icon class="pull-right" :class="typeAnimate()">{{typeIcon()}}</md-icon>
+        </div>
+        <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
+      </md-card-content>
+      <md-card-content>
+        <div class="md-caption" v-show="Task.AssignedTo.length">
+          <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
+        </div>
+        <div class="md-caption" v-show="!Task.AssignedTo.length">
+          <span class="chip-custom">Self</span>
+        </div>
+      </md-card-content>
+      <md-card-actions class="custom-footer">
+        <div v-show="isSelfCreated">
+          <md-menu md-direction="bottom left">
             <md-button class="md-icon-button" md-menu-trigger>
-              <md-icon>more_vert</md-icon>
+              <md-icon>trending_up</md-icon>
             </md-button>
             <md-menu-content>
-              <md-menu-item @click.native="confirmDelete">
-                <span>Delete</span>
-                <md-icon>delete</md-icon>
-              </md-menu-item>
-              <md-menu-item>
-                <span>Update</span>
-                <md-icon>mode_edit</md-icon>
-              </md-menu-item>
+              <md-menu-item>My Item 1</md-menu-item>
+              <md-menu-item>My Item 2</md-menu-item>
+              <md-menu-item disabled="">My Item 3</md-menu-item>
+              <md-menu-item>My Item 4</md-menu-item>
             </md-menu-content>
           </md-menu>
-        </md-card-header>
-        <md-card-content style="padding-bottom: 0">
-          <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
-        </md-card-content>
-        <md-card-content>
-          <div class="card-date" title="Due Date" :class="typeClass()">
-            <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
-            <md-icon class="pull-right" :class="typeAnimate()">{{typeIcon()}}</md-icon>
-          </div>
-          <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
-        </md-card-content>
-        <md-card-content>
-          <div class="md-caption" v-show="Task.AssignedTo.length">
-            <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
-          </div>
-          <div class="md-caption" v-show="!Task.AssignedTo.length">
-            <span class="chip-custom">Self</span>
-          </div>
-        </md-card-content>
-        <md-card-actions class="custom-footer">
-          <div v-show="isSelfCreated">
-            <md-menu md-direction="bottom left">
-              <md-button class="md-icon-button" md-menu-trigger>
-                <md-icon>trending_up</md-icon>
-              </md-button>
-              <md-menu-content>
-                <md-menu-item>My Item 1</md-menu-item>
-                <md-menu-item>My Item 2</md-menu-item>
-                <md-menu-item disabled="">My Item 3</md-menu-item>
-                <md-menu-item>My Item 4</md-menu-item>
-              </md-menu-content>
-            </md-menu>
-          </div>
-          <md-button class="md-icon-button" @click.native="viewDetails('comment')">
-            <md-icon>chat</md-icon>
-          </md-button>
-        </md-card-actions>
-      </md-ink-ripple>
+        </div>
+        <md-button class="md-icon-button" @click.native="viewDetails('comment')">
+          <md-icon>chat</md-icon>
+        </md-button>
+      </md-card-actions>
     </md-card>
     <!--Delete Confirmation-->
     <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">

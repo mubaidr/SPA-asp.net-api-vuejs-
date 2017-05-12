@@ -34,13 +34,13 @@
     <md-layout md-gutter="40">
       <md-layout md-gutter="8" md-flex-xsmall="100" md-flex-small="70" md-flex-medium="66" md-flex-large="80" md-flex-xlarge="80">
         <md-layout>
-          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
+          chart
         </md-layout>
         <md-layout>
-          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
+          chart
         </md-layout>
         <md-layout>
-          <bar-chart class="chart-full-width" :options="{responsive: true, maintainAspectRatio: true}"></bar-chart>
+          chart
         </md-layout>
       </md-layout>
       <md-layout md-flex-xsmall="100" md-flex-small="30" md-flex-medium="33" md-flex-large="20" md-flex-xlarge="20">

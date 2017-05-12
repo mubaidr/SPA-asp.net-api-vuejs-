@@ -22,12 +22,12 @@
     <!--</md-whiteframe>-->
     <br>
     <md-whiteframe md-tag="section" md-elevation="0">
-      <md-tabs md-fixed @change="tabChange" md-elevation="1">
+      <md-tabs md-fixed @change="tabChange" md-elevation="2">
         <md-tab :md-active="currentTab === TaskList.name" :md-label="TaskList.name" :md-icon="TaskList.icon" v-for="TaskList in Tasks" :key="TaskList.name">
           <pagination :lastpage="TaskList.lastPage" :loading="TaskList.loading" :count="TaskList.count" :view-menu="true" :compact="true" :full-width="true" @refresh="search"></pagination>
-          <md-layout md-gutter="">
+          <md-layout md-gutter="16">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
-            <md-layout md-gutter="">
+            <md-layout md-gutter="16">
               <transition name="slide-up" appear mode="out-in">
                 <transition-group class="min-height no-padding full-width simple-list" name="list-out" appear tag="ul" v-if="TaskList.content.length">
                   <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
