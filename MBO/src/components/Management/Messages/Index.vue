@@ -1,5 +1,5 @@
 <template>
-  <transition appear="">
+  <transition appear>
     <router-view></router-view>
   </transition>
 </template>
@@ -25,6 +25,5 @@
 
 </script>
 <style scoped="">
-
-
+  
 </style>

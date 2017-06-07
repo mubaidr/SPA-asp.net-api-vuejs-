@@ -30,11 +30,11 @@
   width: 100%;
 }
 
-.hidden{
+.hidden {
   visibility: hidden;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
@@ -62,7 +62,7 @@
   padding: 0!important;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
@@ -74,7 +74,6 @@
   text-align: left;
 }
 
-
 .right-align {
   text-align: right;
 }
@@ -82,6 +81,7 @@
 .pull-right {
   float: right;
 }
+
 
 /*Footer*/
 
@@ -106,6 +106,7 @@
   color: rgba(255, 255, 255, .87);
   margin-bottom: 40px;
 }
+
 
 /*vue-datepicker*/
 

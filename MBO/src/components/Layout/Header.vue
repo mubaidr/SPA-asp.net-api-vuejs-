@@ -1,8 +1,6 @@
 <template>
   <div>
-    <md-whiteframe class="header-custom" md-tag="md-toolbar" md-elevation="3">
-      <div class="md-toolbar-container">
-      </div>
+    <md-whiteframe class="header-custom md-medium" md-tag="md-toolbar" md-elevation="3">
       <div class="md-toolbar-container">
         <md-button @click.native="toggleLeftSidenav">
           <md-tooltip md-direction="top">Menu</md-tooltip>
@@ -11,7 +9,6 @@
         <span style="flex: 1;">
           <h2 class="md-title">MBO</h2>
         </span>
-        <!--TODO Display notifications here!-->
         <md-speed-dial class="md-fab-bottom-right add-task" v-show="isAuthenticated" md-open="click" md-direction="left">
           <md-button class="md-fab" md-fab-trigger>
             <md-tooltip md-direction="top">New</md-tooltip>
@@ -30,8 +27,7 @@
       </div>
     </md-whiteframe>
     <md-sidenav class="md-left md-fixed" ref="leftSidenav">
-      <md-whiteframe class="md-default" md-tag="md-toolbar" md-elevation="0">
-        <div class="md-toolbar-container"></div>
+      <md-whiteframe class="md-medium" md-tag="md-toolbar" md-elevation="0">
         <div class="md-toolbar-container">
           <h2 class="md-title" v-show="!isAuthenticated">My Account</h2>
           <h2 class="md-title" v-show="isAuthenticated">{{userInfo.Email}}</h2>
@@ -180,60 +176,60 @@
   </div>
 </template>
 <script>
-import {
-  signout
-} from 'services/account'
+  import {
+    signout
+  } from 'services/account'
 
-export default {
-  name: 'app-header',
-  watch: {
-    '$route' () {
-      window.setTimeout(this.$refs.leftSidenav.close, 500)
-    }
-  },
-  computed: {
-    isAuthenticated () {
-      return this.$store.getters.isAuthenticated
+  export default {
+    name: 'app-header',
+    watch: {
+      '$route' () {
+        window.setTimeout(this.$refs.leftSidenav.close, 500)
+      }
     },
-    userInfo () {
-      return this.$store.getters.getUserInfo || {}
-    }
-  },
-  methods: {
-    openDialog (ref) {
-      this.$refs[ref].open()
+    computed: {
+      isAuthenticated () {
+        return this.$store.getters.isAuthenticated
+      },
+      userInfo () {
+        return this.$store.getters.getUserInfo || {}
+      }
     },
-    onClose (type) {
-      if (type === 'ok') {
-        signout().then(res => {
-          this.$router.push({
-            path: '/signout'
+    methods: {
+      openDialog (ref) {
+        this.$refs[ref].open()
+      },
+      onClose (type) {
+        if (type === 'ok') {
+          signout().then(res => {
+            this.$router.push({
+              path: '/signout'
+            })
+          }).catch(err => {
+            console.log(err)
           })
-        }).catch(err => {
-          console.log(err)
+        }
+      },
+      toggleLeftSidenav () {
+        this.$refs.leftSidenav.toggle()
+      },
+      redirect (path) {
+        this.$router.push({
+          path
         })
       }
     },
-    toggleLeftSidenav () {
-      this.$refs.leftSidenav.toggle()
-    },
-    redirect (path) {
-      this.$router.push({
-        path
-      })
-    }
-  },
-  mounted () { }
-}
+    mounted () { }
+  }
 
 </script>
 <style scoped="">
-.header-custom {
-  margin-bottom: 1%;
-}
-
-.add-task {
-  bottom: -20%!important;
-  right: 0.75%!important;
-}
+  .header-custom {
+    margin-bottom: 1%;
+  }
+  
+  .add-task {
+    bottom: -30%!important;
+    right: 1.5%!important;
+  }
 </style>

@@ -1,17 +1,15 @@
 <template>
   <div class="list-item-cont">
     <md-list-item class="li-custom">
-      <md-ink-ripple>
       <div class="md-list-text-container">
-        <span>{{Task.Title}} <span class="text-small"> by {{Task.AssignedBy.Email}} at {{formatDate(Task.DateDue)}}</span></span>
+        <span>{{Task.Title}}
+          <span class="text-small"> by {{Task.AssignedBy.Email}} at {{formatDate(Task.DateDue)}}</span>
+        </span>
         <span></span>
         <p>{{Task.Description || "No Description Provided."}}</p>
         <span class="text-small">{{formatDate(Task.DateDue)}}</span>
         <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </div>
-      <!--<div class="card-date" :class="typeClass()" title="Due Date">
-        <md-icon :class="typeAnimate()" class="pull-right">{{typeIcon()}}</md-icon>
-      </div>-->
       <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
         <md-button class="md-icon-button" md-menu-trigger>
           <md-icon>more_vert</md-icon>
@@ -27,8 +25,8 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-    </md-ink-ripple></md-list-item>
-    <!--Delete Confirmation-->
+    </md-list-item>
+    <!--Restore Confirmation-->
     <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
       <md-dialog-title>Move to Archive</md-dialog-title>
       <md-dialog-content>Are you sure you want to archive this task?</md-dialog-content>
@@ -213,5 +211,4 @@
   .card-cont:hover .custom-footer {
     visibility: visible;
   }
-
 </style>

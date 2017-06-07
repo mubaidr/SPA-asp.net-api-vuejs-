@@ -6,9 +6,11 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var env = process.env.NODE_ENV === 'testing'
-  ? require('../config/test.env')
-  : config.build.env
+var PrerenderSpaPlugin = require('prerender-spa-plugin')
+
+var env = process.env.NODE_ENV === 'testing' ?
+  require('../config/test.env') :
+  config.build.env
 
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -42,9 +44,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
-        : config.build.index,
+      filename: process.env.NODE_ENV === 'testing' ?
+        'index.html' : config.build.index,
       template: 'index.html',
       inject: true,
       minify: {
@@ -76,7 +77,10 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    })
+    }),
+    new PrerenderSpaPlugin(
+      path.join(__dirname, '../dist'), ['*'], {}
+    )
   ]
 })
 
