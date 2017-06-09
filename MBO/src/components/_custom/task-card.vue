@@ -1,6 +1,6 @@
 <template>
   <div class="card-cont">
-    <md-card class="md-card-custom">
+    <md-card class="md-card-custom" md-hover>
       <md-card-header>
         <md-card-header-text>
           <div class="md-title text-primary" v-on:click="viewDetails()">
@@ -36,12 +36,8 @@
         <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
-        <div class="md-caption" v-show="Task.AssignedTo.length">
-          <span class="chip-custom" v-for="user in Task.AssignedTo">{{user.Email}}</span>
-        </div>
-        <div class="md-caption" v-show="!Task.AssignedTo.length">
-          <span class="chip-custom">Self</span>
-        </div>
+        <span class="chip-custom" v-if="Task.AssignedTo.length" v-for="user in Task.AssignedTo">{{user.Email}}</span>
+        <span class="chip-custom" v-else>Self</span>
       </md-card-content>
       <md-card-actions class="custom-footer">
         <div v-show="isSelfCreated">
@@ -202,60 +198,6 @@
   }
 
 </script>
-<style scoped="">
-  .card-cont {
-    margin: 0 10px 10px 0;
-  }
+<style>
   
-  .card-date {
-    margin-bottom: 10px;
-  }
-  
-  .md-card-custom {
-    min-width: 295px;
-    width: 99%;
-    overflow-x: hidden;
-  }
-  
-  .md-card-custom .md-card-content:last-child {
-    padding-top: 0!important;
-  }
-  
-  .md-caption ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-    margin-top: 5px;
-  }
-  
-  .text-muted {
-    opacity: 0.6;
-  }
-  
-  .chip-custom {
-    background-color: rgba(0, 0, 0, 0.1);
-    padding: 5px;
-    border-radius: 2px;
-    margin-right: 2px;
-  }
-  
-  .theme-danger .md-icon {
-    color: #f44336;
-  }
-  
-  .theme-warn .md-icon {
-    color: #ff5722;
-  }
-  
-  .theme-normal .md-icon {
-    color: #ff9800;
-  }
-  
-  .theme-primary .md-icon {
-    color: #cddc39;
-  }
-  
-  .theme-success .md-icon {
-    color: #4caf50;
-  }
 </style>

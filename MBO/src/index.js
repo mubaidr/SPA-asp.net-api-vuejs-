@@ -7,6 +7,7 @@ import 'utilities/pollyfills'
 import 'assets/script/site.js'
 
 import 'assets/css/icon.css'
+import 'assets/css/animations.css'
 import 'assets/css/site.css'
 
 import {

@@ -139,7 +139,7 @@
   }
 
 </script>
-<style scoped="">
+<style scoped>
   .chip-custom {
     background-color: rgba(0, 0, 0, 0.1);
     padding: 5px;

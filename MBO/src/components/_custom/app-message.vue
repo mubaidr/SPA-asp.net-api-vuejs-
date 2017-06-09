@@ -22,7 +22,7 @@
   }
 
 </script>
-<style scoped="">
+<style scoped>
   .form-message.info {
     color: #4c1f50;
   }

@@ -14,7 +14,7 @@
   }
 
 </script>
-<style scoped="">
+<style scoped>
   .footer {
     margin-top: 50px;
   }

@@ -159,7 +159,7 @@ export default {
 }
 
 </script>
-<style scoped="">
+<style scoped>
 .compact-card .md-card-content,
 .compact-card .md-card-actions {
   padding: 0;

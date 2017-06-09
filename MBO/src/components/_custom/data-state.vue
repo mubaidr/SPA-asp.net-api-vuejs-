@@ -55,7 +55,7 @@ export default {
 }
 
 </script>
-<style scoped="">
+<style scoped>
   .no-content{
     text-align: center;
     opacity: 0.8;

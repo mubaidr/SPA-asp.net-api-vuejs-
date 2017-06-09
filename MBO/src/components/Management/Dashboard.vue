@@ -161,7 +161,7 @@ export default {
 }
 
 </script>
-<style scoped="">
+<style scoped>
 .counter {
   width: 50%;
   margin: 5px auto;

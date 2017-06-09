@@ -29,15 +29,13 @@
           <md-layout md-gutter="16">
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
             <md-layout md-gutter="16">
-              <transition name="slide-up" appear mode="out-in">
-                <transition-group class="min-height no-padding full-width simple-list" name="list-out" appear tag="ul" v-if="TaskList.content.length">
-                  <li class="list-out-item" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
-                    <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
-                    <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'List'"></task-list-item>
-                  </li>
-                </transition-group>
-                <data-state :loading="TaskList.loading" :error="TaskList.error" v-else></data-state>
-              </transition>
+              <transition-group class="min-height no-padding full-width simple-list" name="list-out" appear tag="ul" v-if="TaskList.content.length">
+                <li class="list-out-item min-width" :class="{'full-width' : activeView == 'List'}" v-for="Task in TaskList.content" v-bind:key="Task.MainTaskID">
+                  <task-card @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-if="activeView == 'Card'"></task-card>
+                  <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-else></task-list-item>
+                </li>
+              </transition-group>
+              <data-state :loading="TaskList.loading" :error="TaskList.error" v-else></data-state>
             </md-layout>
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
           </md-layout>
@@ -248,14 +246,6 @@
   }
 
 </script>
-<style scoped="">
-  .md-tab {
-    padding: 16px 2px;
-  }
+<style>
   
-  .simple-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
 </style>

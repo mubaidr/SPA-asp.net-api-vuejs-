@@ -223,7 +223,7 @@
   }
 
 </script>
-<style scoped="">
+<style scoped>
   .header-custom {
     margin-bottom: 1%;
   }

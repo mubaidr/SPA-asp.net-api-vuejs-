@@ -1,0 +1,5 @@
+root = true
+
+[*]
+indent_style = spaces
+tab_width = 2

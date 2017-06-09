@@ -217,7 +217,7 @@ export default {
 }
 
 </script>
-<style scoped="">
+<style scoped>
 .mail-list {
   padding: 0;
 }
