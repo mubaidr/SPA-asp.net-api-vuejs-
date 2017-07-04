@@ -8,4 +8,8 @@ var mixin = {
   }
 }
 
+Vue.config.errorHandler = function (err, vm, info) {
+  console.log('______Error: _____', err, vm, info)
+}
+
 Vue.mixin(mixin)
