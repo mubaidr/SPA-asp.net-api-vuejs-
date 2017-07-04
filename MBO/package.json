@@ -14,6 +14,8 @@
   },
   "peerdependencies": {},
   "dependencies": {
+    "@deveodk/vue-error-tracker": "^1.1.0",
+    "@deveodk/vue-toastr": "^1.0.4",
     "axios": "^0.16.2",
     "chart.js": "^2.6",
     "countup.js": "~1.8.5",

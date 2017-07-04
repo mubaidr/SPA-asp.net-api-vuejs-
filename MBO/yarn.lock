@@ -2,6 +2,14 @@
 # yarn lockfile v1
 
 
+"@deveodk/vue-error-tracker@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@deveodk/vue-error-tracker/-/vue-error-tracker-1.1.0.tgz#2a2f96df99cb01f736f7e1721809bb30afdee82b"
+
+"@deveodk/vue-toastr@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@deveodk/vue-toastr/-/vue-toastr-1.0.4.tgz#06e0cd6b84d07135f53b10e5a71b0da6fba40d06"
+
 abbrev@1, abbrev@1.0.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
