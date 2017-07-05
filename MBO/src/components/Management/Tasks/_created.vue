@@ -17,16 +17,26 @@
 </template>
 
 <script>
-  import pagination from 'components/_custom/pagination.vue'
-  import taskCard from 'components/_custom/task-card.vue'
+import pagination from 'components/_custom/pagination.vue'
+import taskCard from 'components/_custom/task-card.vue'
 
-  import { listCreated } from 'services/tasks'
+import { listCreated } from 'services/tasks'
 
-  export default {
-    name: 'created'
-  }
+export default {
+  name: 'created',
+  props: ['loaded'],
+  watch: {
+    'loaded' (load) {
+      if (load) {
+
+      }
+    }
+  },
+  created: {},
+  mounted () { }
+}
 </script>
 
 <style>
-  
+
 </style>

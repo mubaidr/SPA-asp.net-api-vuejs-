@@ -17,22 +17,22 @@
 </template>
 
 <script>
-  import pagination from 'components/_custom/pagination.vue'
-  import taskCard from 'components/_custom/task-card.vue'
-  import taskListItem from 'components/_custom/task-list-item.vue'
+import pagination from 'components/_custom/pagination.vue'
+import taskCard from 'components/_custom/task-card.vue'
+import taskListItem from 'components/_custom/task-list-item.vue'
 
-  import {
-    listAssigned,
-    listCreated,
-    listCompleted,
-    listTrash
-  } from 'services/tasks'
+import {
+  listAssigned,
+  listCreated,
+  listCompleted,
+  listTrash
+} from 'services/tasks'
 
-  export default {
+export default {
 
-  }
+}
 </script>
 
 <style>
-  
+
 </style>
