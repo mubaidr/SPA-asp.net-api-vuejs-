@@ -12,21 +12,31 @@
     },
     "sourceType": "module"
   },
-  //"extends": "standard",
   "extends": [
-    "eslint:recommended",
+    "standard",
     "plugin:vue/recommended"
   ],
-  "settings": {},
+  "settings": {
+    "html/html-extensions": [
+      ".html"
+    ],
+    "html/report-bad-indent": "error"
+  },
   // required to lint *.vue files
   "plugins": [
-    "html"
+    "standard",
+    "html",
+    "vue"
   ],
   "rules": {
-    "space-before-function-paren": "error",
     "no-console": "warn",
-    "no-multiple-empty-lines": [2, {
-      "max": 1
-    }]
+    "space-before-function-paren": "error",
+    "no-extra-semi": "error",
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 1
+      }
+    ]
   }
 }

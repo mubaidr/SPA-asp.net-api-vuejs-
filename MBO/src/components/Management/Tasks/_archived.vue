@@ -18,12 +18,18 @@
 
 <script>
   import pagination from 'components/_custom/pagination.vue'
-  import taskCard from 'components/_custom/task-card.vue'
+  import taskCardTrash from 'components/_custom/task-card-trash.vue'
+  import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
 
-  import { listCreated } from 'services/tasks'
+  import {
+    listAssigned,
+    listCreated,
+    listCompleted,
+    listTrash
+  } from 'services/tasks'
 
   export default {
-    name: 'created'
+
   }
 </script>
 
