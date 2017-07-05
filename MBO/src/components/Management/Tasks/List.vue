@@ -35,7 +35,6 @@
                   <task-list-item @remove-task-item="removeTaskItem" :Task="Task" :Type="TaskList.name" v-else></task-list-item>
                 </li>
               </transition-group>
-              <data-state :loading="TaskList.loading" :error="TaskList.error" v-else></data-state>
             </md-layout>
             <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
           </md-layout>
@@ -53,7 +52,7 @@
   import pagination from 'components/_custom/pagination.vue'
   import taskCard from 'components/_custom/task-card.vue'
   import taskListItem from 'components/_custom/task-list-item.vue'
-  import dataState from 'components/_custom/data-state.vue'
+
   import {
     listAssigned,
     listCreated,
@@ -65,8 +64,7 @@
     components: {
       taskCard,
       taskListItem,
-      pagination,
-      dataState
+      pagination
     },
     data () {
       return {

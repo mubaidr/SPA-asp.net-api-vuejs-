@@ -32,13 +32,13 @@
               <task-list-item-trash @remove-task-item="removeTaskItem" :Task="Task" v-if="activeView == 'List'"></task-list-item-trash>
             </li>
           </transition-group>
-          <data-state :loading="Tasks.Trash.loading" :error="Tasks.Trash.error" v-else></data-state>
         </transition>
       </md-layout>
       <md-layout v-show="activeView == 'List'" md-hide-small></md-layout>
     </md-layout>
     <md-snackbar md-position="bottom center" ref="snackbar" md-duration="60000">
-      <span>Unable to fetch data!<br> If the problem persists please contact support.</span>
+      <span>Unable to fetch data!
+        <br> If the problem persists please contact support.</span>
       <md-button class="md-accent" @click.native="retry">Retry</md-button>
     </md-snackbar>
   </div>
@@ -47,7 +47,7 @@
   import taskCardTrash from 'components/_custom/task-card-trash.vue'
   import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
   import pagination from 'components/_custom/pagination.vue'
-  import dataState from 'components/_custom/data-state.vue'
+
   import {
     listTrash
   } from 'services/tasks'
@@ -57,8 +57,7 @@
     components: {
       taskCardTrash,
       taskListItemTrash,
-      pagination,
-      dataState
+      pagination
     },
     data () {
       return {
@@ -158,5 +157,4 @@
     padding: 0;
     margin: 0;
   }
-
 </style>

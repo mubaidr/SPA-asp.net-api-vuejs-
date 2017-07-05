@@ -68,6 +68,10 @@ body.md-theme-default {
   border: none!important;
 }
 
+.md-input-container {
+  max-width: 180px;
+}
+
 .md-list.expanded .md-list-item-container {
   padding: 0!important;
 }

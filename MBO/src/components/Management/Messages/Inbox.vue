@@ -70,7 +70,6 @@
                   </md-button>
                 </md-list-item>
               </md-list>
-              <data-state :loading="ActiveFolder.loading" :error="ActiveFolder.error" v-else></data-state>
             </transition>
           </md-whiteframe>
         </transition>
@@ -82,7 +81,7 @@
   import _ from 'lodash'
   import { getMessages, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
-  import dataState from 'components/_custom/data-state.vue'
+
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
   import moment from 'moment'
 
@@ -106,8 +105,7 @@
     },
     components: {
       messageCreate,
-      pagination,
-      dataState
+      pagination
     },
     watch: {
       '$route.query.folder' (folder) {
@@ -203,9 +201,9 @@
           this.ActiveFolder.loading = false
         })
       }, 500, {
-        leading: false,
-        trailing: true
-      })
+          leading: false,
+          trailing: true
+        })
     },
     created () {
       var folder = this.$route.query.folder || 'inbox'
