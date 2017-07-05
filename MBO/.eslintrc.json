@@ -12,19 +12,19 @@
     },
     "sourceType": "module"
   },
-  "extends": "standard",
+  //"extends": "standard",
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/recommended"
+  ],
+  "settings": {},
   // required to lint *.vue files
   "plugins": [
     "html"
   ],
   "rules": {
-    "no-const-assign": "warn",
-    "no-this-before-super": "warn",
-    "no-undef": "warn",
-    "no-unreachable": "warn",
-    "no-unused-vars": "warn",
-    "constructor-super": "warn",
-    "valid-typeof": "warn",
+    "space-before-function-paren": "error",
+    "no-console": "warn",
     "no-multiple-empty-lines": [2, {
       "max": 1
     }]

@@ -55,6 +55,7 @@
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.8.0",
     "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-vue": "beta",
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
