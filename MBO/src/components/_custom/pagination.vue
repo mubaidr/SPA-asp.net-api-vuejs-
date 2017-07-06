@@ -32,61 +32,61 @@
   </div>
 </template>
 <script>
-  import { debounce } from 'lodash'
+import { debounce } from 'lodash'
 
-  export default {
-    name: 'pagination',
-    props: ['lastpage', 'count', 'loading'],
-    data () {
-      return {
-        paging: {
-          page: 1,
-          filter: ''
-        }
+export default {
+  name: 'pagination',
+  props: ['lastpage', 'count', 'loading'],
+  data () {
+    return {
+      paging: {
+        page: 1,
+        filter: ''
       }
-    },
-    watch: {
-      'lastpage' (val) {
-        if (val === 0) {
-          this.lastpage = 1
-        }
-      },
-      'paging.page' () {
-        this.refresh()
-      }
-    },
-    computed: {
-      disableControl () {
-        return this.loading || !!!this.count
-      }
-    },
-    methods: {
-      search () {
-        this.paging.page = 1
-        this.refresh()
-      },
-      nextPage () {
-        this.paging.page += 1
-      },
-      previousPage () {
-        this.paging.page -= 1
-      },
-      firstPage () {
-        this.paging.page = 1
-      },
-      lastPage () {
-        this.paging.page = this.lastpage
-      },
-      refresh: debounce(function () {
-        this.$emit('refresh', this.paging)
-      }, 500, {
-          leading: false,
-          trailing: true
-        })
     }
+  },
+  watch: {
+    'lastpage' (val) {
+      if (val === 0) {
+        this.lastpage = 1
+      }
+    },
+    'paging.page' () {
+      this.refresh()
+    }
+  },
+  computed: {
+    disableControl () {
+      return this.loading || !this.count
+    }
+  },
+  methods: {
+    search () {
+      this.paging.page = 1
+      this.refresh()
+    },
+    nextPage () {
+      this.paging.page += 1
+    },
+    previousPage () {
+      this.paging.page -= 1
+    },
+    firstPage () {
+      this.paging.page = 1
+    },
+    lastPage () {
+      this.paging.page = this.lastpage
+    },
+    refresh: debounce(function () {
+      this.$emit('refresh', this.paging)
+    }, 500, {
+      leading: false,
+      trailing: true
+    })
   }
+}
 
 </script>
 <style scoped>
-  
+
 </style>

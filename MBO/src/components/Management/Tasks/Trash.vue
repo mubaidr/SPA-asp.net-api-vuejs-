@@ -44,114 +44,114 @@
   </div>
 </template>
 <script>
-  import taskCardTrash from 'components/_custom/task-card-trash.vue'
-  import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
-  import pagination from 'components/_custom/pagination.vue'
+import taskCardTrash from 'components/_custom/task-card-trash.vue'
+import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
+import pagination from 'components/_custom/pagination.vue'
 
-  import {
-    listTrash
-  } from 'services/tasks'
+import {
+  listTrash
+} from 'services/tasks'
 
-  export default {
-    name: 'task-list-trash',
-    components: {
-      taskCardTrash,
-      taskListItemTrash,
-      pagination
-    },
-    data () {
-      return {
-        Tasks: {
-          Trash: {
-            name: 'Assigned',
-            icon: 'assignment_return',
-            content: [],
-            loading: true,
-            lastPage: 1,
-            count: 0
-          }
-        },
-        failAlert: false
-      }
-    },
-    watch: {
-      'Tasks.Trash.content' () {
-        this.Tasks.Trash.loading = false
-      },
-      'failAlert' (val) {
-        if (val) {
-          this.$refs.snackbar.open()
-        } else {
-          this.$refs.snackbar.close()
+export default {
+  name: 'task-list-trash',
+  components: {
+    taskCardTrash,
+    taskListItemTrash,
+    pagination
+  },
+  data () {
+    return {
+      Tasks: {
+        Trash: {
+          name: 'Assigned',
+          icon: 'assignment_return',
+          content: [],
+          loading: true,
+          lastPage: 1,
+          count: 0
         }
-      }
-    },
-    computed: {
-      settings () {
-        return this.$store.getters.getSettings
       },
-      activeView () {
-        for (var i = 0; i < this.settings.taskView.view.length; i++) {
-          if (this.settings.taskView.view[i].enabled) {
-            return this.settings.taskView.view[i].name
-          }
-        }
-      }
+      failAlert: false
+    }
+  },
+  watch: {
+    'Tasks.Trash.content' () {
+      this.Tasks.Trash.loading = false
     },
-    methods: {
-      retry () {
+    'failAlert' (val) {
+      if (val) {
+        this.$refs.snackbar.open()
+      } else {
         this.$refs.snackbar.close()
-        window.setTimeout(() => {
-          this.loadTrash()
-        }, 500)
-      },
-      removeTaskItem (obj) {
-        const id = obj.id
-        const ts = this.Tasks.Trash.content
-
-        for (let i = 0; i < ts.length; i++) {
-          if (ts[i].MainTaskID === id) {
-            this.Tasks.Trash.content.splice(i, 1)
-            break
-          }
-        }
-        this.retry()
-      },
-      loadTrash (paging) {
-        this.Tasks.Trash.loading = true
-        listTrash(paging).then(res => {
-          this.Tasks.Trash.content = res.data.mainTask
-          this.Tasks.Trash.lastPage = res.data.lastPage
-          this.Tasks.Trash.count = res.data.count
-        }).catch(err => {
-          this.setErrorDetails(err)
-        }).then(() => {
-          this.Tasks.Trash.loading = false
-        })
       }
+    }
+  },
+  computed: {
+    settings () {
+      return this.$store.getters.getSettings
     },
-    mounted () {
+    activeView () {
+      for (var i = 0; i < this.settings.taskView.view.length; i++) {
+        if (this.settings.taskView.view[i].enabled) {
+          return this.settings.taskView.view[i].name
+        }
+      }
+    }
+  },
+  methods: {
+    retry () {
+      this.$refs.snackbar.close()
       window.setTimeout(() => {
         this.loadTrash()
-      }, 250)
+      }, 500)
+    },
+    removeTaskItem (obj) {
+      const id = obj.id
+      const ts = this.Tasks.Trash.content
+
+      for (let i = 0; i < ts.length; i++) {
+        if (ts[i].MainTaskID === id) {
+          this.Tasks.Trash.content.splice(i, 1)
+          break
+        }
+      }
+      this.retry()
+    },
+    loadTrash (paging) {
+      this.Tasks.Trash.loading = true
+      listTrash(paging).then(res => {
+        this.Tasks.Trash.content = res.data.mainTask
+        this.Tasks.Trash.lastPage = res.data.lastPage
+        this.Tasks.Trash.count = res.data.count
+      }).catch(err => {
+        this.setErrorDetails(err)
+      }).then(() => {
+        this.Tasks.Trash.loading = false
+      })
     }
+  },
+  mounted () {
+    window.setTimeout(() => {
+      this.loadTrash()
+    }, 250)
   }
+}
 
 </script>
 <style scoped>
   .no-content {
     text-align: center;
   }
-  
+
   .no-content span {
     font-size: 1.25em;
     opacity: 0.75;
   }
-  
+
   .no-content i {
     margin-bottom: 10px;
   }
-  
+
   .simple-list {
     list-style: none;
     padding: 0;

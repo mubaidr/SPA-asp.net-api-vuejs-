@@ -36,7 +36,9 @@
         <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
-        <span class="chip-custom" v-if="Task.AssignedTo.length" v-for="user in Task.AssignedTo">{{user.Email}}</span>
+        <template v-if="Task.AssignedTo.length">
+          <span class="chip-custom" v-for="user in Task.AssignedTo" :key="user.Email">{{user.Email}}</span>
+        </template>
         <span class="chip-custom" v-else>Self</span>
       </md-card-content>
       <md-card-actions class="custom-footer">
@@ -70,134 +72,134 @@
   </div>
 </template>
 <script>
-  import {
-    remove
-  } from 'services/tasks'
-  import moment from 'moment'
+import {
+  remove
+} from 'services/tasks'
+import moment from 'moment'
 
-  export default {
-    name: 'task-card',
-    props: ['Task', 'Type'],
-    data () {
-      return {
-        DialogCloseTarget: null
+export default {
+  name: 'task-card',
+  props: ['Task', 'Type'],
+  data () {
+    return {
+      DialogCloseTarget: null
+    }
+  },
+  computed: {
+    isSelfCreated () {
+      return this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
+    }
+  },
+  methods: {
+    formatDate (date) {
+      return moment(date).format('hh:mmA DD-MM-YY')
+    },
+    refConfirm () {
+      return `ref-confirm-${this.Task.MainTaskID}`
+    },
+    typeAnimate () {
+      const now = moment()
+      const dueDate = moment(this.Task.DateDue)
+      const diff = now.diff(dueDate, 'days')
+
+      if (diff < 0) {
+        return 'animate-danger'
+      } else if (diff < 2) {
+        return 'animate-warn'
+      } else {
+        return ''
       }
     },
-    computed: {
-      isSelfCreated () {
-        return this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
+    typeIcon () {
+      switch (this.typeClass()) {
+        case 'theme-success':
+          return 'done'
+        case 'theme-danger':
+          return 'warning'
+        case 'theme-warn':
+          return 'av_timer'
+        case 'theme-normal':
+          return 'timelapse'
+        case 'theme-primary':
+        default:
+          return 'timer'
       }
     },
-    methods: {
-      formatDate (date) {
-        return moment(date).format('hh:mmA DD-MM-YY')
-      },
-      refConfirm () {
-        return `ref-confirm-${this.Task.MainTaskID}`
-      },
-      typeAnimate () {
-        const now = moment()
-        const dueDate = moment(this.Task.DateDue)
-        const diff = now.diff(dueDate, 'days')
+    typeClass () {
+      const now = moment()
+      const dueDate = moment(this.Task.DateDue)
+      const diff = now.diff(dueDate, 'days')
 
-        if (diff < 0) {
-          return 'animate-danger'
-        } else if (diff < 2) {
-          return 'animate-warn'
-        } else {
-          return ''
+      if (this.Task.Progress === 100) {
+        return 'theme-success'
+      }
+      if (diff < 0) {
+        return 'theme-danger'
+      } else if (diff < 2) {
+        return 'theme-warn'
+      } else if (diff < 5) {
+        return 'theme-normal'
+      } else {
+        return 'theme-primary'
+      }
+    },
+    viewDetails (obj) {
+      if (!obj) obj = 'view'
+
+      const url = {
+        // named route required for sending params
+        name: 'task-details',
+        params: {
+          Task: this.Task,
+          Type: obj
         }
-      },
-      typeIcon () {
-        switch (this.typeClass()) {
-          case 'theme-success':
-            return 'done'
-          case 'theme-danger':
-            return 'warning'
-          case 'theme-warn':
-            return 'av_timer'
-          case 'theme-normal':
-            return 'timelapse'
-          case 'theme-primary':
-          default:
-            return 'timer'
-        }
-      },
-      typeClass () {
-        const now = moment()
-        const dueDate = moment(this.Task.DateDue)
-        const diff = now.diff(dueDate, 'days')
+      }
 
-        if (this.Task.Progress === 100) {
-          return 'theme-success'
-        }
-        if (diff < 0) {
-          return 'theme-danger'
-        } else if (diff < 2) {
-          return 'theme-warn'
-        } else if (diff < 5) {
-          return 'theme-normal'
-        } else {
-          return 'theme-primary'
-        }
-      },
-      viewDetails (obj) {
-        if (!obj) obj = 'view'
+      this.$router.push(url)
+    },
+    confirmDelete () {
+      console.log(this.refConfirm())
+      this.$refs[this.refConfirm()].open()
+    },
+    onDeleteClose (type) {
+      const TaskId = this.Task.MainTaskID
 
-        const url = {
-          // named route required for sending params
-          name: 'task-details',
-          params: {
-            Task: this.Task,
-            Type: obj
-          }
-        }
-
-        this.$router.push(url)
-      },
-      confirmDelete () {
-        console.log(this.refConfirm())
-        this.$refs[this.refConfirm()].open()
-      },
-      onDeleteClose (type) {
-        const TaskId = this.Task.MainTaskID
-
-        if (type === 'ok') {
-          remove({
-            id: TaskId
-          }).then(res => {
-            this.DialogCloseTarget = '#btn-view-trash'
-            this.animateTrashButton()
-            this.$refs[this.refConfirm()].close()
-
-            window.setTimeout(() => {
-              this.$emit('remove-task-item', {
-                id: TaskId,
-                type: this.Type
-              })
-            }, 250)
-          }).catch(err => {
-            console.dir(err)
-          })
-        } else {
-          this.DialogCloseTarget = null
+      if (type === 'ok') {
+        remove({
+          id: TaskId
+        }).then(res => {
+          this.DialogCloseTarget = '#btn-view-trash'
+          this.animateTrashButton()
           this.$refs[this.refConfirm()].close()
-        }
-      },
-      animateTrashButton () {
-        window.setTimeout(() => {
-          document.getElementById('btn-view-trash').className += ' animate-active'
+
           window.setTimeout(() => {
-            document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
-              .replace(/(?:^|\s)animate-active(?!\S)/g, '')
+            this.$emit('remove-task-item', {
+              id: TaskId,
+              type: this.Type
+            })
           }, 250)
-        }, 200)
+        }).catch(err => {
+          console.dir(err)
+        })
+      } else {
+        this.DialogCloseTarget = null
+        this.$refs[this.refConfirm()].close()
       }
     },
-    mounted () { }
-  }
+    animateTrashButton () {
+      window.setTimeout(() => {
+        document.getElementById('btn-view-trash').className += ' animate-active'
+        window.setTimeout(() => {
+          document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
+            .replace(/(?:^|\s)animate-active(?!\S)/g, '')
+        }, 250)
+      }, 200)
+    }
+  },
+  mounted () { }
+}
 
 </script>
 <style>
-  
+
 </style>

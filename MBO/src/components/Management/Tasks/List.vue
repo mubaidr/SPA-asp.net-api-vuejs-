@@ -13,56 +13,47 @@
       </md-button>
     </md-toolbar>
     <md-tabs md-fixed @change="tabChange" md-elevation="1">
-      <md-tab v-for="item in list" :key="item.label" :md-active="currentTab === item.label" :md-label="item.label">
-        <created :loaded="item.loaded"></created>
+      <md-tab v-for="item in list" :key="item.type" :md-active="currentTab === item.type" :md-label="item.type">
+        <task-view :active="item.active" :type="item.type"></task-view>
       </md-tab>
     </md-tabs>
   </div>
 </template>
 <script>
 import { find, startCase } from 'lodash'
-import created from './_created.vue'
-import assigned from './_assigned.vue'
-import completed from './_completed.vue'
-import archived from './_archived.vue'
+import taskView from './_taskView.vue'
 
 export default {
   components: {
-    created,
-    assigned,
-    completed,
-    archived
+    taskView
   },
   data () {
     return {
       currentTab: null,
       list: [{
-        label: 'Created',
-        loaded: false
+        type: 'Created',
+        active: false
       }, {
-        label: 'Assigned',
-        loaded: false
+        type: 'Assigned',
+        active: false
       }, {
-        label: 'Completed',
-        loaded: false
+        type: 'Completed',
+        active: false
       }, {
-        label: 'Archived',
-        loaded: false
+        type: 'Archived',
+        active: false
       }]
     }
   },
-  watch: {
-    'currentTab' (tab) {
-      this.list[tab].loaded = true
-    }
-  },
+  watch: {},
   methods: {
     tabChange (index) {
-      this.currentTab = this.list[index].label
+      this.currentTab = this.list[index].type
+      this.list[index].active = true
     },
     activeTab () {
       let _path = startCase(this.$route.query.sub)
-      if (!find(this.list, { label: _path })) {
+      if (!find(this.list, { type: _path })) {
         _path = 'Assigned'
       }
       this.currentTab = _path
