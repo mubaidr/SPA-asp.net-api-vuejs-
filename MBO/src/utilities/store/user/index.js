@@ -38,6 +38,11 @@ export default {
         context.commit('removeAuthentication')
       }).catch(() => {})
     },
+    getUserInfo (context) {
+      account.getUserInfo().then((res) => {
+        context.commit('setUserInfo', res.data)
+      }).catch(() => {})
+    },
     getUserList (context) {
       return account.getUserList()
     }

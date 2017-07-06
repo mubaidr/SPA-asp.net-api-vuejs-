@@ -32,12 +32,9 @@
     "no-console": "warn",
     "space-before-function-paren": "error",
     "no-extra-semi": "error",
-    "no-unused-vars": "warn",
-    "no-multiple-empty-lines": [
-      2,
-      {
-        "max": 1
-      }
-    ]
+    "no-unused-vars": "error",
+    "no-multiple-empty-lines": [2, {
+      "max": 1
+    }]
   }
 }

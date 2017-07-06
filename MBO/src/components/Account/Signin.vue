@@ -1,6 +1,6 @@
 <template>
-  <md-layout md-gutter="">
-    <md-layout md-hide-small=""></md-layout>
+  <md-layout md-gutter>
+    <md-layout md-hide-small></md-layout>
     <md-layout>
       <div class="flex-vertical min-height full-width">
         <md-card class="full-width">
@@ -31,14 +31,11 @@
         </md-card>
       </div>
     </md-layout>
-    <md-layout md-hide-small=""></md-layout>
+    <md-layout md-hide-small></md-layout>
   </md-layout>
 </template>
 <script>
-import {
-  signin,
-  getUserInfo
-} from 'services/account'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -48,43 +45,18 @@ export default {
         Password: 'tester1234'
       },
       state: {
-        loading: false,
-        type: 'error',
-        title: null,
-        details: null
+        loading: false
       }
     }
   },
   methods: {
+    ...mapActions(['signin']),
     formValidate (event) {
       event.preventDefault()
-
       this.$validator.validateAll().then(success => {
         if (!success) return
-
-        this.setErrorDetails()
-
         this.state.loading = true
-
-        signin(this.credentials).then(res => {
-          this.$store.commit('setAuthentication', res.data)
-
-          getUserInfo().then(res => {
-            this.$store.commit('setUserInfo', res.data)
-
-            this.$router.push({
-              path: '/dashboard'
-            })
-          }).catch(err => {
-            this.setErrorDetails(err)
-          }).then(() => {
-            this.state.loading = true
-          })
-        }).catch(err => {
-          this.setErrorDetails(err)
-        }).then(() => {
-          this.state.loading = true
-        })
+        this.signin(this.credentials)
       })
     }
   }
