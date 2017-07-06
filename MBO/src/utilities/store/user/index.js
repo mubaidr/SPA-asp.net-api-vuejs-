@@ -23,9 +23,7 @@ export default {
   },
   actions: {
     signup (context, credentials) {
-      account.signup(credentials).then((res) => {
-        context.commit('removeAuthentication')
-      }).catch(() => {})
+      return account.signup(credentials)
     },
     signin (context, credentials) {
       account.signin(credentials).then((res) => {
@@ -36,7 +34,7 @@ export default {
       }).catch(() => {})
     },
     signout (context) {
-      account.signout().then((res) => {
+      account.signout().then(() => {
         context.commit('removeAuthentication')
       }).catch(() => {})
     },
