@@ -14,7 +14,7 @@
 <script>
 import taskCard from 'components/_custom/task-card.vue'
 import pagination from 'components/_custom/pagination.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'task-view',
@@ -24,19 +24,11 @@ export default {
   },
   props: ['type', 'active'],
   data () {
-    return {
-      tasks: [
-        {
-          MainTaskID: 1
-        },
-        {
-          MainTaskID: 2
-        }
-      ]
-    }
+    return {}
   },
   computed: {
-    ...mapGetters([])
+    ...mapGetters(['tasks']),
+    ...mapActions([])
   },
   methods: {
     search () {

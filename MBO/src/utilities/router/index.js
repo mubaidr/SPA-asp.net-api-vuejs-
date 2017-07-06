@@ -130,7 +130,8 @@ const router = new Router({
   }, {
     path: '*',
     redirect: '/error/404'
-  }]
+  }
+  ]
 })
 
 router.beforeEach((to, from, next) => {

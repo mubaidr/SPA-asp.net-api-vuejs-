@@ -173,64 +173,64 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
-  
+
     <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout" @close="onClose">
     </md-dialog-confirm>
   </div>
 </template>
 <script>
-  import {
-    signout
-  } from 'services/account'
+import {
+  signout
+} from 'services/account'
 
-  export default {
-    name: 'app-header',
-    watch: {
-      '$route' () {
-        window.setTimeout(this.$refs.leftSidenav.close, 500)
-      }
+export default {
+  name: 'app-header',
+  watch: {
+    '$route' () {
+      window.setTimeout(this.$refs.leftSidenav.close, 500)
+    }
+  },
+  computed: {
+    isAuthenticated () {
+      return this.$store.getters.isAuthenticated
     },
-    computed: {
-      isAuthenticated () {
-        return this.$store.getters.isAuthenticated
-      },
-      userInfo () {
-        return this.$store.getters.getUserInfo || {}
-      }
+    userInfo () {
+      return this.$store.getters.getUserInfo || {}
+    }
+  },
+  methods: {
+    openDialog (ref) {
+      this.$refs[ref].open()
     },
-    methods: {
-      openDialog (ref) {
-        this.$refs[ref].open()
-      },
-      onClose (type) {
-        if (type === 'ok') {
-          signout().then(res => {
-            this.$router.push({
-              path: '/signout'
-            })
-          }).catch(err => {
-            console.log(err)
+    onClose (type) {
+      if (type === 'ok') {
+        signout().then(res => {
+          this.$router.push({
+            path: '/signout'
           })
-        }
-      },
-      toggleLeftSidenav () {
-        this.$refs.leftSidenav.toggle()
-      },
-      redirect (path) {
-        this.$router.push({
-          path
+        }).catch(err => {
+          console.log(err)
         })
       }
     },
-    mounted () { }
-  }
+    toggleLeftSidenav () {
+      this.$refs.leftSidenav.toggle()
+    },
+    redirect (path) {
+      this.$router.push({
+        path
+      })
+    }
+  },
+  mounted () { }
+}
 
 </script>
 <style scoped>
   .header-custom {
     margin-bottom: 1%;
   }
-  
+
   .add-task {
     bottom: -20%!important;
     right: 1.5%!important;

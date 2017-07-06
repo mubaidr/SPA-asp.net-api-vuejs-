@@ -24,55 +24,17 @@ export default {
   getSettings () {
     let settings = window.localStorage.getItem('settings')
     return settings ? JSON.parse(settings) : {
-      taskView: {
-        sort: [{
-          name: 'Priority',
-          code: 'PriorityUp',
-          icon: 'keyboard_arrow_up',
-          enabled: false
-        },
-        {
-          name: 'Priority',
-          code: 'PriorityDown',
-          icon: 'keyboard_arrow_down',
-          enabled: false
-        },
-        {
-          name: 'Due Time',
-          code: 'DueTimeUp',
-          icon: 'keyboard_arrow_down',
-          enabled: false
-        },
-        {
-          name: 'Due Time',
-          code: 'DueTimeDown',
-          icon: 'keyboard_arrow_down',
-          enabled: true
-        },
-        {
-          name: 'Assigned Time',
-          code: 'AssignedTimeUp',
-          icon: 'keyboard_arrow_down',
-          enabled: false
-        },
-        {
-          name: 'Assigned Time',
-          code: 'AssignedTimeDown',
-          icon: 'keyboard_arrow_down',
-          enabled: false
-        }
-        ],
-        view: [{
-          name: 'Card',
-          icon: 'view_module',
-          enabled: true
-        },
-        {
-          name: 'List',
-          icon: 'view_list',
-          enabled: false
-        }]
+      view: [{
+        name: 'Card',
+        icon: 'view_module',
+        enabled: true
+      },
+      {
+        name: 'List',
+        icon: 'view_list',
+        enabled: false
       }
+      ]
     }
   },
   getQuotes () {

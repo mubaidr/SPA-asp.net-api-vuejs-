@@ -1,84 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import session from 'utilities/session'
+
+import settingsModule from './settings'
+import userModule from './user'
+import tasksModule from './tasks'
+import messagesModule from './messages'
 
 Vue.use(Vuex)
 
-const state = {
-  auth: session.getAuth(),
-  userInfo: session.getUserInfo(),
-  settings: session.getSettings(),
-  quotes: session.getQuotes()
-}
-
-const mutations = {
-  setAuthentication (state, auth) {
-    state.auth = auth
-    session.setAuth(auth)
-  },
-  setUserInfo (state, userInfo) {
-    state.userInfo = userInfo
-    session.setUserInfo(userInfo)
-  },
-  removeAuthentication (state) {
-    state.auth = null
-    state.userInfo = null
-    session.clear()
-  },
-  toggleViewMode (state) {
-    for (var i = 0; i < state.settings.taskView.view.length; i++) {
-      state.settings.taskView.view[i].enabled = !state.settings.taskView.view[i].enabled
-    }
-    session.setSettings(state.settings)
-  },
-  setErrorState (err) {
-    if (err) {
-      this.state.title = err.message
-      try {
-        if (err.response.data.error_description) {
-          this.state.details = err.response.data.error_description
-        }
-      } catch (error) {
-        this.state.details = err.details ? err.details : 'Server Error!'
-      }
-    } else {
-      this.state.title = null
-    }
-  }
-}
-
-const actions = {}
-
-const getters = {
-  isAuthenticated (state) {
-    return state.auth !== null && typeof state.auth !== 'undefined'
-  },
-  getUserInfo (state) {
-    return state.userInfo
-  },
-  getAuth (state) {
-    return state.auth
-  },
-  getViewMode (state) {
-    return state.settings.view
-  },
-  getSettings (state) {
-    return state.settings
-  },
-  getAllQuotes () {
-    return state.quotes
-  },
-  getQuoteEmpty (state) {
-    let items = state.quotes.empty
-    return items[Math.floor(Math.random() * items.length)]
-  }
-}
-
 const store = new Vuex.Store({
-  state,
-  mutations,
-  actions,
-  getters
+  modules: {
+    user: userModule,
+    settings: settingsModule,
+    tasks: tasksModule,
+    messages: messagesModule
+  }
 })
 
 export default store
