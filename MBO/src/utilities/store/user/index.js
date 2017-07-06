@@ -1,8 +1,6 @@
 import session from 'utilities/session'
 import account from 'services/account'
 
-console.log(account)
-
 export default {
   state: {
     auth: session.getAuth(),
@@ -23,16 +21,35 @@ export default {
       session.clear()
     }
   },
-  actions: {},
+  actions: {
+    signup (context, credentials) {
+      account.signup(credentials).then((res) => {
+        context.commit('removeAuthentication')
+      }).catch(() => {})
+    },
+    signin (context, credentials) {
+      account.signin(credentials).then((res) => {
+        context.commit('setAuthentication', res.data)
+        account.getUserInfo().then((res) => {
+          context.commit('setUserInfo', res.data)
+        }).catch(() => {})
+      }).catch(() => {})
+    },
+    signout (context) {
+      account.signout().then((res) => {
+        context.commit('removeAuthentication')
+      }).catch(() => {})
+    },
+    getUserList (context) {
+      return account.getUserList()
+    }
+  },
   getters: {
     isAuthenticated (state) {
       return state.auth !== null && typeof state.auth !== 'undefined'
     },
-    getUserInfo (state) {
+    userInfo (state) {
       return state.userInfo
-    },
-    getAuth (state) {
-      return state.auth
     }
   }
 }

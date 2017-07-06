@@ -13,6 +13,7 @@ export default {
     obj.grant_type = 'password'
     return axios.post(`${api.url}/Token`, qs.stringify(obj))
   },
+
   signout () {
     return axios.post(`${api.url}/api/Account/Logout`)
   },
@@ -21,7 +22,7 @@ export default {
     return axios.get(`${api.url}/api/Account/UserInfo`)
   },
 
-  getUsersList () {
+  getUserList () {
     return axios.get(`${api.url}/api/Account/Users`)
   }
 
