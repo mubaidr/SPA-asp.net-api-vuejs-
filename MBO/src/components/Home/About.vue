@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-  export default {
-    template: '#about',
-    name: 'about'
-  }
+export default {
+  template: '#about',
+  name: 'about'
+}
 </script>

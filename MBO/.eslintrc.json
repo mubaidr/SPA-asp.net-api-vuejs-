@@ -24,15 +24,13 @@
   },
   // required to lint *.vue files
   "plugins": [
-    "standard",
-    "html",
-    "vue"
+    "html"
   ],
   "rules": {
-    "no-console": "warn",
+    "no-console": "off",
     "space-before-function-paren": "error",
     "no-extra-semi": "error",
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "no-multiple-empty-lines": [2, {
       "max": 1
     }]

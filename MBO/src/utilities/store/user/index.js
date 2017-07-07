@@ -23,6 +23,7 @@ export default {
   },
   actions: {
     signup (context, credentials) {
+      console.log(account.signup(credentials))
       return account.signup(credentials)
     },
     signin (context, credentials) {

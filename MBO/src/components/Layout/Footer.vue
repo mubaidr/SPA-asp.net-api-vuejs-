@@ -9,9 +9,9 @@
   </md-layout>
 </template>
 <script>
-  export default {
-    name: 'app-footer'
-  }
+export default {
+  name: 'app-footer'
+}
 
 </script>
 <style scoped>

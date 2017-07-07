@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-  export default {
-    template: '#contact',
-    name: 'contact'
-  }
+export default {
+  template: '#contact',
+  name: 'contact'
+}
 </script>

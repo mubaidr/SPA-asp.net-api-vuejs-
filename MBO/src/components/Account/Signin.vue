@@ -14,19 +14,21 @@
           <md-card-content>
             <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
               <label>Email</label>
-              <md-input name="Email" data-vv-name="Email" data-vv-rules="required|email|min:6" type="email" v-model="credentials.UserName" v-validate></md-input>
+              <md-input name="Email" data-vv-name="Email" data-vv-rules="required|email|min:6" type="email" v-model="credentials.UserName" v-validate :disabled="state.loading"></md-input>
               <span class="md-error">{{errors.first('Email')}}</span>
             </md-input-container>
             <md-input-container md-has-password :class="{'md-input-invalid': errors.has('Password')}">
               <label>Password</label>
-              <md-input name="Password" data-vv-name="Password" data-vv-rules="required|min:6" type="password" v-model="credentials.Password" v-validate></md-input>
+              <md-input name="Password" data-vv-name="Password" data-vv-rules="required|min:6" type="password" v-model="credentials.Password" v-validate :disabled="state.loading"></md-input>
               <span class="md-error">{{errors.first('Password')}}</span>
             </md-input-container>
-            <app-message :state="state"></app-message>
           </md-card-content>
           <md-card-actions>
+            <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Singin</md-button>
+          </md-card-actions>
+          <md-card-actions>
             <router-link class="md-accent" tag="md-button" to="/recover">Forgot password?</router-link>
-            <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Sing In</md-button>
+            <router-link class="md-accent" tag="md-button" to="/signup">Don't have an account?</router-link>
           </md-card-actions>
         </md-card>
       </div>
