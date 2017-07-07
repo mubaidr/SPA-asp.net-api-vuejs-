@@ -4,15 +4,7 @@ import qs from 'qs'
 
 export default {
   signup (obj) {
-    return new Promise((resolve, reject) => {
-      axios.post(`${api.url}/api/Account/Register`, obj).then((res) => {
-        console.log(res)
-        resolve(res)
-      }).catch((err) => {
-        console.log(err)
-        reject(err)
-      })
-    })
+    return axios.post(`${api.url}/api/Account/Register`, obj)
   },
   signin (obj) {
     // eslint-disable-next-line camelcase

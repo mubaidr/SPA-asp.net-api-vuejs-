@@ -1,6 +1,6 @@
+import Vue from 'vue'
 import axios from 'axios'
 import store from 'utilities/store'
-import router from 'utilities/router'
 
 axios.interceptors.request.use(config => {
   if (store.getters.isAuthenticated) {
@@ -8,17 +8,14 @@ axios.interceptors.request.use(config => {
     config.headers.Authorization = `${auth.token_type} ${auth.access_token}`
   }
   return config
-}, (error) => {
-  Promise.reject(error)
+}, error => {
+  return Promise.reject(error)
 })
 
 axios.interceptors.response.use(response => response, error => {
-  if (error.response.status === 401) {
-    store.commit('removeAuthentication')
-    router.push('/')
-  } else {
-    Promise.reject(error)
-  }
+  return Promise.reject(error)
 })
+
+Vue.prototype.axios = axios
 
 export default axios

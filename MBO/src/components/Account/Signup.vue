@@ -61,11 +61,14 @@ export default {
       this.$validator.validateAll().then(success => {
         if (!success) return
         this.state.loading = true
-        this.signup(this.credentials).then((res) => {
+
+        this.signup(this.credentials).then(res => {
           console.log('res', res)
           // this.$router.push('signin')
-        }).catch((err) => {
+        }).catch(err => {
           console.log('err', err)
+        }).then(() => {
+          this.state.loading = false
         })
       })
     }
