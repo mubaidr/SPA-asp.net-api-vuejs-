@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import axios from 'axios'
 import store from 'utilities/store'
 
@@ -15,7 +14,5 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => response, error => {
   return Promise.reject(error)
 })
-
-Vue.prototype.axios = axios
 
 export default axios
