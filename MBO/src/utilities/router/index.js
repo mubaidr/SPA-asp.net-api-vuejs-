@@ -13,7 +13,6 @@ import Error500 from 'components/Error/Error500'
 import Signin from 'components/Account/Signin'
 import Signup from 'components/Account/Signup'
 import Profile from 'components/Account/Profile'
-import Recover from 'components/Account/Recover'
 // Data
 import Dashboard from 'components/Management/Dashboard.vue'
 import Settings from 'components/Management/Settings.vue'
@@ -58,9 +57,6 @@ const router = new Router({
     component: Signin
   }, {
     path: '/signout'
-  }, {
-    path: '/recover',
-    component: Recover
   }, {
     path: '/dashboard',
     component: Dashboard,

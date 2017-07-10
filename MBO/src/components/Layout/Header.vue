@@ -31,9 +31,9 @@
       <md-whiteframe class="md-large" md-tag="md-toolbar" md-elevation="0">
         <div class="md-toolbar-container"></div>
         <div class="md-toolbar-container">
-          <h2 class="md-title" v-if="!isAuthenticated && !userInfo">My Account</h2>
-          <h2 class="md-title" v-else>{{userInfo.Email}}</h2>
-          <span style="flex: 1;"></span>
+          <h2 class="md-title">
+            <template v-if="isAuthenticated && userInfo">{{userInfo.Email}}</template>
+          </h2>
         </div>
       </md-whiteframe>
       <md-list v-show="!isAuthenticated">
@@ -188,11 +188,9 @@ export default {
       window.setTimeout(this.$refs.leftSidenav.close, 500)
     },
     'isAuthenticated' (val) {
-      if (!val) {
-        this.$router.push({
-          path: '/'
-        })
-      }
+      this.$router.push({
+        path: '/'
+      })
     }
   },
   computed: {

@@ -26,8 +26,8 @@ export default {
       return account.signup(credentials)
     },
     signin (context, credentials) {
-      return account.signin(credentials).then((res) => {
-        context.commit('setAuthentication', res.data)
+      return account.signin(credentials).then((resAuth) => {
+        context.commit('setAuthentication', resAuth.data)
         account.getUserInfo().then((res) => {
           context.commit('setUserInfo', res.data)
         })
