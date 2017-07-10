@@ -63,10 +63,20 @@ export default {
         this.state.loading = true
 
         this.signup(this.credentials).then(res => {
-          console.log('res', res)
-          // this.$router.push('signin')
+          this.$toast.success({
+            title: 'Account created',
+            message: 'You will be redirected to signin page in few seconds. '
+          })
+          window.setTimeout(() => {
+            this.$router.push('signin')
+          }, 3000)
         }).catch(err => {
-          console.log('err', err)
+          if (err.response.status === 400) {
+            this.$toast.error({
+              title: err.response.data.Message,
+              message: err.response.data.ModelState[''][0]
+            })
+          }
         }).then(() => {
           this.state.loading = false
         })

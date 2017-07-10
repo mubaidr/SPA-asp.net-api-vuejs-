@@ -3,9 +3,8 @@ import './utilities/vue-material'
 import './utilities/datepicker'
 import './utilities/veeValidate'
 
+import './utilities/cxlt-vue2-toastr'
 import './utilities/axios'
-import './utilities/vue-error-tracker'
-import './utilities/vue-toastr'
 
 import './components/_custom'
 import './utilities/vue-mixins'
