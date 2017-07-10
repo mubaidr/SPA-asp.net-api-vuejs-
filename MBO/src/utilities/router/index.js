@@ -136,16 +136,16 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (store.getters.isAuthenticated) {
-    const notValid = ['signin', 'signup', 'recover']
+    const notValid = ['/signin', '/signup']
 
-    if (notValid.lastIndexOf(to.name) >= 0) {
+    if (notValid.lastIndexOf(to.path) >= 0) {
       next({
         path: '/dashboard'
       })
     } else if (to.path === '/signout') {
       store.commit('removeAuthentication')
       next({
-        path: '/home'
+        path: '/'
       })
     } else {
       next()
@@ -160,7 +160,7 @@ router.beforeEach((to, from, next) => {
       })
     } else if (to.path === '/signout') {
       next({
-        path: '/home'
+        path: '/'
       })
     } else {
       next()

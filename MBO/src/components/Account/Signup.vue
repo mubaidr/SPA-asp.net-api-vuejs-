@@ -65,16 +65,22 @@ export default {
         this.signup(this.credentials).then(res => {
           this.$toast.success({
             title: 'Account created',
-            message: 'You will be redirected to signin page in few seconds. '
+            message: 'You will be redirected to signin page in few seconds. ',
+            timeOut: 2500
           })
           window.setTimeout(() => {
-            this.$router.push('signin')
+            this.$router.push('/signin')
           }, 3000)
         }).catch(err => {
           if (err.response.status === 400) {
             this.$toast.error({
               title: err.response.data.Message,
               message: err.response.data.ModelState[''][0]
+            })
+          } else {
+            this.$toast.error({
+              title: 'Error',
+              message: 'An unknown error occurred'
             })
           }
         }).then(() => {

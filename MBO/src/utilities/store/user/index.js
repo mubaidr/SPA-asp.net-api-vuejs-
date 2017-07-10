@@ -26,12 +26,12 @@ export default {
       return account.signup(credentials)
     },
     signin (context, credentials) {
-      account.signin(credentials).then((res) => {
+      return account.signin(credentials).then((res) => {
         context.commit('setAuthentication', res.data)
         account.getUserInfo().then((res) => {
           context.commit('setUserInfo', res.data)
-        }).catch(() => {})
-      }).catch(() => {})
+        })
+      })
     },
     signout (context) {
       account.signout().then(() => {
@@ -48,6 +48,9 @@ export default {
     }
   },
   getters: {
+    getAuth (state) {
+      return state.auth
+    },
     isAuthenticated (state) {
       return state.auth !== null && typeof state.auth !== 'undefined'
     },

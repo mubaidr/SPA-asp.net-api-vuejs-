@@ -58,7 +58,21 @@ export default {
       this.$validator.validateAll().then(success => {
         if (!success) return
         this.state.loading = true
-        this.signin(this.credentials)
+        this.signin(this.credentials).catch(err => {
+          if (err.response.status === 400) {
+            this.$toast.error({
+              title: 'Signin failed',
+              message: err.response.data.error_description
+            })
+          } else {
+            this.$toast.error({
+              title: 'Error',
+              message: 'An unknown error occurred'
+            })
+          }
+        }).then(() => {
+          this.state.loading = false
+        })
       })
     }
   }

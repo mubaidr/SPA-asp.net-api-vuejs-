@@ -2,26 +2,29 @@ import axios from 'axios'
 import store from 'utilities/store'
 import router from 'utilities/router'
 
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use(cfg => {
   if (store.getters.isAuthenticated) {
     const auth = store.getters.getAuth
-    config.headers.Authorization = `${auth.token_type} ${auth.access_token}`
+    cfg.headers.Authorization = `${auth.token_type} ${auth.access_token}`
   }
-  return config
-}, error => {
-  return Promise.reject(error)
+  return cfg
+}, err => {
+  return Promise.reject(err)
 })
 
-axios.interceptors.response.use(response => response, error => {
-  switch (error.response.status) {
+axios.interceptors.response.use(res => res, err => {
+  switch (err.response.status) {
     case 401:
       store.commit('removeAuthentication')
-      router.push('/signin?redirect=' + router.app._route.path)
-      break
-    case 500:
+      router.push({
+        path: '/signin',
+        query: {
+          redirect: router.app._route.fullPath
+        }
+      })
       break
     default:
-      return Promise.reject(error)
+      return Promise.reject(err)
   }
 })
 

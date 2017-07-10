@@ -31,8 +31,8 @@
       <md-whiteframe class="md-large" md-tag="md-toolbar" md-elevation="0">
         <div class="md-toolbar-container"></div>
         <div class="md-toolbar-container">
-          <h2 class="md-title" v-show="!isAuthenticated">My Account</h2>
-          <h2 class="md-title" v-show="isAuthenticated">{{userInfo.Email}}</h2>
+          <h2 class="md-title" v-if="!isAuthenticated && !userInfo">My Account</h2>
+          <h2 class="md-title" v-else>{{userInfo.Email}}</h2>
           <span style="flex: 1;"></span>
         </div>
       </md-whiteframe>
@@ -179,38 +179,33 @@
   </div>
 </template>
 <script>
-import {
-  signout
-} from 'services/account'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
   name: 'app-header',
   watch: {
     '$route' () {
       window.setTimeout(this.$refs.leftSidenav.close, 500)
+    },
+    'isAuthenticated' (val) {
+      if (!val) {
+        this.$router.push({
+          path: '/'
+        })
+      }
     }
   },
   computed: {
-    isAuthenticated () {
-      return this.$store.getters.isAuthenticated
-    },
-    userInfo () {
-      return this.$store.getters.getUserInfo || {}
-    }
+    ...mapGetters(['isAuthenticated', 'userInfo'])
   },
   methods: {
+    ...mapActions(['signout']),
     openDialog (ref) {
       this.$refs[ref].open()
     },
     onClose (type) {
       if (type === 'ok') {
-        signout().then(res => {
-          this.$router.push({
-            path: '/signout'
-          })
-        }).catch(err => {
-          console.log(err)
-        })
+        this.signout()
       }
     },
     toggleLeftSidenav () {
@@ -221,8 +216,7 @@ export default {
         path
       })
     }
-  },
-  mounted () { }
+  }
 }
 
 </script>

@@ -12,7 +12,6 @@
 <script>
 import appHeader from './Layout/Header'
 import appFooter from './Layout/Footer'
-import { mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -33,17 +32,7 @@ export default {
       } else {
         this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
       }
-    },
-    'isAuthenticated' (val) {
-      console.log('authentication', val)
-      if (val) {
-      } else {
-
-      }
     }
-  },
-  computed: {
-    ...mapGetters(['isAuthenticated'])
   }
 }
 
