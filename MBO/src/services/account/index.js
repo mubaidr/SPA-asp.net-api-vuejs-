@@ -17,7 +17,7 @@ export default {
   getUserInfo () {
     return axios.get(`${api.url}/api/Account/UserInfo`)
   },
-  getUserList () {
+  getUsers () {
     return axios.get(`${api.url}/api/Account/Users`)
   }
 }

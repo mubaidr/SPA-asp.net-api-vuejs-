@@ -8,19 +8,20 @@
             <span>New Task</span>
           </div>
         </md-card-header-text>
-        <md-spinner class="md-accent" md-indeterminate v-show="Page.isLoading"></md-spinner>
+        <md-spinner class="md-accent" md-indeterminate v-show="state.loading"></md-spinner>
       </md-card-header>
       <md-card-content>
         <md-input-container :class="{'md-input-invalid': errors.has('Title')}">
           <label>Title</label>
-          <md-input name="Title" data-vv-name="Title" data-vv-rules="required|min:5" type="text" v-model="Task.Title" maxlength="50" v-validate></md-input>
+          <md-input name="Title" data-vv-name="Title" data-vv-rules="required|min:5" type="text" v-model="Task.Title" maxlength="50" v-validate placeholder="Enter title"></md-input>
           <span class="md-error">{{errors.first('Title')}}</span>
         </md-input-container>
-        <!--<md-input-container>
-            <label>Details <span>(optional)</span></label>
-            <md-textarea v-model="Task.Description" maxlength="200" name="Description"></md-textarea>
-          </md-input-container>-->
-        <!--TODO Set default category in settings-->
+        <md-input-container>
+          <label>Details
+            <span>(optional)</span>
+          </label>
+          <md-textarea v-model="Task.Description" maxlength="200" name="Description" placeholder="Provide optional description"></md-textarea>
+        </md-input-container>
         <md-input-container>
           <label for="Categories">Category</label>
           <md-select name="Categories" v-model="Task.CategoryID">
@@ -36,38 +37,32 @@
         <div>
           <label class="custom-label" for="DateDue">Target Date</label>
           <br>
-          <date-picker :date="datepickerStartTime" :option="datepickerOption" :limit="datepickerLimit" orientation="landscape" autoOk="true"></date-picker>
+          <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0]}"></datepicker>
         </div>
-        <!--<app-message></app-message>-->
       </md-card-content>
       <md-card-actions>
-        <!--<md-button md-hide-small class="md-accent" @click.native="$router.push({ path: '/tasks' })">
-            <md-tooltip md-direction="top">Tasks</md-tooltip>
-            Tasks
-          </md-button>-->
-        <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="Page.isLoading">Create New Task</md-button>
+        <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="state.loading">Create New Task</md-button>
       </md-card-actions>
     </md-card>
   </div>
 </template>
 <script>
-import {
-  create
-} from 'services/tasks'
-import {
-  getUsersList
-} from 'services/account'
-import {
-  getCategories
-} from 'services/catalogs'
-import moment from 'moment'
+import tasks from 'services/tasks'
+import account from 'services/account'
+import catalogs from 'services/catalogs'
+
+import Datepicker from 'vuejs-datepicker'
+// import moment from 'moment'
 
 export default {
   name: 'task-create',
+  components: {
+    Datepicker
+  },
   data () {
     return {
-      Page: {
-        isLoading: false
+      state: {
+        loading: false
       },
       Task: {
         Title: '',
@@ -79,53 +74,18 @@ export default {
       Catalog: {
         Categories: [],
         Users: []
-      },
-      datepickerStartTime: {
-        time: ''
-      },
-      datepickerOption: {
-        type: 'min',
-        format: 'DD-MM-YYYY HH:mm A',
-        inputStyle: {
-          'width': '100%',
-          'height': '32px',
-          'font-size': '15px',
-          'border': 'none',
-          'border-bottom': '1px solid #e1e1e1',
-          'box-shadow': 'none',
-          'color': 'rgba(0,0,0,.87)',
-          'font-weight': 'bold',
-          'cursor': 'pointer'
-        },
-        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-          'November', 'December'
-        ],
-        autoOk: true
-      },
-      datepickerLimit: [{
-        type: 'weekday',
-        available: [1, 2, 3, 4, 5]
-      }]
+      }
     }
   },
   methods: {
     formValidate (event) {
       event.preventDefault()
 
-      if (this.datepickerStartTime.time) {
-        this.Task.DateDue = moment(this.datepickerStartTime.time, 'DD-MM-YYYY HH:mm A').format('MM-DD-YYYY HH:mm A')
-      }
-
       this.$validator.validateAll().then(success => {
         if (!success) return
+        this.state.loading = true
 
-        this.$store.commit('setState', {
-          loading: true,
-          alert: false
-        })
-
-        create({
+        tasks.create({
           mainTask: this.Task,
           users: this.Users
         }).then(res => {
@@ -133,43 +93,71 @@ export default {
             path: '/tasks'
           })
         }).catch(err => {
-          this.setErrorDetails(err)
+          this.$toast.error({
+            title: err.response.data.Message,
+            message: err.response.data.ModelState
+          })
+        }).then(() => {
+          this.state.loading = false
         })
       })
     }
   },
   created () {
-    const now = moment().add(7, 'days').format('DD-MM-YYYY HH:mm A')
-    this.Task.DateDue = now
-    this.datepickerStartTime = now
+    var myDate = new Date()
+    this.Task.DateDue = new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
 
-    getCategories().then(res => {
+    catalogs.getCategories().then(res => {
       this.Catalog.Categories = res.data
-    }).catch(err => {
-      this.setErrorDetails(err)
+    }).catch(() => {
+      this.$toast.error({
+        title: 'Error',
+        message: 'Unable to fetch categories'
+      })
     })
 
-    getUsersList().then(res => {
+    account.getUsers().then(res => {
       this.Catalog.Users = res.data
-    }).catch(err => {
-      this.setErrorDetails(err)
+    }).catch(() => {
+      this.$toast.error({
+        title: 'Error',
+        message: 'Unable to fetch users list'
+      })
     })
-  },
-  mounted () { }
+  }
 }
 
 </script>
-<style scoped>
-.compact-card .md-card-content,
-.compact-card .md-card-actions {
-  padding: 0;
-}
+<style>
+  .compact-card .md-card-content,
+  .compact-card .md-card-actions {
+    padding: 0;
+  }
 
-.compact-card .md-card-actions {
-  padding-top: 16px;
-}
+  .compact-card .md-card-actions {
+    padding-top: 16px;
+  }
 
-.compact-card .md-card {
-  box-shadow: none;
-}
+  .compact-card .md-card {
+    box-shadow: none;
+  }
+
+  .vdp-datepicker__calendar {
+    /*Customize datepicker*/
+    margin: 0px auto!important;
+    width: 100%!important;
+    border-color: rgba(0, 0, 0, 0.12)!important;
+    border-radius: 3px;
+  }
+
+  .vdp-datepicker__calendar .cell:not(.blank):hover {
+    border-color: #3f51b5!important;
+  }
+
+  .vdp-datepicker__calendar .cell.selected,
+  .vdp-datepicker__calendar .cell.selected.highlighted,
+  .vdp-datepicker__calendar .cell.selected:hover {
+    color: #fff!important;
+    background-color: #3f51b5!important;
+  }
 </style>

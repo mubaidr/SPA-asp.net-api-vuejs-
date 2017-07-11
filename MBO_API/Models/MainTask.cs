@@ -21,35 +21,37 @@
 
         [Key]
         public int MainTaskID { get; set; }
-        
-        public string Title { get; set; }
-        
-        [MaxLength(250)]
+
         [Required]
+        public string Title { get; set; }
+
+        [MaxLength(250)]
         public string Description { get; set; }
-        
+
         public bool IsDeleted { get; set; }
-        
+
         public int Progress { get; set; }
-        
+
+        [Required]
         public DateTime DateAssigned { get; set; }
-        
+
         public DateTime DateDue { get; set; }
 
         public DateTime? DateCompleted { get; set; }
 
         public int StatusID { get; set; }
-        
+
+        [Required]
         public int CategoryID { get; set; }
-        
+
         public string AssignedByID { get; set; }
 
         public virtual Status Status { get; set; }
 
         public virtual Category Category { get; set; }
-        
+
         public virtual ApplicationUser AssignedBy { get; set; }
-        
+
         [InverseProperty("Assigned")]
         [Display(Name = "Assigned To")]
         public ICollection<ApplicationUser> AssignedTo { get; set; }

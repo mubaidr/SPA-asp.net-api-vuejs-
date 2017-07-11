@@ -1,6 +1,5 @@
 import './utilities/pollyfills'
 import './utilities/vue-material'
-import './utilities/datepicker'
 import './utilities/veeValidate'
 
 import './utilities/cxlt-vue2-toastr'
