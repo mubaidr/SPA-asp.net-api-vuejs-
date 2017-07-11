@@ -4,8 +4,8 @@ import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css'
 
 var config = {
   position: 'bottom right',
-  showMethod: 'slideInRight',
-  hideMethod: 'slideOutRight',
+  showMethod: 'slideInUp',
+  hideMethod: 'slideOutDown',
   timeOut: 7500,
   showDuration: 250,
   hideDuration: 250

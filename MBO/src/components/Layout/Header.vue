@@ -179,7 +179,7 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'app-header',
@@ -220,7 +220,7 @@ export default {
 </script>
 <style scoped>
   .header-custom {
-    margin-bottom: 1%;
+    /* margin-bottom: 1%; */
   }
 
   .add-task {

@@ -1,9 +1,39 @@
-body.md-theme-default {
-  background-color: #efefef;
+/*tags*/
+
+body {
+  background-color: #efefef!important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  width: 100%;
+}
+
+
+/*custom*/
+
+.form {
+  width: 100%;
+  background-color: #fff;
+}
+
+.form>div:not(.md-progress) {
+  padding: 20px;
 }
 
 .container {
-  padding: 15px;
+  padding: 50px 15px;
+  min-height: calc(100vh - 100px - 128px - 24px);
+}
+
+.footer {
+  padding: 60px;
+  background-color: #ddd;
+  border-top: 1px solid #dedede;
 }
 
 .simple-list {
@@ -12,23 +42,15 @@ body.md-theme-default {
   margin: 0;
 }
 
-.min-height {
-  min-height: 280px;
+
+/*Vue material customize*/
+
+.md-menu-content.md-direction-bottom-right.md-active {
+  width: 100%;
 }
 
-@media screen and (min-width: 480px) {
-  body {
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-  .min-height {
-    min-height: 360px;
-  }
-}
 
-.bg-white {
-  background-color: #fff;
-}
+/*utilities*/
 
 .flex-vertical {
   display: flex;
@@ -44,39 +66,6 @@ body.md-theme-default {
   visibility: hidden;
 }
 
-.hide {
-  display: none;
-}
-
-.no-padding {
-  padding: 0;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-.padded {
-  padding: 20px;
-}
-
-.dim-text {
-  opacity: 0.5;
-}
-
-.no-border {
-  border: none!important;
-}
-
-
-/* .md-input-container {
-  max-width: 180px;
-} */
-
-.md-list.expanded .md-list-item-container {
-  padding: 0!important;
-}
-
 .text-center {
   text-align: center;
 }
@@ -89,8 +78,8 @@ body.md-theme-default {
   text-align: left;
 }
 
-.right-align {
-  text-align: right;
+.pull-left {
+  float: left;
 }
 
 .pull-right {
@@ -99,66 +88,6 @@ body.md-theme-default {
 
 .text-muted {
   opacity: 0.6;
-}
-
-
-/*Footer*/
-
-.footer {
-  padding: 50px;
-  background-color: #424242;
-  z-index: 100;
-}
-
-
-/*Vue material customize*/
-
-
-/*Seelct list*/
-
-.md-menu-content.md-direction-bottom-right.md-active {
-  width: 100%;
-}
-
-.md-card-header.indigo {
-  background-color: #3f51b5;
-  color: rgba(255, 255, 255, .87);
-  margin-bottom: 40px;
-}
-
-
-/*vue-datepicker*/
-
-.cov-vue-date {
-  width: 100%;
-}
-
-.custom-label {
-  color: rgba(0, 0, 0, .54);
-  font-size: 12px;
-  line-height: 20px;
-}
-
-
-/*Custom Card*/
-
-.card-cont {
-  width: 100%;
-}
-
-.md-card-custom {
-  margin: 5px;
-  overflow-x: hidden;
-}
-
-.min-width {
-  min-width: 100%;
-}
-
-@media screen and (min-width: 760px) {
-  .min-width {
-    min-width: 20%;
-  }
 }
 
 .chip-custom {
@@ -185,4 +114,12 @@ body.md-theme-default {
 
 .theme-success .md-icon {
   color: #4caf50;
+}
+
+
+/*Toaster config*/
+
+.cxlt-toastr-container>div {
+  opacity: 1;
+  box-shadow: 0 3px 6px #000;
 }
