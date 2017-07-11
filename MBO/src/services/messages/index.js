@@ -13,23 +13,23 @@ export default {
     return axios.get(api.url + path + '/getContacts')
   },
 
-  getMessages (obj) {
+  get (obj) {
     return axios.get(api.url + path + '?folder=' + obj.folder + this.objToQuery(obj))
   },
 
-  postMessage (obj) {
+  post (obj) {
     return axios.post(api.url + path, obj)
   },
 
-  deleteMessage (obj) {
+  delete (obj) {
     return axios.post(api.url + path + '/Delete?Id=' + obj)
   },
 
-  restoreMessage (obj) {
+  restore (obj) {
     return axios.post(api.url + path + '/Restore?Id=' + obj)
   },
 
-  markReadMessage (obj) {
+  markRead (obj) {
     return axios.post(api.url + path + '/Read?Id=' + obj)
   },
 

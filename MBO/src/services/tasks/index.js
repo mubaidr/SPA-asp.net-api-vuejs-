@@ -25,7 +25,7 @@ export default {
     return axios.post(`${api.url + path}/Restore/?id=${obj.id}`, obj)
   },
 
-  deleteTask (obj) {
+  delete (obj) {
     return axios.post(api.url + path, obj)
   },
 
