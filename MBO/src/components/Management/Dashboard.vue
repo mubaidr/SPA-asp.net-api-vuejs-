@@ -123,9 +123,7 @@
 <script>
 import CountUp from 'countup.js'
 
-import {
-  getDashboard
-} from 'services/dashboard'
+import dashboard from 'services/dashboard'
 
 export default {
   data () {
@@ -135,7 +133,7 @@ export default {
   },
   components: {},
   created () {
-    getDashboard().then(res => {
+    dashboard.get().then(res => {
       this.dashboard = res.data
 
       window.setTimeout(function () {
@@ -154,9 +152,6 @@ export default {
     }).catch(err => {
       this.setErrorDetails(err)
     })
-  },
-  mounted () {
-
   }
 }
 
@@ -171,6 +166,7 @@ export default {
   background-color: #3f51b5;
   color: #fff;
   text-shadow: 0 0 3px black;
+  border-radius: 3px;
 }
 
 a .md-chip {

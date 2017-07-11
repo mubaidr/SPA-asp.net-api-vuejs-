@@ -5,7 +5,7 @@ const path = '/api/Dashboard'
 
 export default {
 
-  getDashboard () {
+  get () {
     return axios.get(api.url + path)
   }
 
