@@ -1,26 +1,23 @@
 <template>
-  <div class="flex-vertical min-height full-width">
-    <md-card class="full-width">
-      <md-card-header class="indigo">
-        <md-card-header-text>
-          <div>
-            <div class="md-title">Get started</div>
-            <span>New Task</span>
-          </div>
-        </md-card-header-text>
-        <md-spinner class="md-accent" md-indeterminate v-show="state.loading"></md-spinner>
-      </md-card-header>
-      <md-card-content>
+  <div>
+    <h1>
+      <span>New Task</span>
+      <br/>
+      <span class="md-caption">Get started</span>
+    </h1>
+    <md-whiteframe md-tag="section" class="form">
+      <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
+      <div>
         <md-input-container :class="{'md-input-invalid': errors.has('Title')}">
           <label>Title</label>
-          <md-input name="Title" data-vv-name="Title" data-vv-rules="required|min:5" type="text" v-model="Task.Title" maxlength="50" v-validate placeholder="Enter title"></md-input>
+          <md-input name="Title" data-vv-name="Title" data-vv-rules="required|min:5" type="text" v-model="Task.Title" maxlength="50" v-validate></md-input>
           <span class="md-error">{{errors.first('Title')}}</span>
         </md-input-container>
         <md-input-container>
           <label>Details
             <span>(optional)</span>
           </label>
-          <md-textarea v-model="Task.Description" maxlength="200" name="Description" placeholder="Provide optional description"></md-textarea>
+          <md-textarea v-model="Task.Description" maxlength="200" name="Description"></md-textarea>
         </md-input-container>
         <md-input-container>
           <label for="Categories">Category</label>
@@ -34,16 +31,20 @@
             <md-option v-for="user in Catalog.Users" :value="user.Id" :title="user.UserName" :key="user.Id">{{user.UserName}}</md-option>
           </md-select>
         </md-input-container>
-        <div>
-          <label class="custom-label" for="DateDue">Target Date</label>
-          <br>
-          <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0]}"></datepicker>
+        <label class="custom-label text-muted" for="DateDue">Target Date</label>
+        <br>
+        <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0]}"></datepicker>
+        <div class="clearfix">
+          <md-button class="md-accent" @click.native="$router.push({ path: '/tasks' })">
+            View All Tasks
+          </md-button>
+          <md-button class="md-accent" @click.native="$router.push({ path: '/dashboard' })">
+            Dashboard
+          </md-button>
+          <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="state.loading">Create New Task</md-button>
         </div>
-      </md-card-content>
-      <md-card-actions>
-        <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="state.loading">Create New Task</md-button>
-      </md-card-actions>
-    </md-card>
+      </div>
+    </md-whiteframe>
   </div>
 </template>
 <script>

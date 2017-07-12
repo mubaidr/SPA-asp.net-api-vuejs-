@@ -2,6 +2,8 @@
 
 body {
   background-color: #efefef!important;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 h1,
@@ -23,6 +25,21 @@ h6 {
 
 .form>div:not(.md-progress) {
   padding: 20px;
+}
+
+.form .md-button.md-raised {
+  margin-right: 0;
+  float: right;
+}
+
+.form .md-button:not(.md-raised) {
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.form .clearfix {
+  margin-top: 25px;
 }
 
 .container {
@@ -52,6 +69,11 @@ h6 {
 
 /*utilities*/
 
+.custom-label {
+  display: inline-block;
+  margin-top: 4px;
+}
+
 .flex-vertical {
   display: flex;
   align-items: center;
@@ -64,6 +86,10 @@ h6 {
 
 .hidden {
   visibility: hidden;
+}
+
+.clearfix {
+  clear: both;
 }
 
 .text-center {

@@ -1,24 +1,5 @@
 <template>
   <div>
-      <md-toolbar class="md-transparent md-dense">
-        <md-button class="md-icon-button md-accent" @click.native="$router.push({ path: '/tasks' })">
-          <md-tooltip md-direction="top">Tasks</md-tooltip>
-          <md-icon>arrow_back</md-icon>
-        </md-button>
-        <span>Create Task</span>
-        <span style="flex: 1"></span>
-        <md-button class="md-accent" @click.native="$router.push({path: '/tasks/'})">
-          <md-tooltip md-direction="top">Archived</md-tooltip>
-          <md-icon>assignment</md-icon>
-          Tasks
-        </md-button>
-        <md-button class="md-accent" @click.native="$router.push({path: '/dashboard'})">
-          <md-tooltip md-direction="top">Dashboard</md-tooltip>
-          <md-icon>dashboard</md-icon>
-          Dashboard
-        </md-button>
-      </md-toolbar>
-    <br>
     <md-layout>
       <md-layout md-hide-small=""></md-layout>
       <md-layout>

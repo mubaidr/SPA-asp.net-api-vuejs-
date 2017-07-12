@@ -25,8 +25,8 @@
             <md-input name="ConfirmPassword" data-vv-name="ConfirmPassword" data-vv-rules="required|confirmed:Password" type="password" v-model="credentials.ConfirmPassword" v-validate :disabled="state.loading"></md-input>
             <span class="md-error">{{errors.first('ConfirmPassword')}}</span>
           </md-input-container>
-          <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Register</md-button>
           <router-link class="md-accent" tag="md-button" to="/signin">Already have an account?</router-link>
+          <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Register</md-button>
         </div>
       </md-whiteframe>
     </md-layout>
@@ -57,16 +57,7 @@ export default {
         if (!success) return
         this.state.loading = true
 
-        this.signup(this.credentials).then(res => {
-          this.$toast.success({
-            title: 'Account created',
-            message: 'You will be redirected to signin page in few seconds. ',
-            timeOut: 2500
-          })
-          window.setTimeout(() => {
-            this.$router.push('/signin')
-          }, 3000)
-        }).catch(err => {
+        this.signup(this.credentials).catch(err => {
           if (err.response.status === 400) {
             this.$toast.error({
               title: err.response.data.Message,
@@ -80,7 +71,7 @@ export default {
             })
           }
         }).then(() => {
-          // this.state.loading = false
+          this.state.loading = false
         })
       })
     }

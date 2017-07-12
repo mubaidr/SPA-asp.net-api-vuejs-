@@ -20,9 +20,9 @@
             <md-input name="Password" data-vv-name="Password" data-vv-rules="required|min:6" type="password" v-model="credentials.Password" v-validate :disabled="state.loading"></md-input>
             <span class="md-error">{{errors.first('Password')}}</span>
           </md-input-container>
-          <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Singin</md-button>
           <router-link class="md-accent" tag="md-button" to="/recover">Forgot password?</router-link>
           <router-link class="md-accent" tag="md-button" to="/signup">Don't have an account?</router-link>
+          <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Singin</md-button>
         </div>
       </md-whiteframe>
     </md-layout>
