@@ -55,6 +55,10 @@ h1 {
   margin: 0;
 }
 
+.min-height {
+  min-height: 260px;
+}
+
 
 /*Vue material customize*/
 

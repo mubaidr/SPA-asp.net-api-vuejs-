@@ -24,6 +24,14 @@ export default {
     getQuoteEmpty (state) {
       let items = state.quotes.empty
       return items[Math.floor(Math.random() * items.length)]
+    },
+    getQuoteLoading (state) {
+      let items = state.quotes.try
+      return items[Math.floor(Math.random() * items.length)]
+    },
+    getQuoteError (state) {
+      let items = state.quotes.fail
+      return items[Math.floor(Math.random() * items.length)]
     }
   }
 }

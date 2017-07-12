@@ -8,11 +8,8 @@
           </li>
         </transition-group>
       </div>
-      <div v-else-if="loading">
-        Loading
-      </div>
       <div v-else>
-        Empty
+        <data-state :loading="loading"></data-state>
       </div>
     </transition>
   </div>
@@ -20,13 +17,15 @@
 <script>
 import tasksService from 'services/tasks'
 import taskCard from 'components/_custom/task-card.vue'
+import dataState from 'components/_custom/data-state.vue'
 import pagination from 'components/_custom/pagination.vue'
 
 export default {
   name: 'task-view',
   components: {
     taskCard,
-    pagination
+    pagination,
+    dataState
   },
   props: ['type', 'active'],
   data () {
