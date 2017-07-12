@@ -20,11 +20,11 @@
           <md-textarea v-model="Task.Description" maxlength="200" name="Description"></md-textarea>
         </md-input-container>
         <!-- <md-input-container>
-          <label for="Categories">Category</label>
-          <md-select name="Categories" v-model="Task.CategoryID">
-            <md-option v-for="category in Catalog.Categories" :value="category.CategoryID" :title="category.Description" :key="category.Id">{{category.Title}}</md-option>
-          </md-select>
-        </md-input-container> -->
+                                                          <label for="Categories">Category</label>
+                                                          <md-select name="Categories" v-model="Task.CategoryID">
+                                                            <md-option v-for="category in Catalog.Categories" :value="category.CategoryID" :title="category.Description" :key="category.Id">{{category.Title}}</md-option>
+                                                          </md-select>
+                                                        </md-input-container> -->
         <md-input-container>
           <label for="Users">Assign To</label>
           <md-select name="Users" multiple v-model="Users">
@@ -33,7 +33,7 @@
         </md-input-container>
         <label class="custom-label text-muted" for="DateDue">Target Date</label>
         <br>
-        <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0]}"></datepicker>
+        <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0], to: getDateYesterday()}"></datepicker>
         <div class="clearfix">
           <md-button class="md-accent" @click.native="$router.push({ path: '/tasks' })">
             View All Tasks
@@ -79,6 +79,17 @@ export default {
     }
   },
   methods: {
+    getDateToday () {
+      return new Date()
+    },
+    getDateYesterday () {
+      var myDate = new Date()
+      return new Date(myDate.setTime(myDate.getTime() - (1 * 86400000)))
+    },
+    getDateWeek () {
+      var myDate = new Date()
+      return new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
+    },
     formValidate (event) {
       event.preventDefault()
 
@@ -105,8 +116,7 @@ export default {
     }
   },
   created () {
-    var myDate = new Date()
-    this.Task.DateDue = new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
+    this.Task.DateDue = this.getDateWeek()
 
     catalogs.getCategories().then(res => {
       this.Catalog.Categories = res.data

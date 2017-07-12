@@ -4,6 +4,7 @@ body {
   background-color: #efefef!important;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 h1 {
@@ -44,8 +45,8 @@ h1 {
 
 .footer {
   padding: 60px;
-  background-color: #ddd;
-  border-top: 1px solid #dedede;
+  background-color: #ccc;
+  border-top: 1px solid #bbb;
 }
 
 .simple-list {

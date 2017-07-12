@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <pagination :lastpage="tasks.lastPage" :loading="tasks.loading" :count="tasks.length" @refresh="search"></pagination> -->
-    <transition-group class="full-width simple-list" name="list-out" appear tag="ul" v-if="tasks.length">
+    <transition-group class="full-width simple-list task-list" name="list-out" appear tag="ul" v-if="tasks.length">
       <li class="list-out-item" v-for="task in tasks" :key="task.MainTaskID">
         <task-card :task="task" :type="type"></task-card>
       </li>
@@ -58,6 +58,14 @@ export default {
   }
 }
 </script>
-<<style>
+<style>
+  .task-list li {
+    width: 19.5%;
+    display: inline-block;
+    margin-right: 0.5%;
+  }
 
+  .task-list li:last-child {
+    margin-right: 0;
+  }
 </style>
