@@ -1,14 +1,20 @@
 <template>
   <div>
-    <!-- <pagination :lastpage="tasks.lastPage" :loading="tasks.loading" :count="tasks.length" @refresh="search"></pagination> -->
-    <transition-group class="full-width simple-list task-list" name="list-out" appear tag="ul" v-if="tasks.length">
-      <li class="list-out-item" v-for="task in tasks" :key="task.MainTaskID">
-        <task-card :task="task" :type="type"></task-card>
-      </li>
-    </transition-group>
-    <template v-else>
-      Empty
-    </template>
+    <transition name="slide-up" appear>
+      <div v-if="tasks.length">
+        <transition-group class="full-width simple-list task-list" name="list-out-delayed" appear tag="ul">
+          <li v-for="task in tasks" :key="task.MainTaskID">
+            <task-card :task="task" :type="type"></task-card>
+          </li>
+        </transition-group>
+      </div>
+      <div v-else-if="loading">
+        Loading
+      </div>
+      <div v-else>
+        Empty
+      </div>
+    </transition>
   </div>
 </template>
 <script>

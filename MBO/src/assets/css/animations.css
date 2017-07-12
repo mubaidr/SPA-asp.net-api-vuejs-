@@ -142,7 +142,7 @@
 }
 
 
-/*Trash*/
+/*List out*/
 
 .list-out-enter-active,
 .list-out-leave-active {
@@ -151,6 +151,20 @@
 
 .list-out-enter,
 .list-out-leave-to {
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+
+/*List out delayed*/
+
+.list-out-delayed-enter-active,
+.list-out-delayed-leave-active {
+  transition: all 0.5s ease 0.5s;
+}
+
+.list-out-delayed-enter,
+.list-out-delayed-leave-to {
   opacity: 0;
   transform: scale(1.2);
 }
