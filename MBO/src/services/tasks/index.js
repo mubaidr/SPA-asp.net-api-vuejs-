@@ -29,24 +29,8 @@ export default {
     return axios.post(api.url + path, obj)
   },
 
-  listAll () {
-    return axios.get(api.url + path)
-  },
-
-  listAssigned (obj) {
-    return axios.get(`${api.url + path}?type=assigned${this.objToQuery(obj)}`)
-  },
-
-  listCreated (obj) {
-    return axios.get(`${api.url + path}?type=created${this.objToQuery(obj)}`)
-  },
-
-  listCompleted (obj) {
-    return axios.get(`${api.url + path}?type=completed${this.objToQuery(obj)}`)
-  },
-
-  listTrash (obj) {
-    return axios.get(`${api.url + path}?type=trash${this.objToQuery(obj)}`)
+  list (type, obj) {
+    return axios.get(`${api.url + path}?type=${type}${this.objToQuery(obj)}`)
   },
 
   objToQuery (obj) {

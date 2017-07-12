@@ -19,12 +19,12 @@
           </label>
           <md-textarea v-model="Task.Description" maxlength="200" name="Description"></md-textarea>
         </md-input-container>
-        <md-input-container>
+        <!-- <md-input-container>
           <label for="Categories">Category</label>
           <md-select name="Categories" v-model="Task.CategoryID">
             <md-option v-for="category in Catalog.Categories" :value="category.CategoryID" :title="category.Description" :key="category.Id">{{category.Title}}</md-option>
           </md-select>
-        </md-input-container>
+        </md-input-container> -->
         <md-input-container>
           <label for="Users">Assign To</label>
           <md-select name="Users" multiple v-model="Users">

@@ -31,16 +31,16 @@ export default {
     return {
       currentTab: null,
       list: [{
-        type: 'Created',
+        type: 'created',
         active: false
       }, {
-        type: 'Assigned',
+        type: 'assigned',
         active: false
       }, {
-        type: 'Completed',
+        type: 'completed',
         active: false
       }, {
-        type: 'Archived',
+        type: 'archived',
         active: false
       }]
     }
@@ -54,9 +54,9 @@ export default {
     activeTab () {
       let _path = startCase(this.$route.query.sub)
       if (!find(this.list, { type: _path })) {
-        _path = 'Assigned'
+        _path = 'assigned'
       }
-      this.currentTab = _path
+      this.currentTab = _path.toLowerCase()
     }
   },
   created () {

@@ -3,10 +3,10 @@
     <md-card class="md-card-custom" md-hover>
       <md-card-header>
         <md-card-header-text>
-          <div class="md-title text-primary" v-on:click="viewDetails()">
-            {{Task.Title}}</div>
-          <div class="md-subhead" v-on:click="viewDetails()">
-            {{Task.AssignedBy.Email}}
+          <div class="md-title text-primary">
+            {{task.Title}}</div>
+          <div class="md-subhead">
+            {{task.AssignedBy.Email}}
           </div>
         </md-card-header-text>
         <md-menu md-size="3" md-direction="bottom left" v-show="isSelfCreated">
@@ -26,18 +26,18 @@
         </md-menu>
       </md-card-header>
       <md-card-content style="padding-bottom: 0">
-        <span v-on:click="viewDetails()">{{Task.Description || "No Description Provided."}}</span>
+        <span>{{task.Description || "No Description Provided."}}</span>
       </md-card-content>
       <md-card-content>
         <div class="card-date" title="Due Date" :class="typeClass()">
-          <span class="text-muted">{{formatDate(Task.DateDue)}}</span>
+          <span class="text-muted">{{formatDate(task.DateDue)}}</span>
           <md-icon class="pull-right" :class="typeAnimate()">{{typeIcon()}}</md-icon>
         </div>
-        <md-progress :md-theme="typeClass()" :md-progress="Task.Progress"></md-progress>
+        <md-progress :md-theme="typeClass()" :md-progress="task.Progress"></md-progress>
       </md-card-content>
       <md-card-content>
-        <template v-if="Task.AssignedTo.length">
-          <span class="chip-custom" v-for="user in Task.AssignedTo" :key="user.Email">{{user.Email}}</span>
+        <template v-if="task.AssignedTo.length">
+          <span class="chip-custom" v-for="user in task.AssignedTo" :key="user.Email">{{user.Email}}</span>
         </template>
         <span class="chip-custom" v-else>Self</span>
       </md-card-content>
@@ -61,14 +61,14 @@
       </md-card-actions>
     </md-card>
     <!--Delete Confirmation-->
-    <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
-      <md-dialog-title>Move to Archive</md-dialog-title>
-      <md-dialog-content>Are you sure you want to archive this task?</md-dialog-content>
-      <md-dialog-actions>
-        <md-button class="md-primary" @click.native="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
-        <md-button class="md-primary" @click.native="onDeleteClose('ok')">Sure</md-button>
-      </md-dialog-actions>
-    </md-dialog>
+    <!-- <md-dialog :md-close-to="DialogCloseTarget" :ref="refConfirm">
+                                      <md-dialog-title>Move to Archive</md-dialog-title>
+                                      <md-dialog-content>Are you sure you want to archive this task?</md-dialog-content>
+                                      <md-dialog-actions>
+                                        <md-button class="md-primary" @click.native="onDeleteClose('cancel')">Wait... that was a mistake!</md-button>
+                                        <md-button class="md-primary" @click.native="onDeleteClose('ok')">Sure</md-button>
+                                      </md-dialog-actions>
+                                    </md-dialog> -->
   </div>
 </template>
 <script>
@@ -79,7 +79,7 @@ import moment from 'moment'
 
 export default {
   name: 'task-card',
-  props: ['Task', 'Type'],
+  props: ['task', 'type'],
   data () {
     return {
       DialogCloseTarget: null
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     isSelfCreated () {
-      return this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
+      return this.$store.getters.getUserInfo.Email === this.task.AssignedBy.Email
     }
   },
   methods: {
@@ -95,11 +95,11 @@ export default {
       return moment(date).format('hh:mmA DD-MM-YY')
     },
     refConfirm () {
-      return `ref-confirm-${this.Task.MainTaskID}`
+      return `ref-confirm-${this.task.MainTaskID}`
     },
     typeAnimate () {
       const now = moment()
-      const dueDate = moment(this.Task.DateDue)
+      const dueDate = moment(this.task.DateDue)
       const diff = now.diff(dueDate, 'days')
 
       if (diff < 0) {
@@ -127,10 +127,10 @@ export default {
     },
     typeClass () {
       const now = moment()
-      const dueDate = moment(this.Task.DateDue)
+      const dueDate = moment(this.task.DateDue)
       const diff = now.diff(dueDate, 'days')
 
-      if (this.Task.Progress === 100) {
+      if (this.task.Progress === 100) {
         return 'theme-success'
       }
       if (diff < 0) {
@@ -150,32 +150,30 @@ export default {
         // named route required for sending params
         name: 'task-details',
         params: {
-          Task: this.Task,
-          Type: obj
+          task: this.task,
+          type: obj
         }
       }
 
       this.$router.push(url)
     },
     confirmDelete () {
-      console.log(this.refConfirm())
       this.$refs[this.refConfirm()].open()
     },
     onDeleteClose (type) {
-      const TaskId = this.Task.MainTaskID
+      const TaskId = this.task.MainTaskID
 
       if (type === 'ok') {
         remove({
           id: TaskId
         }).then(res => {
           this.DialogCloseTarget = '#btn-view-trash'
-          this.animateTrashButton()
           this.$refs[this.refConfirm()].close()
 
           window.setTimeout(() => {
             this.$emit('remove-task-item', {
               id: TaskId,
-              type: this.Type
+              type: this.type
             })
           }, 250)
         }).catch(err => {
@@ -185,18 +183,8 @@ export default {
         this.DialogCloseTarget = null
         this.$refs[this.refConfirm()].close()
       }
-    },
-    animateTrashButton () {
-      window.setTimeout(() => {
-        document.getElementById('btn-view-trash').className += ' animate-active'
-        window.setTimeout(() => {
-          document.getElementById('btn-view-trash').className = document.getElementById('btn-view-trash').className
-            .replace(/(?:^|\s)animate-active(?!\S)/g, '')
-        }, 250)
-      }, 200)
     }
-  },
-  mounted () { }
+  }
 }
 
 </script>

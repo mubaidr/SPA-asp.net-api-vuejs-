@@ -130,98 +130,69 @@
 
 /*Items List Transitions*/
 
-.list-in-item {
-  will-change: transform;
-  transition: transform 0.25s;
-  display: inline-block;
+.list-in-enter-active,
+.list-in-leave-active {
+  transition: all 0.5s ease;
 }
 
 .list-in-enter,
 .list-in-leave-to {
+  opacity: 0;
   transform: scale(0.8);
-}
-
-.list-in-leave-active {
-  position: absolute;
 }
 
 
 /*Trash*/
 
-.list-out-item {
-  will-change: transform;
-  transition: transform 0.25s;
-  display: inline-block;
+.list-out-enter-active,
+.list-out-leave-active {
+  transition: all 0.5s ease;
 }
 
 .list-out-enter,
 .list-out-leave-to {
+  opacity: 0;
   transform: scale(1.2);
-}
-
-.list-out-leave-active {
-  position: absolute;
 }
 
 
 /*Route change animations*/
 
-.slide-up-enter-active {
-  will-change: transform;
-  transition: transform .25s ease-out;
-}
-
+.slide-up-enter-active,
 .slide-up-leave-active {
-  will-change: transform;
-  transition: transform .1s ease;
+  transition: all .5s ease;
 }
 
-.slide-up-enter {
-  transform: translateY(-100px);
-}
-
-.slide-up-leave {
+.slide-up-enter,
+.slide-up-leave-to {
+  opacity: 0;
   transform: translateY(-50px);
 }
 
 
 /*Test right*/
 
-.slide-right-enter-active {
-  will-change: transform;
-  transition: transform .25s ease-out;
-}
-
+.slide-right-enter-active,
 .slide-right-leave-active {
-  will-change: transform;
-  transition: transform .1s ease;
+  transition: all .5s ease;
 }
 
-.slide-right-enter {
+.slide-right-enter,
+.slide-right-leave-to {
+  opacity: 0;
   transform: translateX(-100px);
-}
-
-.slide-right-leave-active {
-  transform: translateX(-50px);
 }
 
 
 /*Test left*/
 
-.slide-left-enter-active {
-  will-change: transform;
-  transition: transform .25s ease-out;
-}
-
+.slide-left-enter-active,
 .slide-left-leave-active {
-  will-change: transform;
-  transition: transform .1s ease;
+  transition: all .5s ease;
 }
 
-.slide-left-enter {
-  transform: translateX(-100px);
-}
-
-.slide-left-leave-active {
-  transform: translateX(-50px);
+.slide-left-enter,
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateY(100px);
 }

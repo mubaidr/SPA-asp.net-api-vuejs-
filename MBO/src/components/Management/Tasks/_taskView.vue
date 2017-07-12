@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- <pagination :lastpage="tasks.lastPage" :loading="tasks.loading" :count="tasks.length" @refresh="search"></pagination> -->
-    <transition-group class="min-height no-padding full-width simple-list" name="list-out" appear tag="ul" v-if="tasks.length">
+    <transition-group class="full-width simple-list" name="list-out" appear tag="ul" v-if="tasks.length">
       <li class="list-out-item" v-for="task in tasks" :key="task.MainTaskID">
-        {{task}}
+        <task-card :task="task" :type="type"></task-card>
       </li>
     </transition-group>
     <template v-else>
@@ -12,9 +12,9 @@
   </div>
 </template>
 <script>
+import tasksService from 'services/tasks'
 import taskCard from 'components/_custom/task-card.vue'
 import pagination from 'components/_custom/pagination.vue'
-import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'task-view',
@@ -24,15 +24,36 @@ export default {
   },
   props: ['type', 'active'],
   data () {
-    return {}
+    return {
+      tasks: [],
+      count: 0,
+      last_page: 0,
+      fetched: false,
+      loading: false
+    }
   },
-  computed: {
-    ...mapGetters(['tasks']),
-    ...mapActions([])
+  watch: {
+    'active' () {
+      if (!this.fetched) {
+        this.search()
+      }
+    }
   },
+  computed: {},
   methods: {
     search () {
-      console.log('search')
+      this.loading = true
+      tasksService.list(this.type).then(res => {
+        this.tasks = res.data.mainTask
+        this.count = res.data.count
+        this.last_page = res.data.last_page
+
+        this.fetched = true
+      }).catch(err => {
+        console.log(err)
+      }).then(() => {
+        this.loading = false
+      })
     }
   }
 }
