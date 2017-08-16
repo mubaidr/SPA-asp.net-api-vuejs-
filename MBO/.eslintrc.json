@@ -13,7 +13,7 @@
     "sourceType": "module"
   },
   "extends": [
-    "standard",
+    "eslint:recommended",
     "plugin:vue/recommended"
   ],
   "settings": {
