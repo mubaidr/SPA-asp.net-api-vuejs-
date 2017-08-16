@@ -20,51 +20,51 @@
   </div>
 </template>
 <script>
-import { find, startCase } from 'lodash'
-import taskView from './_taskView.vue'
+  import { find, startCase } from 'lodash'
+  import taskView from './_taskView.vue'
 
-export default {
-  components: {
-    taskView
-  },
-  data () {
-    return {
-      currentTab: null,
-      list: [{
-        type: 'created',
-        active: false
-      }, {
-        type: 'assigned',
-        active: false
-      }, {
-        type: 'completed',
-        active: false
-      }, {
-        type: 'archived',
-        active: false
-      }]
-    }
-  },
-  watch: {},
-  methods: {
-    tabChange (index) {
-      this.currentTab = this.list[index].type
-      this.list[index].active = true
+  export default {
+    components: {
+      taskView
     },
-    activeTab () {
-      let _path = startCase(this.$route.query.sub)
-      if (!find(this.list, { type: _path })) {
-        _path = 'assigned'
+    data () {
+      return {
+        currentTab: null,
+        list: [{
+          type: 'created',
+          active: false
+        }, {
+          type: 'assigned',
+          active: false
+        }, {
+          type: 'completed',
+          active: false
+        }, {
+          type: 'archived',
+          active: false
+        }]
       }
-      this.currentTab = _path.toLowerCase()
+    },
+    watch: {},
+    methods: {
+      tabChange (index) {
+        this.currentTab = this.list[index].type
+        this.list[index].active = true
+      },
+      activeTab () {
+        let _path = startCase(this.$route.query.sub)
+        if (!find(this.list, { type: _path })) {
+          _path = 'assigned'
+        }
+        this.currentTab = _path.toLowerCase()
+      }
+    },
+    created () {
+      this.activeTab()
     }
-  },
-  created () {
-    this.activeTab()
   }
-}
 
 </script>
 <style>
-
+  
 </style>

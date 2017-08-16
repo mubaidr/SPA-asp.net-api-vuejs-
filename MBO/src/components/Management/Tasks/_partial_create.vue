@@ -4,6 +4,13 @@
       <span>New Task</span>
       <br/>
       <span class="md-caption">Get started</span>
+      <br/>
+      <md-button class="md-accent" @click.native="$router.push({ path: '/tasks' })">
+        View All Tasks
+      </md-button>
+      <md-button class="md-accent" @click.native="$router.push({ path: '/dashboard' })">
+        Dashboard
+      </md-button>
     </h1>
     <md-whiteframe md-tag="section" class="form">
       <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
@@ -34,13 +41,7 @@
         <label class="custom-label text-muted" for="DateDue">Target Date</label>
         <br>
         <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0], to: getDateYesterday()}"></datepicker>
-        <div class="clearfix">
-          <md-button class="md-accent" @click.native="$router.push({ path: '/tasks' })">
-            View All Tasks
-          </md-button>
-          <md-button class="md-accent" @click.native="$router.push({ path: '/dashboard' })">
-            Dashboard
-          </md-button>
+        <div>
           <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="state.loading">Create New Task</md-button>
         </div>
       </div>
@@ -48,95 +49,95 @@
   </div>
 </template>
 <script>
-import tasks from 'services/tasks'
-import account from 'services/account'
-import catalogs from 'services/catalogs'
+  import tasks from 'services/tasks'
+  import account from 'services/account'
+  import catalogs from 'services/catalogs'
 
-import Datepicker from 'vuejs-datepicker'
-// import moment from 'moment'
+  import Datepicker from 'vuejs-datepicker'
+  // import moment from 'moment'
 
-export default {
-  name: 'task-create',
-  components: {
-    Datepicker
-  },
-  data () {
-    return {
-      state: {
-        loading: false
-      },
-      Task: {
-        Title: '',
-        Description: '',
-        CategoryID: 1,
-        DateDue: ''
-      },
-      Users: [],
-      Catalog: {
-        Categories: [],
-        Users: []
+  export default {
+    name: 'task-create',
+    components: {
+      Datepicker
+    },
+    data () {
+      return {
+        state: {
+          loading: false
+        },
+        Task: {
+          Title: '',
+          Description: '',
+          CategoryID: 1,
+          DateDue: ''
+        },
+        Users: [],
+        Catalog: {
+          Categories: [],
+          Users: []
+        }
       }
-    }
-  },
-  methods: {
-    getDateToday () {
-      return new Date()
     },
-    getDateYesterday () {
-      var myDate = new Date()
-      return new Date(myDate.setTime(myDate.getTime() - (1 * 86400000)))
-    },
-    getDateWeek () {
-      var myDate = new Date()
-      return new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
-    },
-    formValidate (event) {
-      event.preventDefault()
+    methods: {
+      getDateToday () {
+        return new Date()
+      },
+      getDateYesterday () {
+        var myDate = new Date()
+        return new Date(myDate.setTime(myDate.getTime() - (1 * 86400000)))
+      },
+      getDateWeek () {
+        var myDate = new Date()
+        return new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
+      },
+      formValidate (event) {
+        event.preventDefault()
 
-      this.$validator.validateAll().then(success => {
-        if (!success) return
-        this.state.loading = true
+        this.$validator.validateAll().then(success => {
+          if (!success) return
+          this.state.loading = true
 
-        tasks.create({
-          mainTask: this.Task,
-          users: this.Users
-        }).then(res => {
-          this.$router.push({
-            path: '/tasks'
+          tasks.create({
+            mainTask: this.Task,
+            users: this.Users
+          }).then(res => {
+            this.$router.push({
+              path: '/tasks'
+            })
+          }).catch(err => {
+            this.$toast.error({
+              title: err.response.data.Message,
+              message: err.response.data.ModelState
+            })
+          }).then(() => {
+            this.state.loading = false
           })
-        }).catch(err => {
-          this.$toast.error({
-            title: err.response.data.Message,
-            message: err.response.data.ModelState
-          })
-        }).then(() => {
-          this.state.loading = false
+        })
+      }
+    },
+    created () {
+      this.Task.DateDue = this.getDateWeek()
+
+      catalogs.getCategories().then(res => {
+        this.Catalog.Categories = res.data
+      }).catch(() => {
+        this.$toast.error({
+          title: 'Error',
+          message: 'Unable to fetch categories'
+        })
+      })
+
+      account.getUsers().then(res => {
+        this.Catalog.Users = res.data
+      }).catch(() => {
+        this.$toast.error({
+          title: 'Error',
+          message: 'Unable to fetch users list'
         })
       })
     }
-  },
-  created () {
-    this.Task.DateDue = this.getDateWeek()
-
-    catalogs.getCategories().then(res => {
-      this.Catalog.Categories = res.data
-    }).catch(() => {
-      this.$toast.error({
-        title: 'Error',
-        message: 'Unable to fetch categories'
-      })
-    })
-
-    account.getUsers().then(res => {
-      this.Catalog.Users = res.data
-    }).catch(() => {
-      this.$toast.error({
-        title: 'Error',
-        message: 'Unable to fetch users list'
-      })
-    })
   }
-}
 
 </script>
 <style>
@@ -144,15 +145,15 @@ export default {
   .compact-card .md-card-actions {
     padding: 0;
   }
-
+  
   .compact-card .md-card-actions {
     padding-top: 16px;
   }
-
+  
   .compact-card .md-card {
     box-shadow: none;
   }
-
+  
   .vdp-datepicker__calendar {
     /*Customize datepicker*/
     margin: 0px auto!important;
@@ -160,11 +161,11 @@ export default {
     border-color: rgba(0, 0, 0, 0.12)!important;
     border-radius: 3px;
   }
-
+  
   .vdp-datepicker__calendar .cell:not(.blank):hover {
     border-color: #3f51b5!important;
   }
-
+  
   .vdp-datepicker__calendar .cell.selected,
   .vdp-datepicker__calendar .cell.selected.highlighted,
   .vdp-datepicker__calendar .cell.selected:hover {

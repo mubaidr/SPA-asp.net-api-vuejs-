@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-whiteframe class="header-custom md-large" md-tag="md-toolbar" md-elevation="3">
-      <div class="md-toolbar-container"></div>
+      <!-- <div class="md-toolbar-container"></div> -->
       <div class="md-toolbar-container">
         <md-button @click.native="toggleLeftSidenav">
           <md-tooltip md-direction="top">Menu</md-tooltip>
@@ -173,56 +173,56 @@
         </md-list-item>
       </md-list>
     </md-sidenav>
-
+  
     <md-dialog-confirm md-title="Are you sure to Sign Out?" md-content=" " md-ok-text="Sign Out" md-cancel-text="Cancel" ref="signout" @close="onClose">
     </md-dialog-confirm>
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
-export default {
-  name: 'app-header',
-  watch: {
-    '$route' () {
-      window.setTimeout(this.$refs.leftSidenav.close, 500)
-    },
-    'isAuthenticated' (val) {
-      this.$router.push({
-        path: '/'
-      })
-    }
-  },
-  computed: {
-    ...mapGetters(['isAuthenticated', 'userInfo'])
-  },
-  methods: {
-    ...mapActions(['signout']),
-    openDialog (ref) {
-      this.$refs[ref].open()
-    },
-    onClose (type) {
-      if (type === 'ok') {
-        this.signout()
+  export default {
+    name: 'app-header',
+    watch: {
+      '$route' () {
+        window.setTimeout(this.$refs.leftSidenav.close, 500)
+      },
+      'isAuthenticated' (val) {
+        this.$router.push({
+          path: '/'
+        })
       }
     },
-    toggleLeftSidenav () {
-      this.$refs.leftSidenav.toggle()
+    computed: {
+      ...mapGetters(['isAuthenticated', 'userInfo'])
     },
-    redirect (path) {
-      this.$router.push({
-        path
-      })
+    methods: {
+      ...mapActions(['signout']),
+      openDialog (ref) {
+        this.$refs[ref].open()
+      },
+      onClose (type) {
+        if (type === 'ok') {
+          this.signout()
+        }
+      },
+      toggleLeftSidenav () {
+        this.$refs.leftSidenav.toggle()
+      },
+      redirect (path) {
+        this.$router.push({
+          path
+        })
+      }
     }
   }
-}
 
 </script>
 <style scoped>
   .header-custom {
     /* margin-bottom: 1%; */
   }
-
+  
   .add-task {
     bottom: -20%!important;
     right: 1.5%!important;

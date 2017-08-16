@@ -17,25 +17,21 @@ h1 {
 .form {
   width: 100%;
   background-color: #fff;
+  text-align: right;
 }
 
-.form>div:not(.md-progress) {
-  padding: 20px;
+.form>.form-container {
+  padding: 50px;
+}
+
+@media screen and (max-width: 768px) {
+  .form>.form-container {
+    padding: 50px 20px;
+  }
 }
 
 .form .md-button.md-raised {
   margin-right: 0;
-  float: right;
-}
-
-.form .md-button:not(.md-raised) {
-  margin-left: 0;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.form .clearfix {
-  margin-top: 25px;
 }
 
 .container {

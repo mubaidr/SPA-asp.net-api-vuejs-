@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-layout md-gutter="40">
+    <md-layout md-gutter>
       <md-layout md-flex-small="50" md-flex-xlarge="25">
         <span class="counter">
           <span class="counter-up" :data-total="dashboard.TasksCreatedCount">0</span>
@@ -121,63 +121,63 @@
   </div>
 </template>
 <script>
-import CountUp from 'countup.js'
+  import CountUp from 'countup.js'
 
-import dashboard from 'services/dashboard'
+  import dashboard from 'services/dashboard'
 
-export default {
-  data () {
-    return {
-      dashboard: {}
+  export default {
+    data () {
+      return {
+        dashboard: {}
+      }
+    },
+    components: {},
+    created () {
+      dashboard.get().then(res => {
+        this.dashboard = res.data
+
+        window.setTimeout(function () {
+          var options = {
+            useEasing: true,
+            separator: ','
+          }
+
+          var els = document.getElementsByClassName('counter-up')
+          for (var i = 0; i <
+            els.length; i++) {
+            var countup = new CountUp(els[i], 0, els[i].getAttribute('data-total'), 0, 3, options)
+            countup.start()
+          }
+        }, 500)
+      }).catch(err => {
+        this.setErrorDetails(err)
+      })
     }
-  },
-  components: {},
-  created () {
-    dashboard.get().then(res => {
-      this.dashboard = res.data
-
-      window.setTimeout(function () {
-        var options = {
-          useEasing: true,
-          separator: ','
-        }
-
-        var els = document.getElementsByClassName('counter-up')
-        for (var i = 0; i <
-          els.length; i++) {
-          var countup = new CountUp(els[i], 0, els[i].getAttribute('data-total'), 0, 3, options)
-          countup.start()
-        }
-      }, 500)
-    }).catch(err => {
-      this.setErrorDetails(err)
-    })
   }
-}
 
 </script>
 <style scoped>
-.counter {
-  width: 50%;
-  margin: 5px auto;
-  text-align: center;
-  padding: 10% 5%;
-  font-size: 50px;
-  background-color: #3f51b5;
-  color: #fff;
-  text-shadow: 0 0 3px black;
-  border-radius: 3px;
-}
-
-a .md-chip {
-  float: right;
-}
-
-.chart-full-width {
-  width: 100%;
-}
-
-.chart-full-width canvas {
-  width: 100%;
-}
+  .counter {
+    width: 50%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 10% 5%;
+    font-size: 50px;
+    background-color: #3f51b5;
+    color: #fff;
+    text-shadow: 0 0 3px black;
+    border-radius: 3px;
+  }
+  
+  a .md-chip {
+    float: right;
+  }
+  
+  .chart-full-width {
+    width: 100%;
+  }
+  
+  .chart-full-width canvas {
+    width: 100%;
+  }
 </style>
