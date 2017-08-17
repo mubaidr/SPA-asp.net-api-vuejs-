@@ -9,6 +9,7 @@ body {
 
 h1 {
   width: 100%;
+  font-size: 2em;
 }
 
 
@@ -17,11 +18,18 @@ h1 {
 .form {
   width: 100%;
   background-color: #fff;
-  text-align: right;
+  /* text-align: right; */
 }
 
 .form>.form-container {
   padding: 50px;
+  text-align: right;
+}
+
+.form>.form-container h1 {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 50px;
 }
 
 @media screen and (max-width: 768px) {

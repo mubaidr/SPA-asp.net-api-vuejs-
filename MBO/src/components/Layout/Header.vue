@@ -185,9 +185,9 @@
     name: 'app-header',
     watch: {
       '$route' () {
-        window.setTimeout(this.$refs.leftSidenav.close, 500)
+        this.$refs.leftSidenav.close()
       },
-      'isAuthenticated' (val) {
+      'isAuthenticated' () {
         this.$router.push({
           path: '/'
         })
@@ -219,12 +219,8 @@
 
 </script>
 <style scoped>
-  .header-custom {
-    /* margin-bottom: 1%; */
-  }
-  
-  .add-task {
-    bottom: -20%!important;
-    right: 1.5%!important;
-  }
+    .add-task {
+      bottom: -20%!important;
+      right: 1.5%!important;
+    }
 </style>

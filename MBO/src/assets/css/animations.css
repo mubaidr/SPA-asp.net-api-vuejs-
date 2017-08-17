@@ -132,7 +132,7 @@
 
 .list-in-enter-active,
 .list-in-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
 }
 
 .list-in-enter,
@@ -146,7 +146,7 @@
 
 .list-out-enter-active,
 .list-out-leave-active {
-  transition: all 0.5s ease;
+  transition: all 0.25s ease;
 }
 
 .list-out-enter,
@@ -160,7 +160,7 @@
 
 .list-out-delayed-enter-active,
 .list-out-delayed-leave-active {
-  transition: all 0.5s ease 0.5s;
+  transition: all 0.25s ease 0.25s;
 }
 
 .list-out-delayed-enter,

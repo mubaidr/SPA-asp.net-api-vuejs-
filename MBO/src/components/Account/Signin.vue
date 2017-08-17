@@ -2,14 +2,15 @@
   <md-layout md-gutter>
     <md-layout></md-layout>
     <md-layout md-flex-large="33" md-flex-medium="50" md-flex-small="75" md-flex-xsmall="100">
-      <h1>
-        <span>Signin</span>
-        <br/>
-        <span class="md-caption">Welcome back</span>
-      </h1>
+  
       <md-whiteframe md-tag="section" class="form">
         <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
         <div class="form-container">
+          <h1>
+            <span>Signin</span>
+            <br/>
+            <span class="md-caption">Welcome back</span>
+          </h1>
           <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
             <label>Email</label>
             <md-input name="Email" data-vv-name="Email" data-vv-rules="required|email|min:6" type="email" v-model="credentials.UserName" v-validate :disabled="state.loading"></md-input>
@@ -22,8 +23,10 @@
           </md-input-container>
           <md-button class="md-raised md-accent" id="btnSubmit" @click.native="formValidate" :disabled="state.loading">Singin</md-button>
         </div>
-        <router-link class="md-accent" tag="md-button" to="/recover">Forgot password?</router-link>
-        <router-link class="md-accent" tag="md-button" to="/signup">Don't have an account?</router-link>
+        <div class="text-right">
+          <router-link class="md-accent" tag="md-button" to="/recover">Forgot password?</router-link>
+          <router-link class="md-accent" tag="md-button" to="/signup">Don't have an account?</router-link>
+        </div>
       </md-whiteframe>
     </md-layout>
     <md-layout></md-layout>
@@ -53,7 +56,6 @@
           this.state.loading = true
           this.signin(this.credentials).catch(err => {
             console.dir(err);
-            return;
             if (err.response.status === 400) {
               this.$toast.error({
                 title: 'Signin failed',
