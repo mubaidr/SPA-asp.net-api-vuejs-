@@ -121,8 +121,6 @@
   </div>
 </template>
 <script>
-  import CountUp from 'countup.js'
-
   import dashboard from 'services/dashboard'
 
   export default {
@@ -135,20 +133,6 @@
     created () {
       dashboard.get().then(res => {
         this.dashboard = res.data
-
-        window.setTimeout(function () {
-          var options = {
-            useEasing: true,
-            separator: ','
-          }
-
-          var els = document.getElementsByClassName('counter-up')
-          for (var i = 0; i <
-            els.length; i++) {
-            var countup = new CountUp(els[i], 0, els[i].getAttribute('data-total'), 0, 3, options)
-            countup.start()
-          }
-        }, 500)
       }).catch(err => {
         this.setErrorDetails(err)
       })
@@ -168,15 +152,15 @@
     text-shadow: 0 0 3px black;
     border-radius: 3px;
   }
-  
+
   a .md-chip {
     float: right;
   }
-  
+
   .chart-full-width {
     width: 100%;
   }
-  
+
   .chart-full-width canvas {
     width: 100%;
   }

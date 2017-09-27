@@ -16,13 +16,6 @@
     "eslint:recommended",
     "plugin:vue/recommended"
   ],
-  "settings": {
-    "html/html-extensions": [
-      ".html"
-    ],
-    "html/report-bad-indent": "error"
-  },
-  // required to lint *.vue files
   "plugins": [
     "html"
   ],

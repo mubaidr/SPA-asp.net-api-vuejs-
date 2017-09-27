@@ -43,7 +43,7 @@ export default {
         context.commit('setUserInfo', res.data)
       }).catch(() => {})
     },
-    getUserList (context) {
+    getUserList () {
       return account.getUserList()
     }
   },
