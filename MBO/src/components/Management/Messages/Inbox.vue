@@ -6,7 +6,7 @@
           <md-tooltip md-direction="top">Dashboard</md-tooltip>
           <md-icon>arrow_back</md-icon>
         </md-button>
-        <span>Inbox</span>
+        <span>Messages</span>
         <span style="flex: 1"></span>
         <md-button class="md-accent" @click.native="$router.push({path: '/tasks'})">
           <md-tooltip md-direction="top">Tasks</md-tooltip>
@@ -22,7 +22,7 @@
     </md-toolbar>
     <md-layout md-gutter="24">
       <md-layout md-flex-small="33" md-flex="15">
-        <md-whiteframe class="full-width" md-tag="section">
+        <md-whiteframe class="full-width bg-white" md-tag="section">
           <md-list class="mail-list">
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'compose'" @click.native="openFolder('compose')" :class="ActiveFolder.name == 'compose' ? 'md-primary': ''">
               <md-icon>mail</md-icon>
@@ -44,7 +44,7 @@
         </md-whiteframe>
       </md-layout>
       <md-layout>
-        <transition name="slide-right" appear>
+        <transition name="slide-up" mode="out-in" appear>
           <message-create v-if="ActiveFolder.name == 'compose'" :message="Message" @message-sent="messageSent"></message-create>
           <md-whiteframe class="min-height full-width" md-tag="section" v-else>
             <pagination :full-width="true" :lastpage="ActiveFolder.lastPage" :loading="ActiveFolder.loading" :count="ActiveFolder.data.length" :view-menu="false" :sort-menu="false" :refresh-menu="true" @refresh="search"></pagination>
@@ -79,7 +79,7 @@
 </template>
 <script>
   import _ from 'lodash'
-  import { getMessage, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
+  import MessageService from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
 
   import messageCreate from 'components/Management/Messages/_partial_create.vue'
@@ -125,27 +125,27 @@
       },
       readMessage (msg) {
         if (!msg.IsRead) {
-          markReadMessage(msg.MessageID).catch(err => {
-            this.setErrorDetails(err)
+          MessageService.markReadMessage(msg.MessageID).catch(err => {
+
           })
         }
       },
       unDeleteMessage (id) {
         this.ActiveFolder.loading = true
-        restoreMessage(id).then(() => {
+        MessageService.restoreMessage(id).then(() => {
           this.openFolder(this.ActiveFolder.name)
         }).catch(err => {
-          this.setErrorDetails(err)
+
         }).then(() => {
           this.ActiveFolder.loading = false
         })
       },
       removeMessage (id) {
         this.ActiveFolder.loading = true
-        deleteMessage(id).then(() => {
+        MessageService.deleteMessage(id).then(() => {
           this.openFolder(this.ActiveFolder.name)
         }).catch(err => {
-          this.setErrorDetails(err)
+
         }).then(() => {
           this.ActiveFolder.loading = false
         })
@@ -164,12 +164,12 @@
         pagingOptions.page = obj.page
 
         this.ActiveFolder.loading = true
-        getMessage(pagingOptions).then(res => {
+        MessageService.getMessage(pagingOptions).then(res => {
           this.ActiveFolder.data = res.data.message
           this.ActiveFolder.count = res.data.count
           this.ActiveFolder.lastPage = res.data.last_page
         }).catch(err => {
-          this.setErrorDetails(err)
+
         }).then(() => {
           this.ActiveFolder.loading = false
         })
@@ -187,14 +187,14 @@
         }
       },
       fetchMessages: _.debounce(function () {
-        getMessage({
+        MessageService.getMessage({
           folder: this.ActiveFolder.name
         }).then(res => {
           this.ActiveFolder.data = res.data.message
           this.ActiveFolder.count = res.data.count
           this.ActiveFolder.lastPage = res.data.last_page
         }).catch(err => {
-          this.setErrorDetails(err)
+
         }).then(() => {
           this.ActiveFolder.loading = false
         })
@@ -214,6 +214,7 @@
 <style scoped>
   .mail-list {
     padding: 0;
+    cursor: pointer;
   }
 
   .padded-container {

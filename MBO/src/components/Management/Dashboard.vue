@@ -134,7 +134,7 @@
       dashboard.get().then(res => {
         this.dashboard = res.data
       }).catch(err => {
-        this.setErrorDetails(err)
+
       })
     }
   }

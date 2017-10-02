@@ -39,68 +39,68 @@
   </div>
 </template>
 <script>
-// import _ from 'lodash'
-import { postMessage } from 'services/messages'
-import {
-  getUsersList
-} from 'services/account'
+  // import _ from 'lodash'
+  import { postMessage } from 'services/messages'
+  import {
+    getUsersList
+  } from 'services/account'
 
-export default {
-  name: 'message-create',
-  props: ['message'],
-  data () {
-    return {
-      Description: 'Some text message!',
-      Page: {
-        isLoading: false
-      },
-      Users: [],
-      Catalog: {
-        Users: []
+  export default {
+    name: 'message-create',
+    props: ['message'],
+    data () {
+      return {
+        Description: 'Some text message!',
+        Page: {
+          isLoading: false
+        },
+        Users: [],
+        Catalog: {
+          Users: []
+        }
       }
-    }
-  },
-  computed: { userInfo () { return this.$store.getters.getUserInfo } },
-  methods: {
-    sendMessage () {
-      var msg = this.createMessage()
-      this.Page.isLoading = true
+    },
+    computed: { userInfo () { return this.$store.getters.getUserInfo } },
+    methods: {
+      sendMessage () {
+        var msg = this.createMessage()
+        this.Page.isLoading = true
 
-      postMessage(msg).then(res => {
-        this.$emit('message-sent')
+        postMessage(msg).then(res => {
+          this.$emit('message-sent')
+        }).catch(err => {
+
+        }).then(() => {
+          this.Page.isLoading = false
+        })
+      },
+      createMessage () {
+        return {
+          Description: this.Description.trim(),
+          Receivers: this.Users
+        }
+      },
+      formValidate () {
+        if (this.Description.trim()) {
+          this.sendMessage()
+        }
+      }
+    },
+    created () {
+      this.Description = this.message.Description
+      this.Users.length = 0
+      this.Users.push(this.message.User)
+
+      getUsersList().then(res => {
+        this.Catalog.Users = res.data
       }).catch(err => {
-        this.setErrorDetails(err)
-      }).then(() => {
-        this.Page.isLoading = false
+
       })
     },
-    createMessage () {
-      return {
-        Description: this.Description.trim(),
-        Receivers: this.Users
-      }
-    },
-    formValidate () {
-      if (this.Description.trim()) {
-        this.sendMessage()
-      }
+    mounted () {
+
     }
-  },
-  created () {
-    this.Description = this.message.Description
-    this.Users.length = 0
-    this.Users.push(this.message.User)
-
-    getUsersList().then(res => {
-      this.Catalog.Users = res.data
-    }).catch(err => {
-      this.setErrorDetails(err)
-    })
-  },
-  mounted () {
-
   }
-}
 
 </script>
 <style scoped>

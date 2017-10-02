@@ -124,7 +124,7 @@
           this.Tasks.Trash.lastPage = res.data.lastPage
           this.Tasks.Trash.count = res.data.count
         }).catch(err => {
-          this.setErrorDetails(err)
+
         }).then(() => {
           this.Tasks.Trash.loading = false
         })
@@ -142,16 +142,16 @@
   .no-content {
     text-align: center;
   }
-  
+
   .no-content span {
     font-size: 1.25em;
     opacity: 0.75;
   }
-  
+
   .no-content i {
     margin-bottom: 10px;
   }
-  
+
   .simple-list {
     list-style: none;
     padding: 0;
