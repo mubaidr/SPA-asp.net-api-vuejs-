@@ -9,59 +9,57 @@
         </transition-group>
       </div>
       <div v-else>
-        <data-state :loading="loading"></data-state>
+        Error
       </div>
     </transition>
   </div>
 </template>
 <script>
-import tasksService from 'services/tasks'
-import taskCard from 'components/_custom/task-card.vue'
-import dataState from 'components/_custom/data-state.vue'
-import pagination from 'components/_custom/pagination.vue'
+  import tasksService from 'services/tasks'
+  import taskCard from 'components/_custom/task-card.vue'
+  import pagination from 'components/_custom/pagination.vue'
 
-export default {
-  name: 'task-view',
-  components: {
-    taskCard,
-    pagination,
-    dataState
-  },
-  props: ['type', 'active'],
-  data () {
-    return {
-      tasks: [],
-      count: 0,
-      last_page: 0,
-      fetched: false,
-      loading: false
-    }
-  },
-  watch: {
-    'active' () {
-      if (!this.fetched) {
-        this.search()
+  export default {
+    name: 'task-view',
+    components: {
+      taskCard,
+      pagination
+    },
+    props: ['type', 'active'],
+    data () {
+      return {
+        tasks: [],
+        count: 0,
+        last_page: 0,
+        fetched: false,
+        loading: false
+      }
+    },
+    watch: {
+      'active' () {
+        if (!this.fetched) {
+          this.search()
+        }
+      }
+    },
+    computed: {},
+    methods: {
+      search () {
+        this.loading = true
+        tasksService.list(this.type).then(res => {
+          this.tasks = res.data.mainTask
+          this.count = res.data.count
+          this.last_page = res.data.last_page
+
+          this.fetched = true
+        }).catch(err => {
+          console.log(err)
+        }).then(() => {
+          this.loading = false
+        })
       }
     }
-  },
-  computed: {},
-  methods: {
-    search () {
-      this.loading = true
-      tasksService.list(this.type).then(res => {
-        this.tasks = res.data.mainTask
-        this.count = res.data.count
-        this.last_page = res.data.last_page
-
-        this.fetched = true
-      }).catch(err => {
-        console.log(err)
-      }).then(() => {
-        this.loading = false
-      })
-    }
   }
-}
 </script>
 <style>
   .task-list li {

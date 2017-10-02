@@ -20,7 +20,7 @@
         <md-icon>last_page</md-icon>
       </md-button>
       <span style="flex: 1"></span>
-      <md-input-container md-theme="default">
+      <md-input-container class="small">
         <md-tooltip md-direction="top">Search</md-tooltip>
         <md-input v-model="paging.filter" @change="search" placeholder="Search"></md-input>
       </md-input-container>
@@ -29,64 +29,67 @@
         <md-icon>refresh</md-icon>
       </md-button>
     </md-toolbar>
+    <hr/>
   </div>
 </template>
 <script>
-import { debounce } from 'lodash'
+  import { debounce } from 'lodash'
 
-export default {
-  name: 'pagination',
-  props: ['lastpage', 'count', 'loading'],
-  data () {
-    return {
-      paging: {
-        page: 1,
-        filter: ''
-      }
-    }
-  },
-  watch: {
-    'lastpage' (val) {
-      if (val === 0) {
-        this.lastpage = 1
+  export default {
+    name: 'pagination',
+    props: ['lastpage', 'count', 'loading'],
+    data () {
+      return {
+        paging: {
+          page: 1,
+          filter: ''
+        }
       }
     },
-    'paging.page' () {
-      this.refresh()
+    watch: {
+      'lastpage' (val) {
+        if (val === 0) {
+          this.lastpage = 1
+        }
+      },
+      'paging.page' () {
+        this.refresh()
+      }
+    },
+    computed: {
+      disableControl () {
+        return this.loading || !this.count
+      }
+    },
+    methods: {
+      search () {
+        this.paging.page = 1
+        this.refresh()
+      },
+      nextPage () {
+        this.paging.page += 1
+      },
+      previousPage () {
+        this.paging.page -= 1
+      },
+      firstPage () {
+        this.paging.page = 1
+      },
+      lastPage () {
+        this.paging.page = this.lastpage
+      },
+      refresh: debounce(function () {
+        this.$emit('refresh', this.paging)
+      }, 500, {
+          leading: false,
+          trailing: true
+        })
     }
-  },
-  computed: {
-    disableControl () {
-      return this.loading || !this.count
-    }
-  },
-  methods: {
-    search () {
-      this.paging.page = 1
-      this.refresh()
-    },
-    nextPage () {
-      this.paging.page += 1
-    },
-    previousPage () {
-      this.paging.page -= 1
-    },
-    firstPage () {
-      this.paging.page = 1
-    },
-    lastPage () {
-      this.paging.page = this.lastpage
-    },
-    refresh: debounce(function () {
-      this.$emit('refresh', this.paging)
-    }, 500, {
-      leading: false,
-      trailing: true
-    })
   }
-}
 
 </script>
-<style scoped>
-
+<style>
+  .md-input-container.small {
+    width: auto;
+  }
 </style>

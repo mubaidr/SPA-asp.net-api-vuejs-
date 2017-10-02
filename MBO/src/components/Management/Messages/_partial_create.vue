@@ -40,10 +40,9 @@
 </template>
 <script>
   // import _ from 'lodash'
+  import { mapGetters } from 'vuex'
   import { postMessage } from 'services/messages'
-  import {
-    getUsersList
-  } from 'services/account'
+  import accountService from 'services/account'
 
   export default {
     name: 'message-create',
@@ -60,7 +59,9 @@
         }
       }
     },
-    computed: { userInfo () { return this.$store.getters.getUserInfo } },
+    computed: {
+      ...mapGetters(['userInfo'])
+    },
     methods: {
       sendMessage () {
         var msg = this.createMessage()
@@ -91,7 +92,7 @@
       this.Users.length = 0
       this.Users.push(this.message.User)
 
-      getUsersList().then(res => {
+      accountService.getUsers().then(res => {
         this.Catalog.Users = res.data
       }).catch(err => {
 

@@ -22,7 +22,7 @@
     </md-toolbar>
     <md-layout md-gutter="24">
       <md-layout md-flex-small="33" md-flex="15">
-        <md-whiteframe class="full-width bg-white" md-tag="section">
+        <md-whiteframe class="full-width" md-tag="section">
           <md-list class="mail-list">
             <md-list-item :disabled="ActiveFolder.loading || ActiveFolder.name == 'compose'" @click.native="openFolder('compose')" :class="ActiveFolder.name == 'compose' ? 'md-primary': ''">
               <md-icon>mail</md-icon>
@@ -79,6 +79,7 @@
 </template>
 <script>
   import _ from 'lodash'
+  import { mapGetters } from 'vuex'
   import MessageService from 'services/messages'
   import pagination from 'components/_custom/pagination.vue'
 
@@ -113,9 +114,7 @@
       }
     },
     computed: {
-      userInfo () {
-        return this.$store.getters.getUserInfo
-      }
+      ...mapGetters(['userInfo'])
     },
     methods: {
       replyMessage (chat) {
