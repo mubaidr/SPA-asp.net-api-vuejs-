@@ -1,14 +1,14 @@
 <template>
-  <md-layout md-gutter>
+  <md-layout md-gutter="">
     <md-layout></md-layout>
     <md-layout md-flex-large="33" md-flex-medium="50" md-flex-small="75" md-flex-xsmall="100">
   
-      <md-whiteframe md-tag="section" class="form">
+      <md-whiteframe class="form" md-tag="section">
         <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
         <div class="form-container">
           <h1>
             <span>Signin</span>
-            <br/>
+            <br>
             <span class="md-caption">Welcome back</span>
           </h1>
           <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
