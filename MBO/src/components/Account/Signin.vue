@@ -1,14 +1,14 @@
 <template>
-  <md-layout md-gutter="">
+  <md-layout md-gutter>
     <md-layout></md-layout>
     <md-layout md-flex-large="33" md-flex-medium="50" md-flex-small="75" md-flex-xsmall="100">
-  
-      <md-whiteframe class="form" md-tag="section">
+
+      <md-whiteframe md-tag="section" class="form">
         <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
         <div class="form-container">
           <h1>
             <span>Signin</span>
-            <br>
+            <br/>
             <span class="md-caption">Welcome back</span>
           </h1>
           <md-input-container :class="{'md-input-invalid': errors.has('Email')}">
@@ -56,7 +56,7 @@
           this.state.loading = true
           this.signin(this.credentials).catch(err => {
             console.dir(err);
-            if (err.response.status === 400) {
+            if (err.response && err.response.status === 400) {
               this.$toast.error({
                 title: 'Signin failed',
                 message: err.response.data.error_description

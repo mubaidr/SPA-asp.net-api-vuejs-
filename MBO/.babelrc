@@ -1,13 +1,10 @@
 {
   "presets": [
-    ["es2015", { "modules": "commonjs" }],
+    ["es2015", {
+      "modules": "commonjs"
+    }],
     "stage-2"
   ],
   "plugins": ["transform-runtime"],
-  "comments": false,
-  "env": {
-    "test": {
-      "plugins": [ "istanbul" ]
-    }
-  }
+  "comments": false
 }

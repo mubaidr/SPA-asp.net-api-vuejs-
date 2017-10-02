@@ -60,7 +60,7 @@
           this.state.loading = true
 
           this.signup(this.credentials).catch(err => {
-            if (err.response.status === 400) {
+            if (err.response && err.response.status === 400) {
               this.$toast.error({
                 title: err.response.data.Message,
                 message: err.response.data.ModelState[''][0],
