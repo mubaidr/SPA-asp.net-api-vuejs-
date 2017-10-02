@@ -78,139 +78,137 @@
   </div>
 </template>
 <script>
-import _ from 'lodash'
-import { getMessages, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
-import pagination from 'components/_custom/pagination.vue'
+  import _ from 'lodash'
+  import { getMessage, deleteMessage, restoreMessage, markReadMessage } from 'services/messages'
+  import pagination from 'components/_custom/pagination.vue'
 
-import messageCreate from 'components/Management/Messages/_partial_create.vue'
-import moment from 'moment'
+  import messageCreate from 'components/Management/Messages/_partial_create.vue'
+  import moment from 'moment'
 
-export default {
-  data () {
-    return {
-      ActiveFolder: {
-        name: 'inbox',
-        filter: '',
-        loading: false,
-        lastPage: 1,
-        count: 0,
-        data: [],
-        error: null
+  export default {
+    data () {
+      return {
+        ActiveFolder: {
+          name: 'inbox',
+          filter: '',
+          loading: false,
+          lastPage: 1,
+          count: 0,
+          data: [],
+          error: null
+        },
+        Message: {
+          Description: '',
+          User: ''
+        }
+      }
+    },
+    components: {
+      messageCreate,
+      pagination
+    },
+    watch: {
+      '$route.query.folder' (folder) {
+        this.openFolder(folder)
+      }
+    },
+    computed: {
+      userInfo () {
+        return this.$store.getters.getUserInfo
+      }
+    },
+    methods: {
+      replyMessage (chat) {
+        this.Message.Description = chat.Description
+        this.Message.User = chat.SenderID
+        this.openFolder('compose')
       },
-      Message: {
-        Description: '',
-        User: ''
-      }
-    }
-  },
-  components: {
-    messageCreate,
-    pagination
-  },
-  watch: {
-    '$route.query.folder' (folder) {
-      this.openFolder(folder)
-    }
-  },
-  computed: {
-    userInfo () {
-      return this.$store.getters.getUserInfo
-    }
-  },
-  methods: {
-    replyMessage (chat) {
-      this.Message.Description = chat.Description
-      this.Message.User = chat.SenderID
-      this.openFolder('compose')
-    },
-    readMessage (msg) {
-      if (!msg.IsRead) {
-        markReadMessage(msg.MessageID).catch(err => {
+      readMessage (msg) {
+        if (!msg.IsRead) {
+          markReadMessage(msg.MessageID).catch(err => {
+            this.setErrorDetails(err)
+          })
+        }
+      },
+      unDeleteMessage (id) {
+        this.ActiveFolder.loading = true
+        restoreMessage(id).then(() => {
+          this.openFolder(this.ActiveFolder.name)
+        }).catch(err => {
           this.setErrorDetails(err)
-        })
-      }
-    },
-    unDeleteMessage (id) {
-      this.ActiveFolder.loading = true
-      restoreMessage(id).then(() => {
-        this.openFolder(this.ActiveFolder.name)
-      }).catch(err => {
-        this.setErrorDetails(err)
-      }).then(() => {
-        this.ActiveFolder.loading = false
-      })
-    },
-    removeMessage (id) {
-      this.ActiveFolder.loading = true
-      deleteMessage(id).then(() => {
-        this.openFolder(this.ActiveFolder.name)
-      }).catch(err => {
-        this.setErrorDetails(err)
-      }).then(() => {
-        this.ActiveFolder.loading = false
-      })
-    },
-    messageSent () {
-      this.openFolder('inbox')
-    },
-    formatDate (date) {
-      return moment(date).format('hh:mmA DD-MM-YYYY')
-    },
-    search (obj) {
-      var pagingOptions = {}
-      pagingOptions.folder = this.ActiveFolder.name
-      pagingOptions.filter = obj.filter
-      pagingOptions.orderby = obj.orderby
-      pagingOptions.page = obj.page
-
-      this.ActiveFolder.loading = true
-      getMessages(pagingOptions).then(res => {
-        this.ActiveFolder.data = res.data.message
-        this.ActiveFolder.count = res.data.count
-        this.ActiveFolder.lastPage = res.data.last_page
-      })
-        .catch(err => {
-          this.setErrorDetails(err)
-        })
-        .then(() => {
+        }).then(() => {
           this.ActiveFolder.loading = false
         })
-    },
-    openFolder (folder) {
-      this.ActiveFolder.name = folder
-      if (folder !== 'compose') {
-        this.Message = {}
-        this.ActiveFolder.data = []
+      },
+      removeMessage (id) {
         this.ActiveFolder.loading = true
-        this.ActiveFolder.filter = ''
-        this.ActiveFolder.lastPage = 1
-        this.ActiveFolder.count = 0
-        this.fetchMessages()
-      }
+        deleteMessage(id).then(() => {
+          this.openFolder(this.ActiveFolder.name)
+        }).catch(err => {
+          this.setErrorDetails(err)
+        }).then(() => {
+          this.ActiveFolder.loading = false
+        })
+      },
+      messageSent () {
+        this.openFolder('inbox')
+      },
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YYYY')
+      },
+      search (obj) {
+        var pagingOptions = {}
+        pagingOptions.folder = this.ActiveFolder.name
+        pagingOptions.filter = obj.filter
+        pagingOptions.orderby = obj.orderby
+        pagingOptions.page = obj.page
+
+        this.ActiveFolder.loading = true
+        getMessage(pagingOptions).then(res => {
+          this.ActiveFolder.data = res.data.message
+          this.ActiveFolder.count = res.data.count
+          this.ActiveFolder.lastPage = res.data.last_page
+        }).catch(err => {
+          this.setErrorDetails(err)
+        }).then(() => {
+          this.ActiveFolder.loading = false
+        })
+      },
+      openFolder (folder) {
+        this.ActiveFolder.name = folder
+        if (folder !== 'compose') {
+          this.Message = {}
+          this.ActiveFolder.data = []
+          this.ActiveFolder.loading = true
+          this.ActiveFolder.filter = ''
+          this.ActiveFolder.lastPage = 1
+          this.ActiveFolder.count = 0
+          this.fetchMessages()
+        }
+      },
+      fetchMessages: _.debounce(function () {
+        getMessage({
+          folder: this.ActiveFolder.name
+        }).then(res => {
+          this.ActiveFolder.data = res.data.message
+          this.ActiveFolder.count = res.data.count
+          this.ActiveFolder.lastPage = res.data.last_page
+        }).catch(err => {
+          this.setErrorDetails(err)
+        }).then(() => {
+          this.ActiveFolder.loading = false
+        })
+      }, 500, {
+          leading: false,
+          trailing: true
+        })
     },
-    fetchMessages: _.debounce(function () {
-      getMessages({
-        folder: this.ActiveFolder.name
-      }).then(res => {
-        this.ActiveFolder.data = res.data.message
-        this.ActiveFolder.count = res.data.count
-        this.ActiveFolder.lastPage = res.data.last_page
-      }).catch(err => {
-        this.setErrorDetails(err)
-      }).then(() => {
-        this.ActiveFolder.loading = false
-      })
-    }, 500, {
-      leading: false,
-      trailing: true
-    })
-  },
-  created () {
-    var folder = this.$route.query.folder || 'inbox'
-    this.openFolder(folder)
-  },
-  mounted () { }
-}
+    created () {
+      var folder = this.$route.query.folder || 'inbox'
+      this.openFolder(folder)
+    },
+    mounted () { }
+  }
 
 </script>
 <style scoped>
