@@ -10,7 +10,6 @@ const config = {
   dictionary: null,
   strict: true
 }
-*/
 
 const dictionary = {
   en: {
@@ -24,5 +23,6 @@ const dictionary = {
 }
 
 VeeValidate.Validator.updateDictionary(dictionary)
+*/
 
 Vue.use(VeeValidate)
