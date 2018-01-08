@@ -1,9 +1,9 @@
 import api from 'api'
-import axios from 'axios'
+// eslint-disable-next-line
+import axios from 'utilities/axios'
 
 export default {
-
-  add (obj) {
+  add () {
     return axios.post(`${api.url}/api/ProgressHistories`)
   },
 

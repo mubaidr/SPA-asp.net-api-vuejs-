@@ -31,8 +31,8 @@
   </div>
 </template>
 <script>
-  import sidebar from './Sidebar'
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
+  import sidebar from './Sidebar.vue'
 
   export default {
     name: 'app-header',
@@ -43,7 +43,7 @@
       }
     },
     watch: {
-      'isAuthenticated' () {
+      isAuthenticated () {
         this.$router.push({
           path: '/'
         })
@@ -63,11 +63,10 @@
       }
     }
   }
-
 </script>
 <style scoped>
   .add-task {
-    bottom: -20%!important;
-    right: 1.5%!important;
+    bottom: -20% !important;
+    right: 1.5% !important;
   }
 </style>

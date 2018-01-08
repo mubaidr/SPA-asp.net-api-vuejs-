@@ -1,10 +1,10 @@
 import api from 'api'
+// eslint-disable-next-line
 import axios from 'utilities/axios'
 
 const path = '/api/MainTasks'
 
 export default {
-
   create (obj) {
     return axios.post(api.url + path, obj)
   },
@@ -36,6 +36,7 @@ export default {
   objToQuery (obj) {
     let query = ''
     let val = ''
+    // eslint-disable-next-line
     for (const prop in obj) {
       val = obj[prop]
       if ((val && (val.trim && val.trim() !== '')) || val > 0) {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-var mixin = {
+const mixin = {
   methods: {},
   created () {}
 }

@@ -30,19 +30,24 @@
     data () {
       return {
         currentTab: null,
-        list: [{
-          type: 'created',
-          active: false
-        }, {
-          type: 'assigned',
-          active: false
-        }, {
-          type: 'completed',
-          active: false
-        }, {
-          type: 'archived',
-          active: false
-        }]
+        list: [
+          {
+            type: 'created',
+            active: false
+          },
+          {
+            type: 'assigned',
+            active: false
+          },
+          {
+            type: 'completed',
+            active: false
+          },
+          {
+            type: 'archived',
+            active: false
+          }
+        ]
       }
     },
     watch: {},
@@ -63,8 +68,7 @@
       this.activeTab()
     }
   }
-
 </script>
 <style>
-  
+
 </style>

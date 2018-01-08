@@ -131,14 +131,16 @@
     },
     components: {},
     created () {
-      dashboard.get().then(res => {
-        this.dashboard = res.data
-      }).catch(err => {
-
-      })
+      dashboard
+        .get()
+        .then(res => {
+          this.dashboard = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
-
 </script>
 <style scoped>
   .counter {

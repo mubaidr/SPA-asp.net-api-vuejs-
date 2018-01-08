@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+// eslint-disable-next-line
 import session from 'utilities/session'
 
 export default {
@@ -7,8 +9,10 @@ export default {
   },
   mutations: {
     toggleViewMode (state) {
-      for (var i = 0; i < state.settings.taskView.view.length; i++) {
-        state.settings.taskView.view[i].enabled = !state.settings.taskView.view[i].enabled
+      for (let i = 0; i < state.settings.taskView.view.length; i += 1) {
+        state.settings.taskView.view[i].enabled = !state.settings.taskView.view[
+          i
+        ].enabled
       }
       session.setSettings(state.settings)
     }
@@ -22,15 +26,15 @@ export default {
       return state.settings
     },
     getQuoteEmpty (state) {
-      let items = state.quotes.empty
+      const items = state.quotes.empty
       return items[Math.floor(Math.random() * items.length)]
     },
     getQuoteLoading (state) {
-      let items = state.quotes.try
+      const items = state.quotes.try
       return items[Math.floor(Math.random() * items.length)]
     },
     getQuoteError (state) {
-      let items = state.quotes.fail
+      const items = state.quotes.fail
       return items[Math.floor(Math.random() * items.length)]
     }
   }

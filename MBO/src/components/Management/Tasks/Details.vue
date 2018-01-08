@@ -47,99 +47,98 @@
   </div>
 </template>
 <script>
-import {
-  addLog,
-  getLog
-} from 'services/taskLog'
-import moment from 'moment'
+  import { addLog, getLog } from 'services/taskLog'
+  import moment from 'moment'
 
-export default {
-  data () {
-    return {
-      Task: {},
-      Type: 'view',
-      loading: true,
-      users: [],
-      log: {
-        content: [],
-        loading: true
-      },
-      progressHistory: {
-        content: [],
-        loading: true
-      },
-      comment: 'Something to chear!'
-    }
-  },
-  watch: {
-    'log.content' () {
-      this.log.loading = false
-    },
-    'progressHistory.content' () {
-      this.progressHistory.loading = false
-    }
-  },
-  computed: {
-    userinfo () {
-      return this.$store.getters.getUserInfo || {}
-    }
-  },
-  methods: {
-    addComment () {
-      const text = this.comment
-      if (text) {
-        addLog({
-          Description: text,
-          MainTaskID: this.Task.MainTaskID
-        }).then(res => {
-          this.log.content = res.data
-        }).catch(err => {
-          console.log(err)
-        })
-      } else {
-        return false
+  export default {
+    data () {
+      return {
+        Task: {},
+        Type: 'view',
+        loading: true,
+        users: [],
+        log: {
+          content: [],
+          loading: true
+        },
+        progressHistory: {
+          content: [],
+          loading: true
+        },
+        comment: 'Something to chear!'
       }
     },
-    goBack () {
-      this.$router.go(-1)
-    },
-    isSelf (userid) {
-      return this.userinfo.ID === userid ? 'text-right' : 'text-left'
-    },
-    formatDate (date) {
-      return moment(date).format('hh:mmA DD-MM-YY')
-    },
-    loadLog () {
-      this.log.loading = true
-
-      getLog(this.Task.MainTaskID).then(res => {
-        this.log.content = res.data
-      }).catch(err => {
-        console.dir(err)
-      }).then(() => {
+    watch: {
+      'log.content': () => {
         this.log.loading = false
-      })
-    }
-  },
-  mounted () {
-    const task = this.$route.params.Task
-    const type = this.$route.params.Type
+      },
+      'progressHistory.content': () => {
+        this.progressHistory.loading = false
+      }
+    },
+    computed: {
+      userinfo () {
+        return this.$store.getters.getUserInfo || {}
+      }
+    },
+    methods: {
+      addComment () {
+        const text = this.comment
+        if (text) {
+          addLog({
+            Description: text,
+            MainTaskID: this.Task.MainTaskID
+          })
+            .then(res => {
+              this.log.content = res.data
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      },
+      goBack () {
+        this.$router.go(-1)
+      },
+      isSelf (userid) {
+        return this.userinfo.ID === userid ? 'text-right' : 'text-left'
+      },
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YY')
+      },
+      loadLog () {
+        this.log.loading = true
 
-    if (task) {
-      this.Type = type || 'view'
-      this.Task = task
-    } else {
-      this.$router.push({
-        path: '/tasks'
-      })
-    }
+        getLog(this.Task.MainTaskID)
+          .then(res => {
+            this.log.content = res.data
+          })
+          .catch(err => {
+            console.dir(err)
+          })
+          .then(() => {
+            this.log.loading = false
+          })
+      }
+    },
+    mounted () {
+      const task = this.$route.params.Task
+      const type = this.$route.params.Type
 
-    window.setTimeout(() => {
-      this.loadLog()
-    }, 500)
+      if (task) {
+        this.Type = type || 'view'
+        this.Task = task
+      } else {
+        this.$router.push({
+          path: '/tasks'
+        })
+      }
+
+      window.setTimeout(() => {
+        this.loadLog()
+      }, 500)
+    }
   }
-}
-
 </script>
 <style scoped>
   .chip-custom {
@@ -207,9 +206,10 @@ export default {
     margin-left: 0;
     padding: 10px 5px;
   }
-
-  .comment-list li.text-right {}
-
+  /*
+      .comment-list li.text-right {
+      }
+    */
   .comment-list.chat li {
     border: 1px solid rgba(233, 30, 99, 0.08);
     background-color: rgba(233, 30, 99, 0.075);

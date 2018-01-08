@@ -51,87 +51,85 @@
   </div>
 </template>
 <script>
-import moment from 'moment'
+  import moment from 'moment'
 
-export default {
-  name: 'task-card',
-  props: ['task', 'type'],
-  data () {
-    return {}
-  },
-  computed: {
-    isSelfCreated () {
-      return this.$store.getters.userInfo.Email === this.task.AssignedBy.Email
-    }
-  },
-  methods: {
-    formatDate (date) {
-      return moment(date).format('hh:mmA DD-MM-YY')
+  export default {
+    name: 'task-card',
+    props: ['task', 'type'],
+    data () {
+      return {}
     },
-    typeAnimate () {
-      const now = moment()
-      const dueDate = moment(this.task.DateDue)
-      const diff = now.diff(dueDate, 'days')
-
-      if (diff < 0) {
-        return 'animate-danger'
-      } else if (diff < 2) {
-        return 'animate-warn'
-      } else {
-        return ''
+    computed: {
+      isSelfCreated () {
+        return this.$store.getters.userInfo.Email === this.task.AssignedBy.Email
       }
     },
-    typeIcon () {
-      switch (this.typeClass()) {
-        case 'theme-success':
-          return 'done'
-        case 'theme-danger':
-          return 'warning'
-        case 'theme-warn':
-          return 'av_timer'
-        case 'theme-normal':
-          return 'timelapse'
-        case 'theme-primary':
-        default:
-          return 'timer'
-      }
-    },
-    typeClass () {
-      const now = moment()
-      const dueDate = moment(this.task.DateDue)
-      const diff = now.diff(dueDate, 'days')
+    methods: {
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YY')
+      },
+      typeAnimate () {
+        const now = moment()
+        const dueDate = moment(this.task.DateDue)
+        const diff = now.diff(dueDate, 'days')
 
-      if (this.task.Progress === 100) {
-        return 'theme-success'
-      }
-      if (diff < 0) {
-        return 'theme-danger'
-      } else if (diff < 2) {
-        return 'theme-warn'
-      } else if (diff < 5) {
-        return 'theme-normal'
-      } else {
-        return 'theme-primary'
-      }
-    },
-    viewDetails (obj) {
-      if (!obj) obj = 'view'
-
-      const url = {
-        // named route required for sending params
-        name: 'task-details',
-        params: {
-          task: this.task,
-          type: obj
+        if (diff < 0) {
+          return 'animate-danger'
+        } else if (diff < 2) {
+          return 'animate-warn'
         }
-      }
+        return ''
+      },
+      typeIcon () {
+        switch (this.typeClass()) {
+          case 'theme-success':
+            return 'done'
+          case 'theme-danger':
+            return 'warning'
+          case 'theme-warn':
+            return 'av_timer'
+          case 'theme-normal':
+            return 'timelapse'
+          case 'theme-primary':
+          default:
+            return 'timer'
+        }
+      },
+      typeClass () {
+        const now = moment()
+        const dueDate = moment(this.task.DateDue)
+        const diff = now.diff(dueDate, 'days')
 
-      this.$router.push(url)
+        if (this.task.Progress === 100) {
+          return 'theme-success'
+        }
+        if (diff < 0) {
+          return 'theme-danger'
+        } else if (diff < 2) {
+          return 'theme-warn'
+        } else if (diff < 5) {
+          return 'theme-normal'
+        }
+        return 'theme-primary'
+      },
+      viewDetails (obj) {
+        // eslint-disable-next-line
+        if (!obj) obj = 'view'
+
+        const url = {
+          // named route required for sending params
+          name: 'task-details',
+          params: {
+            task: this.task,
+            type: obj
+          }
+        }
+
+        this.$router.push(url)
+      }
     }
   }
-}
-
 </script>
 <style>
-  .card-cont {}
+
 </style>

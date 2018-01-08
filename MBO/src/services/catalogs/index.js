@@ -1,8 +1,8 @@
+// eslint-disable-next-line
+import axios from 'utilities/axios'
 import api from 'api'
-import axios from 'axios'
 
 export default {
-
   getCategories () {
     return axios.get(`${api.url}/api/Categories`)
   },
@@ -10,5 +10,4 @@ export default {
   getStatus () {
     return axios.get(`${api.url}/api/Status`)
   }
-
 }

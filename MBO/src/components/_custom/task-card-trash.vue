@@ -44,74 +44,74 @@
   </div>
 </template>
 <script>
-import {
-  restore
-} from 'services/tasks'
-import moment from 'moment'
+  import { restore } from 'services/tasks'
+  import moment from 'moment'
 
-export default {
-  name: 'task-card',
-  props: ['Task'],
-  data () {
-    return {
-      DialogCloseTarget: null
-    }
-  },
-  computed: {
-    isSelfCreated () {
-      return this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
-    }
-  },
-  methods: {
-    typeClass () {
-      const now = moment()
-      const dueDate = moment(this.Task.DateDue)
-      const diff = now.diff(dueDate, 'days')
-
-      if (this.Task.Progress === 100) {
-        return 'theme-success'
+  export default {
+    name: 'task-card',
+    props: ['Task'],
+    data () {
+      return {
+        DialogCloseTarget: null
       }
-      if (diff < 0) {
-        return 'theme-danger'
-      } else if (diff < 2) {
-        return 'theme-warn'
-      } else if (diff < 5) {
-        return 'theme-normal'
-      } else {
+    },
+    computed: {
+      isSelfCreated () {
+        return (
+          this.$store.getters.getUserInfo.Email === this.Task.AssignedBy.Email
+        )
+      }
+    },
+    methods: {
+      typeClass () {
+        const now = moment()
+        const dueDate = moment(this.Task.DateDue)
+        const diff = now.diff(dueDate, 'days')
+
+        if (this.Task.Progress === 100) {
+          return 'theme-success'
+        }
+        if (diff < 0) {
+          return 'theme-danger'
+        } else if (diff < 2) {
+          return 'theme-warn'
+        } else if (diff < 5) {
+          return 'theme-normal'
+        }
         return 'theme-primary'
+      },
+      formatDate (date) {
+        return moment(date).format('hh:mmA DD-MM-YY')
+      },
+      refConfirm () {
+        return `ref-confirm-${this.Task.MainTaskID}`
+      },
+      dialogSuccessClose () {
+        const TaskId = this.Task.MainTaskID
+        this.$emit('remove-task-item', {
+          id: TaskId
+        })
+      },
+      viewDetails () {},
+      confirmRestore () {
+        this.$refs[this.refConfirm()].open()
+      },
+      restoreTask () {
+        const TaskId = this.Task.MainTaskID
+
+        restore({
+          id: TaskId
+        })
+          .then(() => {
+            this.$refs['dialog-success'].open()
+          })
+          .catch(err => {
+            console.dir(err)
+          })
       }
     },
-    formatDate (date) {
-      return moment(date).format('hh:mmA DD-MM-YY')
-    },
-    refConfirm () {
-      return `ref-confirm-${this.Task.MainTaskID}`
-    },
-    dialogSuccessClose () {
-      const TaskId = this.Task.MainTaskID
-      this.$emit('remove-task-item', {
-        id: TaskId
-      })
-    },
-    viewDetails () { },
-    confirmRestore () {
-      this.$refs[this.refConfirm()].open()
-    },
-    restoreTask (type) {
-      const TaskId = this.Task.MainTaskID
-
-      restore({
-        id: TaskId
-      }).then(res => {
-        this.$refs['dialog-success'].open()
-      }).catch(err => {
-        console.dir(err)
-      })
-    }
-  },
-  mounted () { }
-}
-
+    mounted () {}
+  }
 </script>
 <style scoped>
   .card-cont {
@@ -129,7 +129,7 @@ export default {
   }
 
   .md-card-custom .md-card-content:last-child {
-    padding-top: 0!important;
+    padding-top: 0 !important;
   }
 
   .md-caption ul {

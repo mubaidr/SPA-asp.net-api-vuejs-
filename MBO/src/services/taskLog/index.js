@@ -1,8 +1,8 @@
 import api from 'api'
-import axios from 'axios'
+// eslint-disable-next-line
+import axios from 'utilities/axios'
 
 export default {
-
   add (obj) {
     return axios.post(`${api.url}/api/Logs`, {
       params: obj
@@ -12,5 +12,4 @@ export default {
   get (id) {
     return axios.get(`${api.url}/api/Logs?mainTaskID=${id}`)
   }
-
 }

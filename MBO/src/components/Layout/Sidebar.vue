@@ -159,13 +159,13 @@
     name: 'side-bar',
     props: ['open'],
     watch: {
-      '$route' () {
+      $route () {
         this.$refs.leftSidenav.close()
       },
-      'open' () {
+      open () {
         this.$refs.leftSidenav.toggle()
       },
-      'isAuthenticated' () {
+      isAuthenticated () {
         this.$router.push({
           path: '/'
         })

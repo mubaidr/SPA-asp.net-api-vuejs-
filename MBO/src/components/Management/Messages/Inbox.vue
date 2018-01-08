@@ -78,13 +78,13 @@
   </div>
 </template>
 <script>
+  import moment from 'moment'
   import _ from 'lodash'
   import { mapGetters } from 'vuex'
-  import MessageService from 'services/messages'
-  import pagination from 'components/_custom/pagination.vue'
+  import MessageService from '../../../services/messages'
+  import pagination from '../../../components/_custom/pagination.vue'
 
-  import messageCreate from 'components/Management/Messages/_partial_create.vue'
-  import moment from 'moment'
+  import messageCreate from '../../../components/Management/Messages/_partial_create.vue'
 
   export default {
     data () {
@@ -109,7 +109,7 @@
       pagination
     },
     watch: {
-      '$route.query.folder' (folder) {
+      '$route.query.folder': folder => {
         this.openFolder(folder)
       }
     },
@@ -125,29 +125,35 @@
       readMessage (msg) {
         if (!msg.IsRead) {
           MessageService.markReadMessage(msg.MessageID).catch(err => {
-
+            console.log(err)
           })
         }
       },
       unDeleteMessage (id) {
         this.ActiveFolder.loading = true
-        MessageService.restoreMessage(id).then(() => {
-          this.openFolder(this.ActiveFolder.name)
-        }).catch(err => {
-
-        }).then(() => {
-          this.ActiveFolder.loading = false
-        })
+        MessageService.restoreMessage(id)
+          .then(() => {
+            this.openFolder(this.ActiveFolder.name)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(() => {
+            this.ActiveFolder.loading = false
+          })
       },
       removeMessage (id) {
         this.ActiveFolder.loading = true
-        MessageService.deleteMessage(id).then(() => {
-          this.openFolder(this.ActiveFolder.name)
-        }).catch(err => {
-
-        }).then(() => {
-          this.ActiveFolder.loading = false
-        })
+        MessageService.deleteMessage(id)
+          .then(() => {
+            this.openFolder(this.ActiveFolder.name)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(() => {
+            this.ActiveFolder.loading = false
+          })
       },
       messageSent () {
         this.openFolder('inbox')
@@ -156,22 +162,25 @@
         return moment(date).format('hh:mmA DD-MM-YYYY')
       },
       search (obj) {
-        var pagingOptions = {}
+        const pagingOptions = {}
         pagingOptions.folder = this.ActiveFolder.name
         pagingOptions.filter = obj.filter
         pagingOptions.orderby = obj.orderby
         pagingOptions.page = obj.page
 
         this.ActiveFolder.loading = true
-        MessageService.getMessage(pagingOptions).then(res => {
-          this.ActiveFolder.data = res.data.message
-          this.ActiveFolder.count = res.data.count
-          this.ActiveFolder.lastPage = res.data.last_page
-        }).catch(err => {
-
-        }).then(() => {
-          this.ActiveFolder.loading = false
-        })
+        MessageService.getMessage(pagingOptions)
+          .then(res => {
+            this.ActiveFolder.data = res.data.message
+            this.ActiveFolder.count = res.data.count
+            this.ActiveFolder.lastPage = res.data.last_page
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(() => {
+            this.ActiveFolder.loading = false
+          })
       },
       openFolder (folder) {
         this.ActiveFolder.name = folder
@@ -185,30 +194,36 @@
           this.fetchMessages()
         }
       },
-      fetchMessages: _.debounce(function () {
-        MessageService.getMessage({
-          folder: this.ActiveFolder.name
-        }).then(res => {
-          this.ActiveFolder.data = res.data.message
-          this.ActiveFolder.count = res.data.count
-          this.ActiveFolder.lastPage = res.data.last_page
-        }).catch(err => {
-
-        }).then(() => {
-          this.ActiveFolder.loading = false
-        })
-      }, 500, {
+      fetchMessages: _.debounce(
+        () => {
+          MessageService.getMessage({
+            folder: this.ActiveFolder.name
+          })
+            .then(res => {
+              this.ActiveFolder.data = res.data.message
+              this.ActiveFolder.count = res.data.count
+              this.ActiveFolder.lastPage = res.data.last_page
+            })
+            .catch(err => {
+              console.log(err)
+            })
+            .then(() => {
+              this.ActiveFolder.loading = false
+            })
+        },
+        500,
+        {
           leading: false,
           trailing: true
-        })
+        }
+      )
     },
     created () {
-      var folder = this.$route.query.folder || 'inbox'
+      const folder = this.$route.query.folder || 'inbox'
       this.openFolder(folder)
     },
-    mounted () { }
+    mounted () {}
   }
-
 </script>
 <style scoped>
   .mail-list {

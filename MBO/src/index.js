@@ -1,21 +1,22 @@
-import './utilities/pollyfills'
-import './utilities/vue-material'
-import './utilities/veeValidate'
+import 'utilities/pollyfills'
+import 'utilities/vue-material'
+import 'utilities/veeValidate'
 
-import './utilities/cxlt-vue2-toastr'
-import './utilities/axios'
+import 'utilities/cxlt-vue2-toastr'
 
-import './components/_custom'
-import './utilities/vue-mixins'
+/* eslint-disable */
+import 'utilities/axios'
+import 'components/_custom'
+/* eslint-enable */
 
-import './assets/script/site.js'
+import 'utilities/vue-mixins'
 
-import './assets/css/icon.css'
-import './assets/css/animations.css'
-import './assets/css/site.css'
+import 'assets/script/site'
 
-import {
-  app
-} from 'app'
+import 'assets/css/icon.css'
+import 'assets/css/animations.css'
+import 'assets/css/site.css'
+
+import { app } from './app'
 
 app.$mount('#app')

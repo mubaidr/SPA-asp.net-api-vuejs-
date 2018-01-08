@@ -1,12 +1,9 @@
 import Vue from 'vue'
-import App from './components/App'
+import { sync } from 'vuex-router-sync'
 
-import router from './utilities/router'
-import store from './utilities/store'
-
-import {
-  sync
-} from 'vuex-router-sync'
+import App from 'components/App.vue'
+import router from 'utilities/router'
+import store from 'utilities/store'
 
 sync(store, router)
 
@@ -16,8 +13,4 @@ const app = new Vue({
   ...App
 })
 
-export {
-  app,
-  router,
-  store
-}
+export { app, router, store }

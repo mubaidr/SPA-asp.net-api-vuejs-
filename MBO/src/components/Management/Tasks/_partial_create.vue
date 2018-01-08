@@ -84,11 +84,11 @@
         return new Date()
       },
       getDateYesterday () {
-        var myDate = new Date()
-        return new Date(myDate.setTime(myDate.getTime() - (1 * 86400000)))
+        const myDate = new Date()
+        return new Date(myDate.setTime(myDate.getTime() - 1 * 86400000))
       },
       getDateWeek () {
-        var myDate = new Date()
+        const myDate = new Date()
         return new Date(myDate.setTime(myDate.getTime() + 7 * 86400000))
       },
       formValidate (event) {
@@ -98,78 +98,87 @@
           if (!success) return
           this.state.loading = true
 
-          tasks.create({
-            mainTask: this.Task,
-            users: this.Users
-          }).then(res => {
-            this.$router.push({
-              path: '/tasks'
+          tasks
+            .create({
+              mainTask: this.Task,
+              users: this.Users
             })
-          }).catch(err => {
-            this.$toast.error({
-              title: err.response.data.Message,
-              message: err.response.data.ModelState
+            .then(() => {
+              this.$router.push({
+                path: '/tasks'
+              })
             })
-          }).then(() => {
-            this.state.loading = false
-          })
+            .catch(err => {
+              this.$toast.error({
+                title: err.response.data.Message,
+                message: err.response.data.ModelState
+              })
+            })
+            .then(() => {
+              this.state.loading = false
+            })
         })
       }
     },
     created () {
       this.Task.DateDue = this.getDateWeek()
 
-      catalogs.getCategories().then(res => {
-        this.Catalog.Categories = res.data
-      }).catch(() => {
-        this.$toast.error({
-          title: 'Error',
-          message: 'Unable to fetch categories'
+      catalogs
+        .getCategories()
+        .then(res => {
+          this.Catalog.Categories = res.data
         })
-      })
+        .catch(() => {
+          this.$toast.error({
+            title: 'Error',
+            message: 'Unable to fetch categories'
+          })
+        })
 
-      account.getUsers().then(res => {
-        this.Catalog.Users = res.data
-      }).catch(() => {
-        this.$toast.error({
-          title: 'Error',
-          message: 'Unable to fetch users list'
+      account
+        .getUsers()
+        .then(res => {
+          this.Catalog.Users = res.data
         })
-      })
+        .catch(() => {
+          this.$toast.error({
+            title: 'Error',
+            message: 'Unable to fetch users list'
+          })
+        })
     }
   }
-
 </script>
 <style>
   .compact-card .md-card-content,
   .compact-card .md-card-actions {
     padding: 0;
   }
-  
+
   .compact-card .md-card-actions {
     padding-top: 16px;
   }
-  
+
   .compact-card .md-card {
     box-shadow: none;
   }
-  
+
   .vdp-datepicker__calendar {
     /*Customize datepicker*/
-    margin: 0px auto!important;
-    width: 100%!important;
-    border-color: rgba(0, 0, 0, 0.12)!important;
+    margin: 0px auto !important;
+    width: 100% !important;
+    border-color: rgba(0, 0, 0, 0.12) !important;
     border-radius: 3px;
   }
-  
+
   .vdp-datepicker__calendar .cell:not(.blank):hover {
-    border-color: #3f51b5!important;
+    border-color: #3f51b5 !important;
   }
-  
+
   .vdp-datepicker__calendar .cell.selected,
   .vdp-datepicker__calendar .cell.selected.highlighted,
   .vdp-datepicker__calendar .cell.selected:hover {
-    color: #fff!important;
-    background-color: #3f51b5!important;
+    color: #fff !important;
+    background-color: #3f51b5 !important;
   }
 </style>

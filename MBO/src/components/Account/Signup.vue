@@ -59,25 +59,26 @@
           if (!success) return
           this.state.loading = true
 
-          this.signup(this.credentials).catch(err => {
-            if (err.response && err.response.status === 400) {
-              this.$toast.error({
-                title: err.response.data.Message,
-                message: err.response.data.ModelState[''][0],
-                timeOut: 2500
-              })
-            } else {
-              this.$toast.error({
-                title: 'Error',
-                message: 'An unknown error occurred'
-              })
-            }
-          }).then(() => {
-            this.state.loading = false
-          })
+          this.signup(this.credentials)
+            .catch(err => {
+              if (err.response && err.response.status === 400) {
+                this.$toast.error({
+                  title: err.response.data.Message,
+                  message: err.response.data.ModelState[''][0],
+                  timeOut: 2500
+                })
+              } else {
+                this.$toast.error({
+                  title: 'Error',
+                  message: 'An unknown error occurred'
+                })
+              }
+            })
+            .then(() => {
+              this.state.loading = false
+            })
         })
       }
     }
   }
-
 </script>

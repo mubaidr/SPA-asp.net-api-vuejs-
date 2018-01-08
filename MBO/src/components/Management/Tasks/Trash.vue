@@ -48,9 +48,7 @@
   import taskListItemTrash from 'components/_custom/task-list-item-trash.vue'
   import pagination from 'components/_custom/pagination.vue'
 
-  import {
-    listTrash
-  } from 'services/tasks'
+  import { listTrash } from 'services/tasks'
 
   export default {
     name: 'task-list-trash',
@@ -75,10 +73,10 @@
       }
     },
     watch: {
-      'Tasks.Trash.content' () {
+      'Tasks.Trash.content': () => {
         this.Tasks.Trash.loading = false
       },
-      'failAlert' (val) {
+      failAlert (val) {
         if (val) {
           this.$refs.snackbar.open()
         } else {
@@ -91,11 +89,12 @@
         return this.$store.getters.getSettings
       },
       activeView () {
-        for (var i = 0; i < this.settings.taskView.view.length; i++) {
+        for (let i = 0; i < this.settings.taskView.view.length; i += 1) {
           if (this.settings.taskView.view[i].enabled) {
             return this.settings.taskView.view[i].name
           }
         }
+        return null
       }
     },
     methods: {
@@ -106,10 +105,11 @@
         }, 500)
       },
       removeTaskItem (obj) {
+        // eslint-disable-next-line
         const id = obj.id
         const ts = this.Tasks.Trash.content
 
-        for (let i = 0; i < ts.length; i++) {
+        for (let i = 0; i < ts.length; i += 1) {
           if (ts[i].MainTaskID === id) {
             this.Tasks.Trash.content.splice(i, 1)
             break
@@ -119,15 +119,16 @@
       },
       loadTrash (paging) {
         this.Tasks.Trash.loading = true
-        listTrash(paging).then(res => {
-          this.Tasks.Trash.content = res.data.mainTask
-          this.Tasks.Trash.lastPage = res.data.lastPage
-          this.Tasks.Trash.count = res.data.count
-        }).catch(err => {
-
-        }).then(() => {
-          this.Tasks.Trash.loading = false
-        })
+        listTrash(paging)
+          .then(res => {
+            this.Tasks.Trash.content = res.data.mainTask
+            this.Tasks.Trash.lastPage = res.data.lastPage
+            this.Tasks.Trash.count = res.data.count
+          })
+          .catch(() => {})
+          .then(() => {
+            this.Tasks.Trash.loading = false
+          })
       }
     },
     mounted () {
@@ -136,7 +137,6 @@
       }, 250)
     }
   }
-
 </script>
 <style scoped>
   .no-content {

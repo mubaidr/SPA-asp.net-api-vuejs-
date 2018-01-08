@@ -41,8 +41,8 @@
 <script>
   // import _ from 'lodash'
   import { mapGetters } from 'vuex'
-  import { postMessage } from 'services/messages'
-  import accountService from 'services/account'
+  import { postMessage } from '../../../services/messages'
+  import accountService from '../../../services/account'
 
   export default {
     name: 'message-create',
@@ -64,16 +64,19 @@
     },
     methods: {
       sendMessage () {
-        var msg = this.createMessage()
+        const msg = this.createMessage()
         this.Page.isLoading = true
 
-        postMessage(msg).then(res => {
-          this.$emit('message-sent')
-        }).catch(err => {
-
-        }).then(() => {
-          this.Page.isLoading = false
-        })
+        postMessage(msg)
+          .then(() => {
+            this.$emit('message-sent')
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(() => {
+            this.Page.isLoading = false
+          })
       },
       createMessage () {
         return {
@@ -92,17 +95,17 @@
       this.Users.length = 0
       this.Users.push(this.message.User)
 
-      accountService.getUsers().then(res => {
-        this.Catalog.Users = res.data
-      }).catch(err => {
-
-      })
+      accountService
+        .getUsers()
+        .then(res => {
+          this.Catalog.Users = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
-    mounted () {
-
-    }
+    mounted () {}
   }
-
 </script>
 <style scoped>
 

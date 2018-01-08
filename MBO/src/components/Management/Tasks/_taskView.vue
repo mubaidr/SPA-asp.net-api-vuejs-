@@ -36,7 +36,7 @@
       }
     },
     watch: {
-      'active' () {
+      active () {
         if (!this.fetched) {
           this.search()
         }
@@ -46,17 +46,21 @@
     methods: {
       search () {
         this.loading = true
-        tasksService.list(this.type).then(res => {
-          this.tasks = res.data.mainTask
-          this.count = res.data.count
-          this.last_page = res.data.last_page
+        tasksService
+          .list(this.type)
+          .then(res => {
+            this.tasks = res.data.mainTask
+            this.count = res.data.count
+            this.last_page = res.data.last_page
 
-          this.fetched = true
-        }).catch(err => {
-          console.log(err)
-        }).then(() => {
-          this.loading = false
-        })
+            this.fetched = true
+          })
+          .catch(err => {
+            console.log(err)
+          })
+          .then(() => {
+            this.loading = false
+          })
       }
     }
   }

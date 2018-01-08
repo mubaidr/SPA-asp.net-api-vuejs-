@@ -47,12 +47,12 @@
       }
     },
     watch: {
-      'lastpage' (val) {
+      lastpage (val) {
         if (val === 0) {
           this.lastpage = 1
         }
       },
-      'paging.page' () {
+      'paging.page': () => {
         this.refresh()
       }
     },
@@ -78,15 +78,18 @@
       lastPage () {
         this.paging.page = this.lastpage
       },
-      refresh: debounce(function () {
-        this.$emit('refresh', this.paging)
-      }, 500, {
+      refresh: debounce(
+        () => {
+          this.$emit('refresh', this.paging)
+        },
+        500,
+        {
           leading: false,
           trailing: true
-        })
+        }
+      )
     }
   }
-
 </script>
 <style>
   .md-input-container.small {

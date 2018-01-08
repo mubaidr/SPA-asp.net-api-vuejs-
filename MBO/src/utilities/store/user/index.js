@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+// eslint-disable-next-line
 import session from 'utilities/session'
 import account from 'services/account'
 
@@ -26,22 +28,28 @@ export default {
       return account.signup(credentials)
     },
     signin (context, credentials) {
-      return account.signin(credentials).then((resAuth) => {
+      return account.signin(credentials).then(resAuth => {
         context.commit('setAuthentication', resAuth.data)
-        account.getUserInfo().then((res) => {
+        account.getUserInfo().then(res => {
           context.commit('setUserInfo', res.data)
         })
       })
     },
     signout (context) {
-      account.signout().then(() => {
-        context.commit('removeAuthentication')
-      }).catch(() => {})
+      account
+        .signout()
+        .then(() => {
+          context.commit('removeAuthentication')
+        })
+        .catch(() => {})
     },
     getUserInfo (context) {
-      account.getUserInfo().then((res) => {
-        context.commit('setUserInfo', res.data)
-      }).catch(() => {})
+      account
+        .getUserInfo()
+        .then(res => {
+          context.commit('setUserInfo', res.data)
+        })
+        .catch(() => {})
     },
     getUserList () {
       return account.getUserList()

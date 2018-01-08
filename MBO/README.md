@@ -3,8 +3,10 @@
 > A Vue.js project
 
 ## Build Setup
+
 "chromedriver": "^2.27.2",
-``` bash
+
+```bash
 # install dependencies
 npm install
 
