@@ -153,3 +153,7 @@ h1 {
 .md-whiteframe {
   background-color: white;
 }
+
+.md-whiteframe.form {
+  padding: 25px;
+}

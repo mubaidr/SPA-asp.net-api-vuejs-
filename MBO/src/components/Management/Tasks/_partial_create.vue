@@ -4,13 +4,6 @@
       <span>New Task</span>
       <br/>
       <span class="md-caption">Get started</span>
-      <br/>
-      <md-button class="md-accent" @click.native="$router.push({ path: '/tasks' })">
-        View All Tasks
-      </md-button>
-      <md-button class="md-accent" @click.native="$router.push({ path: '/dashboard' })">
-        Dashboard
-      </md-button>
     </h1>
     <md-whiteframe md-tag="section" class="form">
       <md-progress class="md-accent" :class="{'hidden': !state.loading}" md-indeterminate></md-progress>
@@ -41,6 +34,7 @@
         <label class="custom-label text-muted" for="DateDue">Target Date</label>
         <br>
         <datepicker v-model="Task.DateDue" inline format="DD-MM-YYYY" initial-view="month" :required="true" :disabled="{days: [6, 0], to: getDateYesterday()}"></datepicker>
+        <br/>
         <div>
           <md-button class="md-raised md-accent" id="btn-Submit" @click.native="formValidate" :disabled="state.loading">Create New Task</md-button>
         </div>
