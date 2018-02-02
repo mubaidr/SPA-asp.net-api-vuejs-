@@ -1,5 +1,12 @@
 # SPA-asp.net-api-vuejs-
 ## Single Page Application using ASP .NET and vuejs.
+
+### NOTE
+If you are looking for best practices for developing Vue.js application, you can check following newer and better open source projects:
+- [node-vue-template](https://github.com/mubaidr/node-vue-template) A starter template for building complete application using Node.js and Vue.js with some included packages and configurations to help start the development quickly.
+- [activity-automation](https://github.com/mubaidr/activity-automation) Manage daily activity logging.
+- [ors-node](https://github.com/mubaidr/ors-node): [Work In Progress] A sample job portal oriented company web application.
+
 ### Description
 This application (named Management By OBjectives) is being developed with the following requirements in mind. 
 
