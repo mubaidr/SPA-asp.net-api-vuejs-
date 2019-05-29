@@ -6,7 +6,9 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "peerdependencies": {},
   "dependencies": {
@@ -15,7 +17,7 @@
     "axios": "^0.17.1",
     "cxlt-vue2-toastr": "^1.1.0",
     "es6-promise": "^4.2.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "moment": "^2.20.1",
     "raf": "^3.4.0",
     "smoothscroll-polyfill": "^0.4.0",
@@ -23,10 +25,11 @@
     "vue-material": "^0.8.1",
     "vue-router": "^3.0.1",
     "vue-slide": "^1.1.1",
-    "vue": "^2.5.13",
+    "vue": "^2.5.17",
     "vuejs-datepicker": "^0.9.22",
     "vuex-router-sync": "^5.0.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "snyk": "^1.168.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.4",
@@ -85,5 +88,6 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "snyk": true
 }
